@@ -19,6 +19,8 @@ export type GuideItem = {
   image_path: string | null;
   category_name_en: string | null;
   category_name_ru: string | null;
+  source_name: string | null;
+  source_url: string | null;
 };
 
 export type Category = {
