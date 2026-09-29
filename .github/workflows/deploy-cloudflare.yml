@@ -82,12 +82,12 @@ jobs:
           for attempt in $(seq 1 15); do
             VERSION_JSON="$(curl --fail --silent --show-error "$BASE_URL/api/version" || true)"
             echo "Attempt $attempt: $VERSION_JSON"
-            if echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-world-v3-mistlands"'; then
+            if echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-world-v4-ashlands"'; then
               break
             fi
             sleep 2
           done
-          echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-world-v3-mistlands"'
+          echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-world-v4-ashlands"'
 
           echo "Checking D1 health..."
           HEALTH_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/health")"
@@ -98,18 +98,21 @@ jobs:
           echo "Checking Black Forest catalog..."
           CATALOG_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/catalog-status")"
           echo "$CATALOG_JSON"
-          echo "$CATALOG_JSON" | grep -q '"catalog":"world-v3"'
+          echo "$CATALOG_JSON" | grep -q '"catalog":"world-v4"'
           echo "$CATALOG_JSON" | grep -q '"black-forest"'
           echo "$CATALOG_JSON" | grep -q '"swamp"'
           echo "$CATALOG_JSON" | grep -q '"mountains"'
           echo "$CATALOG_JSON" | grep -q '"plains"'
           echo "$CATALOG_JSON" | grep -q '"mistlands"'
+          echo "$CATALOG_JSON" | grep -q '"ashlands"'
           MOUNTAIN_ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"mountains":{"items":\([0-9][0-9]*\).*/\1/p')"
           PLAINS_ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"plains":{"items":\([0-9][0-9]*\).*/\1/p')"
           MISTLANDS_ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"mistlands":{"items":\([0-9][0-9]*\).*/\1/p')"
+          ASHLANDS_ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"ashlands":{"items":\([0-9][0-9]*\).*/\1/p')"
           test -n "$MOUNTAIN_ITEMS" && test "$MOUNTAIN_ITEMS" -gt 20
           test -n "$PLAINS_ITEMS" && test "$PLAINS_ITEMS" -gt 30
           test -n "$MISTLANDS_ITEMS" && test "$MISTLANDS_ITEMS" -gt 40
+          test -n "$ASHLANDS_ITEMS" && test "$ASHLANDS_ITEMS" -gt 40
 
           echo "Checking Telegram bot secret presence without exposing it..."
           AUTH_RESPONSE="$(curl --silent --show-error -H 'x-telegram-init-data: smoke-test' "$BASE_URL/api/auth-status")"
@@ -121,7 +124,7 @@ jobs:
           echo "$AUTH_RESPONSE" | grep -Eq 'Invalid Telegram authorization data|Telegram authorization signature is invalid'
 
           echo "Checking production media assets..."
-          for asset in copper-ore bronze-protection-idol pulled-bear scrap-iron iron-sword root-mask black-soup silver-ore frostner draugr-fang fenris-hood onion-soup black-metal-scrap black-metal-sword padded-helmet lox-fur-hood evasion-mantle lox-meat-pie refined-eitr mistwalker carapace-helmet staff-of-embers pulsating-earrings seeker-aspic-x2; do
+          for asset in copper-ore bronze-protection-idol pulled-bear scrap-iron iron-sword root-mask black-soup silver-ore frostner draugr-fang fenris-hood onion-soup black-metal-scrap black-metal-sword padded-helmet lox-fur-hood evasion-mantle lox-meat-pie refined-eitr mistwalker carapace-helmet staff-of-embers pulsating-earrings seeker-aspic-x2 flametal nidhogg berserkir-axes flametal-helmet hood-of-embla fiery-svinstew; do
             CONTENT_TYPE=""
             for attempt in $(seq 1 12); do
               CONTENT_TYPE="$(curl --silent --show-error -o /dev/null -w '%{content_type}' "$BASE_URL/media/wiki/$asset.png" || true)"
