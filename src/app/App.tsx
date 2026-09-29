@@ -184,6 +184,16 @@ export function App() {
     try { setCraftTotals((await api.craftSummary(list.id)).data); } catch { setMessage(locale === "ru" ? "Не удалось загрузить расчёт." : "Could not load calculation."); }
   };
 
+  const updateOwnedResource = async (resourceId: number, nextOwned: number) => {
+    if (!activeCraftList) return;
+    try {
+      await api.updateCraftResource(activeCraftList.id, resourceId, Math.max(0, nextOwned));
+      setCraftTotals((await api.craftSummary(activeCraftList.id)).data);
+    } catch (error) {
+      setMessage(protectedErrorText(locale, error));
+    }
+  };
+
   const toggleFavorite = async () => {
     if (!item) return;
     try {
@@ -227,7 +237,7 @@ export function App() {
 
     {section === "resource" && resource && <section className="detail"><Visual entry={resource} hero /><p className="item-type">{locale === "ru" ? "Материал" : "Material"}</p><p className="lede">{locale === "ru" ? resource.description_ru : resource.description_en}</p><h2>{locale === "ru" ? "Где найти" : "Where to find"}</h2>{resource.sources.length ? <div className="source-list">{resource.sources.map((source, index) => <p key={index}>{locale === "ru" ? source.method_ru : source.method_en}</p>)}</div> : <Empty message={locale === "ru" ? "Проверенный источник пока добавляется." : "A verified source is being added."} />}<h2>{locale === "ru" ? "Используется в" : "Used in"}</h2><ResultList locale={locale} items={resource.used_by} onOpen={openEntry} /><SourceLink locale={locale} entry={resource} /></section>}
 
-    {section === "craft" && <section><div className="section-row"><h2>{locale === "ru" ? "Мой крафт" : "My craft"}</h2><button className="save" onClick={() => void createCraftList()}>+ {locale === "ru" ? "Список" : "List"}</button></div>{craftLists.length > 1 && <div className="chips">{craftLists.map((list) => <button className={activeCraftList?.id === list.id ? "chip active" : "chip"} onClick={() => void selectCraftList(list)} key={list.id}>{list.name}</button>)}</div>}{!activeCraftList ? <Empty message={locale === "ru" ? "Создайте список, затем добавляйте в него предметы из их карточек." : "Create a list, then add items from their cards."} /> : <CraftTotals locale={locale} totals={craftTotals} onResource={openResource} />}</section>}
+    {section === "craft" && <section><div className="section-row"><h2>{locale === "ru" ? "Мой крафт" : "My craft"}</h2><button className="save" onClick={() => void createCraftList()}>+ {locale === "ru" ? "Список" : "List"}</button></div>{craftLists.length > 1 && <div className="chips">{craftLists.map((list) => <button className={activeCraftList?.id === list.id ? "chip active" : "chip"} onClick={() => void selectCraftList(list)} key={list.id}>{list.name}</button>)}</div>}{!activeCraftList ? <Empty message={locale === "ru" ? "Создайте список, затем добавляйте в него предметы из их карточек." : "Create a list, then add items from their cards."} /> : <CraftTotals locale={locale} totals={craftTotals} onResource={openResource} onOwnedChange={updateOwnedResource} />}</section>}
     {section === "favorites" && <section><h2>{locale === "ru" ? "Сохранённые предметы" : "Saved items"}</h2>{message ? null : <ResultList locale={locale} items={favorites} onOpen={openEntry} />}</section>}
 
     <nav className="bottom-nav">{([['home', '⌂', locale === "ru" ? "Главная" : "Home"], ['craft', '⚒', locale === "ru" ? "Крафт" : "Craft"], ['favorites', '♡', locale === "ru" ? "Избранное" : "Saved"], ['search', '⌕', locale === "ru" ? "Поиск" : "Search"]] as const).map(([id, icon, label]) => <button key={id} className={section === id || (id === "home" && section === "biome") ? "active" : ""} onClick={() => void goNav(id)}><span>{icon}</span>{label}</button>)}</nav>
@@ -263,9 +273,24 @@ function Visual({ entry, hero = false }: { entry: GuideItem; hero?: boolean }) {
   return <span className={hero ? "visual hero fallback" : "visual fallback"}>{entry.entity_type === "resource" ? "◆" : "⚔"}</span>;
 }
 
-function CraftTotals({ locale, totals, onResource }: { locale: Locale; totals: CraftResourceTotal[]; onResource: (slug: string) => void }) {
+function CraftTotals({ locale, totals, onResource, onOwnedChange }: { locale: Locale; totals: CraftResourceTotal[]; onResource: (slug: string) => void; onOwnedChange: (resourceId: number, nextOwned: number) => void }) {
   if (!totals.length) return <Empty message={locale === "ru" ? "Добавьте предмет из его карточки — здесь появится общий список ресурсов." : "Add an item from its card to see the combined resource list."} />;
-  return <div className="craft-totals">{totals.map((total) => <button key={total.resource_id} onClick={() => void onResource(total.slug)}><span><strong>{text(locale, total)}</strong><small>{locale === "ru" ? `Нужно: ${total.required} · есть: ${total.owned}` : `Need: ${total.required} · have: ${total.owned}`}</small></span><b>{total.remaining}</b></button>)}</div>;
+  return <div className="craft-totals">{totals.map((total) => {
+    const complete = total.remaining === 0;
+    const progress = total.required > 0 ? Math.min(100, Math.round((total.owned / total.required) * 100)) : 0;
+    return <div className={complete ? "craft-total complete" : "craft-total"} key={total.resource_id}>
+      <button className="craft-resource" onClick={() => void onResource(total.slug)}>
+        <span><strong>{text(locale, total)}</strong><small>{locale === "ru" ? `Нужно: ${total.required} · есть: ${total.owned}` : `Need: ${total.required} · have: ${total.owned}`}</small></span>
+        <b>{complete ? "✓" : total.remaining}</b>
+      </button>
+      <div className="craft-progress"><span style={{ width: `${progress}%` }} /></div>
+      <div className="craft-owned">
+        <button aria-label={locale === "ru" ? "Уменьшить количество" : "Decrease quantity"} onClick={() => void onOwnedChange(total.resource_id, total.owned - 1)}>−</button>
+        <span>{locale === "ru" ? "У меня" : "Owned"} <strong>{total.owned}</strong></span>
+        <button aria-label={locale === "ru" ? "Увеличить количество" : "Increase quantity"} onClick={() => void onOwnedChange(total.resource_id, total.owned + 1)}>+</button>
+      </div>
+    </div>;
+  })}</div>;
 }
 
 function SourceLink({ locale, entry }: { locale: Locale; entry: GuideItem }) {
