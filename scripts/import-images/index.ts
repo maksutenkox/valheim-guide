@@ -76,7 +76,17 @@ const directIconOverrides: Record<string, string> = {
   "lox-fur-hood": "https://www.valheim.tools/icons/items/HelmetLox.png",
   "lox-fur-jacket": "https://www.valheim.tools/icons/items/ArmorLoxChest.png",
   "lox-fur-trousers": "https://www.valheim.tools/icons/items/ArmorLoxLegs.png",
-  "barley-wine-base-fire-resistance": "https://www.valheim.tools/icons/items/BarleyWineBase.png"
+  "barley-wine-base-fire-resistance": "https://www.valheim.tools/icons/items/BarleyWineBase.png",
+  "hook": "https://www.valheim.tools/icons/items/Hook.png",
+  "black-marble-battle-idol": "https://www.valheim.tools/icons/items/Upgrader5Weapon.png",
+  "black-marble-protection-idol": "https://www.valheim.tools/icons/items/Upgrader5Armor.png",
+  "grappling-hook": "https://www.valheim.tools/icons/items/GrapplingHook.png",
+  "eitr-weave-hood": "https://www.valheim.tools/icons/items/HelmetMage.png",
+  "eitr-weave-robe": "https://www.valheim.tools/icons/items/ArmorMageChest.png",
+  "eitr-weave-trousers": "https://www.valheim.tools/icons/items/ArmorMageLegs.png",
+  "mead-base-major-healing": "https://www.valheim.tools/icons/items/MeadBaseHealthMajor.png",
+  "mead-base-lingering-stamina": "https://www.valheim.tools/icons/items/MeadBaseStaminaLingering.png",
+  "mead-base-minor-eitr": "https://www.valheim.tools/icons/items/MeadBaseEitrMinor.png"
 };
 
 const resolveFandomFile = async (fileName: string): Promise<string | null> => {
