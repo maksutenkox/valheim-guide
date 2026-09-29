@@ -187,10 +187,26 @@ const failures: string[] = [];
 for (const media of manifest.values()) {
   try {
   const isBundledManifestUrl = media.url.startsWith("https://static.wikia.nocookie.net/");
+  let resolvedCatalogIcon: string | null = null;
+  if (!isBundledManifestUrl && !directIconOverrides[media.slug]) {
+    try {
+      resolvedCatalogIcon = await resolveValheimToolsIcon(media.slug);
+    } catch (error) {
+      console.warn(`Valheim.tools lookup failed for ${media.slug}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  let resolvedFandomIcon: string | null = null;
+  if (!isBundledManifestUrl && !directIconOverrides[media.slug] && !resolvedCatalogIcon) {
+    try {
+      resolvedFandomIcon = await resolveFandomFile(media.url);
+    } catch (error) {
+      console.warn(`Fandom lookup failed for ${media.slug}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
   const sourceUrl = directIconOverrides[media.slug]
-    ?? (isBundledManifestUrl
-      ? media.url
-      : (await resolveFandomFile(media.url)) ?? (await resolveValheimToolsIcon(media.slug)));
+    ?? (isBundledManifestUrl ? media.url : resolvedCatalogIcon ?? resolvedFandomIcon);
 
   if (!sourceUrl) {
     throw new Error(`No image source found for ${media.slug} (Fandom file: ${media.url})`);
