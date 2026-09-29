@@ -1,4 +1,4 @@
-import type { Biome, Category, CraftList, CraftListItem, CraftResourceTotal, GuideItem, ItemDetail, ResourceDetail } from "../types";
+import type { Biome, BossSummary, Category, CraftList, CraftListItem, CraftResourceTotal, CreatureDetail, CreatureSummary, GuideItem, ItemDetail, ResourceDetail } from "../types";
 
 declare global {
   interface Window {
@@ -68,6 +68,9 @@ export const api = {
   items: (biome: string, category?: string) => request<{ data: GuideItem[] }>(`/api/items?biome=${encodeURIComponent(biome)}${category ? `&category=${encodeURIComponent(category)}` : ""}`),
   item: (slug: string) => request<{ data: ItemDetail }>(`/api/items/${slug}`),
   resource: (slug: string) => request<{ data: ResourceDetail }>(`/api/resources/${slug}`),
+  creatures: (biome: string) => request<{ data: CreatureSummary[] }>(`/api/creatures?biome=${encodeURIComponent(biome)}`),
+  creature: (slug: string) => request<{ data: CreatureDetail }>(`/api/creatures/${slug}`),
+  boss: (biome: string) => request<{ data: BossSummary | null }>(`/api/bosses?biome=${encodeURIComponent(biome)}`),
   search: (query: string) => request<{ data: GuideItem[] }>(`/api/search?q=${encodeURIComponent(query)}`),
   favorites: () => request<{ data: GuideItem[] }>("/api/favorites"),
   addFavorite: (itemId: number) => mutation<{ status: string }>(`/api/favorites/${itemId}`, "POST"),
