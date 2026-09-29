@@ -115,6 +115,24 @@ jobs:
           echo "$CATALOG_JSON" | grep -q '"ashlands"'
           echo "$CATALOG_JSON" | grep -q '"deep-north"'
           echo "$CATALOG_JSON" | grep -q '"ocean"'
+
+          echo "Checking creature and boss combat guide..."
+          CREATURES_JSON="$(curl --fail --silent --show-error --retry 4 --retry-delay 2 "$BASE_URL/api/creatures?biome=ashlands")"
+          echo "$CREATURES_JSON"
+          echo "$CREATURES_JSON" | grep -q '"slug":"morgen"'
+          echo "$CREATURES_JSON" | grep -q '"slug":"fallen-valkyrie"'
+
+          MORGEN_JSON="$(curl --fail --silent --show-error --retry 4 --retry-delay 2 "$BASE_URL/api/creatures/morgen")"
+          echo "$MORGEN_JSON"
+          echo "$MORGEN_JSON" | grep -q '"health":1600'
+          echo "$MORGEN_JSON" | grep -q '"type":"lightning","level":"weak"'
+          echo "$MORGEN_JSON" | grep -q '"name":"Morgen Sinew"'
+
+          BOSS_JSON="$(curl --fail --silent --show-error --retry 4 --retry-delay 2 "$BASE_URL/api/bosses?biome=ashlands")"
+          echo "$BOSS_JSON"
+          echo "$BOSS_JSON" | grep -q '"slug":"fader"'
+          echo "$BOSS_JSON" | grep -q '"health":25000'
+
           MEADOWS_ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"meadows":{"items":\([0-9][0-9]*\).*/\1/p')"
           OCEAN_ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"ocean":{"items":\([0-9][0-9]*\).*/\1/p')"
           MOUNTAIN_ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"mountains":{"items":\([0-9][0-9]*\).*/\1/p')"
