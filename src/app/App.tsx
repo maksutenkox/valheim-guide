@@ -85,6 +85,7 @@ export function App() {
     window.Telegram?.WebApp?.ready?.();
     window.Telegram?.WebApp?.expand?.();
     api.biomes().then(({ data }) => setBiomes(data)).catch(() => setMessage(locale === "ru" ? "Не удалось загрузить биомы." : "Could not load biomes.")).finally(() => setLoading(false));
+    api.favorites().then(({ data }) => setFavorites(data)).catch(() => undefined);
   }, []);
 
   useEffect(() => {
@@ -352,6 +353,23 @@ export function App() {
     }
   };
 
+  const copyMissingResources = async () => {
+    if (!activeCraftList || !craftTotals.length) return;
+    const missing = craftTotals.filter((total) => total.remaining > 0);
+    if (!missing.length) {
+      setMessage(locale === "ru" ? "Все ресурсы для этого списка уже собраны." : "All resources for this list are already collected.");
+      return;
+    }
+    const title = locale === "ru" ? `VALHEIM — ${activeCraftList.name}` : `VALHEIM — ${activeCraftList.name}`;
+    const body = missing.map((total) => `• ${text(locale, total)} — ${total.remaining}`).join("\n");
+    try {
+      await navigator.clipboard.writeText(`${title}\n\n${body}`);
+      setMessage(locale === "ru" ? "Недостающие ресурсы скопированы." : "Missing resources copied.");
+    } catch {
+      setMessage(locale === "ru" ? "Не удалось скопировать список." : "Could not copy the list.");
+    }
+  };
+
   const toggleFavorite = async () => {
     if (!item) return;
     try {
@@ -407,7 +425,7 @@ export function App() {
           </div>
         </div>
         <PlannedCraftItems locale={locale} items={craftItems} onQuantityChange={updateCraftItem} onLevelChange={updateCraftLevel} onOpen={openItem} />
-        <h2>{locale === "ru" ? "Нужно ресурсов" : "Resources needed"}</h2>
+        <div className="section-row craft-resource-heading"><h2>{locale === "ru" ? "Нужно ресурсов" : "Resources needed"}</h2>{craftTotals.some((total) => total.remaining > 0) && <button className="save compact" onClick={() => void copyMissingResources()}>⧉ {locale === "ru" ? "Скопировать" : "Copy"}</button>}</div>
         <CraftTotals locale={locale} totals={craftTotals} onResource={openResource} onOwnedChange={updateOwnedResource} />
       </>}
     </section>}
