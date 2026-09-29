@@ -33,7 +33,8 @@ export const getTelegramUserId = async (request: Request, env: Env): Promise<str
   if (!initData && env.ENVIRONMENT !== "production" && env.DEV_MOCK_TELEGRAM_USER_ID) {
     return env.DEV_MOCK_TELEGRAM_USER_ID;
   }
-  if (!initData || !env.TELEGRAM_BOT_TOKEN) throw new AuthError("Telegram authorization required");
+  if (!initData) throw new AuthError("Telegram authorization required");
+  if (!env.TELEGRAM_BOT_TOKEN) throw new AuthError("Telegram bot token is not configured");
 
   const params = new URLSearchParams(initData);
   const receivedHash = params.get("hash");
