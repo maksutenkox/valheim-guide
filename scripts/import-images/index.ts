@@ -62,7 +62,21 @@ const directIconOverrides: Record<string, string> = {
   "smiths-anvil": "https://www.valheim.tools/icons/pieces/forge_ext4.png",
   "forge-tool-rack": "https://www.valheim.tools/icons/pieces/forge_ext6.png",
   "silver-battle-idol": "https://www.valheim.tools/icons/items/Upgrader3Weapon.png",
-  "silver-protection-idol": "https://www.valheim.tools/icons/items/Upgrader3Armor.png"
+  "silver-protection-idol": "https://www.valheim.tools/icons/items/Upgrader3Armor.png",
+  "goblin-totem": "https://www.valheim.tools/icons/items/GoblinTotem.png",
+  "fuling-berserker-trophy": "https://www.valheim.tools/icons/items/TrophyGoblinBrute.png",
+  "black-metal-battle-idol": "https://www.valheim.tools/icons/items/Upgrader4Weapon.png",
+  "black-metal-protection-idol": "https://www.valheim.tools/icons/items/Upgrader4Armor.png",
+  "black-metal-sword": "https://www.valheim.tools/icons/items/SwordBlackmetal.png",
+  "black-metal-axe": "https://www.valheim.tools/icons/items/AxeBlackMetal.png",
+  "black-metal-battleaxe": "https://www.valheim.tools/icons/items/BattleaxeBlackmetal.png",
+  "black-metal-knife": "https://www.valheim.tools/icons/items/KnifeBlackMetal.png",
+  "black-metal-shield": "https://www.valheim.tools/icons/items/ShieldBlackmetal.png",
+  "black-metal-tower-shield": "https://www.valheim.tools/icons/items/ShieldBlackmetalTower.png",
+  "lox-fur-hood": "https://www.valheim.tools/icons/items/HelmetLox.png",
+  "lox-fur-jacket": "https://www.valheim.tools/icons/items/ArmorLoxChest.png",
+  "lox-fur-trousers": "https://www.valheim.tools/icons/items/ArmorLoxLegs.png",
+  "barley-wine-base-fire-resistance": "https://www.valheim.tools/icons/items/BarleyWineBase.png"
 };
 
 const resolveFandomFile = async (fileName: string): Promise<string | null> => {
