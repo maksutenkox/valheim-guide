@@ -5,6 +5,7 @@ export type ResourceTotal = {
   slug: string;
   name_en: string;
   name_ru: string;
+  image_path: string | null;
   required: number;
   owned: number;
   remaining: number;
@@ -16,6 +17,7 @@ type IngredientRow = {
   slug: string;
   name_en: string;
   name_ru: string;
+  image_path: string | null;
 };
 
 type IngredientIdentity = Omit<IngredientRow, "quantity">;
@@ -33,7 +35,7 @@ export const calculateCraftList = async (env: Env, craftListId: number): Promise
     const cached = identityCache.get(itemId);
     if (cached) return cached;
     const row = await env.DB.prepare(
-      "SELECT id AS resource_id, slug, name_en, name_ru FROM items WHERE id = ?"
+      "SELECT id AS resource_id, slug, name_en, name_ru, image_path FROM items WHERE id = ?"
     ).bind(itemId).first<IngredientIdentity>();
     if (row) identityCache.set(itemId, row);
     return row ?? null;
@@ -54,7 +56,7 @@ export const calculateCraftList = async (env: Env, craftListId: number): Promise
     }
 
     const { results } = await env.DB.prepare(`
-      SELECT ri.resource_id, ri.quantity, r.slug, r.name_en, r.name_ru
+      SELECT ri.resource_id, ri.quantity, r.slug, r.name_en, r.name_ru, r.image_path
       FROM recipes re
       JOIN recipe_ingredients ri ON ri.recipe_id = re.id
       JOIN items r ON r.id = ri.resource_id
@@ -74,6 +76,7 @@ export const calculateCraftList = async (env: Env, craftListId: number): Promise
       slug: ingredient.slug,
       name_en: ingredient.name_en,
       name_ru: ingredient.name_ru,
+      image_path: ingredient.image_path,
       required: (existing?.required ?? 0) + quantity
     });
   };
@@ -114,7 +117,7 @@ export const calculateCraftList = async (env: Env, craftListId: number): Promise
     }
 
     const { results: upgrades } = await env.DB.prepare(`
-      SELECT ui.resource_id, ui.quantity, r.slug, r.name_en, r.name_ru
+      SELECT ui.resource_id, ui.quantity, r.slug, r.name_en, r.name_ru, r.image_path
       FROM item_upgrades iu
       JOIN upgrade_ingredients ui ON ui.upgrade_id = iu.id
       JOIN items r ON r.id = ui.resource_id
