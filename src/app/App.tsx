@@ -403,7 +403,11 @@ export function App() {
 
     {section === "home" && <section><h2>{locale === "ru" ? "Биомы" : "Biomes"}</h2>
       {loading ? <p className="muted">{locale === "ru" ? "Загрузка..." : "Loading..."}</p> : biomes.length === 0 ? <Empty message={locale === "ru" ? "Данные биомов появятся после первого проверенного импорта." : "Biome data will appear after the first verified import."} /> : <div className="biome-list">{biomes.map((biome, index) => <button className="biome-card" key={biome.slug} onClick={() => void openBiome(biome.slug)} style={{ "--accent": biome.accent_color ?? "#d89d46", "--art": biome.image_path ? `url(${biome.image_path})` : "none" } as CSSProperties}><span className="biome-order">{String(index + 1).padStart(2, "0")}</span><span className="biome-copy"><strong>{text(locale, biome)}</strong><small>{locale === "ru" ? biome.description_ru : biome.description_en}</small></span><span className="biome-arrow">›</span></button>)}</div>}
-    </section>}
+    <div className="legal-note">
+        <strong>{locale === "ru" ? "Неофициальный фан-проект" : "Unofficial fan project"}</strong>
+        <span>{locale === "ru" ? "VALHEIM Guide не связан с Iron Gate Studio или Coffee Stain Publishing. Названия, изображения и другие игровые материалы принадлежат их правообладателям и используются в информационных и образовательных целях." : "VALHEIM Guide is not affiliated with Iron Gate Studio or Coffee Stain Publishing. Game names, images and other game materials belong to their respective rights holders and are used for informational and educational purposes."}</span>
+        <a href="https://www.valheimgame.com/eula/" target="_blank" rel="noreferrer">{locale === "ru" ? "Условия использования Valheim ↗" : "Valheim usage terms ↗"}</a>
+      </div></section>}
 
     {section === "search" && <section><h2>{locale === "ru" ? "Результаты" : "Results"}</h2>{query.length < 2 ? <Empty message={locale === "ru" ? "Введите минимум 2 символа." : "Type at least 2 characters."} /> : <ResultList locale={locale} items={results} onOpen={openEntry} />}</section>}
 
