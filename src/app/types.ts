@@ -78,6 +78,7 @@ export type CraftListItem = {
   item_id: number;
   quantity: number;
   target_level: number;
+  max_level: number;
   slug: string;
   name_en: string;
   name_ru: string;
