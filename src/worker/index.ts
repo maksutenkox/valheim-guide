@@ -12,6 +12,7 @@ import { ensureMistlandsCatalog } from "./services/seed-mistlands";
 import { ensureAshlandsCatalog } from "./services/seed-ashlands";
 import { ensureDeepNorthCatalog } from "./services/seed-deep-north";
 import { ensureOceanCatalog } from "./services/seed-ocean";
+import { ensureTrophyCatalog } from "./services/seed-trophies";
 import { handleTelegramUpdate } from "./telegram/bot";
 
 type ItemRow = {
@@ -60,6 +61,7 @@ const ensureCatalog = async (env: Env): Promise<void> => {
   await ensureAshlandsCatalog(env);
   await ensureDeepNorthCatalog(env);
   await ensureOceanCatalog(env);
+  await ensureTrophyCatalog(env);
   catalogReady = true;
 };
 
