@@ -2,6 +2,7 @@ import type { Env } from "./env";
 import { json, notFound, parsePositiveInt } from "./api/helpers";
 import { AuthError, ensureUser, getTelegramUserId } from "./telegram/auth";
 import { calculateCraftList } from "./services/craft-planner";
+import { ensureMeadowsCatalog } from "./services/seed-meadows";
 import { ensureBlackForestCatalog } from "./services/seed-black-forest";
 import { ensureCatalogSchema } from "./services/catalog-seed";
 import { ensureSwampCatalog } from "./services/seed-swamp";
@@ -10,6 +11,7 @@ import { ensurePlainsCatalog } from "./services/seed-plains";
 import { ensureMistlandsCatalog } from "./services/seed-mistlands";
 import { ensureAshlandsCatalog } from "./services/seed-ashlands";
 import { ensureDeepNorthCatalog } from "./services/seed-deep-north";
+import { ensureOceanCatalog } from "./services/seed-ocean";
 import { handleTelegramUpdate } from "./telegram/bot";
 
 type ItemRow = {
@@ -49,6 +51,7 @@ let catalogReady = false;
 const ensureCatalog = async (env: Env): Promise<void> => {
   if (catalogReady) return;
   await ensureCatalogSchema(env);
+  await ensureMeadowsCatalog(env);
   await ensureBlackForestCatalog(env);
   await ensureSwampCatalog(env);
   await ensureMountainCatalog(env);
@@ -56,6 +59,7 @@ const ensureCatalog = async (env: Env): Promise<void> => {
   await ensureMistlandsCatalog(env);
   await ensureAshlandsCatalog(env);
   await ensureDeepNorthCatalog(env);
+  await ensureOceanCatalog(env);
   catalogReady = true;
 };
 
@@ -92,7 +96,7 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/api/version") {
-      return json({ build: "2026-09-29-world-v5-deep-north" });
+      return json({ build: "2026-09-29-world-v6-complete-pass1" });
     }
 
     if (request.method === "GET" && url.pathname === "/api/health") {
@@ -121,7 +125,7 @@ export default {
         ORDER BY b.id
       `).all<{ slug: string; items: number; recipes: number }>();
       return json({
-        catalog: "world-v5",
+        catalog: "world-v6",
         biomes: Object.fromEntries(results.map((row) => [
           row.slug,
           { items: row.items, recipes: row.recipes }
