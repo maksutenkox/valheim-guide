@@ -70,6 +70,22 @@ const ownsCraftList = async (env: Env, craftListId: number, userId: string): Pro
   "SELECT 1 AS owned FROM craft_lists WHERE id = ? AND telegram_user_id = ?"
 ).bind(craftListId, userId).first());
 
+const creatureIconSlug = (slug: string): string => ({
+  "dvergr-rogue": "dvergr-trophy",
+  "dvergr-mage": "dvergr-trophy",
+  "charred-warrior": "warrior-trophy",
+  "charred-marksman": "marksman-trophy",
+  "charred-warlock": "warlock-trophy",
+  "shapeless-pulp": "pulp-trophy",
+  "kall-fimbulbringer": "crown-jewel"
+}[slug] ?? `${slug}-trophy`);
+
+const creatureArtwork = async (env: Env, slug: string): Promise<string | null> => {
+  const row = await env.DB.prepare("SELECT image_path FROM items WHERE slug = ? LIMIT 1")
+    .bind(creatureIconSlug(slug)).first<{ image_path: string | null }>();
+  return row?.image_path ?? null;
+};
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -138,7 +154,11 @@ export default {
 
     if (request.method === "GET" && url.pathname === "/api/creatures") {
       const biome = url.searchParams.get("biome")?.trim() ?? "";
-      return json({ data: biome ? creaturesForBiome(biome) : [] });
+      const entries = biome ? creaturesForBiome(biome) : [];
+      return json({ data: await Promise.all(entries.map(async (entry) => ({
+        ...entry,
+        image_path: await creatureArtwork(env, entry.slug)
+      }))) });
     }
 
     const creatureMatch = url.pathname.match(/^\/api\/creatures\/([a-z0-9-]+)$/);
@@ -151,16 +171,16 @@ export default {
         ).bind(drop.name).first<{ slug: string; entity_type: "item" | "resource"; name_en: string; name_ru: string; image_path: string | null }>();
         return linked ? { ...drop, ...linked } : drop;
       }));
-      return json({ data: { ...detail, drops } });
+      return json({ data: { ...detail, image_url: detail.image_url ?? await creatureArtwork(env, detail.slug), drops } });
     }
 
     if (request.method === "GET" && url.pathname === "/api/bosses") {
       const biome = url.searchParams.get("biome")?.trim();
       if (biome) {
         const boss = bossForBiome(biome);
-        return json({ data: boss ?? null });
+        return json({ data: boss ? { ...boss, image_path: await creatureArtwork(env, boss.slug) } : null });
       }
-      return json({ data: bosses });
+      return json({ data: await Promise.all(bosses.map(async (boss) => ({ ...boss, image_path: await creatureArtwork(env, boss.slug) }))) });
     }
 
     if (request.method === "GET" && url.pathname === "/api/biomes") {
