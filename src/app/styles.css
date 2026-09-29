@@ -67,3 +67,7 @@ button:disabled { opacity:.5; cursor:default; }
   .planned-quantity { flex-wrap:wrap; justify-content:flex-end; max-width:144px; }
   .craft-owned { flex-wrap:wrap; }
 }
+
+.save.compact { padding:7px 10px; font-size:11px; white-space:nowrap; }
+.craft-resource-heading { margin-top:20px; }
+.craft-resource-heading h2 { margin:0; }
