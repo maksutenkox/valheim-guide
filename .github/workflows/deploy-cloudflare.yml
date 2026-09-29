@@ -82,12 +82,12 @@ jobs:
           for attempt in $(seq 1 15); do
             VERSION_JSON="$(curl --fail --silent --show-error "$BASE_URL/api/version" || true)"
             echo "Attempt $attempt: $VERSION_JSON"
-            if echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-black-forest-v5-images-v1"'; then
+            if echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-swamp-v1-batches"'; then
               break
             fi
             sleep 2
           done
-          echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-black-forest-v5-images-v1"'
+          echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-swamp-v1-batches"'
 
           echo "Checking D1 health..."
           HEALTH_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/health")"
@@ -98,11 +98,11 @@ jobs:
           echo "Checking Black Forest catalog..."
           CATALOG_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/catalog-status")"
           echo "$CATALOG_JSON"
-          echo "$CATALOG_JSON" | grep -q '"catalog":"black-forest-v5"'
-          ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"items":\([0-9][0-9]*\).*/\1/p')"
-          RECIPES="$(echo "$CATALOG_JSON" | sed -n 's/.*"recipes":\([0-9][0-9]*\).*/\1/p')"
-          test -n "$ITEMS" && test "$ITEMS" -gt 0
-          test -n "$RECIPES" && test "$RECIPES" -gt 0
+          echo "$CATALOG_JSON" | grep -q '"catalog":"swamp-v1"'
+          echo "$CATALOG_JSON" | grep -q '"black-forest"'
+          echo "$CATALOG_JSON" | grep -q '"swamp"'
+          SWAMP_ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"swamp":{"items":\([0-9][0-9]*\).*/\1/p')"
+          test -n "$SWAMP_ITEMS" && test "$SWAMP_ITEMS" -gt 20
 
           echo "Checking Telegram bot secret presence without exposing it..."
           AUTH_RESPONSE="$(curl --silent --show-error -H 'x-telegram-init-data: smoke-test' "$BASE_URL/api/auth-status")"
@@ -114,7 +114,7 @@ jobs:
           echo "$AUTH_RESPONSE" | grep -Eq 'Invalid Telegram authorization data|Telegram authorization signature is invalid'
 
           echo "Checking production media assets..."
-          for asset in copper-ore bronze-protection-idol pulled-bear; do
+          for asset in copper-ore bronze-protection-idol pulled-bear scrap-iron iron-sword root-mask black-soup; do
             CONTENT_TYPE="$(curl --fail --silent --show-error --retry 3 --retry-delay 1 -o /dev/null -w '%{content_type}' "$BASE_URL/media/wiki/$asset.png")"
             echo "$asset: $CONTENT_TYPE"
             echo "$CONTENT_TYPE" | grep -q '^image/'
