@@ -79,6 +79,7 @@ export function App() {
   const [creatures, setCreatures] = useState<CreatureSummary[]>([]);
   const [biomeBoss, setBiomeBoss] = useState<BossSummary | null>(null);
   const [creature, setCreature] = useState<CreatureDetail | null>(null);
+  const [creatureOrigin, setCreatureOrigin] = useState<Exclude<Section, "creature">>("biome");
   const [creaturesLoading, setCreaturesLoading] = useState(false);
   const [item, setItem] = useState<ItemDetail | null>(null);
   const [resource, setResource] = useState<ResourceDetail | null>(null);
@@ -149,8 +150,9 @@ export function App() {
     }
   };
 
-  const openCreature = async (slug: string) => {
+  const openCreature = async (slug: string, origin: Exclude<Section, "creature"> = "biome") => {
     setMessage("");
+    setCreatureOrigin(origin);
     setSection("creature");
     setCreature(null);
     try {
@@ -434,7 +436,7 @@ export function App() {
   const goBack = () => {
     setMessage("");
     if (section === "item" || section === "resource") return setSection(detailOrigin);
-    if (section === "creature") return setSection("biome");
+    if (section === "creature") return setSection(creatureOrigin);
     if (section === "biome") return setSection("home");
     setSection("home");
   };
@@ -502,12 +504,16 @@ export function App() {
       <p className="lede detail-description">{locale === "ru" ? resource.description_ru : resource.description_en}</p>
       <SectionTitle eyebrow={locale === "ru" ? "ИСТОЧНИК" : "SOURCE"} title={locale === "ru" ? "Где найти" : "Where to find"} />
       {resource.sources.length ? <div className="source-list">{resource.sources.map((source, index) => <p key={index}><b>{String(index + 1).padStart(2,"0")}</b><span>{locale === "ru" ? source.method_ru : source.method_en}</span></p>)}</div> : <Empty message={locale === "ru" ? "Проверенный источник пока добавляется." : "A verified source is being added."} />}
+      {resource.dropped_by.length > 0 && <>
+        <SectionTitle eyebrow={locale === "ru" ? "ДОБЫЧА" : "DROPS FROM"} title={locale === "ru" ? "Выпадает из" : "Dropped by"} />
+        <CreatureGrid locale={locale} items={resource.dropped_by} onOpen={(slug) => void openCreature(slug, "resource")} />
+      </>}
       <SectionTitle eyebrow={locale === "ru" ? "ПРИМЕНЕНИЕ" : "USES"} title={locale === "ru" ? "Используется в" : "Used in"} />
       <ResultList locale={locale} items={resource.used_by} onOpen={openEntry} /><SourceLink locale={locale} entry={resource} />
     </section>}
 
     {section === "creature" && <section className="detail creature-detail">
-      {!creature ? <Empty message={locale === "ru" ? "Загружаем боевые данные..." : "Loading combat data..."} /> : <CreatureDetailView locale={locale} creature={creature} boss={biomeBoss?.slug === creature.slug ? biomeBoss : null} />}
+      {!creature ? <Empty message={locale === "ru" ? "Загружаем боевые данные..." : "Loading combat data..."} /> : <CreatureDetailView locale={locale} creature={creature} boss={biomeBoss?.slug === creature.slug ? biomeBoss : null} onResource={openResource} />}
     </section>}
 
     {section === "craft" && <section>
@@ -608,8 +614,8 @@ const resistanceText = (locale: Locale, level: CreatureDetail["resistances"][num
 function CreatureGrid({ locale, items, onOpen }: { locale: Locale; items: CreatureSummary[]; onOpen: (slug: string) => void }) {
   if (!items.length) return <Empty message={locale === "ru" ? "Существа для этого биома пока не добавлены." : "No creatures have been added for this biome yet."} />;
   return <div className="creature-grid">{items.map((entry) => <button className="creature-card" key={entry.slug} onClick={() => void onOpen(entry.slug)}>
-    <span className="creature-mark">☠</span>
-    <span className="creature-card-copy"><small>{locale === "ru" ? "СУЩЕСТВО" : "CREATURE"}</small><strong>{text(locale,entry)}</strong><span><b>{entry.health.toLocaleString()}</b> HP</span></span>
+    <span className={entry.kind === "boss" ? "creature-mark boss" : "creature-mark"}>{entry.kind === "boss" ? "♛" : "☠"}</span>
+    <span className="creature-card-copy"><small>{entry.kind === "boss" ? (locale === "ru" ? "БОСС" : "BOSS") : (locale === "ru" ? "СУЩЕСТВО" : "CREATURE")}</small><strong>{text(locale,entry)}</strong><span><b>{entry.health.toLocaleString()}</b> HP</span></span>
     <i>↗</i>
   </button>)}</div>;
 }
@@ -622,7 +628,7 @@ function BossCard({ locale, boss, onOpen }: { locale: Locale; boss: BossSummary;
   </button>;
 }
 
-function CreatureDetailView({ locale, creature, boss }: { locale: Locale; creature: CreatureDetail; boss: BossSummary | null }) {
+function CreatureDetailView({ locale, creature, boss, onResource }: { locale: Locale; creature: CreatureDetail; boss: BossSummary | null; onResource: (slug: string) => void }) {
   const weak = creature.resistances.filter((entry) => entry.level === "weak" || entry.level === "very-weak");
   const defended = creature.resistances.filter((entry) => !["weak","very-weak","ignore"].includes(entry.level));
   return <>
@@ -644,7 +650,15 @@ function CreatureDetailView({ locale, creature, boss }: { locale: Locale; creatu
     </div> : <Empty message={locale === "ru" ? "Подробные резисты сейчас недоступны — базовые HP сохранены." : "Detailed resistances are currently unavailable — base HP is still available."} />}
 
     <SectionTitle eyebrow={locale === "ru" ? "ЛУТ" : "LOOT"} title={locale === "ru" ? "Что выпадает" : "Drops"} />
-    {creature.drops.length ? <div className="drop-list">{creature.drops.map((drop,index) => <div key={`${drop.name}-${index}`}><span><b>{drop.name}</b>{drop.amount && <small>×{drop.amount}</small>}</span>{drop.chance && <em>{drop.chance}</em>}</div>)}</div> : <Empty message={locale === "ru" ? "У этого существа нет зафиксированного дропа или источник временно недоступен." : "No recorded drops, or the live source is temporarily unavailable."} />}
+    {creature.drops.length ? <div className="drop-list">{creature.drops.map((drop,index) => {
+      const linkedName = locale === "ru" ? drop.name_ru : drop.name_en;
+      return <button className={drop.slug ? "drop-entry linked" : "drop-entry"} disabled={!drop.slug} key={`${drop.name}-${index}`} onClick={() => drop.slug && void onResource(drop.slug)}>
+        <span className={drop.image_path ? "drop-icon" : "drop-icon fallback"}>{drop.image_path ? <img src={drop.image_path} alt="" /> : "◆"}</span>
+        <span className="drop-copy"><span><b>{linkedName ?? drop.name}</b>{drop.amount && <small>×{drop.amount}</small>}</span>{drop.slug && <small>{locale === "ru" ? "Открыть ресурс и применение" : "Open resource & uses"}</small>}</span>
+        {drop.chance && <em>{drop.chance}</em>}
+        {drop.slug && <i>›</i>}
+      </button>;
+    })}</div> : <Empty message={locale === "ru" ? "У этого существа нет зафиксированного дропа." : "No recorded drops for this creature yet."} />}
 
     <p className="source-credit"><a href={creature.source_url} target="_blank" rel="noreferrer">{locale === "ru" ? "Боевые данные" : "Combat data"} ↗</a><span>{creature.source_name}</span></p>
   </>;
