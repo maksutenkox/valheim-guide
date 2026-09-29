@@ -30,6 +30,8 @@ No AI-generated item art is used.
 ## Current functionality
 
 - biome navigation and category filtering;
+- per-biome creature combat guide with health, resistances and verified drops;
+- dedicated boss cards with summon requirements, Forsaken powers and combat recommendations;
 - RU / EN names and descriptions;
 - global item/resource search;
 - sourced item/resource detail pages;
