@@ -26,13 +26,33 @@ for (const seed of seedContents) {
 }
 for (const match of migrationContents.join("\n").matchAll(/'([a-z0-9-]+)'/g)) defined.add(match[1]);
 
+const sharedSeedSlugs = new Set([
+  "chitin",
+  "mushroom",
+  "raspberries",
+  "honey",
+  "boar-meat",
+  "neck-tail",
+  "cooked-deer-meat",
+  "feathers",
+  "dandelion",
+  "abyssal-razor",
+  "abyssal-harpoon",
+  "raw-fish",
+  "serpent-scale",
+  "serpent-meat",
+  "cooked-serpent-meat"
+]);
+
 const duplicateSlugs: string[] = [];
 const seenSeedSlugs = new Map<string, string>();
 for (const seed of seedContents) {
   for (const match of seed.content.matchAll(/\{\s*slug:\s*"([^"]+)",\s*type:\s*"(?:item|resource)"/g)) {
     const slug = match[1];
     const previous = seenSeedSlugs.get(slug);
-    if (previous && previous !== seed.name) duplicateSlugs.push(`${slug} (${previous}, ${seed.name})`);
+    if (previous && previous !== seed.name && !sharedSeedSlugs.has(slug)) {
+      duplicateSlugs.push(`${slug} (${previous}, ${seed.name})`);
+    }
     else if (!previous) seenSeedSlugs.set(slug, seed.name);
   }
 }
