@@ -86,7 +86,17 @@ const directIconOverrides: Record<string, string> = {
   "eitr-weave-trousers": "https://www.valheim.tools/icons/items/ArmorMageLegs.png",
   "mead-base-major-healing": "https://www.valheim.tools/icons/items/MeadBaseHealthMajor.png",
   "mead-base-lingering-stamina": "https://www.valheim.tools/icons/items/MeadBaseStaminaLingering.png",
-  "mead-base-minor-eitr": "https://www.valheim.tools/icons/items/MeadBaseEitrMinor.png"
+  "mead-base-minor-eitr": "https://www.valheim.tools/icons/items/MeadBaseEitrMinor.png",
+  "flametal-battle-idol": "https://www.valheim.tools/icons/items/Upgrader6Weapon.png",
+  "flametal-protection-idol": "https://www.valheim.tools/icons/items/Upgrader6Armor.png",
+  "nidhogg": "https://www.valheim.tools/icons/items/SwordNiedhogg.png",
+  "nidhogg-bleeding": "https://www.valheim.tools/icons/items/SwordNiedhoggBlood.png",
+  "nidhogg-thundering": "https://www.valheim.tools/icons/items/SwordNiedhoggLightning.png",
+  "nidhogg-primal": "https://www.valheim.tools/icons/items/SwordNiedhoggNature.png",
+  "flametal-helmet": "https://www.valheim.tools/icons/items/HelmetFlametal.png",
+  "flametal-breastplate": "https://www.valheim.tools/icons/items/ArmorFlametalChest.png",
+  "flametal-greaves": "https://www.valheim.tools/icons/items/ArmorFlametalLegs.png",
+  "uncooked-roasted-crust-pie": "https://www.valheim.tools/icons/items/RoastedCrustPieUncooked.png"
 };
 
 const resolveFandomFile = async (fileName: string): Promise<string | null> => {
