@@ -71,3 +71,7 @@ button:disabled { opacity:.5; cursor:default; }
 .save.compact { padding:7px 10px; font-size:11px; white-space:nowrap; }
 .craft-resource-heading { margin-top:20px; }
 .craft-resource-heading h2 { margin:0; }
+
+.legal-note { display:grid; gap:7px; margin:22px 0 2px; padding:13px 14px; border:1px solid #3e352c; border-radius:12px; background:#1c1916; color:#a99b88; font-size:11px; line-height:1.45; }
+.legal-note strong { color:#d7c5aa; font-size:12px; }
+.legal-note a { color:#d89d46; text-decoration:none; font-weight:700; }
