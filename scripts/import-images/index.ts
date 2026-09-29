@@ -45,6 +45,21 @@ for (const entry of [...staticManifest, ...catalogManifest]) {
 }
 
 const userAgent = "VALHEIM-Guide/0.1 (+https://github.com/maksutenkox/valheim-guide)";
+const productionMediaOrigin = "https://valheim-guide.partiya-odobryaet-bot.workers.dev";
+
+const resolveProductionMedia = async (output: string): Promise<string | null> => {
+  const url = `${productionMediaOrigin}/media/wiki/${output}`;
+  try {
+    const response = await fetch(url, {
+      method: "HEAD",
+      headers: { "user-agent": userAgent }
+    });
+    const contentType = response.headers.get("content-type") ?? "";
+    return response.ok && contentType.startsWith("image/") ? url : null;
+  } catch {
+    return null;
+  }
+};
 
 const directIconOverrides: Record<string, string> = {
   "bronze-protection-idol": "https://www.valheim.tools/icons/items/Upgrader1Armor.png",
@@ -187,8 +202,10 @@ const failures: string[] = [];
 for (const media of manifest.values()) {
   try {
   const isBundledManifestUrl = media.url.startsWith("https://static.wikia.nocookie.net/");
+  const deployedIcon = isBundledManifestUrl ? null : await resolveProductionMedia(media.output);
+
   let resolvedCatalogIcon: string | null = null;
-  if (!isBundledManifestUrl && !directIconOverrides[media.slug]) {
+  if (!isBundledManifestUrl && !directIconOverrides[media.slug] && !deployedIcon) {
     try {
       resolvedCatalogIcon = await resolveValheimToolsIcon(media.slug);
     } catch (error) {
@@ -197,7 +214,7 @@ for (const media of manifest.values()) {
   }
 
   let resolvedFandomIcon: string | null = null;
-  if (!isBundledManifestUrl && !directIconOverrides[media.slug] && !resolvedCatalogIcon) {
+  if (!isBundledManifestUrl && !directIconOverrides[media.slug] && !deployedIcon && !resolvedCatalogIcon) {
     try {
       resolvedFandomIcon = await resolveFandomFile(media.url);
     } catch (error) {
@@ -206,7 +223,7 @@ for (const media of manifest.values()) {
   }
 
   const sourceUrl = directIconOverrides[media.slug]
-    ?? (isBundledManifestUrl ? media.url : resolvedCatalogIcon ?? resolvedFandomIcon);
+    ?? (isBundledManifestUrl ? media.url : deployedIcon ?? resolvedCatalogIcon ?? resolvedFandomIcon);
 
   if (!sourceUrl) {
     throw new Error(`No image source found for ${media.slug} (Fandom file: ${media.url})`);
@@ -221,7 +238,7 @@ for (const media of manifest.values()) {
 
   const finalUrl = new URL(response.url);
   const contentType = response.headers.get("content-type") ?? "";
-  if (!response.ok || !contentType.startsWith("image/") || !["static.wikia.nocookie.net", "www.valheim.tools"].includes(finalUrl.hostname)) {
+  if (!response.ok || !contentType.startsWith("image/") || !["static.wikia.nocookie.net", "www.valheim.tools", "valheim-guide.partiya-odobryaet-bot.workers.dev"].includes(finalUrl.hostname)) {
     throw new Error(`Could not import ${media.slug}: ${response.status} ${response.url} ${contentType}`);
   }
 
