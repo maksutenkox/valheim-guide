@@ -81,7 +81,6 @@ const deepNorthSeed: CatalogSeed = {
     { slug:"corked-vial", type:"resource", category:"material", en:"Corked Vial", ru:"Флакон с пробкой", descriptionEn:"A sealed vial used to craft pulp bombs.", descriptionRu:"Закрытый флакон для бомб из мякоти.", imageFile:"Corked_Vial.png", source:item("corked-vial"), biome:"swamp" },
     { slug:"dead-pulp", type:"resource", category:"material", en:"Dead Pulp", ru:"Мёртвая мякоть", descriptionEn:"Remains of Mörkhalla pulp creatures.", descriptionRu:"Останки существ-мякоти из Мёркхаллы.", imageFile:"Dead_Pulp.png", source:item("dead-pulp") },
     { slug:"pulp-trophy", type:"resource", category:"material", en:"Pulp Trophy", ru:"Трофей: мякоть", descriptionEn:"A trophy from Shapeless Pulp used in the Pulp Bomb.", descriptionRu:"Трофей Бесформенной мякоти для бомбы.", imageFile:"Pulp_Trophy.png", source:item("pulp-trophy") },
-    { slug:"ectoplasm", type:"resource", category:"material", en:"Ectoplasm", ru:"Эктоплазма", descriptionEn:"A restless essence dropped by Ghosts and The Void.", descriptionRu:"Беспокойная эссенция, выпадающая из призраков и Пустоты.", imageFile:"Ectoplasm.png", source:item("ectoplasm") },
     { slug:"ectoplasm-2", type:"resource", category:"material", en:"Ectoplasm (Voidplasm)", ru:"Эктоплазма (Voidplasm)", descriptionEn:"An unfinished console-only ingredient that the game data still lists in the Voidcaller recipe.", descriptionRu:"Незавершённый ингредиент Voidplasm, который пока доступен только через консоль, но числится в рецепте Зова Пустоты.", imageFile:"Ectoplasm.png", source:item("ectoplasm-2") },
     { slug:"seasoning-of-the-gourd", type:"resource", category:"material", en:"Seasoning of the Gourd", ru:"Приправа Тыквы", descriptionEn:"A Bog Witch seasoning sold after Kall is defeated.", descriptionRu:"Приправа Болотной ведьмы, доступная после победы над Каллом.", imageFile:"Seasoning_of_the_Gourd.png", source:item("seasoning-of-the-gourd"), biome:"swamp" },
 
@@ -366,7 +365,6 @@ const deepNorthSeed: CatalogSeed = {
     ["corked-vial","Sold by the Bog Witch.","Продаётся у Болотной ведьмы.",item("corked-vial")],
     ["dead-pulp","Dropped by pulp creatures in Mörkhalla.","Выпадает из существ-мякоти в Мёркхалле.",item("dead-pulp")],
     ["pulp-trophy","Dropped by Shapeless Pulp.","Выпадает из Бесформенной мякоти.",item("pulp-trophy")],
-    ["ectoplasm","Dropped by Ghosts and The Void.","Выпадает из призраков и Пустоты.",item("ectoplasm")],
     ["ectoplasm-2","Unfinished Voidplasm: no survival-world source is currently recorded.","Незавершённый Voidplasm: источника в обычном мире пока нет.",item("ectoplasm-2")],
     ["seasoning-of-the-gourd","Sold by the Bog Witch after Kall Fimbulbringer is defeated.","Продаётся у Болотной ведьмы после победы над Каллом Фимбулбрингером.",item("seasoning-of-the-gourd")]
   ]
