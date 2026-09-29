@@ -62,6 +62,8 @@ const resolveProductionMedia = async (output: string): Promise<string | null> =>
 };
 
 const directIconOverrides: Record<string, string> = {
+  "wooden-battle-idol": "https://www.valheim.tools/icons/items/Upgrader0Weapon.png",
+  "rag-trousers": "https://www.valheim.tools/icons/items/ArmorRagsLegs.png",
   "bronze-protection-idol": "https://www.valheim.tools/icons/items/Upgrader1Armor.png",
   "queens-jam-x4": "https://www.valheim.tools/icons/items/QueensJam.png",
   "pulled-bear": "https://www.valheim.tools/icons/items/PulledBear.png",
