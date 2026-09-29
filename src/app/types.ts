@@ -34,6 +34,7 @@ export type Ingredient = {
   slug: string;
   name_en: string;
   name_ru: string;
+  image_path: string | null;
 };
 
 export type ItemDetail = GuideItem & {
