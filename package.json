@@ -5,9 +5,11 @@
   "type": "module",
   "packageManager": "pnpm@11.25.0",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "check": "tsc --noEmit && wrangler check",
+    "dev": "vite",
+    "dev:worker": "wrangler dev --local",
+    "build": "vite build",
+    "deploy": "pnpm build && wrangler deploy",
+    "check": "tsc --noEmit && tsc --project tsconfig.app.json --noEmit",
     "db:migrate:local": "wrangler d1 migrations apply valheim-guide-db --local",
     "db:migrate:remote": "wrangler d1 migrations apply valheim-guide-db --remote",
     "data:import": "tsx scripts/import-data/index.ts",
@@ -16,9 +18,17 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260929.1",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
+    "vite": "^7.1.7",
     "wrangler": "^4.142.0"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.0.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   }
 }
 
