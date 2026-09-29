@@ -44,9 +44,6 @@ jobs:
       - name: Import media assets
         run: pnpm media:import
 
-      - name: Import creature combat data
-        run: pnpm creatures:import
-
       - name: Production build
         run: pnpm build
 
