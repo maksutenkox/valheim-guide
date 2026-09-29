@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import { ApiError, api } from "./services/api";
-import type { Biome, Category, CraftList, CraftResourceTotal, GuideItem, ItemDetail, Locale, ResourceDetail } from "./types";
+import type { Biome, Category, CraftList, CraftListItem, CraftResourceTotal, GuideItem, ItemDetail, Locale, ResourceDetail } from "./types";
 import "./styles.css";
 
 type Section = "home" | "search" | "craft" | "favorites" | "biome" | "item" | "resource";
@@ -66,6 +66,7 @@ export function App() {
   const [favorites, setFavorites] = useState<GuideItem[]>([]);
   const [craftLists, setCraftLists] = useState<CraftList[]>([]);
   const [activeCraftList, setActiveCraftList] = useState<CraftList | null>(null);
+  const [craftItems, setCraftItems] = useState<CraftListItem[]>([]);
   const [craftTotals, setCraftTotals] = useState<CraftResourceTotal[]>([]);
 
   useEffect(() => {
@@ -153,7 +154,14 @@ export function App() {
         setCraftLists(data);
         const selected = activeCraftList && data.find((list) => list.id === activeCraftList.id) ? activeCraftList : data[0] ?? null;
         setActiveCraftList(selected);
-        setCraftTotals(selected ? (await api.craftSummary(selected.id)).data : []);
+        if (selected) {
+          const [items, totals] = await Promise.all([api.craftItems(selected.id), api.craftSummary(selected.id)]);
+          setCraftItems(items.data);
+          setCraftTotals(totals.data);
+        } else {
+          setCraftItems([]);
+          setCraftTotals([]);
+        }
       } catch (error) { setMessage(protectedErrorText(locale, error)); }
     }
   };
@@ -161,7 +169,7 @@ export function App() {
   const createCraftList = async () => {
     try {
       const { data } = await api.createCraftList(locale === "ru" ? "Мой крафт" : "My craft list");
-      setCraftLists((lists) => [data, ...lists]); setActiveCraftList(data); setCraftTotals([]);
+      setCraftLists((lists) => [data, ...lists]); setActiveCraftList(data); setCraftItems([]); setCraftTotals([]);
     } catch (error) { setMessage(protectedErrorText(locale, error)); }
   };
 
@@ -174,14 +182,38 @@ export function App() {
         target = data; setCraftLists((lists) => [data, ...lists]); setActiveCraftList(data);
       }
       await api.addCraftItem(target.id, item.id);
-      setCraftTotals((await api.craftSummary(target.id)).data);
+      const [items, totals] = await Promise.all([api.craftItems(target.id), api.craftSummary(target.id)]);
+      setCraftItems(items.data);
+      setCraftTotals(totals.data);
       setMessage(locale === "ru" ? "Добавлено в список крафта." : "Added to craft list.");
     } catch (error) { setMessage(protectedErrorText(locale, error)); }
   };
 
   const selectCraftList = async (list: CraftList) => {
     setActiveCraftList(list);
-    try { setCraftTotals((await api.craftSummary(list.id)).data); } catch { setMessage(locale === "ru" ? "Не удалось загрузить расчёт." : "Could not load calculation."); }
+    try {
+      const [items, totals] = await Promise.all([api.craftItems(list.id), api.craftSummary(list.id)]);
+      setCraftItems(items.data);
+      setCraftTotals(totals.data);
+    } catch {
+      setMessage(locale === "ru" ? "Не удалось загрузить расчёт." : "Could not load calculation.");
+    }
+  };
+
+  const updateCraftItem = async (planned: CraftListItem, nextQuantity: number) => {
+    if (!activeCraftList) return;
+    try {
+      if (nextQuantity <= 0) {
+        await api.removeCraftItem(activeCraftList.id, planned.item_id);
+      } else {
+        await api.updateCraftItem(activeCraftList.id, planned.item_id, nextQuantity, planned.target_level);
+      }
+      const [items, totals] = await Promise.all([api.craftItems(activeCraftList.id), api.craftSummary(activeCraftList.id)]);
+      setCraftItems(items.data);
+      setCraftTotals(totals.data);
+    } catch (error) {
+      setMessage(protectedErrorText(locale, error));
+    }
   };
 
   const updateOwnedResource = async (resourceId: number, nextOwned: number) => {
@@ -237,7 +269,7 @@ export function App() {
 
     {section === "resource" && resource && <section className="detail"><Visual entry={resource} hero /><p className="item-type">{locale === "ru" ? "Материал" : "Material"}</p><p className="lede">{locale === "ru" ? resource.description_ru : resource.description_en}</p><h2>{locale === "ru" ? "Где найти" : "Where to find"}</h2>{resource.sources.length ? <div className="source-list">{resource.sources.map((source, index) => <p key={index}>{locale === "ru" ? source.method_ru : source.method_en}</p>)}</div> : <Empty message={locale === "ru" ? "Проверенный источник пока добавляется." : "A verified source is being added."} />}<h2>{locale === "ru" ? "Используется в" : "Used in"}</h2><ResultList locale={locale} items={resource.used_by} onOpen={openEntry} /><SourceLink locale={locale} entry={resource} /></section>}
 
-    {section === "craft" && <section><div className="section-row"><h2>{locale === "ru" ? "Мой крафт" : "My craft"}</h2><button className="save" onClick={() => void createCraftList()}>+ {locale === "ru" ? "Список" : "List"}</button></div>{craftLists.length > 1 && <div className="chips">{craftLists.map((list) => <button className={activeCraftList?.id === list.id ? "chip active" : "chip"} onClick={() => void selectCraftList(list)} key={list.id}>{list.name}</button>)}</div>}{!activeCraftList ? <Empty message={locale === "ru" ? "Создайте список, затем добавляйте в него предметы из их карточек." : "Create a list, then add items from their cards."} /> : <CraftTotals locale={locale} totals={craftTotals} onResource={openResource} onOwnedChange={updateOwnedResource} />}</section>}
+    {section === "craft" && <section><div className="section-row"><h2>{locale === "ru" ? "Мой крафт" : "My craft"}</h2><button className="save" onClick={() => void createCraftList()}>+ {locale === "ru" ? "Список" : "List"}</button></div>{craftLists.length > 1 && <div className="chips">{craftLists.map((list) => <button className={activeCraftList?.id === list.id ? "chip active" : "chip"} onClick={() => void selectCraftList(list)} key={list.id}>{list.name}</button>)}</div>}{!activeCraftList ? <Empty message={locale === "ru" ? "Создайте список, затем добавляйте в него предметы из их карточек." : "Create a list, then add items from their cards."} /> : <><PlannedCraftItems locale={locale} items={craftItems} onQuantityChange={updateCraftItem} onOpen={openItem} /><h2>{locale === "ru" ? "Нужно ресурсов" : "Resources needed"}</h2><CraftTotals locale={locale} totals={craftTotals} onResource={openResource} onOwnedChange={updateOwnedResource} /></>}</section>}
     {section === "favorites" && <section><h2>{locale === "ru" ? "Сохранённые предметы" : "Saved items"}</h2>{message ? null : <ResultList locale={locale} items={favorites} onOpen={openEntry} />}</section>}
 
     <nav className="bottom-nav">{([['home', '⌂', locale === "ru" ? "Главная" : "Home"], ['craft', '⚒', locale === "ru" ? "Крафт" : "Craft"], ['favorites', '♡', locale === "ru" ? "Избранное" : "Saved"], ['search', '⌕', locale === "ru" ? "Поиск" : "Search"]] as const).map(([id, icon, label]) => <button key={id} className={section === id || (id === "home" && section === "biome") ? "active" : ""} onClick={() => void goNav(id)}><span>{icon}</span>{label}</button>)}</nav>
@@ -271,6 +303,21 @@ function ResultList({ locale, items, onOpen }: { locale: Locale; items: GuideIte
 function Visual({ entry, hero = false }: { entry: GuideItem; hero?: boolean }) {
   if (entry.image_path) return <span className={hero ? "visual hero" : "visual"}><img src={entry.image_path} alt="" /></span>;
   return <span className={hero ? "visual hero fallback" : "visual fallback"}>{entry.entity_type === "resource" ? "◆" : "⚔"}</span>;
+}
+
+function PlannedCraftItems({ locale, items, onQuantityChange, onOpen }: { locale: Locale; items: CraftListItem[]; onQuantityChange: (item: CraftListItem, nextQuantity: number) => void; onOpen: (slug: string) => void }) {
+  if (!items.length) return <Empty message={locale === "ru" ? "Пока пусто. Добавьте предмет из его карточки." : "Nothing here yet. Add an item from its card."} />;
+  return <div className="planned-items">{items.map((planned) => <div className="planned-item" key={planned.item_id}>
+    <button className="planned-main" onClick={() => void onOpen(planned.slug)}>
+      <span className="planned-icon">{planned.image_path ? <img src={planned.image_path} alt="" /> : "⚔"}</span>
+      <span><strong>{text(locale, planned)}</strong><small>{locale === "ru" ? `Уровень ${planned.target_level}` : `Level ${planned.target_level}`}</small></span>
+    </button>
+    <div className="planned-quantity">
+      <button onClick={() => void onQuantityChange(planned, planned.quantity - 1)}>−</button>
+      <strong>×{planned.quantity}</strong>
+      <button onClick={() => void onQuantityChange(planned, planned.quantity + 1)}>+</button>
+    </div>
+  </div>)}</div>;
 }
 
 function CraftTotals({ locale, totals, onResource, onOwnedChange }: { locale: Locale; totals: CraftResourceTotal[]; onResource: (slug: string) => void; onOwnedChange: (resourceId: number, nextOwned: number) => void }) {
