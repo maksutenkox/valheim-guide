@@ -4,6 +4,7 @@ import { AuthError, ensureUser, getTelegramUserId } from "./telegram/auth";
 import { calculateCraftList } from "./services/craft-planner";
 import { ensureBlackForestCatalog } from "./services/seed-black-forest";
 import { ensureCatalogSchema } from "./services/catalog-seed";
+import { ensureSwampCatalog } from "./services/seed-swamp";
 import { handleTelegramUpdate } from "./telegram/bot";
 
 type ItemRow = {
@@ -44,6 +45,7 @@ const ensureCatalog = async (env: Env): Promise<void> => {
   if (catalogReady) return;
   await ensureCatalogSchema(env);
   await ensureBlackForestCatalog(env);
+  await ensureSwampCatalog(env);
   catalogReady = true;
 };
 
@@ -80,7 +82,7 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/api/version") {
-      return json({ build: "2026-09-29-black-forest-v5-images-v1" });
+      return json({ build: "2026-09-29-swamp-v1-batches" });
     }
 
     if (request.method === "GET" && url.pathname === "/api/health") {
@@ -98,25 +100,28 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/api/catalog-status") {
-      const [blackForest, blackForestRecipes] = await Promise.all([
-        env.DB.prepare(`
-          SELECT COUNT(*) AS count
-          FROM items i
-          JOIN biomes b ON b.id = i.biome_id
-          WHERE b.slug = 'black-forest'
-        `).first<{ count: number }>(),
-        env.DB.prepare(`
-          SELECT COUNT(*) AS count
-          FROM recipes re
-          JOIN items i ON i.id = re.item_id
-          JOIN biomes b ON b.id = i.biome_id
-          WHERE b.slug = 'black-forest'
-        `).first<{ count: number }>()
-      ]);
+      const counts = await Promise.all(
+        ["black-forest", "swamp"].map(async (biome) => {
+          const [items, recipes] = await Promise.all([
+            env.DB.prepare(`
+              SELECT COUNT(*) AS count
+              FROM items i JOIN biomes b ON b.id = i.biome_id
+              WHERE b.slug = ?
+            `).bind(biome).first<{ count: number }>(),
+            env.DB.prepare(`
+              SELECT COUNT(*) AS count
+              FROM recipes re
+              JOIN items i ON i.id = re.item_id
+              JOIN biomes b ON b.id = i.biome_id
+              WHERE b.slug = ?
+            `).bind(biome).first<{ count: number }>()
+          ]);
+          return [biome, { items: items?.count ?? 0, recipes: recipes?.count ?? 0 }] as const;
+        })
+      );
       return json({
-        catalog: "black-forest-v5",
-        items: blackForest?.count ?? 0,
-        recipes: blackForestRecipes?.count ?? 0
+        catalog: "swamp-v1",
+        biomes: Object.fromEntries(counts)
       });
     }
 
