@@ -41,6 +41,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Import media assets
+        run: pnpm media:import
+
       - name: Production build
         run: pnpm build
 
@@ -77,7 +80,7 @@ jobs:
           echo "Checking deployed build..."
           VERSION_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/version")"
           echo "$VERSION_JSON"
-          echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-black-forest-v4-craft-v3"'
+          echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-black-forest-v5-images-v1"'
 
           echo "Checking D1 health..."
           HEALTH_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/health")"
@@ -88,7 +91,7 @@ jobs:
           echo "Checking Black Forest catalog..."
           CATALOG_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/catalog-status")"
           echo "$CATALOG_JSON"
-          echo "$CATALOG_JSON" | grep -q '"catalog":"black-forest-v4"'
+          echo "$CATALOG_JSON" | grep -q '"catalog":"black-forest-v5"'
           ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"items":\([0-9][0-9]*\).*/\1/p')"
           RECIPES="$(echo "$CATALOG_JSON" | sed -n 's/.*"recipes":\([0-9][0-9]*\).*/\1/p')"
           test -n "$ITEMS" && test "$ITEMS" -gt 0
