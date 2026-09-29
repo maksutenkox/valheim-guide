@@ -273,3 +273,7 @@ h2{margin:24px 0 12px;font-size:18px;letter-spacing:-.01em}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
 }
+
+.section-kicker{margin:0 0 3px;color:#8d7f65;font-size:9px;font-weight:850;letter-spacing:.15em}
+.craft-heading{align-items:flex-end;margin:4px 0 12px}
+.craft-heading h2{margin:0;font-family:var(--serif);font-size:24px;font-weight:600}
