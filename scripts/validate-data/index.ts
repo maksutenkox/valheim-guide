@@ -29,7 +29,7 @@ for (const match of migrationContents.join("\n").matchAll(/'([a-z0-9-]+)'/g)) de
 const duplicateSlugs: string[] = [];
 const seenSeedSlugs = new Map<string, string>();
 for (const seed of seedContents) {
-  for (const match of seed.content.matchAll(/\{\s*slug:\s*"([^"]+)"/g)) {
+  for (const match of seed.content.matchAll(/\{\s*slug:\s*"([^"]+)",\s*type:\s*"(?:item|resource)"/g)) {
     const slug = match[1];
     const previous = seenSeedSlugs.get(slug);
     if (previous && previous !== seed.name) duplicateSlugs.push(`${slug} (${previous}, ${seed.name})`);
@@ -45,7 +45,7 @@ let upgradeCount = 0;
 let entityCount = 0;
 
 for (const seed of seedContents) {
-  entityCount += [...seed.content.matchAll(/\{\s*slug:\s*"([^"]+)"/g)].length;
+  entityCount += [...seed.content.matchAll(/\{\s*slug:\s*"([^"]+)",\s*type:\s*"(?:item|resource)"/g)].length;
 
   const recipes = [...seed.content.matchAll(/\{\s*item:\s*"([^"]+)",\s*station:[^\n]+ingredients:\s*\[(.*?)\]\s*\}/gs)];
   recipeCount += recipes.length;
