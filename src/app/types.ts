@@ -86,3 +86,41 @@ export type CraftListItem = {
   name_ru: string;
   image_path: string | null;
 };
+
+
+export type CreatureResistance = {
+  type: string;
+  level: "weak" | "very-weak" | "resistant" | "very-resistant" | "immune" | "ignore";
+};
+
+export type CreatureDrop = {
+  name: string;
+  chance: string | null;
+  amount: string | null;
+};
+
+export type CreatureSummary = {
+  slug: string;
+  name_en: string;
+  name_ru: string;
+  biome_slug: string;
+  health: number;
+  kind: "creature" | "boss";
+  source_url: string;
+};
+
+export type CreatureDetail = CreatureSummary & {
+  image_url: string | null;
+  resistances: CreatureResistance[];
+  drops: CreatureDrop[];
+  source_name: string;
+};
+
+export type BossSummary = CreatureSummary & {
+  summon_en: string;
+  summon_ru: string;
+  power_en: string;
+  power_ru: string;
+  recommended_en: string;
+  recommended_ru: string;
+};
