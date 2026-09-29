@@ -14,7 +14,7 @@ import { ensureDeepNorthCatalog } from "./services/seed-deep-north";
 import { ensureOceanCatalog } from "./services/seed-ocean";
 import { ensureTrophyCatalog } from "./services/seed-trophies";
 import { handleTelegramUpdate } from "./telegram/bot";
-import { bossForBiome, bosses, creaturesForBiome, loadCreatureDetail } from "./services/creatures";
+import { bossForBiome, bosses, creaturesDroppingItem, creaturesForBiome, loadCreatureDetail } from "./services/creatures";
 
 type ItemRow = {
   id: number;
@@ -145,7 +145,13 @@ export default {
     if (request.method === "GET" && creatureMatch) {
       const detail = await loadCreatureDetail(creatureMatch[1]);
       if (!detail) return notFound();
-      return json({ data: detail });
+      const drops = await Promise.all(detail.drops.map(async (drop) => {
+        const linked = await env.DB.prepare(
+          "SELECT slug, entity_type, name_en, name_ru, image_path FROM items WHERE LOWER(name_en) = LOWER(?) LIMIT 1"
+        ).bind(drop.name).first<{ slug: string; entity_type: "item" | "resource"; name_en: string; name_ru: string; image_path: string | null }>();
+        return linked ? { ...drop, ...linked } : drop;
+      }));
+      return json({ data: { ...detail, drops } });
     }
 
     if (request.method === "GET" && url.pathname === "/api/bosses") {
@@ -222,7 +228,8 @@ export default {
       ]);
       const usedBy = [...recipeUsedBy.results, ...upgradeUsedBy.results];
       const uniqueUsedBy = [...new Map(usedBy.map((entry) => [entry.id, entry])).values()];
-      return json({ data: { ...resource, sources: sources.results, used_by: uniqueUsedBy } });
+      const droppedBy = creaturesDroppingItem(resource.name_en);
+      return json({ data: { ...resource, sources: sources.results, used_by: uniqueUsedBy, dropped_by: droppedBy } });
     }
 
     if (request.method === "GET" && url.pathname === "/api/search") {
