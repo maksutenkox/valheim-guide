@@ -1,31 +1,107 @@
 # VALHEIM Guide
 
-Unofficial, mobile-first Telegram Mini App guide for Valheim. It will provide sourced game data, crafting recipes, favorites, and resource planning in Russian and English.
+Unofficial, mobile-first Telegram Mini App guide for Valheim. The app provides sourced game data, biome/category browsing, crafting recipes, item stats, favorites, and a personal crafting planner in Russian and English.
 
-## Current milestone: infrastructure
+## Architecture
 
-The repository begins with a Cloudflare Worker, the `DB` D1 binding, static assets deployed from GitHub with the Worker, a D1 migration, and `GET /api/health`. UI work intentionally starts only after the remote GitHub and Cloudflare infrastructure is verified.
+Production flow:
+
+```text
+Telegram Bot
+    ↓
+Telegram Mini App
+    ↓
+Cloudflare Worker + static assets
+    ↓
+Cloudflare D1
+    ↑
+GitHub main branch / automatic Cloudflare deployment
+```
+
+There is intentionally **no Cloudflare R2 dependency** in this project.
+
+Images are handled in two ways:
+
+- versioned files under `public/media/`, served through Cloudflare static assets;
+- verified external game-image URLs when an asset has not yet been bundled locally.
+
+No AI-generated item art is used.
+
+## Current functionality
+
+- biome navigation and category filtering;
+- RU / EN names and descriptions;
+- global item/resource search;
+- sourced item/resource detail pages;
+- recipes, crafting stations, item stats and upgrades;
+- Telegram-authenticated favorites;
+- multiple personal craft lists;
+- planned-item quantities;
+- recursive resource totals for crafted intermediate components;
+- resource collection progress with `+` / `−` controls;
+- automatic Black Forest catalog seeding in D1;
+- catalog integrity validation in CI.
 
 ## Local setup
 
 1. Install Node.js 22+ and pnpm.
 2. Copy `.env.example` to `.dev.vars` and fill only local development values.
 3. Run `pnpm install`.
-4. The project configuration already contains the production D1 database ID. For a fork or a new account, replace it with that account's D1 ID.
-5. Run `pnpm db:migrate:local` for local validation, then `pnpm dev`.
+4. The project configuration contains the production D1 database ID. For a fork or new Cloudflare account, replace it with that account's D1 ID.
+5. Run `pnpm db:migrate:local`.
+6. Run `pnpm dev` for the frontend or `pnpm dev:worker` for the Worker environment.
 
 ## Cloudflare setup
 
 1. Authenticate Wrangler with the Cloudflare account owning the project.
-2. Create D1 database `valheim-guide-db` and set its ID in `wrangler.jsonc`.
-3. Apply `pnpm db:migrate:remote`.
-4. Set `TELEGRAM_BOT_TOKEN` as a Worker secret; do not put it in any file tracked by Git.
-5. Deploy with `pnpm deploy`, then verify `/api/health` returns `{"status":"ok","database":"connected"}`.
+2. Create or connect D1 database `valheim-guide-db` and bind it as `DB`.
+3. Apply the base schema with `pnpm db:migrate:remote` when provisioning a new database.
+4. Set `TELEGRAM_BOT_TOKEN` as a Worker secret; never commit it to Git.
+5. Set `TELEGRAM_WEBHOOK_SECRET` as a Worker secret.
+6. Keep `PUBLIC_APP_URL` pointed at the production HTTPS Mini App URL.
+7. Production is expected to deploy automatically from the GitHub `main` branch through the configured Cloudflare Git integration.
+
+Content catalog seeders are idempotent and run from the Worker when needed, so normal catalog updates do not require manually applying a new D1 seed migration.
 
 ## Telegram setup
 
-Set two Worker secrets: `TELEGRAM_BOT_TOKEN` and a random `TELEGRAM_WEBHOOK_SECRET`. Register the webhook as `https://<worker-domain>/api/telegram/webhook` and pass the same webhook secret as Telegram's `secret_token`. The `/start` handler replies with an **Open guide** Mini App button linked to `PUBLIC_APP_URL`.
+Register the webhook as:
+
+```text
+https://<worker-domain>/api/telegram/webhook
+```
+
+Pass the same value stored in `TELEGRAM_WEBHOOK_SECRET` as Telegram's webhook `secret_token`.
+
+The `/start` command replies with a real Telegram `web_app` button. The frontend loads the official Telegram WebApp SDK and forwards signed `initData` to protected API routes. The Worker validates that signature using `TELEGRAM_BOT_TOKEN`.
+
+## Diagnostics
+
+Useful production endpoints:
+
+- `GET /api/health` — D1 connection health;
+- `GET /api/version` — currently deployed build marker;
+- `GET /api/catalog-status` — Black Forest catalog counts after ensuring the current catalog seed;
+- `GET /api/auth-status` — Telegram Mini App authentication diagnostic.
+
+`/api/auth-status` distinguishes missing Telegram init data, a missing Worker bot-token secret, and an invalid Telegram signature.
+
+## Validation
+
+Run:
+
+```bash
+pnpm check
+pnpm data:validate
+pnpm build
+```
+
+GitHub Actions runs these checks automatically on pushes and pull requests to `main`.
+
+The catalog validator checks duplicate slugs, broken recipe/upgrade references and invalid ingredient quantities before production build succeeds.
 
 ## Data and attribution
 
-Future importers will retain source URLs, licensing notes, and attribution. Licensed images are versioned under `public/media/` and served by Cloudflare static assets; D1 stores only their metadata and paths. No AI-generated item art is used. VALHEIM Guide is not affiliated with Iron Gate Studio or Coffee Stain Publishing.
+Every catalog entry should retain its source metadata. Current sources include Valheim community wiki pages and current game-data references used for verification.
+
+VALHEIM Guide is an unofficial fan project and is not affiliated with Iron Gate Studio or Coffee Stain Publishing.
