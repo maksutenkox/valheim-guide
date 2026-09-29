@@ -4,7 +4,7 @@ Unofficial, mobile-first Telegram Mini App guide for Valheim. It will provide so
 
 ## Current milestone: infrastructure
 
-The repository begins with a Cloudflare Worker, the `DB` D1 binding, the `MEDIA` R2 binding, a D1 migration, and `GET /api/health`. UI work intentionally starts only after the remote GitHub and Cloudflare infrastructure is verified.
+The repository begins with a Cloudflare Worker, the `DB` D1 binding, static assets deployed from GitHub with the Worker, a D1 migration, and `GET /api/health`. UI work intentionally starts only after the remote GitHub and Cloudflare infrastructure is verified.
 
 ## Local setup
 
@@ -25,4 +25,4 @@ The repository begins with a Cloudflare Worker, the `DB` D1 binding, the `MEDIA`
 
 ## Data and attribution
 
-Future importers will retain source URLs, licensing notes, and attribution. No AI-generated item art is used. VALHEIM Guide is not affiliated with Iron Gate Studio or Coffee Stain Publishing.
+Future importers will retain source URLs, licensing notes, and attribution. Licensed images are versioned under `public/media/` and served by Cloudflare static assets; D1 stores only their metadata and paths. No AI-generated item art is used. VALHEIM Guide is not affiliated with Iron Gate Studio or Coffee Stain Publishing.

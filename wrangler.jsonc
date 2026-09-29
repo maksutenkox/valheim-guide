@@ -4,6 +4,11 @@
   "main": "src/worker/index.ts",
   "compatibility_date": "2026-09-29",
   "workers_dev": true,
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
   "vars": {
     "ENVIRONMENT": "production"
   },
@@ -13,12 +18,6 @@
       "database_name": "valheim-guide-db",
       "database_id": "87c5e13f-48d9-4b11-ad03-566bef06db09",
       "migrations_dir": "migrations"
-    }
-  ],
-  "r2_buckets": [
-    {
-      "binding": "MEDIA",
-      "bucket_name": "valheim-guide-media"
     }
   ]
 }
