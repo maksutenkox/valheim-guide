@@ -504,9 +504,9 @@ export function App() {
       <p className="lede detail-description">{locale === "ru" ? resource.description_ru : resource.description_en}</p>
       <SectionTitle eyebrow={locale === "ru" ? "ИСТОЧНИК" : "SOURCE"} title={locale === "ru" ? "Где найти" : "Where to find"} />
       {resource.sources.length ? <div className="source-list">{resource.sources.map((source, index) => <p key={index}><b>{String(index + 1).padStart(2,"0")}</b><span>{locale === "ru" ? source.method_ru : source.method_en}</span></p>)}</div> : <Empty message={locale === "ru" ? "Проверенный источник пока добавляется." : "A verified source is being added."} />}
-      {resource.dropped_by.length > 0 && <>
+      {(resource.dropped_by?.length ?? 0) > 0 && <>
         <SectionTitle eyebrow={locale === "ru" ? "ДОБЫЧА" : "DROPS FROM"} title={locale === "ru" ? "Выпадает из" : "Dropped by"} />
-        <CreatureGrid locale={locale} items={resource.dropped_by} onOpen={(slug) => void openCreature(slug, "resource")} />
+        <CreatureGrid locale={locale} items={resource.dropped_by ?? []} onOpen={(slug) => void openCreature(slug, "resource")} />
       </>}
       <SectionTitle eyebrow={locale === "ru" ? "ПРИМЕНЕНИЕ" : "USES"} title={locale === "ru" ? "Используется в" : "Used in"} />
       <ResultList locale={locale} items={resource.used_by} onOpen={openEntry} /><SourceLink locale={locale} entry={resource} />
