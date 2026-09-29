@@ -1,1 +1,4 @@
-ALTER TABLE recipes ADD COLUMN output_quantity INTEGER NOT NULL DEFAULT 1 CHECK (output_quantity > 0);
+-- output_quantity is added idempotently by ensureCatalogSchema in the Worker.
+-- Keeping this migration as a no-op avoids a duplicate-column failure if the
+-- production database has already been upgraded lazily by the deployed Worker.
+SELECT 1;
