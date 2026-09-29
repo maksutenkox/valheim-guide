@@ -28,7 +28,7 @@ const seedSource = (await Promise.all(
 const catalogManifest: MediaRecord[] = seedSource
   .split("\n")
   .map((line) => {
-    const match = line.match(/\{ slug: "([^"]+)".*imageFile: "([^"]+)"/);
+    const match = line.match(/\{\s*slug:\s*"([^"]+)".*imageFile:\s*"([^"]+)"/);
     if (!match) return null;
     const [, slug, imageFile] = match;
     return {
