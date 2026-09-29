@@ -67,3 +67,38 @@ jobs:
           wranglerVersion: "4.142.0"
           command: deploy
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Smoke test production
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE_URL="https://valheim-guide.partiya-odobryaet-bot.workers.dev"
+
+          echo "Checking deployed build..."
+          VERSION_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/version")"
+          echo "$VERSION_JSON"
+          echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-black-forest-v4-craft-v3"'
+
+          echo "Checking D1 health..."
+          HEALTH_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/health")"
+          echo "$HEALTH_JSON"
+          echo "$HEALTH_JSON" | grep -q '"status":"ok"'
+          echo "$HEALTH_JSON" | grep -q '"database":"connected"'
+
+          echo "Checking Black Forest catalog..."
+          CATALOG_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/catalog-status")"
+          echo "$CATALOG_JSON"
+          echo "$CATALOG_JSON" | grep -q '"catalog":"black-forest-v4"'
+          ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"items":\([0-9][0-9]*\).*/\1/p')"
+          RECIPES="$(echo "$CATALOG_JSON" | sed -n 's/.*"recipes":\([0-9][0-9]*\).*/\1/p')"
+          test -n "$ITEMS" && test "$ITEMS" -gt 0
+          test -n "$RECIPES" && test "$RECIPES" -gt 0
+
+          echo "Checking Telegram bot secret presence without exposing it..."
+          AUTH_RESPONSE="$(curl --silent --show-error -H 'x-telegram-init-data: smoke-test' "$BASE_URL/api/auth-status")"
+          echo "$AUTH_RESPONSE"
+          if echo "$AUTH_RESPONSE" | grep -q 'Telegram bot token is not configured'; then
+            echo "::error::Production Worker is missing TELEGRAM_BOT_TOKEN"
+            exit 1
+          fi
+          echo "$AUTH_RESPONSE" | grep -Eq 'Invalid Telegram authorization data|Telegram authorization signature is invalid'
