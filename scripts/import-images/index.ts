@@ -132,6 +132,64 @@ const directIconOverrides: Record<string, string> = {
   "uncooked-roasted-crust-pie": "https://www.valheim.tools/icons/items/RoastedCrustPieUncooked.png"
 };
 
+const trophyIconIds: Record<string, string> = {
+  "boar-trophy": "TrophyBoar",
+  "trophy-deer-white": "TrophyDeerWhite",
+  "eikthyr-trophy": "TrophyEikthyr",
+  "neck-trophy": "TrophyNeck",
+  "brenna-trophy": "TrophySkeletonHildir",
+  "ghost-trophy": "TrophyGhost",
+  "greydwarf-trophy": "TrophyGreydwarf",
+  "greydwarf-brute-trophy": "TrophyGreydwarfBrute",
+  "rancid-remains-trophy": "TrophySkeletonPoison",
+  "the-elder-trophy": "TrophyTheElder",
+  "blob-trophy": "TrophyBlob",
+  "bonemass-trophy": "TrophyBonemass",
+  "draugr-trophy": "TrophyDraugr",
+  "kvastur-trophy": "TrophyKvastur",
+  "leech-trophy": "TrophyLeech",
+  "surtling-trophy": "TrophySurtling",
+  "wraith-trophy": "TrophyWraith",
+  "writhan-trophy": "TrophyWrithan",
+  "geirrhafa-trophy": "TrophyCultist_Hildir",
+  "moder-trophy": "TrophyDragonQueen",
+  "ulv-trophy": "TrophyUlv",
+  "frost-blob-trophy": "TrophyBlob_Frost",
+  "deathsquito-trophy": "TrophyDeathsquito",
+  "fuling-trophy": "TrophyGoblin",
+  "fuling-shaman-trophy": "TrophyGoblinShaman",
+  "growth-trophy": "TrophyGrowth",
+  "thungr-trophy": "TrophyGoblinBruteBrosBrute",
+  "vile-trophy": "TrophyBjornUndead",
+  "yagluth-trophy": "TrophyGoblinKing",
+  "zil-trophy": "TrophyGoblinBruteBrosShaman",
+  "dvergr-trophy": "TrophyDvergr",
+  "hare-trophy": "TrophyHare",
+  "seeker-soldier-trophy": "TrophySeekerBrute",
+  "the-queen-trophy": "TrophySeekerQueen",
+  "tick-trophy": "TrophyTick",
+  "asksvin-trophy": "TrophyAsksvin",
+  "bonemaw-trophy": "TrophyBonemawSerpent",
+  "fader-trophy": "TrophyFader",
+  "fallen-valkyrie-trophy": "TrophyFallenValkyrie",
+  "lava-blob-trophy": "TrophyBlob_Lava",
+  "marksman-trophy": "TrophyCharredArcher",
+  "morgen-trophy": "TrophyMorgen",
+  "volture-trophy": "TrophyVolture",
+  "warlock-trophy": "TrophyCharredMage",
+  "warrior-trophy": "TrophyCharredMelee",
+  "barka-trophy": "TrophyBarka",
+  "elaking-trophy": "TrophyElaking",
+  "eyeless-one-trophy": "TrophyMole",
+  "krigen-trophy": "TrophyJotunWarrior",
+  "seal-trophy": "TrophySeal",
+  "serpent-trophy": "TrophySerpent"
+};
+
+for (const [slug, itemId] of Object.entries(trophyIconIds)) {
+  directIconOverrides[slug] = `https://www.valheim.tools/icons/items/${itemId}.png`;
+}
+
 const deepNorthIconIds: Record<string, string> = {
   "kindled-ribs": "FaderDrop",
   "embers": "FaderEmber",
