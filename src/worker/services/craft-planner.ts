@@ -26,7 +26,7 @@ export const calculateCraftList = async (env: Env, craftListId: number): Promise
   ).bind(craftListId).all<{ item_id: number; quantity: number; target_level: number }>();
 
   const totals = new Map<number, Omit<ResourceTotal, "owned" | "remaining">>();
-  const recipeCache = new Map<number, IngredientRow[]>();
+  const recipeCache = new Map<number, { output: number; ingredients: IngredientRow[] }>();
   const identityCache = new Map<number, IngredientIdentity>();
 
   const itemIdentity = async (itemId: number): Promise<IngredientIdentity | null> => {
@@ -39,9 +39,20 @@ export const calculateCraftList = async (env: Env, craftListId: number): Promise
     return row ?? null;
   };
 
-  const recipeIngredients = async (itemId: number): Promise<IngredientRow[]> => {
+  const recipeIngredients = async (itemId: number): Promise<{ output: number; ingredients: IngredientRow[] }> => {
     const cached = recipeCache.get(itemId);
     if (cached) return cached;
+
+    const recipe = await env.DB.prepare(
+      "SELECT output_quantity FROM recipes WHERE item_id = ?"
+    ).bind(itemId).first<{ output_quantity: number }>();
+
+    if (!recipe) {
+      const empty = { output: 1, ingredients: [] as IngredientRow[] };
+      recipeCache.set(itemId, empty);
+      return empty;
+    }
+
     const { results } = await env.DB.prepare(`
       SELECT ri.resource_id, ri.quantity, r.slug, r.name_en, r.name_ru
       FROM recipes re
@@ -50,8 +61,10 @@ export const calculateCraftList = async (env: Env, craftListId: number): Promise
       WHERE re.item_id = ?
       ORDER BY r.name_en
     `).bind(itemId).all<IngredientRow>();
-    recipeCache.set(itemId, results);
-    return results;
+
+    const value = { output: Math.max(1, recipe.output_quantity), ingredients: results };
+    recipeCache.set(itemId, value);
+    return value;
   };
 
   const addRaw = (ingredient: IngredientIdentity, quantity: number): void => {
@@ -80,22 +93,24 @@ export const calculateCraftList = async (env: Env, craftListId: number): Promise
     }
 
     const nested = await recipeIngredients(ingredient.resource_id);
-    if (!nested.length) {
+    if (!nested.ingredients.length) {
       addRaw(ingredient, quantity);
       return;
     }
 
+    const batches = Math.ceil(quantity / nested.output);
     const nextPath = new Set(path);
     nextPath.add(ingredient.resource_id);
-    for (const child of nested) {
-      await expandIngredient(child, quantity * child.quantity, nextPath);
+    for (const child of nested.ingredients) {
+      await expandIngredient(child, batches * child.quantity, nextPath);
     }
   };
 
   for (const planned of plannedItems) {
     const base = await recipeIngredients(planned.item_id);
-    for (const ingredient of base) {
-      await expandIngredient(ingredient, ingredient.quantity * planned.quantity, new Set([planned.item_id]));
+    const baseBatches = Math.ceil(planned.quantity / base.output);
+    for (const ingredient of base.ingredients) {
+      await expandIngredient(ingredient, ingredient.quantity * baseBatches, new Set([planned.item_id]));
     }
 
     const { results: upgrades } = await env.DB.prepare(`
@@ -113,7 +128,7 @@ export const calculateCraftList = async (env: Env, craftListId: number): Promise
 
     // Items without a recipe intentionally contribute no resource cost. This is
     // preferable to treating the planned item itself as a material.
-    if (!base.length) await itemIdentity(planned.item_id);
+    if (!base.ingredients.length) await itemIdentity(planned.item_id);
   }
 
   const progress = await env.DB.prepare(
