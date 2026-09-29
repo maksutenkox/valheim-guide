@@ -1563,5 +1563,1493 @@ export const generatedCreatureDetails: Record<string, GeneratedCreatureDetail> =
         "amount": "1"
       }
     ]
+  },
+  "deer": {
+    "health": 10,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Deer Meat",
+        "chance": "100%",
+        "amount": "2"
+      },
+      {
+        "name": "Deer Hide",
+        "chance": "100%",
+        "amount": "1-3"
+      },
+      {
+        "name": "Deer Trophy",
+        "chance": "50%",
+        "amount": "1"
+      }
+    ]
+  },
+  "neck": {
+    "health": 5,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Neck Tail",
+        "chance": "70%",
+        "amount": "1"
+      },
+      {
+        "name": "Neck Trophy",
+        "chance": "5%",
+        "amount": "1"
+      }
+    ]
+  },
+  "greyling": {
+    "health": 20,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "very-weak"
+      },
+      {
+        "type": "poison",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Resin",
+        "chance": "100%",
+        "amount": "1"
+      }
+    ]
+  },
+  "greydwarf": {
+    "health": 40,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "very-weak"
+      },
+      {
+        "type": "poison",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Greydwarf Eye",
+        "chance": "50%",
+        "amount": "1"
+      },
+      {
+        "name": "Stone",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Wood",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Resin",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Greydwarf Trophy",
+        "chance": "5%",
+        "amount": "1"
+      }
+    ]
+  },
+  "greydwarf-shaman": {
+    "health": 60,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "very-weak"
+      },
+      {
+        "type": "poison",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Greydwarf Eye",
+        "chance": "50%",
+        "amount": "1"
+      },
+      {
+        "name": "Wood",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Resin",
+        "chance": "100%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Greydwarf Shaman Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Bukeperries",
+        "chance": "100%",
+        "amount": "1-2"
+      }
+    ]
+  },
+  "skeleton": {
+    "health": 40,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "weak"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Skeleton Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Bone Fragments",
+        "chance": "100%",
+        "amount": "1"
+      }
+    ]
+  },
+  "ghost": {
+    "health": 60,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Ectoplasm",
+        "chance": "100%",
+        "amount": "1-5"
+      },
+      {
+        "name": "Ghost Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "rancid-remains": {
+    "health": 100,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "weak"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Rancid Remains Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Bone Fragments",
+        "chance": "100%",
+        "amount": "3"
+      }
+    ]
+  },
+  "brenna": {
+    "health": 1200,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "weak"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "immune"
+      },
+      {
+        "type": "frost",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Hildir's Brass Chest",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Brenna Trophy",
+        "chance": "100%",
+        "amount": "1"
+      }
+    ]
+  },
+  "oozer": {
+    "health": 150,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "weak"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "resistant"
+      },
+      {
+        "type": "frost",
+        "level": "weak"
+      },
+      {
+        "type": "lightning",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Ooze",
+        "chance": "100%",
+        "amount": "2-3"
+      },
+      {
+        "name": "Scrap Iron",
+        "chance": "33%",
+        "amount": "1"
+      },
+      {
+        "name": "Blob Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "draugr": {
+    "health": 100,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Entrails",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Draugr Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "surtling": {
+    "health": 20,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "immune"
+      },
+      {
+        "type": "frost",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Coal",
+        "chance": "100%",
+        "amount": "4-5"
+      },
+      {
+        "name": "Surtling Core",
+        "chance": "50%",
+        "amount": "1"
+      },
+      {
+        "name": "Surtling Trophy",
+        "chance": "5%",
+        "amount": "1"
+      }
+    ]
+  },
+  "wraith": {
+    "health": 100,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "immune"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Wraith Trophy",
+        "chance": "5%",
+        "amount": "1"
+      },
+      {
+        "name": "Chain",
+        "chance": "100%",
+        "amount": "1"
+      }
+    ]
+  },
+  "kvastur": {
+    "health": 700,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "chop",
+        "level": "weak"
+      },
+      {
+        "type": "fire",
+        "level": "very-weak"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Wood",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Resin",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Kvastur Trophy",
+        "chance": "100%",
+        "amount": "1"
+      }
+    ]
+  },
+  "writhan": {
+    "health": 400,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "weak"
+      },
+      {
+        "type": "fire",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Writhan Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Writhan Roots",
+        "chance": "100%",
+        "amount": "1-2"
+      }
+    ]
+  },
+  "drake": {
+    "health": 100,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Drake Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Freeze Gland",
+        "chance": "100%",
+        "amount": "1-2"
+      }
+    ]
+  },
+  "fenring": {
+    "health": 300,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "resistant"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Wolf Fang",
+        "chance": "100%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Fenring Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "cultist": {
+    "health": 200,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "immune"
+      },
+      {
+        "type": "poison",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Red Jute",
+        "chance": "100%",
+        "amount": "1-3"
+      },
+      {
+        "name": "Cultist Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "geirrhafa": {
+    "health": 3700,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Hildir's Silver Chest",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Geirrhafa Trophy",
+        "chance": "100%",
+        "amount": "1"
+      }
+    ]
+  },
+  "frost-blob": {
+    "health": 50,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "weak"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "very-resistant"
+      },
+      {
+        "type": "lightning",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Crystal",
+        "chance": "100%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Frost Blob Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "deathsquito": {
+    "health": 10,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Needle",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Deathsquito Trophy",
+        "chance": "5%",
+        "amount": "1"
+      }
+    ]
+  },
+  "fuling": {
+    "health": 175,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Coins",
+        "chance": "25%",
+        "amount": "5-10"
+      },
+      {
+        "name": "Black Metal Scrap",
+        "chance": "100%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Fuling Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "fuling-berserker": {
+    "health": 800,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Coins",
+        "chance": "100%",
+        "amount": "5-20"
+      },
+      {
+        "name": "Black Metal Scrap",
+        "chance": "100%",
+        "amount": "3-5"
+      },
+      {
+        "name": "Fuling Totem",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Fuling Berserker Trophy",
+        "chance": "5%",
+        "amount": "1"
+      }
+    ]
+  },
+  "fuling-shaman": {
+    "health": 100,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Coins",
+        "chance": "25%",
+        "amount": "20-40"
+      },
+      {
+        "name": "Black Metal Scrap",
+        "chance": "100%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Bukeperries",
+        "chance": "100%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Fuling Shaman Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "growth": {
+    "health": 100,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "weak"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Growth Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Tar",
+        "chance": "100%",
+        "amount": "1"
+      }
+    ]
+  },
+  "vile": {
+    "health": 1200,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Vile Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Bear Meat",
+        "chance": "100%",
+        "amount": "2-3"
+      },
+      {
+        "name": "Rotten Meat",
+        "chance": "80%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Vile Ribcage",
+        "chance": "100%",
+        "amount": "1-3"
+      },
+      {
+        "name": "Bear Hide",
+        "chance": "100%",
+        "amount": "1-2"
+      }
+    ]
+  },
+  "seeker-soldier": {
+    "health": 1500,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Seeker Meat",
+        "chance": "100%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Carapace",
+        "chance": "100%",
+        "amount": "2-4"
+      },
+      {
+        "name": "Seeker Soldier Trophy",
+        "chance": "5%",
+        "amount": "1"
+      },
+      {
+        "name": "Mandible",
+        "chance": "100%",
+        "amount": "1-2"
+      }
+    ]
+  },
+  "seeker-brood": {
+    "health": 20,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Royal Jelly",
+        "chance": "50%",
+        "amount": "1"
+      }
+    ]
+  },
+  "dvergr-rogue": {
+    "health": 350,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Soft Tissue",
+        "chance": "25%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Black Marble",
+        "chance": "50%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Coins",
+        "chance": "100%",
+        "amount": "2-15"
+      },
+      {
+        "name": "Dvergr Trophy",
+        "chance": "5%",
+        "amount": "1"
+      }
+    ]
+  },
+  "dvergr-mage": {
+    "health": 350,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "resistant"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Soft Tissue",
+        "chance": "25%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Black Marble",
+        "chance": "50%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Coins",
+        "chance": "100%",
+        "amount": "2-15"
+      },
+      {
+        "name": "Dvergr Trophy",
+        "chance": "5%",
+        "amount": "1"
+      }
+    ]
+  },
+  "hare": {
+    "health": 10,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Hare Meat",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Scale Hide",
+        "chance": "100%",
+        "amount": "1-3"
+      },
+      {
+        "name": "Hare Trophy",
+        "chance": "5%",
+        "amount": "1"
+      }
+    ]
+  },
+  "charred-twitcher": {
+    "health": 220,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "very-resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Charred Bone",
+        "chance": "100%",
+        "amount": "1-2"
+      }
+    ]
+  },
+  "charred-warrior": {
+    "health": 600,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "very-resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Charred Bone",
+        "chance": "100%",
+        "amount": "1-3"
+      },
+      {
+        "name": "Warrior Trophy",
+        "chance": "5%",
+        "amount": "1"
+      }
+    ]
+  },
+  "charred-marksman": {
+    "health": 200,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "very-resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Charred Bone",
+        "chance": "100%",
+        "amount": "1-3"
+      },
+      {
+        "name": "Marksman Trophy",
+        "chance": "5%",
+        "amount": "1"
+      }
+    ]
+  },
+  "charred-warlock": {
+    "health": 600,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "very-resistant"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Charred Bone",
+        "chance": "100%",
+        "amount": "1-3"
+      },
+      {
+        "name": "Warlock Trophy",
+        "chance": "5%",
+        "amount": "1"
+      }
+    ]
+  },
+  "lava-blob": {
+    "health": 300,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "weak"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "immune"
+      },
+      {
+        "type": "frost",
+        "level": "weak"
+      },
+      {
+        "type": "lightning",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "resistant"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Proustite Powder",
+        "chance": "100%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Sulfur",
+        "chance": "100%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Lava Blob Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "volture": {
+    "health": 200,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "frost",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Volture Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Volture Meat",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Feathers",
+        "chance": "50%",
+        "amount": "2-3"
+      },
+      {
+        "name": "Volture Egg",
+        "chance": "50%",
+        "amount": "1-2"
+      }
+    ]
+  },
+  "lord-reto": {
+    "health": 2500,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "resistant"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Dyrnwyn Hilt Fragment",
+        "chance": "100%",
+        "amount": "1"
+      }
+    ]
+  },
+  "moose": {
+    "health": 1000,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Moose Meat",
+        "chance": "100%",
+        "amount": "4-6"
+      },
+      {
+        "name": "Moose Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Moose Hide",
+        "chance": "100%",
+        "amount": "2-3"
+      },
+      {
+        "name": "Moose Sinew",
+        "chance": "100%",
+        "amount": "2-3"
+      }
+    ]
+  },
+  "shapeless-pulp": {
+    "health": 150,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "weak"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "resistant"
+      },
+      {
+        "type": "frost",
+        "level": "weak"
+      },
+      {
+        "type": "lightning",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Pulp Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Dead Pulp",
+        "chance": "50%",
+        "amount": "1"
+      }
+    ]
+  },
+  "imprisoned-dvergr": {
+    "health": 1500,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Coins",
+        "chance": "100%",
+        "amount": "10-20"
+      },
+      {
+        "name": "Dvergr Trophy",
+        "chance": "5%",
+        "amount": "1"
+      },
+      {
+        "name": "Draumyx",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Grimvarn",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Solryth",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Veydris",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
   }
 };
