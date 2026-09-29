@@ -6,8 +6,17 @@ declare global {
   }
 }
 
+const telegramInitData = (): string | undefined => {
+  const fromSdk = window.Telegram?.WebApp?.initData?.trim();
+  if (fromSdk) return fromSdk;
+
+  const hashParams = new URLSearchParams(window.location.hash.startsWith("#") ? window.location.hash.slice(1) : window.location.hash);
+  const searchParams = new URLSearchParams(window.location.search);
+  return hashParams.get("tgWebAppData")?.trim() || searchParams.get("tgWebAppData")?.trim() || undefined;
+};
+
 const headers = (): HeadersInit => {
-  const initData = window.Telegram?.WebApp?.initData;
+  const initData = telegramInitData();
   return initData ? { "x-telegram-init-data": initData } : {};
 };
 
