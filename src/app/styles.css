@@ -11,3 +11,16 @@ button, input { font: inherit; } button { cursor: pointer; } .app-shell { min-he
 .source-credit { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:20px 0 0; padding-top:14px; border-top:1px solid #3d3328; font-size:12px; }
 .source-credit a { color:#e8b75d; text-decoration:none; font-weight:700; }
 .source-credit span { color:#918574; }
+
+
+.planned-items { display:grid; gap:8px; }
+.planned-item { display:flex; align-items:center; gap:8px; padding:8px; border:1px solid #42372c; border-radius:12px; background:#211d18; }
+.planned-main { min-width:0; flex:1; display:flex; align-items:center; gap:10px; padding:0; border:0; background:transparent; color:#f0e6d6; text-align:left; }
+.planned-main > span:last-child { min-width:0; display:grid; gap:3px; }
+.planned-main strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.planned-main small { color:#9f927f; font-size:11px; }
+.planned-icon { width:42px; height:42px; flex:0 0 42px; display:grid; place-items:center; overflow:hidden; border-radius:9px; background:#332a21; color:#d89d46; }
+.planned-icon img { width:100%; height:100%; object-fit:contain; }
+.planned-quantity { display:flex; align-items:center; gap:7px; }
+.planned-quantity button { width:30px; height:30px; display:grid; place-items:center; padding:0; border:1px solid #5a4938; border-radius:8px; background:#2d261f; color:#f0c671; font-size:17px; }
+.planned-quantity strong { min-width:28px; color:#f1d09a; text-align:center; font-size:12px; }
