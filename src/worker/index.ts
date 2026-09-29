@@ -1,6 +1,7 @@
 import type { Env } from "./env";
 import { json, notFound, parsePositiveInt } from "./api/helpers";
 import { AuthError, ensureUser, getTelegramUserId } from "./telegram/auth";
+import { calculateCraftList } from "./services/craft-planner";
 
 type ItemRow = {
   id: number;
@@ -30,6 +31,10 @@ const itemSelect = `
 const readJson = async <T>(request: Request): Promise<T | null> => {
   try { return await request.json<T>(); } catch { return null; }
 };
+
+const ownsCraftList = async (env: Env, craftListId: number, userId: string): Promise<boolean> => Boolean(await env.DB.prepare(
+  "SELECT 1 AS owned FROM craft_lists WHERE id = ? AND telegram_user_id = ?"
+).bind(craftListId, userId).first());
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -142,6 +147,111 @@ export default {
         }
         await env.DB.prepare("DELETE FROM favorites WHERE telegram_user_id = ? AND item_id = ?").bind(userId, itemId).run();
         return new Response(null, { status: 204 });
+      } catch (error) {
+        if (error instanceof AuthError) return json({ error: error.message }, 401);
+        throw error;
+      }
+    }
+
+    if (url.pathname === "/api/craft-lists" && (request.method === "GET" || request.method === "POST")) {
+      try {
+        const userId = await getTelegramUserId(request, env);
+        await ensureUser(env, userId);
+        if (request.method === "GET") {
+          const { results } = await env.DB.prepare(
+            "SELECT id, name, created_at, updated_at FROM craft_lists WHERE telegram_user_id = ? ORDER BY updated_at DESC"
+          ).bind(userId).all();
+          return json({ data: results });
+        }
+        const body = await readJson<{ name?: string }>(request);
+        const name = body?.name?.trim().slice(0, 80) || "Craft list";
+        const created = await env.DB.prepare("INSERT INTO craft_lists (telegram_user_id, name) VALUES (?, ?) RETURNING id, name, created_at, updated_at")
+          .bind(userId, name).first();
+        return json({ data: created }, 201);
+      } catch (error) {
+        if (error instanceof AuthError) return json({ error: error.message }, 401);
+        throw error;
+      }
+    }
+
+    const craftListMatch = url.pathname.match(/^\/api\/craft-lists\/(\d+)$/);
+    if (craftListMatch && ["PATCH", "DELETE"].includes(request.method)) {
+      try {
+        const userId = await getTelegramUserId(request, env);
+        const listId = Number(craftListMatch[1]);
+        if (!await ownsCraftList(env, listId, userId)) return notFound();
+        if (request.method === "DELETE") {
+          await env.DB.prepare("DELETE FROM craft_lists WHERE id = ? AND telegram_user_id = ?").bind(listId, userId).run();
+          return new Response(null, { status: 204 });
+        }
+        const body = await readJson<{ name?: string }>(request);
+        const name = body?.name?.trim().slice(0, 80);
+        if (!name) return json({ error: "A list name is required" }, 400);
+        const updated = await env.DB.prepare("UPDATE craft_lists SET name = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ? AND telegram_user_id = ? RETURNING id, name, updated_at")
+          .bind(name, listId, userId).first();
+        return json({ data: updated });
+      } catch (error) {
+        if (error instanceof AuthError) return json({ error: error.message }, 401);
+        throw error;
+      }
+    }
+
+    const craftItemMatch = url.pathname.match(/^\/api\/craft-lists\/(\d+)\/items(?:\/(\d+))?$/);
+    if (craftItemMatch && ["POST", "PATCH", "DELETE"].includes(request.method)) {
+      try {
+        const userId = await getTelegramUserId(request, env);
+        const listId = Number(craftItemMatch[1]);
+        if (!await ownsCraftList(env, listId, userId)) return notFound();
+        const itemId = craftItemMatch[2] ? Number(craftItemMatch[2]) : undefined;
+        if (request.method === "DELETE") {
+          if (!itemId) return notFound();
+          await env.DB.prepare("DELETE FROM craft_list_items WHERE craft_list_id = ? AND item_id = ?").bind(listId, itemId).run();
+          return new Response(null, { status: 204 });
+        }
+        const body = await readJson<{ itemId?: number; quantity?: number; targetLevel?: number }>(request);
+        const targetItemId = itemId ?? body?.itemId;
+        const quantity = body?.quantity;
+        const targetLevel = body?.targetLevel;
+        if (!Number.isSafeInteger(targetItemId) || !Number.isInteger(quantity) || quantity! < 1 || !Number.isInteger(targetLevel) || targetLevel! < 1) {
+          return json({ error: "itemId, quantity and targetLevel must be positive integers" }, 400);
+        }
+        await env.DB.prepare(`INSERT INTO craft_list_items (craft_list_id, item_id, quantity, target_level)
+          VALUES (?, ?, ?, ?) ON CONFLICT(craft_list_id, item_id) DO UPDATE SET quantity = excluded.quantity, target_level = excluded.target_level`)
+          .bind(listId, targetItemId, quantity, targetLevel).run();
+        await env.DB.prepare("UPDATE craft_lists SET updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(listId).run();
+        return json({ status: "ok" }, request.method === "POST" ? 201 : 200);
+      } catch (error) {
+        if (error instanceof AuthError) return json({ error: error.message }, 401);
+        throw error;
+      }
+    }
+
+    const progressMatch = url.pathname.match(/^\/api\/craft-lists\/(\d+)\/resources\/(\d+)$/);
+    if (progressMatch && request.method === "PATCH") {
+      try {
+        const userId = await getTelegramUserId(request, env);
+        const listId = Number(progressMatch[1]);
+        if (!await ownsCraftList(env, listId, userId)) return notFound();
+        const body = await readJson<{ quantityOwned?: number }>(request);
+        const quantityOwned = body?.quantityOwned;
+        if (!Number.isInteger(quantityOwned) || quantityOwned! < 0) return json({ error: "quantityOwned must be a non-negative integer" }, 400);
+        await env.DB.prepare(`INSERT INTO user_resource_progress (craft_list_id, resource_id, quantity_owned) VALUES (?, ?, ?)
+          ON CONFLICT(craft_list_id, resource_id) DO UPDATE SET quantity_owned = excluded.quantity_owned`)
+          .bind(listId, Number(progressMatch[2]), quantityOwned).run();
+        return json({ status: "ok" });
+      } catch (error) {
+        if (error instanceof AuthError) return json({ error: error.message }, 401);
+        throw error;
+      }
+    }
+
+    const summaryMatch = url.pathname.match(/^\/api\/craft-lists\/(\d+)\/summary$/);
+    if (summaryMatch && request.method === "GET") {
+      try {
+        const userId = await getTelegramUserId(request, env);
+        const listId = Number(summaryMatch[1]);
+        if (!await ownsCraftList(env, listId, userId)) return notFound();
+        return json({ data: await calculateCraftList(env, listId) });
       } catch (error) {
         if (error instanceof AuthError) return json({ error: error.message }, 401);
         throw error;
