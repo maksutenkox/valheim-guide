@@ -431,7 +431,7 @@ export function App() {
         <a href="https://www.valheimgame.com/eula/" target="_blank" rel="noreferrer">{locale === "ru" ? "Условия использования Valheim ↗" : "Valheim usage terms ↗"}</a>
       </div></section>}
 
-    {section === "search" && <section><h2>{locale === "ru" ? "Результаты" : "Results"}</h2>{query.length < 2 ? <Empty message={locale === "ru" ? "Введите минимум 2 символа." : "Type at least 2 characters."} /> : <ResultList locale={locale} items={results} onOpen={openEntry} />}</section>}
+    {section === "search" && <section><div className="section-heading"><div><p>{locale === "ru" ? "ПОИСК ПО СПРАВОЧНИКУ" : "GUIDE SEARCH"}</p><h2>{locale === "ru" ? "Результаты" : "Results"}</h2></div>{query.length >= 2 && <span>{String(results.length).padStart(2,"0")}</span>}</div>{query.length < 2 ? <Empty message={locale === "ru" ? "Введите минимум 2 символа." : "Type at least 2 characters."} /> : <ResultList locale={locale} items={results} onOpen={openEntry} />}</section>}
 
     {section === "biome" && <section className="biome-section">{!currentBiome ? <Empty message={locale === "ru" ? "Загружаем биом..." : "Loading biome..."} /> : <>
       <div className="biome-intro" style={{ "--accent": currentBiome.accent_color ?? "#d89d46", "--art": currentBiome.image_path ? `url(${currentBiome.image_path})` : "none" } as CSSProperties}>
@@ -458,7 +458,7 @@ export function App() {
     </section>}
 
     {section === "craft" && <section>
-      <div className="section-row"><h2>{locale === "ru" ? "Мой крафт" : "My craft"}</h2><button className="save" disabled={craftListBusy} onClick={() => void createCraftList()}>+ {locale === "ru" ? "Новый список" : "New list"}</button></div>
+      <div className="section-row craft-heading"><div><p className="section-kicker">{locale === "ru" ? "ПЛАНИРОВЩИК РЕСУРСОВ" : "RESOURCE PLANNER"}</p><h2>{locale === "ru" ? "Мой крафт" : "My craft"}</h2></div><button className="save primary" disabled={craftListBusy} onClick={() => void createCraftList()}>+ {locale === "ru" ? "Новый список" : "New list"}</button></div>
       {craftLists.length > 1 && <div className="chips">{craftLists.map((list) => <button className={activeCraftList?.id === list.id ? "chip active" : "chip"} onClick={() => void selectCraftList(list)} key={list.id}>{list.name}</button>)}</div>}
       {!activeCraftList ? <Empty message={locale === "ru" ? "Создайте список, затем добавляйте в него предметы из их карточек." : "Create a list, then add items from their cards."} /> : <>
         <div className="craft-list-toolbar">
@@ -504,7 +504,7 @@ function IngredientList({ locale, ingredients, onResource }: { locale: Locale; i
 
 function ResultList({ locale, items, onOpen }: { locale: Locale; items: GuideItem[]; onOpen: (item: GuideItem) => void }) {
   if (!items.length) return <Empty message={locale === "ru" ? "Здесь пока ничего нет." : "Nothing here yet."} />;
-  return <div className="result-list">{items.map((entry) => <button key={entry.id} className="result" onClick={() => void onOpen(entry)}><Visual entry={entry} /><span><strong>{text(locale, entry)}</strong><small><i>{categoryIcon(entry.category_name_en?.toLowerCase())}</i>{categoryText(locale, entry) ?? (locale === "ru" ? "Материал" : "Material")}</small></span><b>↗</b></button>)}</div>;
+  return <div className="result-list">{items.map((entry) => <button key={entry.id} className="result" onClick={() => void onOpen(entry)}><Visual entry={entry} /><span><strong>{text(locale, entry)}</strong><small><i>{categoryIcon(entry.category_slug ?? undefined)}</i>{categoryText(locale, entry) ?? (locale === "ru" ? "Материал" : "Material")}</small></span><b>↗</b></button>)}</div>;
 }
 
 function TrophyGrid({ locale, items, onOpen }: { locale: Locale; items: GuideItem[]; onOpen: (item: GuideItem) => void }) {
