@@ -262,7 +262,10 @@ export default {
       ]);
       const usedBy = [...recipeUsedBy.results, ...upgradeUsedBy.results];
       const uniqueUsedBy = [...new Map(usedBy.map((entry) => [entry.id, entry])).values()];
-      const droppedBy = creaturesDroppingItem(resource.name_en);
+      const droppedBy = await Promise.all(creaturesDroppingItem(resource.name_en).map(async (entry) => ({
+        ...entry,
+        image_path: await creatureArtwork(env, entry.slug)
+      })));
       return json({ data: { ...resource, sources: sources.results, used_by: uniqueUsedBy, dropped_by: droppedBy } });
     }
 
