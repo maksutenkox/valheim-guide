@@ -243,6 +243,27 @@ export default {
       }
     }
 
+    const craftItemsReadMatch = url.pathname.match(/^\/api\/craft-lists\/(\d+)\/items$/);
+    if (craftItemsReadMatch && request.method === "GET") {
+      try {
+        const userId = await getTelegramUserId(request, env);
+        const listId = Number(craftItemsReadMatch[1]);
+        if (!await ownsCraftList(env, listId, userId)) return notFound();
+        const { results } = await env.DB.prepare(`
+          SELECT cli.item_id, cli.quantity, cli.target_level,
+                 i.slug, i.name_en, i.name_ru, i.image_path
+          FROM craft_list_items cli
+          JOIN items i ON i.id = cli.item_id
+          WHERE cli.craft_list_id = ?
+          ORDER BY i.name_en
+        `).bind(listId).all();
+        return json({ data: results });
+      } catch (error) {
+        if (error instanceof AuthError) return json({ error: error.message }, 401);
+        throw error;
+      }
+    }
+
     const craftItemMatch = url.pathname.match(/^\/api\/craft-lists\/(\d+)\/items(?:\/(\d+))?$/);
     if (craftItemMatch && ["POST", "PATCH", "DELETE"].includes(request.method)) {
       try {
