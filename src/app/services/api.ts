@@ -48,7 +48,7 @@ const request = async <T>(path: string): Promise<T> => {
   return response.json() as Promise<T>;
 };
 
-const mutation = async <T>(path: string, method: "POST" | "DELETE", body?: unknown): Promise<T> => {
+const mutation = async <T>(path: string, method: "POST" | "PATCH" | "DELETE", body?: unknown): Promise<T> => {
   const response = await fetch(path, {
     method,
     headers: {
@@ -75,5 +75,7 @@ export const api = {
   craftLists: () => request<{ data: CraftList[] }>("/api/craft-lists"),
   createCraftList: (name: string) => mutation<{ data: CraftList }>("/api/craft-lists", "POST", { name }),
   addCraftItem: (listId: number, itemId: number, quantity = 1, targetLevel = 1) => mutation<{ status: string }>(`/api/craft-lists/${listId}/items`, "POST", { itemId, quantity, targetLevel }),
-  craftSummary: (listId: number) => request<{ data: CraftResourceTotal[] }>(`/api/craft-lists/${listId}/summary`)
+  craftSummary: (listId: number) => request<{ data: CraftResourceTotal[] }>(`/api/craft-lists/${listId}/summary`),
+  updateCraftResource: (listId: number, resourceId: number, quantityOwned: number) =>
+    mutation<{ status: string }>(`/api/craft-lists/${listId}/resources/${resourceId}`, "PATCH", { quantityOwned })
 };
