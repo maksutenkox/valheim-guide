@@ -1,3 +1,5 @@
+import { generatedCreatureDetails } from "../generated/creature-details";
+
 export type CreatureSummary = {
   slug: string;
   name_en: string;
@@ -191,81 +193,6 @@ export const bosses: BossSummary[] = [
     "Blunt or slash; avoid pierce, fire, frost and lightning","Дробящий или рубящий урон; избегать колющего, огня, мороза и молнии")
 ];
 
-const damageTypes = ["Blunt","Slash","Pierce","Chop","Pickaxe","Fire","Frost","Lightning","Poison","Spirit"];
-const resistanceLevels: Array<[string, CreatureResistance["level"]]> = [
-  ["Very Resistant","very-resistant"],
-  ["Very Weak","very-weak"],
-  ["Resistant","resistant"],
-  ["Immune","immune"],
-  ["Ignore","ignore"],
-  ["Weak","weak"]
-];
-
-const decodeHtml = (value: string): string => value
-  .replace(/&nbsp;|&#160;/gi, " ")
-  .replace(/&amp;/gi, "&")
-  .replace(/&quot;/gi, '"')
-  .replace(/&#39;|&apos;/gi, "'")
-  .replace(/&lt;/gi, "<")
-  .replace(/&gt;/gi, ">");
-
-const toPlainText = (html: string): string => decodeHtml(html
-  .replace(/<script[\s\S]*?<\/script>/gi, " ")
-  .replace(/<style[\s\S]*?<\/style>/gi, " ")
-  .replace(/<[^>]+>/g, " ")
-  .replace(/\s+/g, " ")
-).trim();
-
-const parseResistances = (plain: string): CreatureResistance[] => {
-  const start = plain.indexOf("Resistances");
-  if (start < 0) return [];
-  const endCandidates = [plain.indexOf("Drops", start), plain.indexOf("What to know", start)].filter((value) => value > start);
-  const end = endCandidates.length ? Math.min(...endCandidates) : Math.min(plain.length, start + 700);
-  const segment = plain.slice(start, end);
-  const result: CreatureResistance[] = [];
-  for (const type of damageTypes) {
-    for (const [label, level] of resistanceLevels) {
-      if (segment.includes(`${type} ${label}`)) {
-        result.push({ type: type.toLowerCase(), level });
-        break;
-      }
-    }
-  }
-  return result;
-};
-
-const parseDrops = (plain: string): CreatureDrop[] => {
-  const startMatch = plain.match(/Drops\s+\d+/i);
-  if (!startMatch?.index) return [];
-  const start = startMatch.index + startMatch[0].length;
-  const endCandidates = [
-    plain.indexOf("Star levels", start),
-    plain.indexOf("What to know", start),
-    plain.indexOf("About", start)
-  ].filter((value) => value > start);
-  const end = endCandidates.length ? Math.min(...endCandidates) : Math.min(plain.length, start + 900);
-  const segment = plain.slice(start, end);
-  const regex = /([A-Z][A-Za-z0-9' .:&()\-]+?)\s*(\d+(?:\.\d+)?%)\s*·\s*([0-9]+(?:-[0-9]+)?)(?:\s*·\s*within\s*\d+\s*kills)?/g;
-  const drops: CreatureDrop[] = [];
-  let match: RegExpExecArray | null;
-  while ((match = regex.exec(segment)) && drops.length < 12) {
-    drops.push({ name: match[1].trim(), chance: match[2], amount: match[3] });
-  }
-  return drops;
-};
-
-const parseOgImage = (html: string): string | null => {
-  const match = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)
-    ?? html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i);
-  if (!match?.[1]) return null;
-  try {
-    const url = new URL(decodeHtml(match[1]));
-    return url.protocol === "https:" ? url.toString() : null;
-  } catch {
-    return null;
-  }
-};
-
 const allEntries = [...creatures, ...bosses];
 
 export const creatureBySlug = (slug: string): CreatureSummary | BossSummary | undefined =>
@@ -281,30 +208,13 @@ export const loadCreatureDetail = async (slug: string): Promise<CreatureDetail |
   const base = creatureBySlug(slug);
   if (!base) return null;
 
-  try {
-    const response = await fetch(base.source_url, {
-      headers: { accept: "text/html", "user-agent": "VALHEIM-Guide/1.0" },
-      cf: { cacheTtl: 86400, cacheEverything: true }
-    } as RequestInit & { cf: { cacheTtl: number; cacheEverything: boolean } });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const html = await response.text();
-    const plain = toPlainText(html);
-    const healthMatch = plain.match(/Health\s+([\d,]+)/i);
-    return {
-      ...base,
-      health: healthMatch ? Number(healthMatch[1].replaceAll(",", "")) : base.health,
-      image_url: parseOgImage(html),
-      resistances: parseResistances(plain),
-      drops: parseDrops(plain),
-      source_name: "Valheim.tools"
-    };
-  } catch {
-    return {
-      ...base,
-      image_url: null,
-      resistances: [],
-      drops: [],
-      source_name: "Valheim.tools"
-    };
-  }
+  const generated = generatedCreatureDetails[slug];
+  return {
+    ...base,
+    health: generated?.health ?? base.health,
+    image_url: generated?.image_url ?? null,
+    resistances: generated?.resistances ?? [],
+    drops: generated?.drops ?? [],
+    source_name: "Valheim.tools"
+  };
 };
