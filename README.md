@@ -18,10 +18,9 @@ The repository begins with a Cloudflare Worker, the `DB` D1 binding, static asse
 
 1. Authenticate Wrangler with the Cloudflare account owning the project.
 2. Create D1 database `valheim-guide-db` and set its ID in `wrangler.jsonc`.
-3. Create R2 bucket `valheim-guide-media`.
-4. Apply `pnpm db:migrate:remote`.
-5. Set `TELEGRAM_BOT_TOKEN` as a Worker secret; do not put it in any file tracked by Git.
-6. Deploy with `pnpm deploy`, then verify `/api/health` returns `{"status":"ok","database":"connected"}`.
+3. Apply `pnpm db:migrate:remote`.
+4. Set `TELEGRAM_BOT_TOKEN` as a Worker secret; do not put it in any file tracked by Git.
+5. Deploy with `pnpm deploy`, then verify `/api/health` returns `{"status":"ok","database":"connected"}`.
 
 ## Data and attribution
 
