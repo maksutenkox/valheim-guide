@@ -77,6 +77,20 @@ const creatureIconSlug = (slug: string): string => ({
   "charred-marksman": "marksman-trophy",
   "charred-warlock": "warlock-trophy",
   "shapeless-pulp": "pulp-trophy",
+  "deer-white": "trophy-deer-white",
+  "moose-calf": "moose-trophy",
+  "baby-seal": "seal-trophy",
+  "boar-spiritcaller": "boar-trophy",
+  "wolf-spiritcaller": "wolf-trophy",
+  "moose-spiritcaller": "moose-trophy",
+  "aspect-of-the-lightning-stag": "eikthyr-trophy",
+  "aspect-of-the-crawling-matriarch": "the-queen-trophy",
+  "aspect-of-the-emerald-flame": "fader-trophy",
+  "aspect-of-the-twisted-soul": "yagluth-trophy",
+  "aspect-of-the-living-forest": "the-elder-trophy",
+  "aspect-of-the-writhing-dead": "bonemass-trophy",
+  "aspect-of-the-dragon-mother": "moder-trophy",
+  "zil-and-thungr": "thungr-trophy",
   "kall-fimbulbringer": "crown-jewel"
 }[slug] ?? `${slug}-trophy`);
 
