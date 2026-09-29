@@ -75,7 +75,7 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/api/version") {
-      return json({ build: "2026-09-29-black-forest-v3" });
+      return json({ build: "2026-09-29-black-forest-v4" });
     }
 
     if (request.method === "GET" && url.pathname === "/api/health") {
