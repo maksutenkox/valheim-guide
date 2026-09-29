@@ -37,5 +37,8 @@ jobs:
       - name: Validate catalog data
         run: pnpm data:validate
 
+      - name: Import media assets
+        run: pnpm media:import
+
       - name: Production build
         run: pnpm build
