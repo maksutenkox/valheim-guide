@@ -41,7 +41,7 @@ export type ItemDetail = GuideItem & {
   description_ru: string;
   biome_name_en: string | null;
   biome_name_ru: string | null;
-  recipe: { slug: string; name_en: string; name_ru: string; station_level: number } | null;
+  recipe: { slug: string; name_en: string; name_ru: string; station_level: number; output_quantity: number } | null;
   stats: { stat_key: string; stat_value: string; unit: string | null }[];
   ingredients: Ingredient[];
   upgrades: { level: number; station_level: number | null; ingredients: Ingredient[] }[];
