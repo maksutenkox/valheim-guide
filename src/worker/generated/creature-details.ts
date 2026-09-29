@@ -1345,5 +1345,223 @@ export const generatedCreatureDetails: Record<string, GeneratedCreatureDetail> =
         "amount": "1"
       }
     ]
+  },
+  "asksvin-hatchling": {
+    "health": 400,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Asksvin Bladder",
+        "chance": "20%",
+        "amount": "1"
+      },
+      {
+        "name": "Asksvin Hide",
+        "chance": "20%",
+        "amount": "1"
+      },
+      {
+        "name": "Asksvin Tail",
+        "chance": "20%",
+        "amount": "1"
+      }
+    ]
+  },
+  "baby-seal": {
+    "health": 200,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Seal Blubber",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "deer-white": {
+    "health": 30,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Deer Meat",
+        "chance": "100%",
+        "amount": "2"
+      },
+      {
+        "name": "Trophy Deer White",
+        "chance": "100%",
+        "amount": "1"
+      }
+    ]
+  },
+  "frost-wisp": {
+    "health": 100,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "immune"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Leather Scraps",
+        "chance": "50%",
+        "amount": "1"
+      }
+    ]
+  },
+  "frysling": {
+    "health": 100,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "immune"
+      },
+      {
+        "type": "frost",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Frostcore",
+        "chance": "100%",
+        "amount": "1"
+      }
+    ]
+  },
+  "the-void": {
+    "health": 60,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Ectoplasm",
+        "chance": "50%",
+        "amount": "1-2"
+      }
+    ]
+  },
+  "tiny-pulp": {
+    "health": 50,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "weak"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "resistant"
+      },
+      {
+        "type": "frost",
+        "level": "weak"
+      },
+      {
+        "type": "lightning",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Dead Pulp",
+        "chance": "25%",
+        "amount": "1"
+      }
+    ]
   }
 };
