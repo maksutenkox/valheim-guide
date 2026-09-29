@@ -3,6 +3,14 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 type MediaRecord = { slug: string; url: string; output: string };
+type FandomImageInfoResponse = {
+  query?: {
+    pages?: Record<string, {
+      missing?: string;
+      imageinfo?: Array<{ url?: string }>;
+    }>;
+  };
+};
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const manifestPath = resolve(root, "data/media/wiki-manifest.json");
@@ -20,7 +28,7 @@ const blackForestManifest: MediaRecord[] = seedSource
     const [, slug, imageFile] = match;
     return {
       slug,
-      url: `https://valheim.fandom.com/wiki/Special:Redirect/file/${encodeURIComponent(imageFile)}`,
+      url: imageFile,
       output: `${slug}.png`
     };
   })
@@ -31,24 +39,58 @@ for (const entry of [...staticManifest, ...blackForestManifest]) {
   manifest.set(entry.output, entry);
 }
 
+const userAgent = "VALHEIM-Guide/0.1 (+https://github.com/maksutenkox/valheim-guide)";
+
+const resolveFandomFile = async (fileName: string): Promise<string> => {
+  const api = new URL("https://valheim.fandom.com/api.php");
+  api.searchParams.set("action", "query");
+  api.searchParams.set("format", "json");
+  api.searchParams.set("formatversion", "2");
+  api.searchParams.set("prop", "imageinfo");
+  api.searchParams.set("iiprop", "url");
+  api.searchParams.set("titles", `File:${fileName}`);
+
+  const response = await fetch(api, {
+    headers: {
+      accept: "application/json",
+      "user-agent": userAgent
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error(`Could not resolve Fandom file ${fileName}: HTTP ${response.status}`);
+  }
+
+  const payload = await response.json() as FandomImageInfoResponse;
+  const pages = Object.values(payload.query?.pages ?? {});
+  const imageUrl = pages[0]?.imageinfo?.[0]?.url;
+  if (!imageUrl) {
+    throw new Error(`Fandom file not found: ${fileName}`);
+  }
+
+  const resolved = new URL(imageUrl);
+  if (resolved.hostname !== "static.wikia.nocookie.net") {
+    throw new Error(`Unexpected resolved image host for ${fileName}: ${resolved.hostname}`);
+  }
+  return resolved.toString();
+};
+
 await mkdir(outputDirectory, { recursive: true });
 
 for (const media of manifest.values()) {
-  const source = new URL(media.url);
-  const isStaticWikia = source.hostname === "static.wikia.nocookie.net";
-  const isFandomRedirect = source.hostname === "valheim.fandom.com" && source.pathname.startsWith("/wiki/Special:Redirect/file/");
-  if ((!isStaticWikia && !isFandomRedirect) || (!media.output.endsWith(".webp") && !media.output.endsWith(".png"))) {
-    throw new Error(`Unexpected media source for ${media.slug}: ${media.url}`);
-  }
+  const isBundledManifestUrl = media.url.startsWith("https://static.wikia.nocookie.net/");
+  const sourceUrl = isBundledManifestUrl ? media.url : await resolveFandomFile(media.url);
 
-  const response = await fetch(source, {
-    redirect: "follow",
-    headers: { accept: media.output.endsWith(".png") ? "image/png,image/*;q=0.8" : "image/webp,image/*;q=0.8" }
+  const response = await fetch(sourceUrl, {
+    headers: {
+      accept: media.output.endsWith(".png") ? "image/png,image/*;q=0.8" : "image/webp,image/*;q=0.8",
+      "user-agent": userAgent
+    }
   });
 
-  const finalHost = new URL(response.url).hostname;
+  const finalUrl = new URL(response.url);
   const contentType = response.headers.get("content-type") ?? "";
-  if (!response.ok || !contentType.startsWith("image/") || !["static.wikia.nocookie.net", "valheim.fandom.com"].includes(finalHost)) {
+  if (!response.ok || !contentType.startsWith("image/") || finalUrl.hostname !== "static.wikia.nocookie.net") {
     throw new Error(`Could not import ${media.slug}: ${response.status} ${response.url} ${contentType}`);
   }
 
