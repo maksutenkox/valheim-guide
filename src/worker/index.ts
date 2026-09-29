@@ -75,7 +75,7 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/api/version") {
-      return json({ build: "2026-09-29-black-forest-v1" });
+      return json({ build: "2026-09-29-black-forest-v2" });
     }
 
     if (request.method === "GET" && url.pathname === "/api/health") {
@@ -113,7 +113,7 @@ export default {
 
     if (request.method === "GET" && url.pathname === "/api/items") {
       const page = parsePositiveInt(url.searchParams.get("page"), 1, 10_000);
-      const limit = parsePositiveInt(url.searchParams.get("limit"), 30, 100);
+      const limit = parsePositiveInt(url.searchParams.get("limit"), 100, 100);
       const filters: string[] = [];
       const bindings: (string | number)[] = [];
       if (url.searchParams.has("biome")) { filters.push("b.slug = ?"); bindings.push(url.searchParams.get("biome")!); }
