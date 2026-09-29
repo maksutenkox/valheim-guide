@@ -53,7 +53,14 @@ const directIconOverrides: Record<string, string> = {
   "mead-base-minor-healing": "https://www.valheim.tools/icons/items/MeadBaseHealthMinor.png",
   "mead-base-minor-stamina": "https://www.valheim.tools/icons/items/MeadBaseStaminaMinor.png",
   "mead-base-tasty": "https://www.valheim.tools/icons/items/MeadBaseTasty.png",
-  "mead-base-poison-resistance": "https://www.valheim.tools/icons/items/MeadBasePoisonResist.png"
+  "mead-base-poison-resistance": "https://www.valheim.tools/icons/items/MeadBasePoisonResist.png",
+  "writhan-roots": "https://www.valheim.tools/icons/items/WrithanRoots.png",
+  "iron-battle-idol": "https://www.valheim.tools/icons/items/Upgrader2Weapon.png",
+  "shield-of-roots": "https://www.valheim.tools/icons/items/ShieldRoots.png",
+  "mead-base-medium-healing": "https://www.valheim.tools/icons/items/MeadBaseHealthMedium.png",
+  "mead-base-frost-resistance": "https://www.valheim.tools/icons/items/MeadBaseFrostResist.png",
+  "smiths-anvil": "https://www.valheim.tools/icons/pieces/forge_ext4.png",
+  "forge-tool-rack": "https://www.valheim.tools/icons/pieces/forge_ext6.png"
 };
 
 const resolveFandomFile = async (fileName: string): Promise<string | null> => {
