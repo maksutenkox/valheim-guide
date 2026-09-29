@@ -95,9 +95,16 @@ jobs:
           echo "$HEALTH_JSON" | grep -q '"status":"ok"'
           echo "$HEALTH_JSON" | grep -q '"database":"connected"'
 
-          echo "Checking Black Forest catalog..."
-          CATALOG_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/catalog-status")"
-          echo "$CATALOG_JSON"
+          echo "Waiting for catalog propagation..."
+          CATALOG_JSON=""
+          for attempt in $(seq 1 15); do
+            CATALOG_JSON="$(curl --fail --silent --show-error "$BASE_URL/api/catalog-status" || true)"
+            echo "Catalog attempt $attempt: $CATALOG_JSON"
+            if echo "$CATALOG_JSON" | grep -q '"catalog":"world-v4"'; then
+              break
+            fi
+            sleep 2
+          done
           echo "$CATALOG_JSON" | grep -q '"catalog":"world-v4"'
           echo "$CATALOG_JSON" | grep -q '"black-forest"'
           echo "$CATALOG_JSON" | grep -q '"swamp"'
