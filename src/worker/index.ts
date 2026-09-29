@@ -2,6 +2,7 @@ import type { Env } from "./env";
 import { json, notFound, parsePositiveInt } from "./api/helpers";
 import { AuthError, ensureUser, getTelegramUserId } from "./telegram/auth";
 import { calculateCraftList } from "./services/craft-planner";
+import { ensureBlackForestCatalog } from "./services/seed-black-forest";
 import { handleTelegramUpdate } from "./telegram/bot";
 
 type ItemRow = {
@@ -31,6 +32,14 @@ const itemSelect = `
 
 const readJson = async <T>(request: Request): Promise<T | null> => {
   try { return await request.json<T>(); } catch { return null; }
+};
+
+let catalogReady = false;
+
+const ensureCatalog = async (env: Env): Promise<void> => {
+  if (catalogReady) return;
+  await ensureBlackForestCatalog(env);
+  catalogReady = true;
 };
 
 const ownsCraftList = async (env: Env, craftListId: number, userId: string): Promise<boolean> => Boolean(await env.DB.prepare(
@@ -65,6 +74,10 @@ export default {
       }
     }
 
+    if (request.method === "GET" && url.pathname === "/api/version") {
+      return json({ build: "2026-09-29-black-forest-v1" });
+    }
+
     if (request.method === "GET" && url.pathname === "/api/health") {
       try {
         const result = await env.DB.prepare("SELECT 1 AS value").first<{ value: number }>();
@@ -73,6 +86,10 @@ export default {
       } catch {
         return json({ status: "error", database: "unavailable" }, 503);
       }
+    }
+
+    if (url.pathname.startsWith("/api/")) {
+      await ensureCatalog(env);
     }
 
     if (request.method === "GET" && url.pathname === "/api/biomes") {
