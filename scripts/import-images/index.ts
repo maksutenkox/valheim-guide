@@ -41,7 +41,7 @@ for (const entry of [...staticManifest, ...blackForestManifest]) {
 
 const userAgent = "VALHEIM-Guide/0.1 (+https://github.com/maksutenkox/valheim-guide)";
 
-const resolveFandomFile = async (fileName: string): Promise<string> => {
+const resolveFandomFile = async (fileName: string): Promise<string | null> => {
   const api = new URL("https://valheim.fandom.com/api.php");
   api.searchParams.set("action", "query");
   api.searchParams.set("format", "json");
@@ -64,9 +64,7 @@ const resolveFandomFile = async (fileName: string): Promise<string> => {
   const payload = await response.json() as FandomImageInfoResponse;
   const pages = Object.values(payload.query?.pages ?? {});
   const imageUrl = pages[0]?.imageinfo?.[0]?.url;
-  if (!imageUrl) {
-    throw new Error(`Fandom file not found: ${fileName}`);
-  }
+  if (!imageUrl) return null;
 
   const resolved = new URL(imageUrl);
   if (resolved.hostname !== "static.wikia.nocookie.net") {
@@ -75,11 +73,48 @@ const resolveFandomFile = async (fileName: string): Promise<string> => {
   return resolved.toString();
 };
 
+const resolveValheimToolsIcon = async (slug: string): Promise<string | null> => {
+  const candidates = [
+    `https://www.valheim.tools/items/${slug}`,
+    `https://www.valheim.tools/building/${slug}`
+  ];
+
+  for (const pageUrl of candidates) {
+    const response = await fetch(pageUrl, {
+      headers: {
+        accept: "text/html",
+        "user-agent": userAgent
+      }
+    });
+    if (!response.ok) continue;
+
+    const html = await response.text();
+    const match =
+      html.match(/(?:src|href)=["']([^"']*\/icons\/[^"']+\.png)["']/i)
+      ?? html.match(/https:\/\/www\.valheim\.tools\/icons\/[^"'<> ]+\.png/i);
+
+    const raw = match?.[1] ?? match?.[0];
+    if (!raw) continue;
+
+    const iconUrl = new URL(raw, pageUrl);
+    if (iconUrl.hostname === "www.valheim.tools" && iconUrl.pathname.startsWith("/icons/")) {
+      return iconUrl.toString();
+    }
+  }
+  return null;
+};
+
 await mkdir(outputDirectory, { recursive: true });
 
 for (const media of manifest.values()) {
   const isBundledManifestUrl = media.url.startsWith("https://static.wikia.nocookie.net/");
-  const sourceUrl = isBundledManifestUrl ? media.url : await resolveFandomFile(media.url);
+  const sourceUrl = isBundledManifestUrl
+    ? media.url
+    : (await resolveFandomFile(media.url)) ?? (await resolveValheimToolsIcon(media.slug));
+
+  if (!sourceUrl) {
+    throw new Error(`No image source found for ${media.slug} (Fandom file: ${media.url})`);
+  }
 
   const response = await fetch(sourceUrl, {
     headers: {
@@ -90,7 +125,7 @@ for (const media of manifest.values()) {
 
   const finalUrl = new URL(response.url);
   const contentType = response.headers.get("content-type") ?? "";
-  if (!response.ok || !contentType.startsWith("image/") || finalUrl.hostname !== "static.wikia.nocookie.net") {
+  if (!response.ok || !contentType.startsWith("image/") || !["static.wikia.nocookie.net", "www.valheim.tools"].includes(finalUrl.hostname)) {
     throw new Error(`Could not import ${media.slug}: ${response.status} ${response.url} ${contentType}`);
   }
 
