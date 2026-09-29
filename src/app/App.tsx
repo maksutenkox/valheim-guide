@@ -583,6 +583,73 @@ function TrophyGrid({ locale, items, onOpen }: { locale: Locale; items: GuideIte
   </button>)}</div>;
 }
 
+const damageTypeText = (locale: Locale, type: string) => ({
+  blunt: locale === "ru" ? "Дробящий" : "Blunt",
+  slash: locale === "ru" ? "Рубящий" : "Slash",
+  pierce: locale === "ru" ? "Колющий" : "Pierce",
+  chop: locale === "ru" ? "Рубка" : "Chop",
+  pickaxe: locale === "ru" ? "Кирка" : "Pickaxe",
+  fire: locale === "ru" ? "Огонь" : "Fire",
+  frost: locale === "ru" ? "Мороз" : "Frost",
+  lightning: locale === "ru" ? "Молния" : "Lightning",
+  poison: locale === "ru" ? "Яд" : "Poison",
+  spirit: locale === "ru" ? "Дух" : "Spirit"
+}[type] ?? type);
+
+const resistanceText = (locale: Locale, level: CreatureDetail["resistances"][number]["level"]) => ({
+  weak: locale === "ru" ? "Слабость" : "Weak",
+  "very-weak": locale === "ru" ? "Очень слаб" : "Very weak",
+  resistant: locale === "ru" ? "Сопротивление" : "Resistant",
+  "very-resistant": locale === "ru" ? "Сильное сопротивление" : "Very resistant",
+  immune: locale === "ru" ? "Иммунитет" : "Immune",
+  ignore: locale === "ru" ? "Не учитывается" : "Ignored"
+}[level]);
+
+function CreatureGrid({ locale, items, onOpen }: { locale: Locale; items: CreatureSummary[]; onOpen: (slug: string) => void }) {
+  if (!items.length) return <Empty message={locale === "ru" ? "Существа для этого биома пока не добавлены." : "No creatures have been added for this biome yet."} />;
+  return <div className="creature-grid">{items.map((entry) => <button className="creature-card" key={entry.slug} onClick={() => void onOpen(entry.slug)}>
+    <span className="creature-mark">☠</span>
+    <span className="creature-card-copy"><small>{locale === "ru" ? "СУЩЕСТВО" : "CREATURE"}</small><strong>{text(locale,entry)}</strong><span><b>{entry.health.toLocaleString()}</b> HP</span></span>
+    <i>↗</i>
+  </button>)}</div>;
+}
+
+function BossCard({ locale, boss, onOpen }: { locale: Locale; boss: BossSummary; onOpen: (slug: string) => void }) {
+  return <button className="boss-card" onClick={() => void onOpen(boss.slug)}>
+    <span className="boss-crown">♛</span>
+    <span className="boss-copy"><small>{locale === "ru" ? "FORSAKEN · БОСС БИОМА" : "FORSAKEN · BIOME BOSS"}</small><strong>{text(locale,boss)}</strong><span><b>{boss.health.toLocaleString()}</b> HP</span><p>{locale === "ru" ? boss.summon_ru : boss.summon_en}</p></span>
+    <i>↗</i>
+  </button>;
+}
+
+function CreatureDetailView({ locale, creature, boss }: { locale: Locale; creature: CreatureDetail; boss: BossSummary | null }) {
+  const weak = creature.resistances.filter((entry) => entry.level === "weak" || entry.level === "very-weak");
+  const defended = creature.resistances.filter((entry) => !["weak","very-weak","ignore"].includes(entry.level));
+  return <>
+    <div className={boss ? "creature-hero boss" : "creature-hero"}>
+      <div className="creature-art">{creature.image_url ? <img src={creature.image_url} alt="" /> : <span>{boss ? "♛" : "☠"}</span>}</div>
+      <div><p className="item-type">{boss ? (locale === "ru" ? "FORSAKEN · БОСС" : "FORSAKEN · BOSS") : (locale === "ru" ? "СУЩЕСТВО" : "CREATURE")}</p><h2>{text(locale,creature)}</h2><span className="health-badge"><b>{creature.health.toLocaleString()}</b> HP</span></div>
+    </div>
+
+    {boss && <div className="boss-facts">
+      <div><small>{locale === "ru" ? "ПРИЗЫВ" : "SUMMON"}</small><strong>{locale === "ru" ? boss.summon_ru : boss.summon_en}</strong></div>
+      <div><small>{locale === "ru" ? "СИЛА ПАВШЕГО" : "FORSAKEN POWER"}</small><strong>{locale === "ru" ? boss.power_ru : boss.power_en}</strong></div>
+      <div><small>{locale === "ru" ? "РЕКОМЕНДУЕТСЯ" : "RECOMMENDED"}</small><strong>{locale === "ru" ? boss.recommended_ru : boss.recommended_en}</strong></div>
+    </div>}
+
+    <SectionTitle eyebrow={locale === "ru" ? "БОЕВОЙ ПРОФИЛЬ" : "COMBAT PROFILE"} title={locale === "ru" ? "Уязвимости и защита" : "Weaknesses & defenses"} />
+    {creature.resistances.length ? <div className="resistance-groups">
+      <div className="resistance-block weak"><small>{locale === "ru" ? "ЛУЧШЕ БИТЬ" : "BEST AGAINST"}</small>{weak.length ? <div>{weak.map((entry) => <span key={entry.type}><b>{damageTypeText(locale,entry.type)}</b><em>{resistanceText(locale,entry.level)}</em></span>)}</div> : <p>{locale === "ru" ? "Выраженных слабостей нет." : "No listed weakness."}</p>}</div>
+      <div className="resistance-block defend"><small>{locale === "ru" ? "ЗАЩИТА" : "DEFENSES"}</small>{defended.length ? <div>{defended.map((entry) => <span className={entry.level} key={entry.type}><b>{damageTypeText(locale,entry.type)}</b><em>{resistanceText(locale,entry.level)}</em></span>)}</div> : <p>{locale === "ru" ? "Нет особых сопротивлений." : "No special resistances."}</p>}</div>
+    </div> : <Empty message={locale === "ru" ? "Подробные резисты сейчас недоступны — базовые HP сохранены." : "Detailed resistances are currently unavailable — base HP is still available."} />}
+
+    <SectionTitle eyebrow={locale === "ru" ? "ЛУТ" : "LOOT"} title={locale === "ru" ? "Что выпадает" : "Drops"} />
+    {creature.drops.length ? <div className="drop-list">{creature.drops.map((drop,index) => <div key={`${drop.name}-${index}`}><span><b>{drop.name}</b>{drop.amount && <small>×{drop.amount}</small>}</span>{drop.chance && <em>{drop.chance}</em>}</div>)}</div> : <Empty message={locale === "ru" ? "У этого существа нет зафиксированного дропа или источник временно недоступен." : "No recorded drops, or the live source is temporarily unavailable."} />}
+
+    <p className="source-credit"><a href={creature.source_url} target="_blank" rel="noreferrer">{locale === "ru" ? "Боевые данные" : "Combat data"} ↗</a><span>{creature.source_name}</span></p>
+  </>;
+}
+
 function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
   return <div className="detail-section-title"><p>{eyebrow}</p><h2>{title}</h2></div>;
 }
