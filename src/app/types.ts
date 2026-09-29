@@ -17,6 +17,8 @@ export type GuideItem = {
   name_en: string;
   name_ru: string;
   image_path: string | null;
+  biome_slug: string | null;
+  category_slug: string | null;
   category_name_en: string | null;
   category_name_ru: string | null;
   source_name: string | null;
