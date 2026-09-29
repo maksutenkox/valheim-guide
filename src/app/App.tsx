@@ -9,6 +9,10 @@ type NavSection = "home" | "search" | "craft" | "favorites";
 
 const text = (locale: Locale, object: { name_en: string; name_ru: string }) => locale === "ru" ? object.name_ru : object.name_en;
 const categoryText = (locale: Locale, item: GuideItem) => locale === "ru" ? item.category_name_ru : item.category_name_en;
+const categoryIcon = (slug?: string) => ({
+  weapon: "⚔", armor: "♜", magic: "✦", tool: "⌁", food: "◆", consumable: "✚",
+  trophy: "♛", material: "⬡", building: "⌂", other: "•"
+}[slug ?? ""] ?? "•");
 const protectedErrorText = (locale: Locale, error: unknown): string => {
   if (error instanceof ApiError) {
     if (error.status === 401) {
@@ -95,6 +99,12 @@ export function App() {
     }, 220);
     return () => window.clearTimeout(timer);
   }, [query]);
+
+  useEffect(() => {
+    if (!message) return;
+    const timer = window.setTimeout(() => setMessage(""), 3800);
+    return () => window.clearTimeout(timer);
+  }, [message]);
 
   const title = useMemo(() => ({
     home: "VALHEIM Guide", search: locale === "ru" ? "Поиск" : "Search", craft: locale === "ru" ? "Крафт" : "Craft",
@@ -394,15 +404,27 @@ export function App() {
 
   return <main className="app-shell">
     <header className="topbar">
-      <div>{!(["home", "search", "craft", "favorites"] as Section[]).includes(section) && <button className="back" onClick={goBack}>‹ {locale === "ru" ? "Назад" : "Back"}</button>}<p className="eyebrow">Unofficial fan guide</p><h1>{title}</h1></div>
-      <button className="language" onClick={() => setLocale(locale === "ru" ? "en" : "ru")}>{locale.toUpperCase()}</button>
+      <div className="topbar-copy">
+        {!(["home", "search", "craft", "favorites"] as Section[]).includes(section) && <button className="back" onClick={goBack}>‹ {locale === "ru" ? "Назад" : "Back"}</button>}
+        <p className="eyebrow"><span>ᚱ</span> Unofficial companion</p>
+        <h1>{title}</h1>
+      </div>
+      <button className="language" onClick={() => setLocale(locale === "ru" ? "en" : "ru")}><span>文</span>{locale.toUpperCase()}</button>
     </header>
 
-    {showSearch && <label className="search"><span>⌕</span><input value={query} onChange={(event) => { setQuery(event.target.value); setSection("search"); }} placeholder={locale === "ru" ? "Найти предмет или ресурс..." : "Find an item or resource..."} /></label>}
-    {message && <p className="notice">{message}</p>}
+    {showSearch && <label className="search"><span className="search-icon">⌕</span><input value={query} onChange={(event) => { setQuery(event.target.value); setSection("search"); }} placeholder={locale === "ru" ? "Предмет, ресурс, трофей..." : "Item, resource, trophy..."} />{query && <button type="button" className="search-clear" onClick={() => { setQuery(""); setResults([]); }}>×</button>}</label>}
+    {message && <div className="toast" role="status"><span>✦</span><p>{message}</p><button onClick={() => setMessage("")}>×</button></div>}
 
-    {section === "home" && <section><h2>{locale === "ru" ? "Биомы" : "Biomes"}</h2>
-      {loading ? <p className="muted">{locale === "ru" ? "Загрузка..." : "Loading..."}</p> : biomes.length === 0 ? <Empty message={locale === "ru" ? "Данные биомов появятся после первого проверенного импорта." : "Biome data will appear after the first verified import."} /> : <div className="biome-list">{biomes.map((biome, index) => <button className="biome-card" key={biome.slug} onClick={() => void openBiome(biome.slug)} style={{ "--accent": biome.accent_color ?? "#d89d46", "--art": biome.image_path ? `url(${biome.image_path})` : "none" } as CSSProperties}><span className="biome-order">{String(index + 1).padStart(2, "0")}</span><span className="biome-copy"><strong>{text(locale, biome)}</strong><small>{locale === "ru" ? biome.description_ru : biome.description_en}</small></span><span className="biome-arrow">›</span></button>)}</div>}
+    {section === "home" && <section className="home-section">
+      <div className="home-hero">
+        <div className="rune-mark">ᚹ</div>
+        <p className="hero-kicker">{locale === "ru" ? "ТВОЙ СПУТНИК ПО МИРУ" : "YOUR WORLD COMPANION"}</p>
+        <h2>{locale === "ru" ? "Всё нужное для похода — в одном месте" : "Everything for the journey, in one place"}</h2>
+        <p>{locale === "ru" ? "Рецепты, ресурсы, трофеи и личный список крафта от Лугов до Глубокого Севера." : "Recipes, resources, trophies and your personal craft plan from the Meadows to the Deep North."}</p>
+        <div className="hero-metrics"><span><b>{biomes.length || 9}</b>{locale === "ru" ? "биомов" : "biomes"}</span><span><b>70+</b>{locale === "ru" ? "трофеев" : "trophies"}</span><span><b>1.0</b>{locale === "ru" ? "актуально" : "current"}</span></div>
+      </div>
+      <div className="section-heading"><div><p>{locale === "ru" ? "ИССЛЕДОВАНИЕ МИРА" : "WORLD EXPLORATION"}</p><h2>{locale === "ru" ? "Биомы" : "Biomes"}</h2></div><span>{String(biomes.length || 9).padStart(2,"0")}</span></div>
+      {loading ? <p className="muted">{locale === "ru" ? "Загрузка..." : "Loading..."}</p> : biomes.length === 0 ? <Empty message={locale === "ru" ? "Данные биомов появятся после первого проверенного импорта." : "Biome data will appear after the first verified import."} /> : <div className="biome-list">{biomes.map((biome, index) => <button className="biome-card" key={biome.slug} onClick={() => void openBiome(biome.slug)} style={{ "--accent": biome.accent_color ?? "#d89d46", "--art": biome.image_path ? `url(${biome.image_path})` : "none" } as CSSProperties}><span className="biome-order">{String(index + 1).padStart(2, "0")}</span><span className="biome-copy"><small>{locale === "ru" ? "БИОМ" : "BIOME"} {String(index + 1).padStart(2, "0")}</small><strong>{text(locale, biome)}</strong><p>{locale === "ru" ? biome.description_ru : biome.description_en}</p></span><span className="biome-arrow">↗</span></button>)}</div>}
     <div className="legal-note">
         <strong>{locale === "ru" ? "Неофициальный фан-проект" : "Unofficial fan project"}</strong>
         <span>{locale === "ru" ? "VALHEIM Guide не связан с Iron Gate Studio или Coffee Stain Publishing. Названия, изображения и другие игровые материалы принадлежат их правообладателям и используются в информационных и образовательных целях." : "VALHEIM Guide is not affiliated with Iron Gate Studio or Coffee Stain Publishing. Game names, images and other game materials belong to their respective rights holders and are used for informational and educational purposes."}</span>
@@ -411,11 +433,29 @@ export function App() {
 
     {section === "search" && <section><h2>{locale === "ru" ? "Результаты" : "Results"}</h2>{query.length < 2 ? <Empty message={locale === "ru" ? "Введите минимум 2 символа." : "Type at least 2 characters."} /> : <ResultList locale={locale} items={results} onOpen={openEntry} />}</section>}
 
-    {section === "biome" && <section>{!currentBiome ? <Empty message={locale === "ru" ? "Загружаем биом..." : "Loading biome..."} /> : <><p className="lede">{locale === "ru" ? currentBiome.description_ru : currentBiome.description_en}</p><div className="chips"><button className={!activeCategory ? "chip active" : "chip"} onClick={() => void filterBiome()}>{locale === "ru" ? "Все" : "All"}</button>{currentBiome.categories.map((category) => <button className={activeCategory === category.slug ? "chip active" : "chip"} key={category.slug} onClick={() => void filterBiome(category.slug)}>{text(locale, category)}</button>)}</div><ResultList locale={locale} items={biomeItems} onOpen={openEntry} /></>}</section>}
+    {section === "biome" && <section className="biome-section">{!currentBiome ? <Empty message={locale === "ru" ? "Загружаем биом..." : "Loading biome..."} /> : <>
+      <div className="biome-intro" style={{ "--accent": currentBiome.accent_color ?? "#d89d46", "--art": currentBiome.image_path ? `url(${currentBiome.image_path})` : "none" } as CSSProperties}>
+        <div><p>{locale === "ru" ? "ПУТЕВОДИТЕЛЬ ПО БИОМУ" : "BIOME FIELD GUIDE"}</p><h2>{text(locale,currentBiome)}</h2><span>{locale === "ru" ? currentBiome.description_ru : currentBiome.description_en}</span></div>
+      </div>
+      <div className="chips category-chips"><button className={!activeCategory ? "chip active" : "chip"} onClick={() => void filterBiome()}><i>◈</i>{locale === "ru" ? "Все" : "All"}</button>{currentBiome.categories.map((category) => <button className={activeCategory === category.slug ? "chip active" : "chip"} key={category.slug} onClick={() => void filterBiome(category.slug)}><i>{categoryIcon(category.slug)}</i>{text(locale, category)}</button>)}</div>
+      {activeCategory === "trophy" ? <TrophyGrid locale={locale} items={biomeItems} onOpen={openEntry} /> : <ResultList locale={locale} items={biomeItems} onOpen={openEntry} />}
+    </>}</section>}
 
-    {section === "item" && item && <section className="detail"><Visual entry={item} hero /><p className="item-type">{categoryText(locale, item) ?? (locale === "ru" ? "Предмет" : "Item")}</p><p className="lede">{locale === "ru" ? item.description_ru : item.description_en}</p><div className="detail-actions"><button className="save" onClick={() => void toggleFavorite()}>{saved ? "♥" : "♡"} {saved ? (locale === "ru" ? "Сохранено" : "Saved") : (locale === "ru" ? "В избранное" : "Save")}</button><button className="save" disabled={craftListBusy} onClick={() => void addToCraftList()}>⚒ {locale === "ru" ? "В мой крафт" : "Add to craft"}</button></div><DetailStats locale={locale} item={item} /><Recipe locale={locale} item={item} onResource={openResource} /><Upgrades locale={locale} item={item} onResource={openResource} /><SourceLink locale={locale} entry={item} /></section>}
+    {section === "item" && item && <section className="detail">
+      <div className="detail-hero"><Visual entry={item} hero /><div className="detail-hero-copy"><p className="item-type">{categoryText(locale, item) ?? (locale === "ru" ? "Предмет" : "Item")}</p><h2>{text(locale,item)}</h2>{item.biome_name_ru && <span className="biome-badge">⌖ {locale === "ru" ? item.biome_name_ru : item.biome_name_en}</span>}</div></div>
+      <p className="lede detail-description">{locale === "ru" ? item.description_ru : item.description_en}</p>
+      <div className="detail-actions"><button className={saved ? "save primary" : "save"} onClick={() => void toggleFavorite()}>{saved ? "♥" : "♡"} {saved ? (locale === "ru" ? "В избранном" : "Saved") : (locale === "ru" ? "Сохранить" : "Save")}</button><button className="save primary" disabled={craftListBusy} onClick={() => void addToCraftList()}>⚒ {locale === "ru" ? "В мой крафт" : "Add to craft"}</button></div>
+      <DetailStats locale={locale} item={item} /><Recipe locale={locale} item={item} onResource={openResource} /><Upgrades locale={locale} item={item} onResource={openResource} /><SourceLink locale={locale} entry={item} />
+    </section>}
 
-    {section === "resource" && resource && <section className="detail"><Visual entry={resource} hero /><p className="item-type">{locale === "ru" ? "Материал" : "Material"}</p><p className="lede">{locale === "ru" ? resource.description_ru : resource.description_en}</p><h2>{locale === "ru" ? "Где найти" : "Where to find"}</h2>{resource.sources.length ? <div className="source-list">{resource.sources.map((source, index) => <p key={index}>{locale === "ru" ? source.method_ru : source.method_en}</p>)}</div> : <Empty message={locale === "ru" ? "Проверенный источник пока добавляется." : "A verified source is being added."} />}<h2>{locale === "ru" ? "Используется в" : "Used in"}</h2><ResultList locale={locale} items={resource.used_by} onOpen={openEntry} /><SourceLink locale={locale} entry={resource} /></section>}
+    {section === "resource" && resource && <section className="detail">
+      <div className="detail-hero"><Visual entry={resource} hero /><div className="detail-hero-copy"><p className="item-type">{categoryText(locale, resource) ?? (locale === "ru" ? "Материал" : "Material")}</p><h2>{text(locale,resource)}</h2></div></div>
+      <p className="lede detail-description">{locale === "ru" ? resource.description_ru : resource.description_en}</p>
+      <SectionTitle eyebrow={locale === "ru" ? "ИСТОЧНИК" : "SOURCE"} title={locale === "ru" ? "Где найти" : "Where to find"} />
+      {resource.sources.length ? <div className="source-list">{resource.sources.map((source, index) => <p key={index}><b>{String(index + 1).padStart(2,"0")}</b><span>{locale === "ru" ? source.method_ru : source.method_en}</span></p>)}</div> : <Empty message={locale === "ru" ? "Проверенный источник пока добавляется." : "A verified source is being added."} />}
+      <SectionTitle eyebrow={locale === "ru" ? "ПРИМЕНЕНИЕ" : "USES"} title={locale === "ru" ? "Используется в" : "Used in"} />
+      <ResultList locale={locale} items={resource.used_by} onOpen={openEntry} /><SourceLink locale={locale} entry={resource} />
+    </section>}
 
     {section === "craft" && <section>
       <div className="section-row"><h2>{locale === "ru" ? "Мой крафт" : "My craft"}</h2><button className="save" disabled={craftListBusy} onClick={() => void createCraftList()}>+ {locale === "ru" ? "Новый список" : "New list"}</button></div>
@@ -433,7 +473,7 @@ export function App() {
         <CraftTotals locale={locale} totals={craftTotals} onResource={openResource} onOwnedChange={updateOwnedResource} />
       </>}
     </section>}
-    {section === "favorites" && <section><h2>{locale === "ru" ? "Сохранённые предметы" : "Saved items"}</h2>{message ? null : <ResultList locale={locale} items={favorites} onOpen={openEntry} />}</section>}
+    {section === "favorites" && <section><div className="section-heading"><div><p>{locale === "ru" ? "ЛИЧНАЯ КОЛЛЕКЦИЯ" : "PERSONAL COLLECTION"}</p><h2>{locale === "ru" ? "Избранное" : "Favorites"}</h2></div><span>{String(favorites.length).padStart(2,"0")}</span></div><ResultList locale={locale} items={favorites} onOpen={openEntry} /></section>}
 
     <nav className="bottom-nav">{([['home', '⌂', locale === "ru" ? "Главная" : "Home"], ['craft', '⚒', locale === "ru" ? "Крафт" : "Craft"], ['favorites', '♡', locale === "ru" ? "Избранное" : "Saved"], ['search', '⌕', locale === "ru" ? "Поиск" : "Search"]] as const).map(([id, icon, label]) => <button key={id} className={section === id || (id === "home" && section === "biome") ? "active" : ""} onClick={() => void goNav(id)}><span>{icon}</span>{label}</button>)}</nav>
   </main>;
@@ -441,17 +481,17 @@ export function App() {
 
 function DetailStats({ locale, item }: { locale: Locale; item: ItemDetail }) {
   if (!item.stats.length) return null;
-  return <><h2>{locale === "ru" ? "Характеристики" : "Stats"}</h2><div className="stats">{item.stats.map((stat) => <div key={stat.stat_key}><span>{statLabel(locale, stat.stat_key)}</span><strong>{stat.stat_value}{stat.unit ? ` ${stat.unit}` : ""}</strong></div>)}</div></>;
+  return <><SectionTitle eyebrow={locale === "ru" ? "ПАРАМЕТРЫ" : "ATTRIBUTES"} title={locale === "ru" ? "Характеристики" : "Stats"} /><div className="stats">{item.stats.map((stat) => <div key={stat.stat_key}><span>{statLabel(locale, stat.stat_key)}</span><strong>{stat.stat_value}{stat.unit ? ` ${stat.unit}` : ""}</strong></div>)}</div></>;
 }
 
 function Recipe({ locale, item, onResource }: { locale: Locale; item: ItemDetail; onResource: (slug: string) => void }) {
   if (!item.ingredients.length) return null;
-  return <><h2>{locale === "ru" ? "Крафт" : "Crafting"}</h2>{item.recipe && <p className="station">⚒ {text(locale, item.recipe)} · {locale === "ru" ? "ур." : "lvl."} {item.recipe.station_level}{item.recipe.output_quantity > 1 ? ` · ×${item.recipe.output_quantity}` : ""}</p>}<IngredientList locale={locale} ingredients={item.ingredients} onResource={onResource} /></>;
+  return <><SectionTitle eyebrow={locale === "ru" ? "РЕЦЕПТ" : "RECIPE"} title={locale === "ru" ? "Крафт" : "Crafting"} />{item.recipe && <p className="station">⚒ {text(locale, item.recipe)} · {locale === "ru" ? "ур." : "lvl."} {item.recipe.station_level}{item.recipe.output_quantity > 1 ? ` · ×${item.recipe.output_quantity}` : ""}</p>}<IngredientList locale={locale} ingredients={item.ingredients} onResource={onResource} /></>;
 }
 
 function Upgrades({ locale, item, onResource }: { locale: Locale; item: ItemDetail; onResource: (slug: string) => void }) {
   if (!item.upgrades.length) return null;
-  return <><h2>{locale === "ru" ? "Улучшения" : "Upgrades"}</h2><div className="upgrades">{item.upgrades.map((upgrade) => <div className="upgrade" key={upgrade.level}><strong>{locale === "ru" ? "Уровень" : "Level"} {upgrade.level}</strong>{upgrade.station_level && <span>{locale === "ru" ? "Верстак ур." : "Workbench lvl."} {upgrade.station_level}</span>}<IngredientList locale={locale} ingredients={upgrade.ingredients} onResource={onResource} /></div>)}</div></>;
+  return <><SectionTitle eyebrow={locale === "ru" ? "ПРОКАЧКА" : "UPGRADE PATH"} title={locale === "ru" ? "Улучшения" : "Upgrades"} /><div className="upgrades">{item.upgrades.map((upgrade) => <div className="upgrade" key={upgrade.level}><strong>{locale === "ru" ? "Уровень" : "Level"} {upgrade.level}</strong>{upgrade.station_level && <span>{locale === "ru" ? "Верстак ур." : "Workbench lvl."} {upgrade.station_level}</span>}<IngredientList locale={locale} ingredients={upgrade.ingredients} onResource={onResource} /></div>)}</div></>;
 }
 
 function IngredientList({ locale, ingredients, onResource }: { locale: Locale; ingredients: ItemDetail["ingredients"]; onResource: (slug: string) => void }) {
@@ -463,8 +503,22 @@ function IngredientList({ locale, ingredients, onResource }: { locale: Locale; i
 }
 
 function ResultList({ locale, items, onOpen }: { locale: Locale; items: GuideItem[]; onOpen: (item: GuideItem) => void }) {
-  if (!items.length) return <Empty message={locale === "ru" ? "Ничего не найдено." : "No results found."} />;
-  return <div className="result-list">{items.map((entry) => <button key={entry.id} className="result" onClick={() => void onOpen(entry)}><Visual entry={entry} /><span><strong>{text(locale, entry)}</strong><small>{categoryText(locale, entry) ?? (locale === "ru" ? "Материал" : "Material")}</small></span><i>›</i></button>)}</div>;
+  if (!items.length) return <Empty message={locale === "ru" ? "Здесь пока ничего нет." : "Nothing here yet."} />;
+  return <div className="result-list">{items.map((entry) => <button key={entry.id} className="result" onClick={() => void onOpen(entry)}><Visual entry={entry} /><span><strong>{text(locale, entry)}</strong><small><i>{categoryIcon(entry.category_name_en?.toLowerCase())}</i>{categoryText(locale, entry) ?? (locale === "ru" ? "Материал" : "Material")}</small></span><b>↗</b></button>)}</div>;
+}
+
+function TrophyGrid({ locale, items, onOpen }: { locale: Locale; items: GuideItem[]; onOpen: (item: GuideItem) => void }) {
+  if (!items.length) return <Empty message={locale === "ru" ? "Трофеи для этого биома пока не добавлены." : "No trophies have been added for this biome yet."} />;
+  return <div className="trophy-grid">{items.map((entry,index) => <button className="trophy-card" key={entry.id} onClick={() => void onOpen(entry)}>
+    <span className="trophy-number">{String(index + 1).padStart(2,"0")}</span>
+    <Visual entry={entry} />
+    <strong>{text(locale,entry)}</strong>
+    <small>{locale === "ru" ? "ТРОФЕЙ" : "TROPHY"}</small>
+  </button>)}</div>;
+}
+
+function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return <div className="detail-section-title"><p>{eyebrow}</p><h2>{title}</h2></div>;
 }
 
 function Visual({ entry, hero = false }: { entry: GuideItem; hero?: boolean }) {
