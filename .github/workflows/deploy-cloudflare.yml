@@ -127,6 +127,15 @@ jobs:
           echo "$MORGEN_JSON" | grep -q '"health":1600'
           echo "$MORGEN_JSON" | grep -q '"type":"lightning","level":"weak"'
           echo "$MORGEN_JSON" | grep -q '"name":"Morgen Sinew"'
+          echo "$MORGEN_JSON" | grep -q '"slug":"morgen-sinew"'
+          echo "$MORGEN_JSON" | grep -q '"image_path":"/media/wiki/morgen-sinew.png"'
+
+          MORGEN_SINEW_JSON="$(curl --fail --silent --show-error --retry 4 --retry-delay 2 "$BASE_URL/api/resources/morgen-sinew")"
+          echo "$MORGEN_SINEW_JSON"
+          echo "$MORGEN_SINEW_JSON" | grep -q '"dropped_by"'
+          echo "$MORGEN_SINEW_JSON" | grep -q '"slug":"morgen"'
+          echo "$MORGEN_SINEW_JSON" | grep -q '"slug":"slayer"'
+          echo "$MORGEN_SINEW_JSON" | grep -q '"slug":"ripper"'
 
           BOSS_JSON="$(curl --fail --silent --show-error --retry 4 --retry-delay 2 "$BASE_URL/api/bosses?biome=ashlands")"
           echo "$BOSS_JSON"
