@@ -182,10 +182,23 @@ export function App() {
     if (!item) return;
     try {
       let target = activeCraftList;
+
+      // A user can add an item before ever opening the Craft tab. In that case
+      // reuse their most recently updated list instead of silently creating a
+      // second "My craft" list.
+      if (!target) {
+        const { data: existingLists } = await api.craftLists();
+        setCraftLists(existingLists);
+        target = existingLists[0] ?? null;
+      }
+
       if (!target) {
         const { data } = await api.createCraftList(locale === "ru" ? "Мой крафт" : "My craft list");
-        target = data; setCraftLists((lists) => [data, ...lists]); setActiveCraftList(data);
+        target = data;
+        setCraftLists((lists) => [data, ...lists]);
       }
+
+      setActiveCraftList(target);
       await api.addCraftItem(target.id, item.id);
       const [items, totals] = await Promise.all([api.craftItems(target.id), api.craftSummary(target.id)]);
       setCraftItems(items.data);
