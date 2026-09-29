@@ -14,6 +14,7 @@ import { ensureDeepNorthCatalog } from "./services/seed-deep-north";
 import { ensureOceanCatalog } from "./services/seed-ocean";
 import { ensureTrophyCatalog } from "./services/seed-trophies";
 import { handleTelegramUpdate } from "./telegram/bot";
+import { bossForBiome, bosses, creaturesForBiome, loadCreatureDetail } from "./services/creatures";
 
 type ItemRow = {
   id: number;
@@ -133,6 +134,27 @@ export default {
           { items: row.items, recipes: row.recipes }
         ]))
       });
+    }
+
+    if (request.method === "GET" && url.pathname === "/api/creatures") {
+      const biome = url.searchParams.get("biome")?.trim() ?? "";
+      return json({ data: biome ? creaturesForBiome(biome) : [] });
+    }
+
+    const creatureMatch = url.pathname.match(/^\/api\/creatures\/([a-z0-9-]+)$/);
+    if (request.method === "GET" && creatureMatch) {
+      const detail = await loadCreatureDetail(creatureMatch[1]);
+      if (!detail) return notFound();
+      return json({ data: detail });
+    }
+
+    if (request.method === "GET" && url.pathname === "/api/bosses") {
+      const biome = url.searchParams.get("biome")?.trim();
+      if (biome) {
+        const boss = bossForBiome(biome);
+        return json({ data: boss ?? null });
+      }
+      return json({ data: bosses });
     }
 
     if (request.method === "GET" && url.pathname === "/api/biomes") {
