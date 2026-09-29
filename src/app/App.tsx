@@ -120,8 +120,25 @@ export function App() {
   };
 
   const openResource = async (slug: string) => {
-    setMessage(""); setSection("resource");
-    try { setResource((await api.resource(slug)).data); } catch { setMessage(locale === "ru" ? "Не удалось загрузить ресурс." : "Could not load resource."); }
+    setMessage("");
+    try {
+      const itemResponse = await api.item(slug);
+      setSection("item");
+      setItem(itemResponse.data);
+      return;
+    } catch (error) {
+      if (!(error instanceof ApiError) || error.status !== 404) {
+        setMessage(locale === "ru" ? "Не удалось загрузить компонент." : "Could not load component.");
+        return;
+      }
+    }
+
+    setSection("resource");
+    try {
+      setResource((await api.resource(slug)).data);
+    } catch {
+      setMessage(locale === "ru" ? "Не удалось загрузить ресурс." : "Could not load resource.");
+    }
   };
 
   const goNav = async (next: NavSection) => {
