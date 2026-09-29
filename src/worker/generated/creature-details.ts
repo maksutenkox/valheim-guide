@@ -758,5 +758,160 @@ export const generatedCreatureDetails: Record<string, GeneratedCreatureDetail> =
         "amount": "1"
       }
     ]
+  },
+  "aspect-of-the-lightning-stag": {
+    "health": 3000,
+    "image_url": null,
+    "resistances": [],
+    "drops": []
+  },
+  "aspect-of-the-crawling-matriarch": {
+    "health": 1700,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": []
+  },
+  "aspect-of-the-emerald-flame": {
+    "health": 1700,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": []
+  },
+  "aspect-of-the-twisted-soul": {
+    "health": 1700,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "pierce",
+        "level": "very-resistant"
+      },
+      {
+        "type": "fire",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": []
+  },
+  "aspect-of-the-living-forest": {
+    "health": 1600,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "very-weak"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": []
+  },
+  "aspect-of-the-writhing-dead": {
+    "health": 1600,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "weak"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "very-resistant"
+      },
+      {
+        "type": "fire",
+        "level": "very-resistant"
+      },
+      {
+        "type": "frost",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": []
+  },
+  "aspect-of-the-dragon-mother": {
+    "health": 1500,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": []
+  },
+  "zil-and-thungr": {
+    "health": 4200,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Hildir's Bronze Chest",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Zil Trophy",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Thungr Trophy",
+        "chance": "100%",
+        "amount": "1"
+      }
+    ]
   }
 };
