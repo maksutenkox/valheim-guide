@@ -78,7 +78,7 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/api/version") {
-      return json({ build: "2026-09-29-black-forest-v4" });
+      return json({ build: "2026-09-29-black-forest-v4-craft-v3" });
     }
 
     if (request.method === "GET" && url.pathname === "/api/health") {
@@ -93,6 +93,29 @@ export default {
 
     if (url.pathname.startsWith("/api/")) {
       await ensureCatalog(env);
+    }
+
+    if (request.method === "GET" && url.pathname === "/api/catalog-status") {
+      const [blackForest, blackForestRecipes] = await Promise.all([
+        env.DB.prepare(`
+          SELECT COUNT(*) AS count
+          FROM items i
+          JOIN biomes b ON b.id = i.biome_id
+          WHERE b.slug = 'black-forest'
+        `).first<{ count: number }>(),
+        env.DB.prepare(`
+          SELECT COUNT(*) AS count
+          FROM recipes re
+          JOIN items i ON i.id = re.item_id
+          JOIN biomes b ON b.id = i.biome_id
+          WHERE b.slug = 'black-forest'
+        `).first<{ count: number }>()
+      ]);
+      return json({
+        catalog: "black-forest-v4",
+        items: blackForest?.count ?? 0,
+        recipes: blackForestRecipes?.count ?? 0
+      });
     }
 
     if (request.method === "GET" && url.pathname === "/api/biomes") {
