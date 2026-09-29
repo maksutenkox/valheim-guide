@@ -1,0 +1,24 @@
+{
+  "name": "valheim-guide",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.25.0",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "tsc --noEmit && wrangler check",
+    "db:migrate:local": "wrangler d1 migrations apply valheim-guide-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply valheim-guide-db --remote",
+    "data:import": "tsx scripts/import-data/index.ts",
+    "data:validate": "tsx scripts/validate-data/index.ts",
+    "media:import": "tsx scripts/import-images/index.ts"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260929.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.142.0"
+  }
+}
+
