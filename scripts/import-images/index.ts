@@ -152,11 +152,21 @@ const resolveValheimToolsIcon = async (slug: string): Promise<string | null> => 
       ?? html.match(/https:\/\/www\.valheim\.tools\/icons\/[^"'<> ]+\.png/i);
 
     const raw = match?.[1] ?? match?.[0];
-    if (!raw) continue;
+    if (raw) {
+      const iconUrl = new URL(raw, pageUrl);
+      if (iconUrl.hostname === "www.valheim.tools" && iconUrl.pathname.startsWith("/icons/")) {
+        return iconUrl.toString();
+      }
+    }
 
-    const iconUrl = new URL(raw, pageUrl);
-    if (iconUrl.hostname === "www.valheim.tools" && iconUrl.pathname.startsWith("/icons/")) {
-      return iconUrl.toString();
+    const idMatch =
+      html.match(/"itemId"\s*:\s*"([^"]+)"/i)
+      ?? html.match(/Item ID:?\s*<[^>]+>\s*([A-Za-z0-9_]+)/i)
+      ?? html.match(/Item ID:?\s*([A-Za-z0-9_]+)/i);
+    const itemId = idMatch?.[1];
+    if (itemId) {
+      const folder = pageUrl.includes("/building/") ? "pieces" : "items";
+      return `https://www.valheim.tools/icons/${folder}/${itemId}.png`;
     }
   }
   return null;
