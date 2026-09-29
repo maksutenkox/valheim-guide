@@ -3,6 +3,7 @@ import { json, notFound, parsePositiveInt } from "./api/helpers";
 import { AuthError, ensureUser, getTelegramUserId } from "./telegram/auth";
 import { calculateCraftList } from "./services/craft-planner";
 import { ensureBlackForestCatalog } from "./services/seed-black-forest";
+import { ensureCatalogSchema } from "./services/catalog-seed";
 import { handleTelegramUpdate } from "./telegram/bot";
 
 type ItemRow = {
@@ -41,6 +42,7 @@ let catalogReady = false;
 
 const ensureCatalog = async (env: Env): Promise<void> => {
   if (catalogReady) return;
+  await ensureCatalogSchema(env);
   await ensureBlackForestCatalog(env);
   catalogReady = true;
 };
@@ -158,7 +160,7 @@ export default {
         env.DB.prepare("SELECT stat_key, stat_value, unit FROM item_stats WHERE item_id = ? ORDER BY sort_order").bind(item.id).all(),
         env.DB.prepare(`SELECT ri.quantity, r.slug, r.name_en, r.name_ru FROM recipes re JOIN recipe_ingredients ri ON ri.recipe_id = re.id JOIN items r ON r.id = ri.resource_id WHERE re.item_id = ? ORDER BY r.name_en`).bind(item.id).all(),
         env.DB.prepare("SELECT id, level, station_level FROM item_upgrades WHERE item_id = ? ORDER BY level").bind(item.id).all<{ id: number; level: number; station_level: number | null }>(),
-        env.DB.prepare("SELECT s.slug, s.name_en, s.name_ru, re.station_level FROM recipes re LEFT JOIN crafting_stations s ON s.id = re.crafting_station_id WHERE re.item_id = ?").bind(item.id).first()
+        env.DB.prepare("SELECT s.slug, s.name_en, s.name_ru, re.station_level, re.output_quantity FROM recipes re LEFT JOIN crafting_stations s ON s.id = re.crafting_station_id WHERE re.item_id = ?").bind(item.id).first()
       ]);
       const upgradeDetails = await Promise.all(upgrades.results.map(async (upgrade) => ({
         ...upgrade,
