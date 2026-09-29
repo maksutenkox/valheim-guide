@@ -41,6 +41,16 @@ for (const entry of [...staticManifest, ...blackForestManifest]) {
 
 const userAgent = "VALHEIM-Guide/0.1 (+https://github.com/maksutenkox/valheim-guide)";
 
+const directIconOverrides: Record<string, string> = {
+  "bronze-protection-idol": "https://www.valheim.tools/icons/items/Upgrader1Armor.png",
+  "queens-jam-x4": "https://www.valheim.tools/icons/items/QueensJam.png",
+  "pulled-bear": "https://www.valheim.tools/icons/items/PulledBear.png",
+  "mead-base-minor-healing": "https://www.valheim.tools/icons/items/MeadBaseHealthMinor.png",
+  "mead-base-minor-stamina": "https://www.valheim.tools/icons/items/MeadBaseStaminaMinor.png",
+  "mead-base-tasty": "https://www.valheim.tools/icons/items/MeadBaseTasty.png",
+  "mead-base-poison-resistance": "https://www.valheim.tools/icons/items/MeadBasePoisonResist.png"
+};
+
 const resolveFandomFile = async (fileName: string): Promise<string | null> => {
   const api = new URL("https://valheim.fandom.com/api.php");
   api.searchParams.set("action", "query");
@@ -111,9 +121,10 @@ const failures: string[] = [];
 for (const media of manifest.values()) {
   try {
   const isBundledManifestUrl = media.url.startsWith("https://static.wikia.nocookie.net/");
-  const sourceUrl = isBundledManifestUrl
-    ? media.url
-    : (await resolveFandomFile(media.url)) ?? (await resolveValheimToolsIcon(media.slug));
+  const sourceUrl = directIconOverrides[media.slug]
+    ?? (isBundledManifestUrl
+      ? media.url
+      : (await resolveFandomFile(media.url)) ?? (await resolveValheimToolsIcon(media.slug)));
 
   if (!sourceUrl) {
     throw new Error(`No image source found for ${media.slug} (Fandom file: ${media.url})`);
