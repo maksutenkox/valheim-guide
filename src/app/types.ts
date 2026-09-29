@@ -113,6 +113,7 @@ export type CreatureSummary = {
   health: number;
   kind: "creature" | "boss";
   source_url: string;
+  image_path?: string | null;
 };
 
 export type CreatureDetail = CreatureSummary & {
