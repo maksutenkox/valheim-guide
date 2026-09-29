@@ -1,0 +1,234 @@
+import type { Env } from "../env";
+import { applyCatalogSeed, type CatalogSeed } from "./catalog-seed";
+
+const source = (slug: string) => `https://www.valheim.tools/items/${slug}`;
+const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
+
+const swampSeed: CatalogSeed = {
+  marker: "catalog_swamp_v1",
+  biome: "swamp",
+  stations: [
+    { slug: "smelter", en: "Smelter", ru: "Плавильня" },
+    { slug: "stonecutter", en: "Stonecutter", ru: "Камнерез" }
+  ],
+  items: [
+    { slug: "scrap-iron", type: "resource", category: "material", en: "Scrap Iron", ru: "Железный лом", descriptionEn: "Iron scrap mined from muddy scrap piles and crypt chests.", descriptionRu: "Железный лом из грязных куч металлолома и сундуков Затонувших крипт.", imageFile: "Scrap_iron.png", source: source("scrap-iron") },
+    { slug: "iron", type: "resource", category: "material", en: "Iron", ru: "Железо", descriptionEn: "Iron ingot smelted from scrap iron.", descriptionRu: "Железный слиток, выплавляемый из железного лома.", imageFile: "Iron.png", source: source("iron") },
+    { slug: "iron-nails", type: "resource", category: "material", en: "Iron Nails", ru: "Железные гвозди", descriptionEn: "A batch of ten nails forged from one iron ingot.", descriptionRu: "Партия из десяти гвоздей, выкованных из одного железного слитка.", imageFile: "Iron_nails.png", source: source("iron-nails") },
+    { slug: "ancient-bark", type: "resource", category: "material", en: "Ancient Bark", ru: "Древняя кора", descriptionEn: "Dense bark chopped from ancient trees in the Swamp.", descriptionRu: "Плотная кора, добываемая с древних деревьев Болота.", imageFile: "Ancient_bark.png", source: source("ancient-bark") },
+    { slug: "guck", type: "resource", category: "material", en: "Guck", ru: "Гук", descriptionEn: "Glowing green material gathered from gucksacks high on Swamp trees.", descriptionRu: "Светящийся зелёный материал из наростов на болотных деревьях.", imageFile: "Guck.png", source: source("guck") },
+    { slug: "entrails", type: "resource", category: "material", en: "Entrails", ru: "Внутренности", descriptionEn: "Dropped by Draugr and used heavily in Swamp food.", descriptionRu: "Выпадают из драугров и используются в болотной еде.", imageFile: "Entrails.png", source: source("entrails") },
+    { slug: "bloodbag", type: "resource", category: "material", en: "Bloodbag", ru: "Мешок с кровью", descriptionEn: "A blood-filled sac dropped by Leeches.", descriptionRu: "Мешок с кровью, выпадающий из пиявок.", imageFile: "Bloodbag.png", source: source("bloodbag") },
+    { slug: "ooze", type: "resource", category: "material", en: "Ooze", ru: "Слизь", descriptionEn: "Toxic slime dropped by Blobs and Oozers.", descriptionRu: "Ядовитая слизь, выпадающая из сгустков и слизней.", imageFile: "Ooze.png", source: source("ooze") },
+    { slug: "root", type: "resource", category: "material", en: "Root", ru: "Корень", descriptionEn: "Ancient root matter dropped by Abominations.", descriptionRu: "Древняя корневая ткань, выпадающая из Мерзостей.", imageFile: "Root.png", source: source("root") },
+    { slug: "writhan-roots", type: "resource", category: "material", en: "Writhan Roots", ru: "Корни Вритана", descriptionEn: "Gnarled roots dropped by the 1.0 Swamp creature Writhan.", descriptionRu: "Скрюченные корни, выпадающие из болотного существа Вритан в версии 1.0.", imageFile: "Writhan_roots.png", source: source("writhan-roots") },
+    { slug: "turnip-seeds", type: "resource", category: "material", en: "Turnip Seeds", ru: "Семена репы", descriptionEn: "Seeds gathered from yellow Swamp flowers.", descriptionRu: "Семена, собираемые с жёлтых болотных цветков.", imageFile: "Turnip_seeds.png", source: source("turnip-seeds") },
+    { slug: "turnip", type: "resource", category: "material", en: "Turnip", ru: "Репа", descriptionEn: "A farm crop grown from turnip seeds.", descriptionRu: "Фермерская культура, выращиваемая из семян репы.", imageFile: "Turnip.png", source: source("turnip") },
+    { slug: "chain", type: "resource", category: "material", en: "Chain", ru: "Цепь", descriptionEn: "A heavy chain found in crypts and dropped by Wraiths.", descriptionRu: "Тяжёлая цепь из крипт и с призраков.", imageFile: "Chain.png", source: source("chain") },
+    { slug: "withered-bone", type: "resource", category: "material", en: "Withered Bone", ru: "Иссохшая кость", descriptionEn: "An ancient bone used to summon Bonemass.", descriptionRu: "Древняя кость для призыва Массы Костей.", imageFile: "Withered_bone.png", source: source("withered-bone") },
+    { slug: "draugr-elite-trophy", type: "resource", category: "material", en: "Draugr Elite Trophy", ru: "Трофей: элитный драугр", descriptionEn: "A rare trophy from Draugr Elites.", descriptionRu: "Редкий трофей с элитных драугров.", imageFile: "Draugr_Elite_trophy.png", source: source("draugr-elite-trophy") },
+    { slug: "abomination-trophy", type: "resource", category: "material", en: "Abomination Trophy", ru: "Трофей: Мерзость", descriptionEn: "A rare trophy from Abominations.", descriptionRu: "Редкий трофей с Мерзостей.", imageFile: "Abomination_trophy.png", source: source("abomination-trophy") },
+    { slug: "iron-battle-idol", type: "resource", category: "material", en: "Iron Battle Idol", ru: "Железный боевой идол", descriptionEn: "A rare tier idol used by the Forge of Potential for weapons.", descriptionRu: "Редкий идол для улучшения оружия в Кузнице потенциала.", imageFile: "Iron_Battle_Idol.png", source: source("iron-battle-idol") },
+    { slug: "iron-protection-idol", type: "resource", category: "material", en: "Iron Protection Idol", ru: "Железный защитный идол", descriptionEn: "A rare tier idol used by the Forge of Potential for armour.", descriptionRu: "Редкий идол для улучшения брони в Кузнице потенциала.", imageFile: "Iron_Protection_Idol.png", source: source("iron-protection-idol") },
+    { slug: "ymir-flesh", type: "resource", category: "material", en: "Ymir Flesh", ru: "Плоть Имира", descriptionEn: "A rare crafting material sold by Haldor.", descriptionRu: "Редкий материал, продаваемый Хальдором.", imageFile: "Ymir_flesh.png", source: source("ymir-flesh") },
+    { slug: "serpent-scale", type: "resource", category: "material", en: "Serpent Scale", ru: "Змеиная чешуя", descriptionEn: "Heavy scales dropped by Sea Serpents.", descriptionRu: "Тяжёлая чешуя морских змеев.", imageFile: "Serpent_scale.png", source: source("serpent-scale"), biome: "ocean" },
+    { slug: "serpent-meat", type: "resource", category: "material", en: "Serpent Meat", ru: "Мясо змея", descriptionEn: "Raw meat dropped by Sea Serpents.", descriptionRu: "Сырое мясо морских змеев.", imageFile: "Serpent_meat.png", source: source("serpent-meat"), biome: "ocean" },
+
+    { slug: "battleaxe", type: "item", category: "weapon", en: "Battleaxe", ru: "Боевой топор", descriptionEn: "The first heavy two-handed battleaxe.", descriptionRu: "Первый тяжёлый двуручный боевой топор.", imageFile: "Battleaxe.png", source: source("battleaxe") },
+    { slug: "iron-atgeir", type: "item", category: "weapon", en: "Iron Atgeir", ru: "Железный атгейр", descriptionEn: "A long iron polearm with a sweeping secondary attack.", descriptionRu: "Длинное железное древковое оружие с круговой атакой.", imageFile: "Iron_atgeir.png", source: source("iron-atgeir") },
+    { slug: "iron-axe", type: "item", category: "weapon", en: "Iron Axe", ru: "Железный топор", descriptionEn: "A powerful iron axe for combat and woodcutting.", descriptionRu: "Мощный железный топор для боя и рубки.", imageFile: "Iron_axe.png", source: source("iron-axe") },
+    { slug: "serpent-scale-shield", type: "item", category: "weapon", en: "Serpent Scale Shield", ru: "Щит из змеиной чешуи", descriptionEn: "A heavy tower shield that also resists pierce.", descriptionRu: "Тяжёлый башенный щит с сопротивлением колющему урону.", imageFile: "Serpent_scale_shield.png", source: source("serpent-scale-shield") },
+    { slug: "ancient-bark-spear", type: "item", category: "weapon", en: "Ancient Bark Spear", ru: "Копьё из древней коры", descriptionEn: "A strong balanced spear built from iron and ancient bark.", descriptionRu: "Прочное сбалансированное копьё из железа и древней коры.", imageFile: "Ancient_bark_spear.png", source: source("ancient-bark-spear") },
+    { slug: "iron-mace", type: "item", category: "weapon", en: "Iron Mace", ru: "Железная булава", descriptionEn: "A heavy blunt weapon ideal for undead foes.", descriptionRu: "Тяжёлое дробящее оружие, отлично подходящее против нежити.", imageFile: "Iron_mace.png", source: source("iron-mace") },
+    { slug: "iron-sledge", type: "item", category: "weapon", en: "Iron Sledge", ru: "Железная кувалда", descriptionEn: "A huge iron hammer that slams an area around the wielder.", descriptionRu: "Огромный железный молот с атакой по площади.", imageFile: "Iron_sledge.png", source: source("iron-sledge") },
+    { slug: "iron-sword", type: "item", category: "weapon", en: "Iron Sword", ru: "Железный меч", descriptionEn: "A reliable iron sword for the middle game.", descriptionRu: "Надёжный железный меч средней стадии игры.", imageFile: "Iron_sword.png", source: source("iron-sword") },
+    { slug: "iron-tower-shield", type: "item", category: "weapon", en: "Iron Tower Shield", ru: "Железный башенный щит", descriptionEn: "A tall iron shield with very high block power.", descriptionRu: "Высокий железный щит с мощным блоком.", imageFile: "Iron_tower_shield.png", source: source("iron-tower-shield") },
+    { slug: "shield-of-roots", type: "item", category: "weapon", en: "Shield of Roots", ru: "Щит из корней", descriptionEn: "A light 1.0 shield woven from Writhan roots.", descriptionRu: "Лёгкий щит версии 1.0, сплетённый из корней Вритана.", imageFile: "Shield_of_Roots.png", source: source("shield-of-roots") },
+    { slug: "banded-shield", type: "item", category: "weapon", en: "Banded Shield", ru: "Окованный щит", descriptionEn: "A round iron-banded shield suited to parrying.", descriptionRu: "Круглый щит с железными обручами, подходящий для парирования.", imageFile: "Banded_shield.png", source: source("banded-shield") },
+    { slug: "huntsman-bow", type: "item", category: "weapon", en: "Huntsman Bow", ru: "Охотничий лук", descriptionEn: "A quiet, accurate iron-tier bow.", descriptionRu: "Тихий и точный лук железной эпохи.", imageFile: "Huntsman_bow.png", source: source("huntsman-bow") },
+    { slug: "iron-shield", type: "item", category: "weapon", en: "Iron Shield", ru: "Железный щит", descriptionEn: "A square iron shield with solid block power.", descriptionRu: "Квадратный железный щит с хорошей силой блока.", imageFile: "Iron_shield.png", source: source("iron-shield") },
+    { slug: "iron-pickaxe", type: "item", category: "tool", en: "Iron Pickaxe", ru: "Железная кирка", descriptionEn: "A durable pickaxe capable of mining silver and obsidian.", descriptionRu: "Прочная кирка, способная добывать серебро и обсидиан.", imageFile: "Iron_pickaxe.png", source: source("iron-pickaxe") },
+    { slug: "iron-buckler", type: "item", category: "weapon", en: "Iron Buckler", ru: "Железный баклер", descriptionEn: "A light iron buckler made for strong parries.", descriptionRu: "Лёгкий железный баклер для сильных парирований.", imageFile: "Iron_buckler.png", source: source("iron-buckler") },
+    { slug: "ooze-bomb", type: "item", category: "weapon", en: "Ooze Bomb", ru: "Бомба из слизи", descriptionEn: "A thrown bomb that leaves a poisonous cloud.", descriptionRu: "Метательная бомба, оставляющая ядовитое облако.", imageFile: "Ooze_bomb.png", source: source("ooze-bomb") },
+
+    { slug: "iron-helmet", type: "item", category: "armor", en: "Iron Helmet", ru: "Железный шлем", descriptionEn: "A polished iron helmet.", descriptionRu: "Полированный железный шлем.", imageFile: "Iron_helmet.png", source: source("iron-helmet") },
+    { slug: "iron-scale-mail", type: "item", category: "armor", en: "Iron Scale Mail", ru: "Железная чешуйчатая броня", descriptionEn: "Heavy iron body armour.", descriptionRu: "Тяжёлая железная броня корпуса.", imageFile: "Iron_scale_mail.png", source: source("iron-scale-mail") },
+    { slug: "iron-greaves", type: "item", category: "armor", en: "Iron Greaves", ru: "Железные поножи", descriptionEn: "Heavy iron leg armour.", descriptionRu: "Тяжёлая железная защита ног.", imageFile: "Iron_greaves.png", source: source("iron-greaves") },
+    { slug: "root-mask", type: "item", category: "armor", en: "Root Mask", ru: "Корневая маска", descriptionEn: "A light root mask with poison resistance.", descriptionRu: "Лёгкая маска из корней с сопротивлением яду.", imageFile: "Root_mask.png", source: source("root-mask") },
+    { slug: "root-harnesk", type: "item", category: "armor", en: "Root Harnesk", ru: "Корневой харнеск", descriptionEn: "Root armour with pierce resistance.", descriptionRu: "Корневая броня с сопротивлением колющему урону.", imageFile: "Root_harnesk.png", source: source("root-harnesk") },
+    { slug: "root-leggings", type: "item", category: "armor", en: "Root Leggings", ru: "Корневые поножи", descriptionEn: "Light leg armour woven from roots and ancient bark.", descriptionRu: "Лёгкая защита ног из корней и древней коры.", imageFile: "Root_leggings.png", source: source("root-leggings") },
+
+    { slug: "black-soup", type: "item", category: "food", en: "Black Soup", ru: "Чёрный суп", descriptionEn: "A health-focused soup made from bloodbag, honey and turnip.", descriptionRu: "Суп на здоровье из мешка с кровью, мёда и репы.", imageFile: "Black_soup.png", source: source("black-soup") },
+    { slug: "muckshake", type: "item", category: "food", en: "Muckshake", ru: "Грязевой коктейль", descriptionEn: "A stamina drink made from ooze and berries.", descriptionRu: "Напиток на выносливость из слизи и ягод.", imageFile: "Muckshake.png", source: source("muckshake") },
+    { slug: "sausages", type: "item", category: "food", en: "Sausages", ru: "Сосиски", descriptionEn: "A staple Swamp health food made from entrails.", descriptionRu: "Основная болотная еда на здоровье из внутренностей.", imageFile: "Sausages.png", source: source("sausages") },
+    { slug: "turnip-stew", type: "item", category: "food", en: "Turnip Stew", ru: "Рагу из репы", descriptionEn: "A stamina-focused stew from turnips and boar meat.", descriptionRu: "Рагу на выносливость из репы и мяса кабана.", imageFile: "Turnip_stew.png", source: source("turnip-stew") },
+    { slug: "cooked-serpent-meat", type: "item", category: "food", en: "Cooked Serpent Meat", ru: "Жареное мясо змея", descriptionEn: "Sea serpent meat cooked on an iron cooking station.", descriptionRu: "Мясо морского змея, приготовленное на железной стойке.", imageFile: "Cooked_serpent_meat.png", source: source("cooked-serpent-meat"), biome: "ocean" },
+    { slug: "serpent-stew", type: "item", category: "food", en: "Serpent Stew", ru: "Рагу из змея", descriptionEn: "A powerful health food made from cooked serpent meat.", descriptionRu: "Мощная еда на здоровье из жареного мяса змея.", imageFile: "Serpent_stew.png", source: source("serpent-stew") },
+
+    { slug: "mead-base-medium-healing", type: "item", category: "consumable", en: "Mead Base: Medium Healing", ru: "Основа медовухи: среднее лечение", descriptionEn: "A healing mead base ready for fermentation.", descriptionRu: "Основа лечебной медовухи для ферментации.", imageFile: "Mead_base_medium_healing.png", source: source("mead-base-medium-healing") },
+    { slug: "medium-healing-mead", type: "item", category: "consumable", en: "Medium Healing Mead", ru: "Средняя лечебная медовуха", descriptionEn: "A fermented mid-tier healing mead.", descriptionRu: "Ферментированная лечебная медовуха среднего уровня.", imageFile: "Medium_healing_mead.png", source: source("medium-healing-mead") },
+    { slug: "mead-base-frost-resistance", type: "item", category: "consumable", en: "Mead Base: Frost Resistance", ru: "Основа медовухи: сопротивление морозу", descriptionEn: "A mead base used to survive the Mountains before frost-resistant armour.", descriptionRu: "Основа медовухи для выживания в Горах до морозостойкой брони.", imageFile: "Mead_base_frost_resistance.png", source: source("mead-base-frost-resistance") },
+    { slug: "frost-resistance-mead", type: "item", category: "consumable", en: "Frost Resistance Mead", ru: "Медовуха сопротивления морозу", descriptionEn: "A fermented mead granting frost resistance.", descriptionRu: "Ферментированная медовуха, дающая сопротивление морозу.", imageFile: "Frost_resistance_mead.png", source: source("frost-resistance-mead") },
+
+    { slug: "stonecutter", type: "item", category: "building", en: "Stonecutter", ru: "Камнерез", descriptionEn: "Unlocks stone construction pieces.", descriptionRu: "Открывает строительство из камня.", imageFile: "Stonecutter.png", source: building("stonecutter") },
+    { slug: "iron-cooking-station", type: "item", category: "building", en: "Iron Cooking Station", ru: "Железная кулинарная стойка", descriptionEn: "A stronger cooking station for large meats.", descriptionRu: "Усиленная стойка для приготовления крупного мяса.", imageFile: "Iron_cooking_station.png", source: building("iron-cooking-station") },
+    { slug: "longship", type: "item", category: "building", en: "Longship", ru: "Драккар", descriptionEn: "A large fast Viking ship with substantial storage.", descriptionRu: "Большой быстрый корабль викингов с вместительным трюмом.", imageFile: "Longship.png", source: building("longship") },
+    { slug: "reinforced-chest", type: "item", category: "building", en: "Reinforced Chest", ru: "Усиленный сундук", descriptionEn: "A larger storage chest reinforced with iron.", descriptionRu: "Увеличенный сундук, усиленный железом.", imageFile: "Reinforced_chest.png", source: building("reinforced-chest") },
+    { slug: "spice-rack", type: "item", category: "building", en: "Spice Rack", ru: "Полка для специй", descriptionEn: "A Cauldron upgrade unlocked through Swamp farming.", descriptionRu: "Улучшение котла, открываемое болотной фермерской прогрессией.", imageFile: "Spice_rack.png", source: building("spice-rack") },
+    { slug: "smiths-anvil", type: "item", category: "building", en: "Smith's Anvil", ru: "Кузнечная наковальня", descriptionEn: "A Forge upgrade made with iron.", descriptionRu: "Улучшение кузницы из железа.", imageFile: "Smith%27s_anvil.png", source: building("smiths-anvil") },
+    { slug: "forge-tool-rack", type: "item", category: "building", en: "Forge Tool Rack", ru: "Стойка инструментов кузницы", descriptionEn: "A Forge upgrade made from iron and wood.", descriptionRu: "Улучшение кузницы из железа и дерева.", imageFile: "Forge_tool_rack.png", source: building("forge-tool-rack") }
+  ],
+  recipes: [
+    { item: "iron", station: "smelter", ingredients: [["scrap-iron",1]] },
+    { item: "iron-nails", station: "forge", output: 10, ingredients: [["iron",1]] },
+
+    { item: "battleaxe", station: "forge", level: 2, ingredients: [["ancient-bark",30],["iron",35],["leather-scraps",4]] },
+    { item: "iron-atgeir", station: "forge", level: 2, ingredients: [["wood",10],["iron",30],["leather-scraps",2]] },
+    { item: "iron-axe", station: "forge", level: 2, ingredients: [["wood",4],["iron",20],["leather-scraps",2]] },
+    { item: "serpent-scale-shield", station: "forge", level: 3, ingredients: [["finewood",10],["iron",4],["serpent-scale",8]] },
+    { item: "ancient-bark-spear", station: "forge", level: 3, ingredients: [["troll-hide",4],["iron",10],["ancient-bark",10]] },
+    { item: "iron-mace", station: "forge", level: 2, ingredients: [["wood",4],["iron",20],["leather-scraps",3]] },
+    { item: "iron-sledge", station: "forge", level: 2, ingredients: [["ancient-bark",10],["iron",30],["ymir-flesh",4],["draugr-elite-trophy",1]] },
+    { item: "iron-sword", station: "forge", level: 2, ingredients: [["wood",2],["iron",20],["leather-scraps",3]] },
+    { item: "iron-tower-shield", station: "forge", level: 2, ingredients: [["finewood",15],["iron",10]] },
+    { item: "shield-of-roots", station: "workbench", level: 2, ingredients: [["finewood",10],["writhan-roots",1]] },
+    { item: "banded-shield", station: "forge", level: 2, ingredients: [["finewood",10],["iron",8]] },
+    { item: "huntsman-bow", station: "forge", ingredients: [["finewood",10],["iron",20],["feathers",10],["deer-hide",2]] },
+    { item: "iron-shield", station: "forge", level: 2, ingredients: [["finewood",10],["iron",6]] },
+    { item: "iron-pickaxe", station: "forge", level: 2, ingredients: [["corewood",3],["iron",20]] },
+    { item: "iron-buckler", station: "forge", level: 2, ingredients: [["iron",10],["ancient-bark",4]] },
+    { item: "ooze-bomb", station: "workbench", output: 5, ingredients: [["leather-scraps",5],["ooze",5],["resin",3]] },
+
+    { item: "iron-helmet", station: "forge", ingredients: [["iron",20],["deer-hide",2]] },
+    { item: "iron-scale-mail", station: "forge", level: 2, ingredients: [["iron",20],["deer-hide",2]] },
+    { item: "iron-greaves", station: "forge", level: 2, ingredients: [["iron",20],["deer-hide",2]] },
+    { item: "root-mask", station: "workbench", level: 2, ingredients: [["root",10],["ancient-bark",10],["leather-scraps",4]] },
+    { item: "root-harnesk", station: "workbench", level: 2, ingredients: [["root",10],["ancient-bark",10],["deer-hide",2]] },
+    { item: "root-leggings", station: "workbench", level: 2, ingredients: [["root",10],["ancient-bark",10],["deer-hide",2]] },
+
+    { item: "black-soup", station: "cauldron", level: 2, ingredients: [["bloodbag",1],["honey",1],["turnip",1]] },
+    { item: "muckshake", station: "cauldron", level: 2, ingredients: [["ooze",1],["raspberries",2],["blueberries",2]] },
+    { item: "sausages", station: "cauldron", level: 2, output: 4, ingredients: [["entrails",4],["boar-meat",1],["thistle",1]] },
+    { item: "turnip-stew", station: "cauldron", level: 2, ingredients: [["boar-meat",1],["turnip",3]] },
+    { item: "cooked-serpent-meat", station: "iron-cooking-station", ingredients: [["serpent-meat",1]] },
+    { item: "serpent-stew", station: "cauldron", level: 2, ingredients: [["cooked-serpent-meat",1],["mushroom",1],["honey",2]] },
+
+    { item: "mead-base-medium-healing", station: "mead-ketill", ingredients: [["honey",10],["bloodbag",4],["raspberries",10],["dandelion",1]] },
+    { item: "medium-healing-mead", station: "fermenter", output: 6, ingredients: [["mead-base-medium-healing",1]] },
+    { item: "mead-base-frost-resistance", station: "mead-ketill", ingredients: [["honey",10],["thistle",5],["bloodbag",2],["greydwarf-eye",1]] },
+    { item: "frost-resistance-mead", station: "fermenter", output: 6, ingredients: [["mead-base-frost-resistance",1]] },
+
+    { item: "stonecutter", station: "hammer", ingredients: [["wood",10],["iron",2],["stone",4]] },
+    { item: "iron-cooking-station", station: "hammer", ingredients: [["iron",3],["chain",3]] },
+    { item: "longship", station: "hammer", ingredients: [["iron-nails",100],["deer-hide",10],["finewood",40],["ancient-bark",40]] },
+    { item: "reinforced-chest", station: "hammer", ingredients: [["finewood",10],["iron",2]] },
+    { item: "spice-rack", station: "hammer", ingredients: [["dandelion",3],["carrot",2],["mushroom",5],["thistle",3],["turnip",3]] },
+    { item: "smiths-anvil", station: "hammer", ingredients: [["wood",5],["iron",20]] },
+    { item: "forge-tool-rack", station: "hammer", ingredients: [["wood",10],["iron",15]] }
+  ],
+  upgrades: [
+    { item:"battleaxe", level:2, stationLevel:3, ingredients:[["ancient-bark",5],["iron",15]] },
+    { item:"battleaxe", level:3, stationLevel:4, ingredients:[["ancient-bark",10],["iron",30]] },
+    { item:"battleaxe", level:4, stationLevel:5, ingredients:[["ancient-bark",20],["iron",60]] },
+
+    { item:"iron-atgeir", level:2, stationLevel:3, ingredients:[["iron",15],["leather-scraps",1]] },
+    { item:"iron-atgeir", level:3, stationLevel:4, ingredients:[["iron",30],["leather-scraps",2]] },
+    { item:"iron-atgeir", level:4, stationLevel:5, ingredients:[["iron",60],["leather-scraps",4]] },
+
+    { item:"iron-axe", level:2, stationLevel:3, ingredients:[["iron",10],["leather-scraps",1]] },
+    { item:"iron-axe", level:3, stationLevel:4, ingredients:[["iron",20],["leather-scraps",2]] },
+    { item:"iron-axe", level:4, stationLevel:5, ingredients:[["iron",40],["leather-scraps",4]] },
+
+    { item:"ancient-bark-spear", level:2, stationLevel:4, ingredients:[["troll-hide",1],["iron",5],["ancient-bark",5]] },
+    { item:"ancient-bark-spear", level:3, stationLevel:5, ingredients:[["troll-hide",2],["iron",10],["ancient-bark",10]] },
+    { item:"ancient-bark-spear", level:4, stationLevel:6, ingredients:[["troll-hide",4],["iron",20],["ancient-bark",20]] },
+
+    { item:"iron-mace", level:2, stationLevel:3, ingredients:[["iron",10]] },
+    { item:"iron-mace", level:3, stationLevel:4, ingredients:[["iron",20]] },
+    { item:"iron-mace", level:4, stationLevel:5, ingredients:[["iron",40]] },
+
+    { item:"iron-sledge", level:2, stationLevel:3, ingredients:[["ancient-bark",2],["iron",15],["ymir-flesh",2]] },
+    { item:"iron-sledge", level:3, stationLevel:4, ingredients:[["ancient-bark",4],["iron",30],["ymir-flesh",4]] },
+    { item:"iron-sledge", level:4, stationLevel:5, ingredients:[["ancient-bark",8],["iron",60],["ymir-flesh",8]] },
+
+    { item:"iron-sword", level:2, stationLevel:3, ingredients:[["wood",1],["iron",10],["leather-scraps",2]] },
+    { item:"iron-sword", level:3, stationLevel:4, ingredients:[["wood",2],["iron",20],["leather-scraps",4]] },
+    { item:"iron-sword", level:4, stationLevel:5, ingredients:[["wood",4],["iron",40],["leather-scraps",8]] },
+
+    { item:"huntsman-bow", level:2, stationLevel:2, ingredients:[["finewood",5],["iron",10],["feathers",5],["deer-hide",2]] },
+    { item:"huntsman-bow", level:3, stationLevel:3, ingredients:[["finewood",10],["iron",20],["feathers",10],["deer-hide",4]] },
+    { item:"huntsman-bow", level:4, stationLevel:4, ingredients:[["finewood",20],["iron",40],["feathers",20],["deer-hide",8]] },
+
+    { item:"iron-pickaxe", level:2, stationLevel:3, ingredients:[["corewood",1],["iron",10]] },
+    { item:"iron-pickaxe", level:3, stationLevel:4, ingredients:[["corewood",2],["iron",20]] },
+    { item:"iron-pickaxe", level:4, stationLevel:5, ingredients:[["corewood",4],["iron",40]] },
+
+    ...["iron-helmet","iron-scale-mail","iron-greaves"].flatMap(item => [
+      { item, level:2, stationLevel:3, ingredients:[["iron",5]] as Array<[string,number]> },
+      { item, level:3, stationLevel:4, ingredients:[["iron",10]] as Array<[string,number]> },
+      { item, level:4, stationLevel:5, ingredients:[["iron",20]] as Array<[string,number]> }
+    ]),
+    ...["root-mask","root-harnesk","root-leggings"].flatMap(item => [
+      { item, level:2, stationLevel:3, ingredients:[["root",2],["ancient-bark",5]] as Array<[string,number]> },
+      { item, level:3, stationLevel:4, ingredients:[["root",4],["ancient-bark",10]] as Array<[string,number]> },
+      { item, level:4, stationLevel:5, ingredients:[["root",6],["ancient-bark",15]] as Array<[string,number]> }
+    ]),
+    { item:"banded-shield", level:2, stationLevel:3, ingredients:[["finewood",10],["iron",4]] },
+    { item:"banded-shield", level:3, stationLevel:4, ingredients:[["finewood",20],["iron",8]] },
+    { item:"iron-shield", level:2, stationLevel:3, ingredients:[["finewood",10],["iron",3]] },
+    { item:"iron-shield", level:3, stationLevel:4, ingredients:[["finewood",20],["iron",6]] },
+    { item:"iron-tower-shield", level:2, stationLevel:3, ingredients:[["finewood",10],["iron",5]] },
+    { item:"iron-tower-shield", level:3, stationLevel:4, ingredients:[["finewood",20],["iron",10]] },
+    { item:"iron-buckler", level:2, stationLevel:3, ingredients:[["iron",5],["ancient-bark",1]] },
+    { item:"iron-buckler", level:3, stationLevel:4, ingredients:[["iron",10],["ancient-bark",2]] },
+    { item:"serpent-scale-shield", level:2, stationLevel:4, ingredients:[["finewood",10],["iron",2],["serpent-scale",4]] },
+    { item:"serpent-scale-shield", level:3, stationLevel:5, ingredients:[["finewood",20],["iron",4],["serpent-scale",8]] },
+    { item:"shield-of-roots", level:2, stationLevel:3, ingredients:[["finewood",5],["writhan-roots",2]] },
+    { item:"shield-of-roots", level:3, stationLevel:4, ingredients:[["finewood",10],["writhan-roots",4]] }
+  ],
+  stats: [
+    ["battleaxe","slash_damage","70"],["battleaxe","chop","40"],["battleaxe","durability","200"],["battleaxe","stamina_use","16"],
+    ["iron-atgeir","pierce_damage","65"],["iron-atgeir","durability","175"],["iron-atgeir","stamina_use","14"],
+    ["iron-axe","slash_damage","60"],["iron-axe","chop","50"],["iron-axe","durability","175"],["iron-axe","stamina_use","10"],
+    ["serpent-scale-shield","block_armor","60"],["serpent-scale-shield","durability","250"],
+    ["ancient-bark-spear","pierce_damage","55"],["ancient-bark-spear","durability","100"],["ancient-bark-spear","stamina_use","10"],
+    ["iron-mace","blunt_damage","55"],["iron-mace","durability","200"],["iron-mace","stamina_use","10"],
+    ["iron-sledge","blunt_damage","55"],["iron-sledge","durability","100"],["iron-sledge","stamina_use","20"],
+    ["iron-sword","slash_damage","55"],["iron-sword","durability","200"],["iron-sword","stamina_use","10"],
+    ["iron-tower-shield","block_armor","52"],["iron-tower-shield","durability","200"],
+    ["shield-of-roots","block_armor","48"],["shield-of-roots","durability","200"],
+    ["banded-shield","block_armor","42"],["banded-shield","durability","200"],
+    ["huntsman-bow","pierce_damage","42"],["huntsman-bow","durability","100"],
+    ["iron-shield","block_armor","35"],["iron-shield","durability","200"],
+    ["iron-pickaxe","pierce_damage","33"],["iron-pickaxe","pickaxe","33"],["iron-pickaxe","durability","150"],["iron-pickaxe","stamina_use","10"],
+    ["iron-buckler","block_armor","28"],["iron-buckler","durability","200"],
+    ["ooze-bomb","blunt_damage","5"],
+    ["iron-helmet","armor","14"],["iron-scale-mail","armor","14"],["iron-greaves","armor","14"],
+    ["root-mask","armor","8"],["root-harnesk","armor","8"],["root-leggings","armor","8"],
+    ["black-soup","health","50"],["black-soup","stamina","17"],["black-soup","duration","20","min"],["black-soup","healing","3","hp/tick"],
+    ["muckshake","health","16"],["muckshake","stamina","50"],["muckshake","duration","20","min"],["muckshake","healing","1","hp/tick"],
+    ["sausages","health","55"],["sausages","stamina","18"],["sausages","duration","25","min"],["sausages","healing","3","hp/tick"],
+    ["turnip-stew","health","18"],["turnip-stew","stamina","55"],["turnip-stew","duration","25","min"],["turnip-stew","healing","2","hp/tick"],
+    ["cooked-serpent-meat","health","70"],["cooked-serpent-meat","stamina","23"],["cooked-serpent-meat","duration","25","min"],["cooked-serpent-meat","healing","3","hp/tick"],
+    ["serpent-stew","health","80"],["serpent-stew","stamina","26"],["serpent-stew","duration","30","min"],["serpent-stew","healing","4","hp/tick"]
+  ],
+  resourceSources: [
+    ["scrap-iron","Mine muddy scrap piles and loot Sunken Crypt chests.","Добывайте грязные кучи металлолома и сундуки в Затонувших криптах.",source("scrap-iron")],
+    ["iron","Smelt Scrap Iron in a Smelter.","Переплавьте железный лом в плавильне.",source("iron")],
+    ["ancient-bark","Chop Ancient Trees in the Swamp.","Рубите древние деревья на Болоте.",source("ancient-bark")],
+    ["guck","Mine gucksacks attached high on Swamp trees.","Сбивайте зелёные наросты на высоких болотных деревьях.",source("guck")],
+    ["entrails","Dropped by Draugr.","Выпадает из драугров.",source("entrails")],
+    ["bloodbag","Dropped by Leeches.","Выпадает из пиявок.",source("bloodbag")],
+    ["ooze","Dropped by Blobs and Oozers.","Выпадает из сгустков и слизней.",source("ooze")],
+    ["root","Dropped by Abominations.","Выпадает из Мерзостей.",source("root")],
+    ["writhan-roots","Dropped 1–2 at a time by Writhan in distant Swamps.","Выпадает по 1–2 из Вританов в удалённых Болотах.",source("writhan-roots")],
+    ["turnip-seeds","Gather from yellow seed-turnip flowers in the Swamp.","Собирается с жёлтых цветков семенной репы на Болоте.",source("turnip-seeds")],
+    ["turnip","Grow Turnip Seeds using the Cultivator.","Выращивается из семян репы культиватором.",source("turnip")],
+    ["chain","Found in crypts and dropped by Wraiths.","Находится в криптах и выпадает из призраков.",source("chain")],
+    ["withered-bone","Found in Sunken Crypts; used to summon Bonemass.","Находится в Затонувших криптах; используется для призыва Массы Костей.",source("withered-bone")],
+    ["iron-battle-idol","Rare Swamp-tier chest loot used at the Forge of Potential.","Редкая болотная добыча для Кузницы потенциала.",source("iron-battle-idol")],
+    ["iron-protection-idol","Rare Swamp-tier chest loot used at the Forge of Potential.","Редкая болотная добыча для Кузницы потенциала.",source("iron-protection-idol")]
+  ]
+};
+
+export const ensureSwampCatalog = (env: Env): Promise<void> => applyCatalogSeed(env, swampSeed);
