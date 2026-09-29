@@ -50,7 +50,8 @@ for (const seed of seedContents) {
   for (const match of seed.content.matchAll(/\{\s*slug:\s*"([^"]+)",\s*type:\s*"(?:item|resource)"/g)) {
     const slug = match[1];
     const previous = seenSeedSlugs.get(slug);
-    if (previous && previous !== seed.name && !sharedSeedSlugs.has(slug)) {
+    const trophyOverlay = seed.name === "seed-trophies.ts" || previous === "seed-trophies.ts";
+    if (previous && previous !== seed.name && !sharedSeedSlugs.has(slug) && !trophyOverlay) {
       duplicateSlugs.push(`${slug} (${previous}, ${seed.name})`);
     }
     else if (!previous) seenSeedSlugs.set(slug, seed.name);
