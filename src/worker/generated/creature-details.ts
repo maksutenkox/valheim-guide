@@ -913,5 +913,437 @@ export const generatedCreatureDetails: Record<string, GeneratedCreatureDetail> =
         "amount": "1"
       }
     ]
+  },
+  "boar": {
+    "health": 10,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Boar Meat",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Leather Scraps",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Boar Trophy",
+        "chance": "15%",
+        "amount": "1"
+      }
+    ]
+  },
+  "greydwarf-brute": {
+    "health": 150,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "very-weak"
+      },
+      {
+        "type": "poison",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Greydwarf Eye",
+        "chance": "50%",
+        "amount": "2"
+      },
+      {
+        "name": "Stone",
+        "chance": "100%",
+        "amount": "2"
+      },
+      {
+        "name": "Wood",
+        "chance": "100%",
+        "amount": "3-5"
+      },
+      {
+        "name": "Dandelion",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Ancient Seed",
+        "chance": "33%",
+        "amount": "1"
+      },
+      {
+        "name": "Greydwarf Brute Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "bear": {
+    "health": 500,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Bear Paw",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Bear Meat",
+        "chance": "100%",
+        "amount": "2-3"
+      },
+      {
+        "name": "Bear Hide",
+        "chance": "100%",
+        "amount": "4-5"
+      },
+      {
+        "name": "Bear Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "blob": {
+    "health": 50,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "weak"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "resistant"
+      },
+      {
+        "type": "frost",
+        "level": "weak"
+      },
+      {
+        "type": "lightning",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Blob Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Ooze",
+        "chance": "100%",
+        "amount": "1-2"
+      }
+    ]
+  },
+  "draugr-elite": {
+    "health": 200,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Entrails",
+        "chance": "100%",
+        "amount": "2-3"
+      },
+      {
+        "name": "Draugr Elite Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "wolf": {
+    "health": 80,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Wolf Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Wolf Meat",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Wolf Pelt",
+        "chance": "100%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Wolf Fang",
+        "chance": "40%",
+        "amount": "1"
+      }
+    ]
+  },
+  "ulv": {
+    "health": 50,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "very-resistant"
+      },
+      {
+        "type": "poison",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Wolf Fang",
+        "chance": "50%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Ulv Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "lox": {
+    "health": 1000,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Lox Meat",
+        "chance": "100%",
+        "amount": "4-6"
+      },
+      {
+        "name": "Lox Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Lox Pelt",
+        "chance": "100%",
+        "amount": "2-3"
+      }
+    ]
+  },
+  "gjall": {
+    "health": 1500,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Bilebag",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Gjall Trophy",
+        "chance": "30%",
+        "amount": "1"
+      }
+    ]
+  },
+  "bonemaw": {
+    "health": 1100,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "immune"
+      },
+      {
+        "type": "frost",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Bonemaw Trophy",
+        "chance": "33%",
+        "amount": "1"
+      },
+      {
+        "name": "Bonemaw Meat",
+        "chance": "100%",
+        "amount": "6-8"
+      },
+      {
+        "name": "Bonemaw Tooth",
+        "chance": "100%",
+        "amount": "8-10"
+      }
+    ]
+  },
+  "krigen": {
+    "health": 1300,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "frost",
+        "level": "very-resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "ignore"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Mould: Chestpiece of the Vanguard",
+        "chance": "3%",
+        "amount": "1"
+      },
+      {
+        "name": "Mould: Hood of the Vanguard",
+        "chance": "3%",
+        "amount": "1"
+      },
+      {
+        "name": "Mould: Trousers of the Vanguard",
+        "chance": "3%",
+        "amount": "1"
+      },
+      {
+        "name": "Memorial Coal",
+        "chance": "20%",
+        "amount": "1"
+      },
+      {
+        "name": "Krigen Trophy",
+        "chance": "10%",
+        "amount": "1"
+      },
+      {
+        "name": "Leather Straps",
+        "chance": "100%",
+        "amount": "1-3"
+      },
+      {
+        "name": "Mould: Trousers of the Protector",
+        "chance": "3%",
+        "amount": "1"
+      },
+      {
+        "name": "Mould: Breastplate of the Protector",
+        "chance": "3%",
+        "amount": "1"
+      },
+      {
+        "name": "Mould: Helmet of the Protector",
+        "chance": "3%",
+        "amount": "1"
+      }
+    ]
   }
 };
