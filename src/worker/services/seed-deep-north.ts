@@ -5,11 +5,13 @@ const item = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
 
 const deepNorthSeed: CatalogSeed = {
-  marker: "catalog_deep_north_v2",
+  marker: "catalog_deep_north_v3",
   biome: "deep-north",
   stations: [
     { slug: "frigid-kiln", en: "Frigid Kiln", ru: "Морозная печь" },
-    { slug: "frost-foundry", en: "Frost Foundry", ru: "Морозная литейная" }
+    { slug: "frost-foundry", en: "Frost Foundry", ru: "Морозная литейная" },
+    { slug: "black-forge-frost-foundry", en: "Black Forge → Frost Foundry", ru: "Чёрная кузница → Морозная литейная" },
+    { slug: "galdr-table-frost-foundry", en: "Galdr Table → Frost Foundry", ru: "Стол гальдра → Морозная литейная" }
   ],
   items: [
     { slug:"kindled-ribs", type:"resource", category:"material", en:"Kindled Ribs", ru:"Пылающие рёбра", descriptionEn:"A Fader relic used to build the Eternal Pyre.", descriptionRu:"Реликвия Фейдера для строительства Вечного костра.", imageFile:"Kindled_Ribs.png", source:item("kindled-ribs"), biome:"ashlands" },
@@ -209,25 +211,25 @@ const deepNorthSeed: CatalogSeed = {
 
     { item:"cape-of-the-caller", station:"galdr-table", level:4, ingredients:[["seal-pelt",6],["nornathread",2],["bloodgold",5],["refined-eitr",15]] },
     { item:"moose-hide-cape", station:"black-forge", level:4, ingredients:[["moose-hide",6],["moose-sinew",2],["bloodgold",5]] },
-    { item:"nord-shield", station:"black-forge", level:4, ingredients:[["bloodgold",15],["timberwood",10],["mould-nord-shield",1]] },
-    { item:"nord-greatshield", station:"black-forge", level:4, ingredients:[["bloodgold",20],["timberwood",20],["mould-nord-greatshield",1]] },
-    { item:"nord-buckler", station:"black-forge", level:4, ingredients:[["bloodgold",10],["timberwood",10],["mould-nord-buckler",1]] },
+    { item:"nord-shield", station:"black-forge-frost-foundry", level:4, ingredients:[["bloodgold",15],["timberwood",10],["mould-nord-shield",1]] },
+    { item:"nord-greatshield", station:"black-forge-frost-foundry", level:4, ingredients:[["bloodgold",20],["timberwood",20],["mould-nord-greatshield",1]] },
+    { item:"nord-buckler", station:"black-forge-frost-foundry", level:4, ingredients:[["bloodgold",10],["timberwood",10],["mould-nord-buckler",1]] },
 
-    { item:"lightning-strike", station:"galdr-table", level:3, ingredients:[["bloodgold",10],["nornathread",5],["thunderblood-essence",1],["mould-lightning-strike",1]] },
-    { item:"echo-spike", station:"galdr-table", level:3, ingredients:[["bloodgold",10],["nornathread",4],["frostfire-essence",1],["mould-echo-spike",1]] },
-    { item:"northern-vengeance", station:"galdr-table", level:3, ingredients:[["ice",10],["nornathread",5],["hexen-trophy",1],["mould-northern-vengeance",1]] },
-    { item:"spirit-caller", station:"galdr-table", level:3, ingredients:[["frozen-branch",8],["nornathread",5],["moose-trophy",1],["mould-spirit-caller",1]] },
+    { item:"lightning-strike", station:"galdr-table-frost-foundry", level:3, ingredients:[["bloodgold",10],["nornathread",5],["thunderblood-essence",1],["mould-lightning-strike",1]] },
+    { item:"echo-spike", station:"galdr-table-frost-foundry", level:3, ingredients:[["bloodgold",10],["nornathread",4],["frostfire-essence",1],["mould-echo-spike",1]] },
+    { item:"northern-vengeance", station:"galdr-table-frost-foundry", level:3, ingredients:[["ice",10],["nornathread",5],["hexen-trophy",1],["mould-northern-vengeance",1]] },
+    { item:"spirit-caller", station:"galdr-table-frost-foundry", level:3, ingredients:[["frozen-branch",8],["nornathread",5],["moose-trophy",1],["mould-spirit-caller",1]] },
     { item:"voidcaller", station:"galdr-table", level:3, ingredients:[["ectoplasm-2",1],["ectoplasm",8],["bloodgold",2]] },
 
-    { item:"helmet-of-the-protector", station:"black-forge", level:4, ingredients:[["bloodgold",20],["moose-hide",4],["mould-helmet-of-the-protector",1]] },
-    { item:"breastplate-of-the-protector", station:"black-forge", level:4, ingredients:[["bloodgold",20],["moose-hide",8],["leather-straps",4],["mould-breastplate-of-the-protector",1]] },
-    { item:"trousers-of-the-protector", station:"black-forge", level:4, ingredients:[["bloodgold",20],["moose-hide",8],["leather-straps",4],["mould-trousers-of-the-protector",1]] },
-    { item:"hood-of-the-vanguard", station:"black-forge", level:4, ingredients:[["seal-pelt",5],["moose-hide",5],["moose-sinew",1],["mould-hood-of-the-vanguard",1]] },
-    { item:"chestpiece-of-the-vanguard", station:"black-forge", level:4, ingredients:[["bloodgold",12],["elaking-hair-bundle",8],["leather-straps",4],["mould-chestpiece-of-the-vanguard",1]] },
-    { item:"trousers-of-the-vanguard", station:"black-forge", level:4, ingredients:[["bloodgold",12],["elaking-hair-bundle",8],["seal-pelt",4],["mould-trousers-of-the-vanguard",1]] },
-    { item:"headdress-of-the-caller", station:"galdr-table", level:3, ingredients:[["moose-sinew",2],["moose-trophy",1],["nornathread",3],["mould-headdress-of-the-caller",1]] },
-    { item:"robes-of-the-caller", station:"galdr-table", level:3, ingredients:[["bloodgold",6],["moose-hide",6],["nornathread",5],["mould-robes-of-the-caller",1]] },
-    { item:"trousers-of-the-caller", station:"galdr-table", level:3, ingredients:[["bloodgold",6],["moose-hide",6],["nornathread",5],["mould-trousers-of-the-caller",1]] },
+    { item:"helmet-of-the-protector", station:"black-forge-frost-foundry", level:4, ingredients:[["bloodgold",20],["moose-hide",4],["mould-helmet-of-the-protector",1]] },
+    { item:"breastplate-of-the-protector", station:"black-forge-frost-foundry", level:4, ingredients:[["bloodgold",20],["moose-hide",8],["leather-straps",4],["mould-breastplate-of-the-protector",1]] },
+    { item:"trousers-of-the-protector", station:"black-forge-frost-foundry", level:4, ingredients:[["bloodgold",20],["moose-hide",8],["leather-straps",4],["mould-trousers-of-the-protector",1]] },
+    { item:"hood-of-the-vanguard", station:"black-forge-frost-foundry", level:4, ingredients:[["seal-pelt",5],["moose-hide",5],["moose-sinew",1],["mould-hood-of-the-vanguard",1]] },
+    { item:"chestpiece-of-the-vanguard", station:"black-forge-frost-foundry", level:4, ingredients:[["bloodgold",12],["elaking-hair-bundle",8],["leather-straps",4],["mould-chestpiece-of-the-vanguard",1]] },
+    { item:"trousers-of-the-vanguard", station:"black-forge-frost-foundry", level:4, ingredients:[["bloodgold",12],["elaking-hair-bundle",8],["seal-pelt",4],["mould-trousers-of-the-vanguard",1]] },
+    { item:"headdress-of-the-caller", station:"galdr-table-frost-foundry", level:3, ingredients:[["moose-sinew",2],["moose-trophy",1],["nornathread",3],["mould-headdress-of-the-caller",1]] },
+    { item:"robes-of-the-caller", station:"galdr-table-frost-foundry", level:3, ingredients:[["bloodgold",6],["moose-hide",6],["nornathread",5],["mould-robes-of-the-caller",1]] },
+    { item:"trousers-of-the-caller", station:"galdr-table-frost-foundry", level:3, ingredients:[["bloodgold",6],["moose-hide",6],["nornathread",5],["mould-trousers-of-the-caller",1]] },
     { item:"crown-of-valheim", station:"black-forge", level:4, ingredients:[["bloodgold",5],["crown-jewel",1]] },
 
     { item:"blob-bomb-pulp", station:"workbench", ingredients:[["corked-vial",1],["pulp-trophy",1],["dead-pulp",3]] },
@@ -239,7 +241,7 @@ const deepNorthSeed: CatalogSeed = {
     { item:"bloodgold-bolt", station:"black-forge", output:20, ingredients:[["bloodgold",1],["timberwood",8],["feathers",2]] },
     { item:"bloodgold-missile", station:"artisan-table", output:20, ingredients:[["timberwood",10],["bloodgold",1]] },
     { item:"bloodgold-payload", station:"black-forge", output:5, ingredients:[["ice",2],["bloodgold",2],["proustite-powder",3]] },
-    { item:"intricate-key", station:"black-forge", level:4, ingredients:[["bloodgold",5],["mould-intricate-key",1]] },
+    { item:"intricate-key", station:"black-forge-frost-foundry", level:4, ingredients:[["bloodgold",5],["mould-intricate-key",1]] },
 
     { item:"unbaked-poteitr", station:"cauldron", level:7, ingredients:[["seal-blubber",1],["kale",2],["poteitr",1],["oat-flour",2]] },
     { item:"baked-poteitr", station:"stone-oven", ingredients:[["unbaked-poteitr",1]] },
@@ -375,13 +377,20 @@ const baseWeaponSlugs = [
 ] as const;
 
 for (const name of baseWeaponSlugs) {
+  const baseMaterial: [string, number] =
+    name === "greatsword"
+      ? ["frozen-branch", 2]
+      : name === "knucklechains"
+        ? ["long-claws", 2]
+        : ["timberwood", 10];
+
   deepNorthSeed.recipes!.push({
     item: `nord-${name}`,
-    station: "black-forge",
+    station: "black-forge-frost-foundry",
     level: 4,
     ingredients: [
       ["bloodgold",20],
-      [name === "greatsword" ? "frozen-branch" : "timberwood", name === "greatsword" ? 2 : 10],
+      baseMaterial,
       [`mould-nord-${name}`,1]
     ]
   });
