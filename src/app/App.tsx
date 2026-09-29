@@ -301,7 +301,7 @@ function DetailStats({ locale, item }: { locale: Locale; item: ItemDetail }) {
 
 function Recipe({ locale, item, onResource }: { locale: Locale; item: ItemDetail; onResource: (slug: string) => void }) {
   if (!item.ingredients.length) return null;
-  return <><h2>{locale === "ru" ? "Крафт" : "Crafting"}</h2>{item.recipe && <p className="station">⚒ {text(locale, item.recipe)} · {locale === "ru" ? "ур." : "lvl."} {item.recipe.station_level}</p>}<IngredientList locale={locale} ingredients={item.ingredients} onResource={onResource} /></>;
+  return <><h2>{locale === "ru" ? "Крафт" : "Crafting"}</h2>{item.recipe && <p className="station">⚒ {text(locale, item.recipe)} · {locale === "ru" ? "ур." : "lvl."} {item.recipe.station_level}{item.recipe.output_quantity > 1 ? ` · ×${item.recipe.output_quantity}` : ""}</p>}<IngredientList locale={locale} ingredients={item.ingredients} onResource={onResource} /></>;
 }
 
 function Upgrades({ locale, item, onResource }: { locale: Locale; item: ItemDetail; onResource: (slug: string) => void }) {
