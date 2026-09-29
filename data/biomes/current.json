@@ -1,0 +1,15 @@
+{
+  "source_name": "Valheim Wiki — Biomes",
+  "source_url": "https://valheimwiki.wiki/en/biomes/",
+  "biomes": [
+    {"slug":"meadows","name_en":"Meadows","name_ru":"Луга","description_en":"The starting biome of Valheim.","description_ru":"Стартовый биом Valheim.","accent_color":"#7b9f59"},
+    {"slug":"black-forest","name_en":"Black Forest","name_ru":"Чёрный лес","description_en":"A dark forest rich in early metal resources.","description_ru":"Тёмный лес с ранними металлическими ресурсами.","accent_color":"#3f6954"},
+    {"slug":"swamp","name_en":"Swamp","name_ru":"Болото","description_en":"A wet, dangerous biome with crypts and iron.","description_ru":"Сырой опасный биом с криптами и железом.","accent_color":"#53604a"},
+    {"slug":"mountains","name_en":"Mountains","name_ru":"Горы","description_en":"Frozen peaks where cold protection is essential.","description_ru":"Ледяные вершины, где нужна защита от холода.","accent_color":"#aebdca"},
+    {"slug":"plains","name_en":"Plains","name_ru":"Равнины","description_en":"Open grasslands with late-game farming resources.","description_ru":"Открытые земли с ресурсами для поздней фермы.","accent_color":"#c7a25b"},
+    {"slug":"mistlands","name_en":"Mistlands","name_ru":"Туманные земли","description_en":"A mist-covered biome where Eitr magic appears.","description_ru":"Туманный биом, где появляется магия Эйтра.","accent_color":"#7a748d"},
+    {"slug":"ashlands","name_en":"Ashlands","name_ru":"Пепельные земли","description_en":"A volcanic endgame biome of fire and flametal.","description_ru":"Вулканический биом поздней игры с огнём и фламеталлом.","accent_color":"#a15437"},
+    {"slug":"deep-north","name_en":"Deep North","name_ru":"Глубокий Север","description_en":"The frozen final biome introduced with Valheim 1.0.","description_ru":"Ледяной финальный биом, появившийся с Valheim 1.0.","accent_color":"#7ca6c6"},
+    {"slug":"ocean","name_en":"Ocean","name_ru":"Океан","description_en":"The sea biome between the continents.","description_ru":"Морской биом между континентами.","accent_color":"#477a9a"}
+  ]
+}
