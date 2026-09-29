@@ -74,6 +74,8 @@ export const api = {
   removeFavorite: (itemId: number) => mutation<void>(`/api/favorites/${itemId}`, "DELETE"),
   craftLists: () => request<{ data: CraftList[] }>("/api/craft-lists"),
   createCraftList: (name: string) => mutation<{ data: CraftList }>("/api/craft-lists", "POST", { name }),
+  renameCraftList: (listId: number, name: string) => mutation<{ data: CraftList }>(`/api/craft-lists/${listId}`, "PATCH", { name }),
+  deleteCraftList: (listId: number) => mutation<void>(`/api/craft-lists/${listId}`, "DELETE"),
   craftItems: (listId: number) => request<{ data: CraftListItem[] }>(`/api/craft-lists/${listId}/items`),
   addCraftItem: (listId: number, itemId: number, quantity = 1, targetLevel = 1) => mutation<{ status: string }>(`/api/craft-lists/${listId}/items`, "POST", { itemId, quantity, targetLevel }),
   updateCraftItem: (listId: number, itemId: number, quantity: number, targetLevel = 1) =>
