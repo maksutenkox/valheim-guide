@@ -18,6 +18,7 @@ export type SeedRecipe = {
   item: string;
   station: string;
   level?: number;
+  output?: number;
   ingredients: Array<[string, number]>;
 };
 
@@ -60,7 +61,15 @@ const sourceLabel = (item: SeedItem): string =>
 const iconSource = (fileName: string): string =>
   `https://valheim.fandom.com/wiki/Special:Redirect/file/${fileName}`;
 
+export const ensureCatalogSchema = async (env: Env): Promise<void> => {
+  const { results } = await env.DB.prepare("PRAGMA table_info(recipes)").all<{ name: string }>();
+  if (!results.some((column) => column.name === "output_quantity")) {
+    await env.DB.prepare("ALTER TABLE recipes ADD COLUMN output_quantity INTEGER NOT NULL DEFAULT 1").run();
+  }
+};
+
 export const applyCatalogSeed = async (env: Env, seed: CatalogSeed): Promise<void> => {
+  await ensureCatalogSchema(env);
   const marker = await env.DB.prepare("SELECT value FROM schema_metadata WHERE key = ?")
     .bind(seed.marker).first<{ value: string }>();
   if (marker?.value === "done") return;
@@ -148,15 +157,16 @@ export const applyCatalogSeed = async (env: Env, seed: CatalogSeed): Promise<voi
   const recipeStatements: D1PreparedStatement[] = [];
   for (const recipe of seed.recipes ?? []) {
     recipeStatements.push(env.DB.prepare(`
-      INSERT INTO recipes (item_id,crafting_station_id,station_level)
-      SELECT i.id,s.id,?
+      INSERT INTO recipes (item_id,crafting_station_id,station_level,output_quantity)
+      SELECT i.id,s.id,?,?
       FROM items i
       JOIN crafting_stations s ON s.slug=?
       WHERE i.slug=?
       ON CONFLICT(item_id) DO UPDATE SET
         crafting_station_id=excluded.crafting_station_id,
-        station_level=excluded.station_level
-    `).bind(recipe.level ?? 1, recipe.station, recipe.item));
+        station_level=excluded.station_level,
+        output_quantity=excluded.output_quantity
+    `).bind(recipe.level ?? 1, recipe.output ?? 1, recipe.station, recipe.item));
 
     for (const [resource, quantity] of recipe.ingredients) {
       recipeStatements.push(env.DB.prepare(`
