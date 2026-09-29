@@ -314,7 +314,11 @@ function Upgrades({ locale, item, onResource }: { locale: Locale; item: ItemDeta
 }
 
 function IngredientList({ locale, ingredients, onResource }: { locale: Locale; ingredients: ItemDetail["ingredients"]; onResource: (slug: string) => void }) {
-  return <div className="ingredients">{ingredients.map((ingredient) => <button key={ingredient.slug} onClick={() => void onResource(ingredient.slug)}><b>{ingredient.quantity}×</b><span>{text(locale, ingredient)}</span><i>›</i></button>)}</div>;
+  return <div className="ingredients">{ingredients.map((ingredient) => <button key={ingredient.slug} onClick={() => void onResource(ingredient.slug)}>
+    <span className={ingredient.image_path ? "ingredient-icon" : "ingredient-icon fallback"}>{ingredient.image_path ? <img src={ingredient.image_path} alt="" /> : "◆"}</span>
+    <span className="ingredient-copy"><b>{ingredient.quantity}×</b><span>{text(locale, ingredient)}</span></span>
+    <i>›</i>
+  </button>)}</div>;
 }
 
 function ResultList({ locale, items, onOpen }: { locale: Locale; items: GuideItem[]; onOpen: (item: GuideItem) => void }) {
