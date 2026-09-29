@@ -614,7 +614,7 @@ const resistanceText = (locale: Locale, level: CreatureDetail["resistances"][num
 function CreatureGrid({ locale, items, onOpen }: { locale: Locale; items: CreatureSummary[]; onOpen: (slug: string) => void }) {
   if (!items.length) return <Empty message={locale === "ru" ? "Существа для этого биома пока не добавлены." : "No creatures have been added for this biome yet."} />;
   return <div className="creature-grid">{items.map((entry) => <button className="creature-card" key={entry.slug} onClick={() => void onOpen(entry.slug)}>
-    <span className={entry.kind === "boss" ? "creature-mark boss" : "creature-mark"}>{entry.kind === "boss" ? "♛" : "☠"}</span>
+    <span className={entry.kind === "boss" ? "creature-mark boss" : "creature-mark"}>{entry.image_path ? <img src={entry.image_path} alt="" /> : entry.kind === "boss" ? "♛" : "☠"}</span>
     <span className="creature-card-copy"><small>{entry.kind === "boss" ? (locale === "ru" ? "БОСС" : "BOSS") : (locale === "ru" ? "СУЩЕСТВО" : "CREATURE")}</small><strong>{text(locale,entry)}</strong><span><b>{entry.health.toLocaleString()}</b> HP</span></span>
     <i>↗</i>
   </button>)}</div>;
@@ -622,7 +622,7 @@ function CreatureGrid({ locale, items, onOpen }: { locale: Locale; items: Creatu
 
 function BossCard({ locale, boss, onOpen }: { locale: Locale; boss: BossSummary; onOpen: (slug: string) => void }) {
   return <button className="boss-card" onClick={() => void onOpen(boss.slug)}>
-    <span className="boss-crown">♛</span>
+    <span className="boss-crown">{boss.image_path ? <img src={boss.image_path} alt="" /> : "♛"}</span>
     <span className="boss-copy"><small>{locale === "ru" ? "FORSAKEN · БОСС БИОМА" : "FORSAKEN · BIOME BOSS"}</small><strong>{text(locale,boss)}</strong><span><b>{boss.health.toLocaleString()}</b> HP</span><p>{locale === "ru" ? boss.summon_ru : boss.summon_en}</p></span>
     <i>↗</i>
   </button>;
