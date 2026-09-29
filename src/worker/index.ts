@@ -5,6 +5,7 @@ import { calculateCraftList } from "./services/craft-planner";
 import { ensureBlackForestCatalog } from "./services/seed-black-forest";
 import { ensureCatalogSchema } from "./services/catalog-seed";
 import { ensureSwampCatalog } from "./services/seed-swamp";
+import { ensureMountainCatalog } from "./services/seed-mountains";
 import { handleTelegramUpdate } from "./telegram/bot";
 
 type ItemRow = {
@@ -46,6 +47,7 @@ const ensureCatalog = async (env: Env): Promise<void> => {
   await ensureCatalogSchema(env);
   await ensureBlackForestCatalog(env);
   await ensureSwampCatalog(env);
+  await ensureMountainCatalog(env);
   catalogReady = true;
 };
 
@@ -82,7 +84,7 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/api/version") {
-      return json({ build: "2026-09-29-swamp-v1-batches" });
+      return json({ build: "2026-09-29-world-v1-mountains" });
     }
 
     if (request.method === "GET" && url.pathname === "/api/health") {
@@ -100,28 +102,22 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/api/catalog-status") {
-      const counts = await Promise.all(
-        ["black-forest", "swamp"].map(async (biome) => {
-          const [items, recipes] = await Promise.all([
-            env.DB.prepare(`
-              SELECT COUNT(*) AS count
-              FROM items i JOIN biomes b ON b.id = i.biome_id
-              WHERE b.slug = ?
-            `).bind(biome).first<{ count: number }>(),
-            env.DB.prepare(`
-              SELECT COUNT(*) AS count
-              FROM recipes re
-              JOIN items i ON i.id = re.item_id
-              JOIN biomes b ON b.id = i.biome_id
-              WHERE b.slug = ?
-            `).bind(biome).first<{ count: number }>()
-          ]);
-          return [biome, { items: items?.count ?? 0, recipes: recipes?.count ?? 0 }] as const;
-        })
-      );
+      const { results } = await env.DB.prepare(`
+        SELECT b.slug,
+               COUNT(DISTINCT i.id) AS items,
+               COUNT(DISTINCT re.id) AS recipes
+        FROM biomes b
+        LEFT JOIN items i ON i.biome_id = b.id
+        LEFT JOIN recipes re ON re.item_id = i.id
+        GROUP BY b.id, b.slug
+        ORDER BY b.id
+      `).all<{ slug: string; items: number; recipes: number }>();
       return json({
-        catalog: "swamp-v1",
-        biomes: Object.fromEntries(counts)
+        catalog: "world-v1",
+        biomes: Object.fromEntries(results.map((row) => [
+          row.slug,
+          { items: row.items, recipes: row.recipes }
+        ]))
       });
     }
 
