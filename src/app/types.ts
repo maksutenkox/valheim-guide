@@ -55,6 +55,7 @@ export type ResourceDetail = GuideItem & {
   description_ru: string;
   sources: { method_en: string; method_ru: string; source_url: string | null }[];
   used_by: GuideItem[];
+  dropped_by: CreatureSummary[];
 };
 
 export type CraftList = {
@@ -97,6 +98,11 @@ export type CreatureDrop = {
   name: string;
   chance: string | null;
   amount: string | null;
+  slug?: string;
+  entity_type?: "item" | "resource";
+  name_en?: string;
+  name_ru?: string;
+  image_path?: string | null;
 };
 
 export type CreatureSummary = {
