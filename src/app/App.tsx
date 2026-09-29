@@ -78,6 +78,7 @@ export function App() {
   const [craftItems, setCraftItems] = useState<CraftListItem[]>([]);
   const [craftTotals, setCraftTotals] = useState<CraftResourceTotal[]>([]);
   const [craftListBusy, setCraftListBusy] = useState(false);
+  const [detailOrigin, setDetailOrigin] = useState<Exclude<Section, "item" | "resource">>("home");
   const craftListActionLock = useRef(false);
 
   useEffect(() => {
@@ -117,6 +118,7 @@ export function App() {
 
   const openEntry = async (entry: GuideItem) => {
     setMessage("");
+    if (section !== "item" && section !== "resource") setDetailOrigin(section);
     try {
       if (entry.entity_type === "resource") {
         setSection("resource"); setResource((await api.resource(entry.slug)).data);
@@ -127,12 +129,15 @@ export function App() {
   };
 
   const openItem = async (slug: string) => {
-    setMessage(""); setSection("item");
+    setMessage("");
+    if (section !== "item" && section !== "resource") setDetailOrigin(section);
+    setSection("item");
     try { setItem((await api.item(slug)).data); } catch { setMessage(locale === "ru" ? "Не удалось загрузить предмет." : "Could not load item."); }
   };
 
   const openResource = async (slug: string) => {
     setMessage("");
+    if (section !== "item" && section !== "resource") setDetailOrigin(section);
     try {
       const itemResponse = await api.item(slug);
       setSection("item");
@@ -323,6 +328,20 @@ export function App() {
     }
   };
 
+  const updateCraftLevel = async (planned: CraftListItem, nextLevel: number) => {
+    if (!activeCraftList) return;
+    const clamped = Math.max(1, Math.min(planned.max_level, nextLevel));
+    if (clamped === planned.target_level) return;
+    try {
+      await api.updateCraftItem(activeCraftList.id, planned.item_id, planned.quantity, clamped);
+      const [items, totals] = await Promise.all([api.craftItems(activeCraftList.id), api.craftSummary(activeCraftList.id)]);
+      setCraftItems(items.data);
+      setCraftTotals(totals.data);
+    } catch (error) {
+      setMessage(protectedErrorText(locale, error));
+    }
+  };
+
   const updateOwnedResource = async (resourceId: number, nextOwned: number) => {
     if (!activeCraftList) return;
     try {
@@ -347,7 +366,7 @@ export function App() {
 
   const goBack = () => {
     setMessage("");
-    if (section === "item" || section === "resource") return currentBiome ? setSection("biome") : setSection("search");
+    if (section === "item" || section === "resource") return setSection(detailOrigin);
     if (section === "biome") return setSection("home");
     setSection("home");
   };
@@ -387,7 +406,7 @@ export function App() {
             <button className="danger" disabled={craftListBusy} onClick={() => void deleteCraftList()} aria-label={locale === "ru" ? "Удалить список" : "Delete list"}>⌫</button>
           </div>
         </div>
-        <PlannedCraftItems locale={locale} items={craftItems} onQuantityChange={updateCraftItem} onOpen={openItem} />
+        <PlannedCraftItems locale={locale} items={craftItems} onQuantityChange={updateCraftItem} onLevelChange={updateCraftLevel} onOpen={openItem} />
         <h2>{locale === "ru" ? "Нужно ресурсов" : "Resources needed"}</h2>
         <CraftTotals locale={locale} totals={craftTotals} onResource={openResource} onOwnedChange={updateOwnedResource} />
       </>}
@@ -431,25 +450,42 @@ function Visual({ entry, hero = false }: { entry: GuideItem; hero?: boolean }) {
   return <span className={hero ? "visual hero fallback" : "visual fallback"}>{entry.entity_type === "resource" ? "◆" : "⚔"}</span>;
 }
 
-function PlannedCraftItems({ locale, items, onQuantityChange, onOpen }: { locale: Locale; items: CraftListItem[]; onQuantityChange: (item: CraftListItem, nextQuantity: number) => void; onOpen: (slug: string) => void }) {
+function PlannedCraftItems({ locale, items, onQuantityChange, onLevelChange, onOpen }: { locale: Locale; items: CraftListItem[]; onQuantityChange: (item: CraftListItem, nextQuantity: number) => void; onLevelChange: (item: CraftListItem, nextLevel: number) => void; onOpen: (slug: string) => void }) {
   if (!items.length) return <Empty message={locale === "ru" ? "Пока пусто. Добавьте предмет из его карточки." : "Nothing here yet. Add an item from its card."} />;
   return <div className="planned-items">{items.map((planned) => <div className="planned-item" key={planned.item_id}>
     <button className="planned-main" onClick={() => void onOpen(planned.slug)}>
       <span className="planned-icon">{planned.image_path ? <img src={planned.image_path} alt="" /> : "⚔"}</span>
       <span><strong>{text(locale, planned)}</strong><small>{locale === "ru" ? `Уровень ${planned.target_level}` : `Level ${planned.target_level}`}</small></span>
     </button>
-    <div className="planned-quantity">
-      <button onClick={() => void onQuantityChange(planned, planned.quantity - 1)}>−</button>
-      <strong>×{planned.quantity}</strong>
-      <button onClick={() => void onQuantityChange(planned, planned.quantity + 1)}>+</button>
-      <button className="planned-remove" aria-label={locale === "ru" ? "Удалить предмет из списка" : "Remove item from list"} onClick={() => void onQuantityChange(planned, 0)}>⌫</button>
+    <div className="planned-controls">
+      {planned.max_level > 1 && <div className="planned-level">
+        <span>{locale === "ru" ? "Ур." : "Lvl."}</span>
+        <button disabled={planned.target_level <= 1} onClick={() => void onLevelChange(planned, planned.target_level - 1)}>−</button>
+        <strong>{planned.target_level}/{planned.max_level}</strong>
+        <button disabled={planned.target_level >= planned.max_level} onClick={() => void onLevelChange(planned, planned.target_level + 1)}>+</button>
+      </div>}
+      <div className="planned-quantity">
+        <button onClick={() => void onQuantityChange(planned, planned.quantity - 1)}>−</button>
+        <strong>×{planned.quantity}</strong>
+        <button onClick={() => void onQuantityChange(planned, planned.quantity + 1)}>+</button>
+        <button className="planned-remove" aria-label={locale === "ru" ? "Удалить предмет из списка" : "Remove item from list"} onClick={() => void onQuantityChange(planned, 0)}>⌫</button>
+      </div>
     </div>
   </div>)}</div>;
 }
 
 function CraftTotals({ locale, totals, onResource, onOwnedChange }: { locale: Locale; totals: CraftResourceTotal[]; onResource: (slug: string) => void; onOwnedChange: (resourceId: number, nextOwned: number) => void }) {
   if (!totals.length) return <Empty message={locale === "ru" ? "Добавьте предмет из его карточки — здесь появится общий список ресурсов." : "Add an item from its card to see the combined resource list."} />;
-  return <div className="craft-totals">{totals.map((total) => {
+  const completeCount = totals.filter((total) => total.remaining === 0).length;
+  const missingUnits = totals.reduce((sum, total) => sum + total.remaining, 0);
+  const overallProgress = Math.round((completeCount / totals.length) * 100);
+  return <div className="craft-totals">
+    <div className="craft-overview">
+      <div><strong>{locale === "ru" ? `Готово ресурсов: ${completeCount}/${totals.length}` : `Resources ready: ${completeCount}/${totals.length}`}</strong><small>{locale === "ru" ? `Осталось собрать единиц: ${missingUnits}` : `Units still needed: ${missingUnits}`}</small></div>
+      <b>{overallProgress}%</b>
+      <span><i style={{ width: `${overallProgress}%` }} /></span>
+    </div>
+    {totals.map((total) => {
     const complete = total.remaining === 0;
     const progress = total.required > 0 ? Math.min(100, Math.round((total.owned / total.required) * 100)) : 0;
     return <div className={complete ? "craft-total complete" : "craft-total"} key={total.resource_id}>
@@ -463,6 +499,8 @@ function CraftTotals({ locale, totals, onResource, onOwnedChange }: { locale: Lo
         <button aria-label={locale === "ru" ? "Уменьшить количество" : "Decrease quantity"} onClick={() => void onOwnedChange(total.resource_id, total.owned - 1)}>−</button>
         <span>{locale === "ru" ? "У меня" : "Owned"} <strong>{total.owned}</strong></span>
         <button aria-label={locale === "ru" ? "Увеличить количество" : "Increase quantity"} onClick={() => void onOwnedChange(total.resource_id, total.owned + 1)}>+</button>
+        <button className="owned-reset" disabled={total.owned === 0} onClick={() => void onOwnedChange(total.resource_id, 0)}>{locale === "ru" ? "0" : "0"}</button>
+        <button className="owned-all" disabled={complete} onClick={() => void onOwnedChange(total.resource_id, total.required)}>✓</button>
       </div>
     </div>;
   })}</div>;
