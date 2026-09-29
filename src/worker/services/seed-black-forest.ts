@@ -52,6 +52,9 @@ const items: CatalogItem[] = [
   { slug: "greydwarf-shaman-trophy", type: "resource", category: "material", en: "Greydwarf Shaman trophy", ru: "Трофей: грейдворф-шаман", descriptionEn: "A trophy taken from a Greydwarf Shaman.", descriptionRu: "Трофей, добываемый с грейдворфа-шамана.", image: icon("Greydwarf_Shaman_trophy.png"), source: wiki("Greydwarf_Shaman") },
   { slug: "ruby", type: "resource", category: "material", en: "Ruby", ru: "Рубин", descriptionEn: "A valuable gem found as dungeon treasure.", descriptionRu: "Ценный камень, встречающийся среди сокровищ подземелий.", image: icon("Ruby.png"), source: wiki("Ruby") },
   { slug: "coal", type: "resource", category: "material", en: "Coal", ru: "Уголь", descriptionEn: "Fuel produced in a charcoal kiln or by overcooking food.", descriptionRu: "Топливо из углевыжигательной печи или пережаренной еды.", image: icon("Coal.png"), source: wiki("Coal") },
+  { slug: "skeleton-trophy", type: "resource", category: "material", en: "Skeleton trophy", ru: "Трофей: скелет", descriptionEn: "A trophy dropped by Skeletons in Burial Chambers.", descriptionRu: "Трофей, выпадающий со скелетов в Погребальных комнатах.", image: icon("Skeleton_trophy.png"), source: wiki("Skeleton") },
+  { slug: "bronze-battle-idol", type: "resource", category: "material", en: "Bronze Battle Idol", ru: "Бронзовый боевой идол", descriptionEn: "A rare Black Forest chest item used at the Forge of Potential to push weapons beyond their normal quality cap.", descriptionRu: "Редкая добыча из сундуков Чёрного леса для улучшения оружия сверх обычного предела в Кузнице потенциала.", image: icon("Bronze_Battle_Idol.png"), source: "https://www.valheim.tools/items/bronze-battle-idol/" },
+  { slug: "bronze-protection-idol", type: "resource", category: "material", en: "Bronze Protection Idol", ru: "Бронзовый защитный идол", descriptionEn: "A rare Black Forest chest item used at the Forge of Potential to push armour beyond its normal quality cap.", descriptionRu: "Редкая добыча из сундуков Чёрного леса для улучшения брони сверх обычного предела в Кузнице потенциала.", image: icon("Bronze_Protection_Idol.png"), source: "https://www.valheim.tools/items/bronze-protection-idol/" },
 
   { slug: "mushroom", type: "resource", category: "material", en: "Mushroom", ru: "Гриб", descriptionEn: "A common edible mushroom.", descriptionRu: "Обычный съедобный гриб.", image: icon("Mushroom.png"), source: wiki("Mushroom"), biome: "meadows" },
   { slug: "raspberries", type: "resource", category: "material", en: "Raspberries", ru: "Малина", descriptionEn: "Berries gathered in the Meadows.", descriptionRu: "Ягоды, собираемые в Лугах.", image: icon("Raspberries.png"), source: wiki("Raspberries"), biome: "meadows" },
@@ -60,6 +63,8 @@ const items: CatalogItem[] = [
   { slug: "neck-tail", type: "resource", category: "material", en: "Neck tail", ru: "Хвост никса", descriptionEn: "A tail taken from a Neck.", descriptionRu: "Хвост, добываемый с никса.", image: icon("Neck_tail.png"), source: wiki("Neck_tail"), biome: "meadows" },
   { slug: "cooked-deer-meat", type: "resource", category: "material", en: "Cooked deer meat", ru: "Жареное мясо оленя", descriptionEn: "Deer meat cooked over a fire.", descriptionRu: "Мясо оленя, приготовленное на огне.", image: icon("Cooked_deer_meat.png"), source: wiki("Deer_meat"), biome: "meadows" },
   { slug: "feathers", type: "resource", category: "material", en: "Feathers", ru: "Перья", descriptionEn: "Light feathers used for arrows.", descriptionRu: "Лёгкие перья для изготовления стрел.", image: icon("Feathers.png"), source: wiki("Feathers"), biome: "meadows" },
+  { slug: "deer-trophy", type: "resource", category: "material", en: "Deer trophy", ru: "Трофей: олень", descriptionEn: "A trophy dropped by Deer.", descriptionRu: "Трофей, выпадающий с оленей.", image: icon("Deer_trophy.png"), source: wiki("Deer"), biome: "meadows" },
+  { slug: "dandelion", type: "resource", category: "material", en: "Dandelion", ru: "Одуванчик", descriptionEn: "A common yellow flower.", descriptionRu: "Обычный жёлтый цветок.", image: icon("Dandelion.png"), source: wiki("Dandelion"), biome: "meadows" },
 
   { slug: "bronze-sword", type: "item", category: "weapon", en: "Bronze sword", ru: "Бронзовый меч", descriptionEn: "Blood-drinker. A thirsty friend.", descriptionRu: "Кровожадный друг. Ненасытный союзник в ваших руках.", image: icon("Bronze_sword.png"), source: wiki("Bronze_sword") },
   { slug: "bronze-mace", type: "item", category: "weapon", en: "Bronze mace", ru: "Бронзовая булава", descriptionEn: "A headache on a stick.", descriptionRu: "Головная боль на рукояти.", image: icon("Bronze_mace.png"), source: wiki("Bronze_mace") },
@@ -68,6 +73,9 @@ const items: CatalogItem[] = [
   { slug: "bronze-buckler", type: "item", category: "weapon", en: "Bronze buckler", ru: "Бронзовый баклер", descriptionEn: "A small bronze shield made for parrying.", descriptionRu: "Небольшой бронзовый щит, отлично подходящий для парирования.", image: icon("Bronze_buckler.png"), source: wiki("Bronze_buckler") },
   { slug: "bronzehead-arrows-x20", type: "item", category: "weapon", en: "Bronzehead arrows ×20", ru: "Бронзовые стрелы ×20", descriptionEn: "A batch of twenty bronze-tipped arrows.", descriptionRu: "Партия из двадцати стрел с бронзовыми наконечниками.", image: icon("Bronzehead_arrow.png"), source: wiki("Bronzehead_arrow") },
   { slug: "paws-of-the-bear", type: "item", category: "weapon", en: "Paws of the Bear", ru: "Медвежьи лапы", descriptionEn: "Made for tearing and rending.", descriptionRu: "Созданы, чтобы рвать и кромсать.", image: icon("Paws_of_the_Bear.png"), source: wiki("Paws_of_the_Bear") },
+  { slug: "copper-knife", type: "item", category: "weapon", en: "Copper knife", ru: "Медный нож", descriptionEn: "A glittering copper knife.", descriptionRu: "Блестящий медный нож.", image: icon("Copper_knife.png"), source: "https://www.valheim.tools/items/copper-knife/" },
+  { slug: "stagbreaker", type: "item", category: "weapon", en: "Stagbreaker", ru: "Оленемор", descriptionEn: "A heavy two-handed hammer that creates a wide shockwave.", descriptionRu: "Тяжёлый двуручный молот, создающий ударную волну по площади.", image: icon("Stagbreaker.png"), source: "https://www.valheim.tools/items/stagbreaker/" },
+  { slug: "bone-tower-shield", type: "item", category: "weapon", en: "Bone tower shield", ru: "Костяной башенный щит", descriptionEn: "A heavy shield built from wood and the bones of dead warriors.", descriptionRu: "Тяжёлый щит из дерева и костей павших воинов.", image: icon("Bone_tower_shield.png"), source: "https://www.valheim.tools/items/bone-tower-shield/" },
 
   { slug: "bronze-axe", type: "item", category: "tool", en: "Bronze axe", ru: "Бронзовый топор", descriptionEn: "A bright and burnished axe capable of felling tougher trees.", descriptionRu: "Полированный бронзовый топор, способный валить более крепкие деревья.", image: icon("Bronze_axe.png"), source: wiki("Bronze_axe") },
   { slug: "bronze-pickaxe", type: "item", category: "tool", en: "Bronze pickaxe", ru: "Бронзовая кирка", descriptionEn: "A durable bronze pick for mining hard rock.", descriptionRu: "Прочная бронзовая кирка для добычи твёрдых пород.", image: icon("Bronze_pickaxe.png"), source: wiki("Bronze_pickaxe") },
@@ -93,6 +101,15 @@ const items: CatalogItem[] = [
   { slug: "queens-jam-x4", type: "item", category: "food", en: "Queen's jam ×4", ru: "Королевский джем ×4", descriptionEn: "Four jars of stamina-focused berry jam.", descriptionRu: "Четыре порции ягодного джема с упором на выносливость.", image: icon("Queen%27s_jam.png"), source: wiki("Queen%27s_jam") },
   { slug: "boar-jerky-x2", type: "item", category: "food", en: "Boar jerky ×2", ru: "Вяленое мясо кабана ×2", descriptionEn: "Two balanced portions of boar jerky.", descriptionRu: "Две сбалансированные порции вяленого мяса кабана.", image: icon("Boar_jerky.png"), source: wiki("Boar_jerky") },
 
+  { slug: "mead-base-minor-healing", type: "item", category: "consumable", en: "Mead Base: Minor Healing", ru: "Основа медовухи: малое лечение", descriptionEn: "A mead base that must be fermented.", descriptionRu: "Основа медовухи, которую нужно ферментировать.", image: icon("Mead_base_minor_healing.png"), source: "https://www.valheim.tools/items/mead-base-minor-healing/" },
+  { slug: "mead-base-minor-stamina", type: "item", category: "consumable", en: "Mead Base: Minor Stamina", ru: "Основа медовухи: малая выносливость", descriptionEn: "A mead base that must be fermented.", descriptionRu: "Основа медовухи, которую нужно ферментировать.", image: icon("Mead_base_minor_stamina.png"), source: "https://www.valheim.tools/items/mead-base-minor-stamina/" },
+  { slug: "mead-base-tasty", type: "item", category: "consumable", en: "Mead Base: Tasty", ru: "Основа вкусной медовухи", descriptionEn: "A tasty mead base that must be fermented.", descriptionRu: "Основа вкусной медовухи, которую нужно ферментировать.", image: icon("Mead_base_tasty.png"), source: "https://www.valheim.tools/items/mead-base-tasty/" },
+  { slug: "mead-base-poison-resistance", type: "item", category: "consumable", en: "Mead Base: Poison Resistance", ru: "Основа медовухи: сопротивление яду", descriptionEn: "A poison-resistance mead base that must be fermented.", descriptionRu: "Основа медовухи сопротивления яду, которую нужно ферментировать.", image: icon("Mead_base_poison_resistance.png"), source: "https://www.valheim.tools/items/mead-base-poison-resistance/" },
+  { slug: "minor-healing-mead-x6", type: "item", category: "consumable", en: "Minor Healing Mead ×6", ru: "Малая лечебная медовуха ×6", descriptionEn: "A fermented batch of six minor healing meads.", descriptionRu: "Ферментированная партия из шести малых лечебных медовух.", image: icon("Minor_healing_mead.png"), source: wiki("Minor_healing_mead") },
+  { slug: "minor-stamina-mead-x6", type: "item", category: "consumable", en: "Minor Stamina Mead ×6", ru: "Малая медовуха выносливости ×6", descriptionEn: "A fermented batch of six minor stamina meads.", descriptionRu: "Ферментированная партия из шести малых медовух выносливости.", image: icon("Minor_stamina_mead.png"), source: wiki("Minor_stamina_mead") },
+  { slug: "tasty-mead-x6", type: "item", category: "consumable", en: "Tasty Mead ×6", ru: "Вкусная медовуха ×6", descriptionEn: "A fermented batch of six tasty meads.", descriptionRu: "Ферментированная партия из шести вкусных медовух.", image: icon("Tasty_mead.png"), source: "https://www.valheim.tools/items/tasty-mead/" },
+  { slug: "poison-resistance-mead-x6", type: "item", category: "consumable", en: "Poison Resistance Mead ×6", ru: "Медовуха сопротивления яду ×6", descriptionEn: "A fermented batch of six poison-resistance meads.", descriptionRu: "Ферментированная партия из шести медовух сопротивления яду.", image: icon("Poison_resistance_mead.png"), source: "https://www.valheim.tools/items/poison-resistance-mead/" },
+
   { slug: "forge", type: "item", category: "building", en: "Forge", ru: "Кузница", descriptionEn: "The metalworking crafting station of the Bronze Age.", descriptionRu: "Основная станция для обработки металла бронзовой эпохи.", image: icon("Forge.png"), source: wiki("Forge") },
   { slug: "smelter", type: "item", category: "building", en: "Smelter", ru: "Плавильня", descriptionEn: "Processes ore into metal ingots.", descriptionRu: "Переплавляет руду в металлические слитки.", image: icon("Smelter.png"), source: wiki("Smelter") },
   { slug: "charcoal-kiln", type: "item", category: "building", en: "Charcoal kiln", ru: "Углевыжигательная печь", descriptionEn: "Turns wood into coal.", descriptionRu: "Перерабатывает древесину в уголь.", image: icon("Charcoal_kiln.png"), source: wiki("Charcoal_kiln") },
@@ -103,7 +120,9 @@ const items: CatalogItem[] = [
   { slug: "karve", type: "item", category: "building", en: "Karve", ru: "Карве", descriptionEn: "A nimble early sailing vessel.", descriptionRu: "Манёвренное раннее парусное судно.", image: icon("Karve.png"), source: wiki("Karve") },
   { slug: "forge-cooler", type: "item", category: "building", en: "Forge cooler", ru: "Охладитель кузницы", descriptionEn: "An upgrade that increases Forge level.", descriptionRu: "Улучшение, повышающее уровень кузницы.", image: icon("Forge_cooler.png"), source: wiki("Forge_cooler") },
   { slug: "anvils", type: "item", category: "building", en: "Anvils", ru: "Наковальни", descriptionEn: "An upgrade that increases Forge level.", descriptionRu: "Улучшение, повышающее уровень кузницы.", image: icon("Anvils.png"), source: wiki("Anvils") },
-  { slug: "adze", type: "item", category: "building", en: "Adze", ru: "Тесло", descriptionEn: "An upgrade for the Workbench.", descriptionRu: "Улучшение для верстака.", image: icon("Adze.png"), source: wiki("Adze") }
+  { slug: "adze", type: "item", category: "building", en: "Adze", ru: "Тесло", descriptionEn: "An upgrade for the Workbench.", descriptionRu: "Улучшение для верстака.", image: icon("Adze.png"), source: wiki("Adze") },
+  { slug: "mead-ketill", type: "item", category: "building", en: "Mead Ketill", ru: "Котёл для медовухи", descriptionEn: "A brewing station for preparing mead bases.", descriptionRu: "Станция для приготовления основ медовухи.", image: icon("Mead_ketill.png"), source: "https://www.valheim.tools/building/mead-ketill" },
+  { slug: "cartography-table", type: "item", category: "building", en: "Cartography table", ru: "Стол картографа", descriptionEn: "A table used to share map discoveries with other players.", descriptionRu: "Стол для обмена открытой картой с другими игроками.", image: icon("Cartography_table.png"), source: wiki("Cartography_table") }
 ];
 
 const recipes: Recipe[] = [
@@ -115,6 +134,9 @@ const recipes: Recipe[] = [
   { item: "bronze-buckler", station: "forge", ingredients: [["wood",4],["bronze",10]] },
   { item: "bronzehead-arrows-x20", station: "forge", ingredients: [["wood",8],["bronze",1],["feathers",2]] },
   { item: "paws-of-the-bear", station: "workbench", level: 2, ingredients: [["bear-hide",2],["bear-paw",2],["leather-scraps",4]] },
+  { item: "copper-knife", station: "forge", ingredients: [["wood",2],["copper",8]] },
+  { item: "stagbreaker", station: "workbench", level: 2, ingredients: [["corewood",20],["deer-trophy",5],["leather-scraps",2]] },
+  { item: "bone-tower-shield", station: "workbench", level: 3, ingredients: [["wood",10],["bone-fragments",10],["skeleton-trophy",3]] },
   { item: "bronze-axe", station: "forge", ingredients: [["wood",4],["bronze",8],["leather-scraps",2]] },
   { item: "bronze-pickaxe", station: "forge", ingredients: [["corewood",3],["bronze",10]] },
   { item: "cultivator", station: "forge", ingredients: [["corewood",5],["bronze",5]] },
@@ -135,6 +157,14 @@ const recipes: Recipe[] = [
   { item: "minced-meat-sauce", station: "cauldron", ingredients: [["boar-meat",1],["neck-tail",1],["carrot",1]] },
   { item: "queens-jam-x4", station: "cauldron", ingredients: [["raspberries",8],["blueberries",6]] },
   { item: "boar-jerky-x2", station: "cauldron", ingredients: [["boar-meat",1],["honey",1]] },
+  { item: "mead-base-minor-healing", station: "mead-ketill", ingredients: [["honey",10],["blueberries",5],["raspberries",10],["dandelion",1]] },
+  { item: "mead-base-minor-stamina", station: "mead-ketill", ingredients: [["honey",10],["raspberries",10],["yellow-mushroom",10]] },
+  { item: "mead-base-tasty", station: "mead-ketill", ingredients: [["honey",10],["raspberries",10],["blueberries",5]] },
+  { item: "mead-base-poison-resistance", station: "mead-ketill", ingredients: [["honey",10],["thistle",5],["neck-tail",1],["coal",10]] },
+  { item: "minor-healing-mead-x6", station: "fermenter", ingredients: [["mead-base-minor-healing",1]] },
+  { item: "minor-stamina-mead-x6", station: "fermenter", ingredients: [["mead-base-minor-stamina",1]] },
+  { item: "tasty-mead-x6", station: "fermenter", ingredients: [["mead-base-tasty",1]] },
+  { item: "poison-resistance-mead-x6", station: "fermenter", ingredients: [["mead-base-poison-resistance",1]] },
   { item: "forge", station: "hammer", ingredients: [["stone",4],["coal",4],["wood",10],["copper",6]] },
   { item: "smelter", station: "hammer", ingredients: [["stone",20],["surtling-core",5]] },
   { item: "charcoal-kiln", station: "hammer", ingredients: [["stone",20],["surtling-core",5]] },
@@ -145,39 +175,49 @@ const recipes: Recipe[] = [
   { item: "karve", station: "hammer", ingredients: [["finewood",30],["deer-hide",10],["resin",20],["bronze-nails",80]] },
   { item: "forge-cooler", station: "hammer", ingredients: [["finewood",25],["copper",10]] },
   { item: "anvils", station: "hammer", ingredients: [["wood",5],["bronze",2]] },
-  { item: "adze", station: "hammer", ingredients: [["finewood",10],["bronze",3]] }
+  { item: "adze", station: "hammer", ingredients: [["finewood",10],["bronze",3]] },
+  { item: "mead-ketill", station: "hammer", ingredients: [["tin",4],["copper",6],["leather-scraps",2]] },
+  { item: "cartography-table", station: "hammer", ingredients: [["finewood",10],["bone-fragments",10],["bronze",2],["leather-scraps",5],["raspberries",4]] }
 ];
 
 const upgrades: Upgrade[] = [
   { item:"finewood-bow", level:2, stationLevel:2, ingredients:[["finewood",5],["corewood",5],["deer-hide",2]] },
   { item:"finewood-bow", level:3, stationLevel:3, ingredients:[["finewood",10],["corewood",10],["deer-hide",4]] },
-  { item:"finewood-bow", level:4, stationLevel:4, ingredients:[["finewood",15],["corewood",15],["deer-hide",6]] },
+  { item:"finewood-bow", level:4, stationLevel:4, ingredients:[["finewood",20],["corewood",20],["deer-hide",8]] },
   { item:"bronze-sword", level:2, stationLevel:2, ingredients:[["wood",1],["bronze",4],["leather-scraps",1]] },
   { item:"bronze-sword", level:3, stationLevel:3, ingredients:[["wood",2],["bronze",8],["leather-scraps",2]] },
-  { item:"bronze-sword", level:4, stationLevel:4, ingredients:[["wood",3],["bronze",12],["leather-scraps",3]] },
+  { item:"bronze-sword", level:4, stationLevel:4, ingredients:[["wood",4],["bronze",16],["leather-scraps",4]] },
   { item:"bronze-mace", level:2, stationLevel:2, ingredients:[["bronze",4]] },
   { item:"bronze-mace", level:3, stationLevel:3, ingredients:[["bronze",8]] },
-  { item:"bronze-mace", level:4, stationLevel:4, ingredients:[["bronze",12]] },
+  { item:"bronze-mace", level:4, stationLevel:4, ingredients:[["bronze",16]] },
   { item:"bronze-spear", level:2, stationLevel:2, ingredients:[["wood",3],["bronze",4],["deer-hide",1]] },
   { item:"bronze-spear", level:3, stationLevel:3, ingredients:[["wood",6],["bronze",8],["deer-hide",2]] },
-  { item:"bronze-spear", level:4, stationLevel:4, ingredients:[["wood",9],["bronze",12],["deer-hide",3]] },
+  { item:"bronze-spear", level:4, stationLevel:4, ingredients:[["wood",12],["bronze",16],["deer-hide",4]] },
   { item:"bronze-atgeir", level:2, stationLevel:2, ingredients:[["bronze",4]] },
   { item:"bronze-atgeir", level:3, stationLevel:3, ingredients:[["bronze",8]] },
-  { item:"bronze-atgeir", level:4, stationLevel:4, ingredients:[["bronze",12]] },
+  { item:"bronze-atgeir", level:4, stationLevel:4, ingredients:[["bronze",16]] },
   { item:"bronze-buckler", level:2, stationLevel:2, ingredients:[["bronze",5],["wood",1]] },
   { item:"bronze-buckler", level:3, stationLevel:3, ingredients:[["bronze",10],["wood",2]] },
   { item:"bronze-axe", level:2, stationLevel:2, ingredients:[["bronze",4],["leather-scraps",1]] },
   { item:"bronze-axe", level:3, stationLevel:3, ingredients:[["bronze",8],["leather-scraps",2]] },
-  { item:"bronze-axe", level:4, stationLevel:4, ingredients:[["bronze",12],["leather-scraps",3]] },
+  { item:"bronze-axe", level:4, stationLevel:4, ingredients:[["bronze",16],["leather-scraps",4]] },
   { item:"bronze-pickaxe", level:2, stationLevel:2, ingredients:[["corewood",1],["bronze",5]] },
   { item:"bronze-pickaxe", level:3, stationLevel:3, ingredients:[["corewood",2],["bronze",10]] },
-  { item:"bronze-pickaxe", level:4, stationLevel:4, ingredients:[["corewood",3],["bronze",15]] },
+  { item:"bronze-pickaxe", level:4, stationLevel:4, ingredients:[["corewood",4],["bronze",20]] },
   { item:"cultivator", level:2, stationLevel:2, ingredients:[["corewood",1],["bronze",1]] },
   { item:"cultivator", level:3, stationLevel:3, ingredients:[["corewood",2],["bronze",2]] },
+  { item:"copper-knife", level:2, stationLevel:2, ingredients:[["copper",4],["greydwarf-eye",8]] },
+  { item:"copper-knife", level:3, stationLevel:3, ingredients:[["copper",8],["greydwarf-eye",16]] },
+  { item:"copper-knife", level:4, stationLevel:4, ingredients:[["copper",16],["greydwarf-eye",32]] },
+  { item:"stagbreaker", level:2, stationLevel:3, ingredients:[["corewood",5],["deer-trophy",2],["leather-scraps",1],["bone-fragments",10]] },
+  { item:"stagbreaker", level:3, stationLevel:4, ingredients:[["corewood",10],["deer-trophy",4],["leather-scraps",2],["bone-fragments",20]] },
+  { item:"stagbreaker", level:4, stationLevel:5, ingredients:[["corewood",20],["deer-trophy",8],["leather-scraps",4],["bone-fragments",40]] },
+  { item:"bone-tower-shield", level:2, stationLevel:4, ingredients:[["wood",5],["bone-fragments",5]] },
+  { item:"bone-tower-shield", level:3, stationLevel:5, ingredients:[["wood",10],["bone-fragments",10]] },
   ...["bronze-helmet","bronze-plate-cuirass","bronze-plate-leggings"].flatMap(item => [
     { item, level:2, stationLevel:2, ingredients:[["bronze",3]] as Array<[string,number]> },
     { item, level:3, stationLevel:3, ingredients:[["bronze",6]] as Array<[string,number]> },
-    { item, level:4, stationLevel:4, ingredients:[["bronze",9]] as Array<[string,number]> }
+    { item, level:4, stationLevel:4, ingredients:[["bronze",12]] as Array<[string,number]> }
   ]),
   { item:"troll-leather-helmet", level:2, stationLevel:3, ingredients:[["troll-hide",2],["bone-fragments",1]] },
   { item:"troll-leather-helmet", level:3, stationLevel:4, ingredients:[["troll-hide",4],["bone-fragments",2]] },
@@ -192,16 +232,16 @@ const upgrades: Upgrade[] = [
   { item:"troll-hide-cape", level:4, stationLevel:5, ingredients:[["troll-hide",15],["bone-fragments",15]] },
   { item:"paws-of-the-bear", level:2, stationLevel:3, ingredients:[["bear-hide",2],["leather-scraps",2]] },
   { item:"paws-of-the-bear", level:3, stationLevel:4, ingredients:[["bear-hide",4],["leather-scraps",4]] },
-  { item:"paws-of-the-bear", level:4, stationLevel:5, ingredients:[["bear-hide",6],["leather-scraps",6]] },
+  { item:"paws-of-the-bear", level:4, stationLevel:5, ingredients:[["bear-hide",8],["leather-scraps",8]] },
   ...["headdress-of-the-bear"].flatMap(item => [
     { item, level:2, stationLevel:3, ingredients:[["bear-hide",2]] as Array<[string,number]> },
     { item, level:3, stationLevel:4, ingredients:[["bear-hide",4]] as Array<[string,number]> },
-    { item, level:4, stationLevel:5, ingredients:[["bear-hide",6]] as Array<[string,number]> }
+    { item, level:4, stationLevel:5, ingredients:[["bear-hide",8]] as Array<[string,number]> }
   ]),
   ...["patterns-of-the-bear","loincloth-of-the-bear"].flatMap(item => [
     { item, level:2, stationLevel:3, ingredients:[["bear-hide",2],["blueberries",1]] as Array<[string,number]> },
     { item, level:3, stationLevel:4, ingredients:[["bear-hide",4],["blueberries",2]] as Array<[string,number]> },
-    { item, level:4, stationLevel:5, ingredients:[["bear-hide",6],["blueberries",3]] as Array<[string,number]> }
+    { item, level:4, stationLevel:5, ingredients:[["bear-hide",8],["blueberries",4]] as Array<[string,number]> }
   ])
 ];
 
@@ -214,6 +254,9 @@ const stats: Array<[string,string,string,string?]> = [
   ["bronze-buckler","block_armor","16"],["bronze-buckler","parry_bonus","2.5","x"],["bronze-buckler","durability","200"],
   ["bronzehead-arrows-x20","pierce_damage","32"],
   ["paws-of-the-bear","slash_damage","25"],["paws-of-the-bear","durability","300"],["paws-of-the-bear","stamina_use","6"],
+  ["copper-knife","slash_damage","12"],["copper-knife","pierce_damage","12"],["copper-knife","durability","200"],["copper-knife","stamina_use","6"],
+  ["stagbreaker","blunt_damage","20"],["stagbreaker","pierce_damage","5"],["stagbreaker","durability","100"],["stagbreaker","stamina_use","12"],
+  ["bone-tower-shield","block_armor","32"],["bone-tower-shield","durability","200"],
   ["bronze-axe","slash_damage","40"],["bronze-axe","chop","40"],["bronze-axe","durability","125"],["bronze-axe","stamina_use","8"],
   ["bronze-pickaxe","pierce_damage","25"],["bronze-pickaxe","pickaxe","25"],["bronze-pickaxe","durability","120"],["bronze-pickaxe","stamina_use","8"],
   ["cultivator","durability","200"],
@@ -250,7 +293,10 @@ const resourceSources: Array<[string,string,string,string]> = [
   ["bear-trophy","Rare drop from Bears.","Редкий трофей с медведей.",wiki("Bear")],
   ["greydwarf-shaman-trophy","Rare drop from Greydwarf Shamans.","Редкий трофей с грейдворфов-шаманов.",wiki("Greydwarf_Shaman")],
   ["ruby","Found as valuable loot in dungeons and chests.","Находится как ценная добыча в подземельях и сундуках.",wiki("Ruby")],
-  ["coal","Produce it in a Charcoal kiln.","Производится в углевыжигательной печи.",wiki("Coal")]
+  ["coal","Produce it in a Charcoal kiln.","Производится в углевыжигательной печи.",wiki("Coal")],
+  ["skeleton-trophy","Dropped by Skeletons, especially in Burial Chambers.","Выпадает со скелетов, особенно в Погребальных комнатах.",wiki("Skeleton")],
+  ["bronze-battle-idol","Rare chest loot in Black Forest ruins, Burial Chambers and Troll Caves; used only at the Forge of Potential.","Редкая добыча из сундуков руин, Погребальных комнат и Пещер троллей; используется только в Кузнице потенциала.","https://www.valheim.tools/items/bronze-battle-idol/"],
+  ["bronze-protection-idol","Rare chest loot in Black Forest ruins, Burial Chambers and Troll Caves; used only at the Forge of Potential.","Редкая добыча из сундуков руин, Погребальных комнат и Пещер троллей; используется только в Кузнице потенциала.","https://www.valheim.tools/items/bronze-protection-idol/"]
 ];
 
 const runBatches = async (env: Env, statements: D1PreparedStatement[]): Promise<void> => {
@@ -261,14 +307,16 @@ const runBatches = async (env: Env, statements: D1PreparedStatement[]): Promise<
 
 export const ensureBlackForestCatalog = async (env: Env): Promise<void> => {
   const marker = await env.DB.prepare("SELECT value FROM schema_metadata WHERE key = ?")
-    .bind("catalog_black_forest_v1").first<{ value: string }>();
+    .bind("catalog_black_forest_v2").first<{ value: string }>();
   if (marker?.value === "done") return;
 
   await env.DB.batch([
     env.DB.prepare("INSERT INTO categories (slug,name_en,name_ru,sort_order) VALUES ('trinket','Trinkets','Обереги',35) ON CONFLICT(slug) DO UPDATE SET name_en=excluded.name_en,name_ru=excluded.name_ru,sort_order=excluded.sort_order"),
     env.DB.prepare("INSERT INTO crafting_stations (slug,name_en,name_ru) VALUES ('forge','Forge','Кузница') ON CONFLICT(slug) DO UPDATE SET name_en=excluded.name_en,name_ru=excluded.name_ru"),
     env.DB.prepare("INSERT INTO crafting_stations (slug,name_en,name_ru) VALUES ('hammer','Hammer / Building','Молот / Строительство') ON CONFLICT(slug) DO UPDATE SET name_en=excluded.name_en,name_ru=excluded.name_ru"),
-    env.DB.prepare("INSERT INTO crafting_stations (slug,name_en,name_ru) VALUES ('cauldron','Cauldron','Котёл') ON CONFLICT(slug) DO UPDATE SET name_en=excluded.name_en,name_ru=excluded.name_ru")
+    env.DB.prepare("INSERT INTO crafting_stations (slug,name_en,name_ru) VALUES ('cauldron','Cauldron','Котёл') ON CONFLICT(slug) DO UPDATE SET name_en=excluded.name_en,name_ru=excluded.name_ru"),
+    env.DB.prepare("INSERT INTO crafting_stations (slug,name_en,name_ru) VALUES ('mead-ketill','Mead Ketill','Котёл для медовухи') ON CONFLICT(slug) DO UPDATE SET name_en=excluded.name_en,name_ru=excluded.name_ru"),
+    env.DB.prepare("INSERT INTO crafting_stations (slug,name_en,name_ru) VALUES ('fermenter','Fermenter','Ферментер') ON CONFLICT(slug) DO UPDATE SET name_en=excluded.name_en,name_ru=excluded.name_ru")
   ]);
 
   const itemStatements = items.map((item) => env.DB.prepare(`
@@ -334,7 +382,7 @@ export const ensureBlackForestCatalog = async (env: Env): Promise<void> => {
   `).bind(key,value,unit ?? null,sort + 10,slug)));
 
   await env.DB.prepare(`
-    INSERT INTO schema_metadata (key,value,updated_at) VALUES ('catalog_black_forest_v1','done',CURRENT_TIMESTAMP)
+    INSERT INTO schema_metadata (key,value,updated_at) VALUES ('catalog_black_forest_v2','done',CURRENT_TIMESTAMP)
     ON CONFLICT(key) DO UPDATE SET value='done',updated_at=CURRENT_TIMESTAMP
   `).run();
 };
