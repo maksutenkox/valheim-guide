@@ -17,6 +17,11 @@ const protectedErrorText = (locale: Locale, error: unknown): string => {
           ? "Telegram не передал данные авторизации. Закройте Mini App полностью и откройте заново через кнопку бота."
           : "Telegram did not pass authorization data. Fully close the Mini App and reopen it from the bot button.";
       }
+      if (error.message === "Telegram bot token is not configured") {
+        return locale === "ru"
+          ? "Cloudflare не видит TELEGRAM_BOT_TOKEN. Нужно добавить токен этого бота в Worker Secrets."
+          : "Cloudflare cannot see TELEGRAM_BOT_TOKEN. Add this bot token to Worker Secrets.";
+      }
       if (error.message === "Telegram authorization signature is invalid") {
         return locale === "ru"
           ? "Telegram-авторизация получена, но сервер не смог подтвердить подпись. Проверьте токен бота в Cloudflare."
