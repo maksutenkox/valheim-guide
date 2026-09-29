@@ -60,7 +60,9 @@ const directIconOverrides: Record<string, string> = {
   "mead-base-medium-healing": "https://www.valheim.tools/icons/items/MeadBaseHealthMedium.png",
   "mead-base-frost-resistance": "https://www.valheim.tools/icons/items/MeadBaseFrostResist.png",
   "smiths-anvil": "https://www.valheim.tools/icons/pieces/forge_ext4.png",
-  "forge-tool-rack": "https://www.valheim.tools/icons/pieces/forge_ext6.png"
+  "forge-tool-rack": "https://www.valheim.tools/icons/pieces/forge_ext6.png",
+  "silver-battle-idol": "https://www.valheim.tools/icons/items/Upgrader3Weapon.png",
+  "silver-protection-idol": "https://www.valheim.tools/icons/items/Upgrader3Armor.png"
 };
 
 const resolveFandomFile = async (fileName: string): Promise<string | null> => {
