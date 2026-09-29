@@ -59,6 +59,7 @@ const items: CatalogItem[] = [
   { slug: "bronze-battle-idol", type: "resource", category: "material", en: "Bronze Battle Idol", ru: "Бронзовый боевой идол", descriptionEn: "A rare Black Forest chest item used at the Forge of Potential to push weapons beyond their normal quality cap.", descriptionRu: "Редкая добыча из сундуков Чёрного леса для улучшения оружия сверх обычного предела в Кузнице потенциала.", image: icon("Bronze_Battle_Idol.png"), source: "https://www.valheim.tools/items/bronze-battle-idol/" },
   { slug: "bronze-protection-idol", type: "resource", category: "material", en: "Bronze Protection Idol", ru: "Бронзовый защитный идол", descriptionEn: "A rare Black Forest chest item used at the Forge of Potential to push armour beyond their normal quality cap.", descriptionRu: "Редкая добыча из сундуков Чёрного леса для улучшения брони сверх обычного предела в Кузнице потенциала.", image: icon("Bronze_Protection_Idol.png"), source: "https://www.valheim.tools/items/bronze-protection-idol/" },
   { slug: "bear-meat", type: "resource", category: "material", en: "Bear meat", ru: "Медвежье мясо", descriptionEn: "Raw meat dropped by Bears in the Black Forest.", descriptionRu: "Сырое мясо, выпадающее с медведей в Чёрном лесу.", image: icon("Bear_meat.png"), source: "https://www.valheim.tools/items/bear-meat" },
+  { slug: "ectoplasm", type: "resource", category: "material", en: "Ectoplasm", ru: "Эктоплазма", descriptionEn: "A spectral material dropped by Ghosts and used for combat-practice structures.", descriptionRu: "Призрачный материал, добываемый с призраков и используемый для тренировочных построек.", image: icon("Ectoplasm.png"), source: "https://www.valheim.tools/updates/0-221-4", sourceName: "Valheim.tools — 0.221.4 patch data" },
   { slug: "chitin", type: "resource", category: "material", en: "Chitin", ru: "Хитин", descriptionEn: "A hard ocean material mined from Leviathan barnacles.", descriptionRu: "Твёрдый материал из океана, добываемый с наростов левиафанов.", image: icon("Chitin.png"), source: wiki("Chitin"), biome: "ocean" },
 
   { slug: "mushroom", type: "resource", category: "material", en: "Mushroom", ru: "Гриб", descriptionEn: "A common edible mushroom.", descriptionRu: "Обычный съедобный гриб.", image: icon("Mushroom.png"), source: wiki("Mushroom"), biome: "meadows" },
@@ -105,7 +106,7 @@ const items: CatalogItem[] = [
   { slug: "troll-leather-tunic", type: "item", category: "armor", en: "Troll leather tunic", ru: "Туника из кожи тролля", descriptionEn: "A flexible tunic made from troll hide.", descriptionRu: "Гибкая туника из шкуры тролля.", image: icon("Troll_leather_tunic.png"), source: wiki("Troll_Set") },
   { slug: "troll-leather-pants", type: "item", category: "armor", en: "Troll leather pants", ru: "Штаны из кожи тролля", descriptionEn: "Flexible leg armour made from troll hide.", descriptionRu: "Лёгкая защита ног из шкуры тролля.", image: icon("Troll_leather_pants.png"), source: wiki("Troll_Set") },
   { slug: "troll-hide-cape", type: "item", category: "armor", en: "Troll hide cape", ru: "Плащ из шкуры тролля", descriptionEn: "A cape made from tough and supple trollskin.", descriptionRu: "Плащ из прочной и эластичной шкуры тролля.", image: icon("Troll_hide_cape.png"), source: wiki("Troll_hide_cape") },
-  { slug: "headdress-of-the-bear", type: "item", category: "armor", en: "Headdress of the Bear", ru: "Головной убор медведя", descriptionEn: "Part of the Black Forest Bear Set introduced with Valheim 1.0.", descriptionRu: "Часть медвежьего комплекта Чёрного леса, добавленного в Valheim 1.0.", image: icon("Headdress_of_the_Bear.png"), source: wiki("Bear_Set") },
+  { slug: "headdress-of-the-bear", type: "item", category: "armor", en: "Headdress of the Bear", ru: "Головной убор медведя", descriptionEn: "Part of the light Bear Set crafted from Black Forest materials.", descriptionRu: "Часть лёгкого медвежьего комплекта из материалов Чёрного леса.", image: icon("Headdress_of_the_Bear.png"), source: wiki("Bear_Set") },
   { slug: "patterns-of-the-bear", type: "item", category: "armor", en: "Patterns of the Bear", ru: "Медвежьи узоры", descriptionEn: "Bear-hide chest armour with the Berserk set effect.", descriptionRu: "Нагрудная броня из шкуры медведя с эффектом комплекта «Берсерк».", image: icon("Patterns_of_the_Bear.png"), source: wiki("Bear_Set") },
   { slug: "loincloth-of-the-bear", type: "item", category: "armor", en: "Loincloth of the Bear", ru: "Набедренная повязка медведя", descriptionEn: "Bear-hide leg armour with the Berserk set effect.", descriptionRu: "Защита ног из шкуры медведя с эффектом комплекта «Берсерк».", image: icon("Loincloth_of_the_Bear.png"), source: wiki("Bear_Set") },
 
@@ -141,7 +142,11 @@ const items: CatalogItem[] = [
   { slug: "anvils", type: "item", category: "building", en: "Anvils", ru: "Наковальни", descriptionEn: "An upgrade that increases Forge level.", descriptionRu: "Улучшение, повышающее уровень кузницы.", image: icon("Anvils.png"), source: wiki("Anvils") },
   { slug: "adze", type: "item", category: "building", en: "Adze", ru: "Тесло", descriptionEn: "An upgrade for the Workbench.", descriptionRu: "Улучшение для верстака.", image: icon("Adze.png"), source: wiki("Adze") },
   { slug: "mead-ketill", type: "item", category: "building", en: "Mead Ketill", ru: "Котёл для медовухи", descriptionEn: "A brewing station for preparing mead bases.", descriptionRu: "Станция для приготовления основ медовухи.", image: icon("Mead_ketill.png"), source: "https://www.valheim.tools/building/mead-ketill" },
-  { slug: "cartography-table", type: "item", category: "building", en: "Cartography table", ru: "Стол картографа", descriptionEn: "A table used to share map discoveries with other players.", descriptionRu: "Стол для обмена открытой картой с другими игроками.", image: icon("Cartography_table.png"), source: wiki("Cartography_table") }
+  { slug: "cartography-table", type: "item", category: "building", en: "Cartography table", ru: "Стол картографа", descriptionEn: "A table used to share map discoveries with other players.", descriptionRu: "Стол для обмена открытой картой с другими игроками.", image: icon("Cartography_table.png"), source: wiki("Cartography_table") },
+  { slug: "archery-target", type: "item", category: "building", en: "Archery Target", ru: "Мишень для стрельбы", descriptionEn: "A reusable target for practising ranged combat.", descriptionRu: "Многоразовая мишень для тренировки стрельбы.", image: icon("Archery_target.png"), source: "https://www.valheim.tools/building/archery-target" },
+  { slug: "twig-training-dummy", type: "item", category: "building", en: "T.W.I.G.", ru: "T.W.I.G.", descriptionEn: "A combat-practice dummy that can fight back for one point of damage.", descriptionRu: "Тренировочный манекен, который может атаковать в ответ, нанося 1 единицу урона.", image: icon("T.W.I.G..png"), source: "https://www.valheim.tools/building/t-w-i-g" },
+  { slug: "bearskin-rug", type: "item", category: "building", en: "Bearskin Rug", ru: "Ковёр из медвежьей шкуры", descriptionEn: "A comfortable rug made from a bear hide, paws and trophy.", descriptionRu: "Комфортный ковёр из шкуры, лап и трофея медведя.", image: icon("Bearskin_rug.png"), source: "https://www.valheim.tools/building/bearskin-rug" },
+  { slug: "ward", type: "item", category: "building", en: "Ward", ru: "Оберег", descriptionEn: "A protective ward that restricts building and container access for other players.", descriptionRu: "Защитный оберег, ограничивающий строительство и доступ к контейнерам для других игроков.", image: icon("Ward.png"), source: "https://www.valheim.tools/building" }
 ];
 
 const recipes: Recipe[] = [
@@ -210,7 +215,11 @@ const recipes: Recipe[] = [
   { item: "anvils", station: "hammer", ingredients: [["wood",5],["bronze",2]] },
   { item: "adze", station: "hammer", ingredients: [["finewood",10],["bronze",3]] },
   { item: "mead-ketill", station: "hammer", ingredients: [["tin",4],["copper",6],["leather-scraps",2]] },
-  { item: "cartography-table", station: "hammer", ingredients: [["finewood",10],["bone-fragments",10],["bronze",2],["leather-scraps",5],["raspberries",4]] }
+  { item: "cartography-table", station: "hammer", ingredients: [["finewood",10],["bone-fragments",10],["bronze",2],["leather-scraps",5],["raspberries",4]] },
+  { item: "archery-target", station: "hammer", ingredients: [["finewood",4],["leather-scraps",10]] },
+  { item: "twig-training-dummy", station: "hammer", ingredients: [["finewood",5],["bronze-nails",10],["ectoplasm",5]] },
+  { item: "bearskin-rug", station: "hammer", ingredients: [["bear-hide",1],["bear-paw",2],["bear-trophy",1]] },
+  { item: "ward", station: "hammer", ingredients: [["finewood",5],["greydwarf-eye",5],["surtling-core",1]] }
 ];
 
 const upgrades: Upgrade[] = [
@@ -352,7 +361,8 @@ const resourceSources: Array<[string,string,string,string]> = [
   ["skeleton-trophy","Dropped by Skeletons, especially in Burial Chambers.","Выпадает со скелетов, особенно в Погребальных комнатах.",wiki("Skeleton")],
   ["bronze-battle-idol","Rare chest loot in Black Forest ruins, Burial Chambers and Troll Caves; used only at the Forge of Potential.","Редкая добыча из сундуков руин, Погребальных комнат и Пещер троллей; используется только в Кузнице потенциала.","https://www.valheim.tools/items/bronze-battle-idol/"],
   ["bronze-protection-idol","Rare chest loot in Black Forest ruins, Burial Chambers and Troll Caves; used only at the Forge of Potential.","Редкая добыча из сундуков руин, Погребальных комнат и Пещер троллей; используется только в Кузнице потенциала.","https://www.valheim.tools/items/bronze-protection-idol/"],
-  ["bear-meat","Dropped by Bears in the Black Forest.","Выпадает с медведей в Чёрном лесу.","https://www.valheim.tools/items/bear-meat"]
+  ["bear-meat","Dropped by Bears in the Black Forest.","Выпадает с медведей в Чёрном лесу.","https://www.valheim.tools/items/bear-meat"],
+  ["ectoplasm","Dropped by Ghosts encountered in Black Forest Burial Chambers.","Выпадает с призраков, встречающихся в Погребальных комнатах Чёрного леса.","https://www.valheim.tools/building/t-w-i-g"]
 ];
 
 const runBatches = async (env: Env, statements: D1PreparedStatement[]): Promise<void> => {
@@ -363,7 +373,7 @@ const runBatches = async (env: Env, statements: D1PreparedStatement[]): Promise<
 
 export const ensureBlackForestCatalog = async (env: Env): Promise<void> => {
   const marker = await env.DB.prepare("SELECT value FROM schema_metadata WHERE key = ?")
-    .bind("catalog_black_forest_v3").first<{ value: string }>();
+    .bind("catalog_black_forest_v4").first<{ value: string }>();
   if (marker?.value === "done") return;
 
   await env.DB.batch([
@@ -439,7 +449,7 @@ export const ensureBlackForestCatalog = async (env: Env): Promise<void> => {
   `).bind(key,value,unit ?? null,sort + 10,slug)));
 
   await env.DB.prepare(`
-    INSERT INTO schema_metadata (key,value,updated_at) VALUES ('catalog_black_forest_v3','done',CURRENT_TIMESTAMP)
+    INSERT INTO schema_metadata (key,value,updated_at) VALUES ('catalog_black_forest_v4','done',CURRENT_TIMESTAMP)
     ON CONFLICT(key) DO UPDATE SET value='done',updated_at=CURRENT_TIMESTAMP
   `).run();
 };
