@@ -22,6 +22,10 @@ The repository begins with a Cloudflare Worker, the `DB` D1 binding, static asse
 4. Set `TELEGRAM_BOT_TOKEN` as a Worker secret; do not put it in any file tracked by Git.
 5. Deploy with `pnpm deploy`, then verify `/api/health` returns `{"status":"ok","database":"connected"}`.
 
+## Telegram setup
+
+Set two Worker secrets: `TELEGRAM_BOT_TOKEN` and a random `TELEGRAM_WEBHOOK_SECRET`. Register the webhook as `https://<worker-domain>/api/telegram/webhook` and pass the same webhook secret as Telegram's `secret_token`. The `/start` handler replies with an **Open guide** Mini App button linked to `PUBLIC_APP_URL`.
+
 ## Data and attribution
 
 Future importers will retain source URLs, licensing notes, and attribution. Licensed images are versioned under `public/media/` and served by Cloudflare static assets; D1 stores only their metadata and paths. No AI-generated item art is used. VALHEIM Guide is not affiliated with Iron Gate Studio or Coffee Stain Publishing.

@@ -2,6 +2,7 @@ import type { Env } from "./env";
 import { json, notFound, parsePositiveInt } from "./api/helpers";
 import { AuthError, ensureUser, getTelegramUserId } from "./telegram/auth";
 import { calculateCraftList } from "./services/craft-planner";
+import { handleTelegramUpdate } from "./telegram/bot";
 
 type ItemRow = {
   id: number;
@@ -39,6 +40,14 @@ const ownsCraftList = async (env: Env, craftListId: number, userId: string): Pro
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+
+    if (request.method === "POST" && url.pathname === "/api/telegram/webhook") {
+      try {
+        return await handleTelegramUpdate(request, env);
+      } catch {
+        return new Response("Internal Server Error", { status: 500 });
+      }
+    }
 
     if (request.method === "GET" && url.pathname === "/api/health") {
       try {
