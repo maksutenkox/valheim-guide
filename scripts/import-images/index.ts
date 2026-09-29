@@ -25,6 +25,8 @@ const seedSource = (await Promise.all(
   seedFiles.map((name) => readFile(resolve(seedDirectory, name), "utf8"))
 )).join("\n");
 
+const trophySeedSource = await readFile(resolve(seedDirectory, "seed-trophies.ts"), "utf8").catch(() => "");
+
 const catalogManifest: MediaRecord[] = seedSource
   .split("\n")
   .map((line) => {
@@ -39,10 +41,24 @@ const catalogManifest: MediaRecord[] = seedSource
   })
   .filter((entry): entry is MediaRecord => Boolean(entry));
 
+const trophyManifest: MediaRecord[] = [...trophySeedSource.matchAll(
+  /^\s*\["([^"]+)"\s*,\s*"[^"]+"\s*,\s*"[^"]+"\s*,\s*"[^"]+"\s*,\s*"[^"]+"\]\s*,?$/gm
+)].map((match) => ({
+  slug: match[1],
+  url: `${match[1]}.png`,
+  output: `${match[1]}.png`
+}));
+
+if (trophySeedSource && trophyManifest.length === 0) {
+  throw new Error("seed-trophies.ts was found, but no TrophyDef entries were detected");
+}
+
 const manifest = new Map<string, MediaRecord>();
-for (const entry of [...staticManifest, ...catalogManifest]) {
+for (const entry of [...staticManifest, ...catalogManifest, ...trophyManifest]) {
   manifest.set(entry.output, entry);
 }
+
+console.info(`Media manifest: ${manifest.size} total entries, including ${trophyManifest.length} trophy entries`);
 
 const userAgent = "VALHEIM-Guide/0.1 (+https://github.com/maksutenkox/valheim-guide)";
 const productionMediaOrigin = "https://valheim-guide.partiya-odobryaet-bot.workers.dev";
