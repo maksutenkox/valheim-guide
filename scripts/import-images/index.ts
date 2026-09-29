@@ -159,10 +159,18 @@ const resolveValheimToolsIcon = async (slug: string): Promise<string | null> => 
       }
     }
 
+    const plainText = html
+      .replace(/<script[\\s\\S]*?<\\/script>/gi, " ")
+      .replace(/<style[\\s\\S]*?<\\/style>/gi, " ")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/&nbsp;|&#160;/gi, " ")
+      .replace(/&amp;/gi, "&")
+      .replace(/\\s+/g, " ");
+
     const idMatch =
-      html.match(/"itemId"\s*:\s*"([^"]+)"/i)
-      ?? html.match(/Item ID:?\s*<[^>]+>\s*([A-Za-z0-9_]+)/i)
-      ?? html.match(/Item ID:?\s*([A-Za-z0-9_]+)/i);
+      html.match(/"itemId"\\s*:\\s*"([^"]+)"/i)
+      ?? html.match(/"pieceId"\\s*:\\s*"([^"]+)"/i)
+      ?? plainText.match(/(?:Item|Piece) ID:?\\s*([A-Za-z0-9_]+)/i);
     const itemId = idMatch?.[1];
     if (itemId) {
       const folder = pageUrl.includes("/building/") ? "pieces" : "items";
