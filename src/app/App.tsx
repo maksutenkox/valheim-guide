@@ -30,6 +30,7 @@ const protectedErrorText = (locale: Locale, error: unknown): string => {
 };
 
 const statLabel = (locale: Locale, key: string) => ({
+  damage: locale === "ru" ? "Урон" : "Damage",
   slash_damage: locale === "ru" ? "Рубящий урон" : "Slash damage",
   blunt_damage: locale === "ru" ? "Дробящий урон" : "Blunt damage",
   pierce_damage: locale === "ru" ? "Колющий урон" : "Pierce damage",
