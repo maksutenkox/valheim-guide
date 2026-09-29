@@ -204,6 +204,14 @@ export const creaturesForBiome = (biome: string): CreatureSummary[] =>
 export const bossForBiome = (biome: string): BossSummary | undefined =>
   bosses.find((entry) => entry.biome_slug === biome);
 
+export const creaturesDroppingItem = (itemNameEn: string): Array<CreatureSummary | BossSummary> => {
+  const wanted = itemNameEn.trim().toLowerCase();
+  if (!wanted) return [];
+  return allEntries.filter((entry) =>
+    (generatedCreatureDetails[entry.slug]?.drops ?? []).some((drop) => drop.name.trim().toLowerCase() === wanted)
+  );
+};
+
 export const loadCreatureDetail = async (slug: string): Promise<CreatureDetail | null> => {
   const base = creatureBySlug(slug);
   if (!base) return null;
