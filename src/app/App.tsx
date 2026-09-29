@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
-import { api } from "./services/api";
+import { ApiError, api } from "./services/api";
 import type { Biome, Category, CraftList, CraftResourceTotal, GuideItem, ItemDetail, Locale, ResourceDetail } from "./types";
 import "./styles.css";
 
@@ -9,6 +9,26 @@ type NavSection = "home" | "search" | "craft" | "favorites";
 
 const text = (locale: Locale, object: { name_en: string; name_ru: string }) => locale === "ru" ? object.name_ru : object.name_en;
 const categoryText = (locale: Locale, item: GuideItem) => locale === "ru" ? item.category_name_ru : item.category_name_en;
+const protectedErrorText = (locale: Locale, error: unknown): string => {
+  if (error instanceof ApiError) {
+    if (error.status === 401) {
+      if (error.message === "Telegram authorization required") {
+        return locale === "ru"
+          ? "Telegram не передал данные авторизации. Закройте Mini App полностью и откройте заново через кнопку бота."
+          : "Telegram did not pass authorization data. Fully close the Mini App and reopen it from the bot button.";
+      }
+      if (error.message === "Telegram authorization signature is invalid") {
+        return locale === "ru"
+          ? "Telegram-авторизация получена, но сервер не смог подтвердить подпись. Проверьте токен бота в Cloudflare."
+          : "Telegram authorization was received, but the server could not validate its signature. Check the bot token in Cloudflare.";
+      }
+      return `${locale === "ru" ? "Ошибка Telegram-авторизации" : "Telegram authorization error"}: ${error.message}`;
+    }
+    return `${locale === "ru" ? "Ошибка сервера" : "Server error"} ${error.status}: ${error.message}`;
+  }
+  return locale === "ru" ? "Не удалось выполнить действие." : "Could not complete the action.";
+};
+
 const statLabel = (locale: Locale, key: string) => ({
   slash_damage: locale === "ru" ? "Урон рубящий" : "Slash damage",
   chop: locale === "ru" ? "Рубка" : "Chop",
@@ -95,7 +115,7 @@ export function App() {
     setMessage(""); setSection(next);
     if (next === "favorites") {
       try { setFavorites((await api.favorites()).data); }
-      catch { setMessage(locale === "ru" ? "Избранное доступно после открытия гайда внутри Telegram." : "Favorites are available after opening the guide inside Telegram."); }
+      catch (error) { setMessage(protectedErrorText(locale, error)); }
     }
     if (next === "craft") {
       try {
@@ -104,7 +124,7 @@ export function App() {
         const selected = activeCraftList && data.find((list) => list.id === activeCraftList.id) ? activeCraftList : data[0] ?? null;
         setActiveCraftList(selected);
         setCraftTotals(selected ? (await api.craftSummary(selected.id)).data : []);
-      } catch { setMessage(locale === "ru" ? "Список крафта доступен после открытия гайда внутри Telegram." : "Craft lists are available after opening the guide inside Telegram."); }
+      } catch (error) { setMessage(protectedErrorText(locale, error)); }
     }
   };
 
@@ -112,7 +132,7 @@ export function App() {
     try {
       const { data } = await api.createCraftList(locale === "ru" ? "Мой крафт" : "My craft list");
       setCraftLists((lists) => [data, ...lists]); setActiveCraftList(data); setCraftTotals([]);
-    } catch { setMessage(locale === "ru" ? "Создание списка доступно внутри Telegram." : "Creating a list is available inside Telegram."); }
+    } catch (error) { setMessage(protectedErrorText(locale, error)); }
   };
 
   const addToCraftList = async () => {
@@ -126,7 +146,7 @@ export function App() {
       await api.addCraftItem(target.id, item.id);
       setCraftTotals((await api.craftSummary(target.id)).data);
       setMessage(locale === "ru" ? "Добавлено в список крафта." : "Added to craft list.");
-    } catch { setMessage(locale === "ru" ? "Добавление доступно внутри Telegram." : "Adding is available inside Telegram."); }
+    } catch (error) { setMessage(protectedErrorText(locale, error)); }
   };
 
   const selectCraftList = async (list: CraftList) => {
@@ -143,7 +163,7 @@ export function App() {
       } else {
         await api.addFavorite(item.id); setFavorites((saved) => [item, ...saved]);
       }
-    } catch { setMessage(locale === "ru" ? "Сохранение доступно внутри Telegram." : "Saving is available inside Telegram."); }
+    } catch (error) { setMessage(protectedErrorText(locale, error)); }
   };
 
   const goBack = () => {
