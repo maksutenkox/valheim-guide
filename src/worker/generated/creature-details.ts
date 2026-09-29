@@ -3051,5 +3051,392 @@ export const generatedCreatureDetails: Record<string, GeneratedCreatureDetail> =
         "amount": "1"
       }
     ]
+  },
+  "leech": {
+    "health": 60,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "poison",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Bloodbag",
+        "chance": "100%",
+        "amount": "1"
+      },
+      {
+        "name": "Leech Trophy",
+        "chance": "10%",
+        "amount": "1"
+      }
+    ]
+  },
+  "bat": {
+    "health": 10,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "immune"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Leather Scraps",
+        "chance": "50%",
+        "amount": "1"
+      }
+    ]
+  },
+  "bjorn-spiritcaller": {
+    "health": 1500,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": []
+  },
+  "moose-spiritcaller": {
+    "health": 1100,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": []
+  },
+  "boar-spiritcaller": {
+    "health": 1000,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": []
+  },
+  "moose-calf": {
+    "health": 1000,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": []
+  },
+  "wolf-spiritcaller": {
+    "health": 800,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": []
+  },
+  "tendril": {
+    "health": 80,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "weak"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      }
+    ],
+    "drops": []
+  },
+  "fallen-warrior": {
+    "health": 750,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "fire",
+        "level": "resistant"
+      },
+      {
+        "type": "poison",
+        "level": "immune"
+      },
+      {
+        "type": "spirit",
+        "level": "weak"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Frostfire Essence",
+        "chance": "50%",
+        "amount": "1"
+      },
+      {
+        "name": "Thunderblood Essence",
+        "chance": "50%",
+        "amount": "1"
+      }
+    ]
+  },
+  "gammeltroll": {
+    "health": 3000,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "resistant"
+      },
+      {
+        "type": "slash",
+        "level": "resistant"
+      },
+      {
+        "type": "pierce",
+        "level": "resistant"
+      },
+      {
+        "type": "pickaxe",
+        "level": "weak"
+      },
+      {
+        "type": "fire",
+        "level": "immune"
+      },
+      {
+        "type": "frost",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": []
+  },
+  "shadow": {
+    "health": 750,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "blunt",
+        "level": "ignore"
+      },
+      {
+        "type": "slash",
+        "level": "ignore"
+      },
+      {
+        "type": "pierce",
+        "level": "ignore"
+      },
+      {
+        "type": "fire",
+        "level": "ignore"
+      },
+      {
+        "type": "frost",
+        "level": "ignore"
+      },
+      {
+        "type": "lightning",
+        "level": "ignore"
+      },
+      {
+        "type": "poison",
+        "level": "ignore"
+      },
+      {
+        "type": "spirit",
+        "level": "ignore"
+      }
+    ],
+    "drops": []
+  },
+  "captive-fuling": {
+    "health": 250,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Coins",
+        "chance": "25%",
+        "amount": "20-40"
+      },
+      {
+        "name": "Ancient Coin",
+        "chance": "100%",
+        "amount": "1-2"
+      },
+      {
+        "name": "Lingonberries",
+        "chance": "20%",
+        "amount": "1-10"
+      }
+    ]
+  },
+  "serpent": {
+    "health": 400,
+    "image_url": null,
+    "resistances": [
+      {
+        "type": "fire",
+        "level": "immune"
+      },
+      {
+        "type": "frost",
+        "level": "weak"
+      },
+      {
+        "type": "poison",
+        "level": "resistant"
+      },
+      {
+        "type": "spirit",
+        "level": "immune"
+      }
+    ],
+    "drops": [
+      {
+        "name": "Serpent Meat",
+        "chance": "100%",
+        "amount": "6-8"
+      },
+      {
+        "name": "Serpent Scale",
+        "chance": "100%",
+        "amount": "8-10"
+      },
+      {
+        "name": "Serpent Trophy",
+        "chance": "33%",
+        "amount": "1"
+      }
+    ]
+  },
+  "leviathan": {
+    "health": 40,
+    "image_url": null,
+    "resistances": [],
+    "drops": [
+      {
+        "name": "Chitin",
+        "chance": "100%",
+        "amount": "3-4"
+      }
+    ]
   }
 };
