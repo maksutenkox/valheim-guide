@@ -9,7 +9,8 @@ const swampSeed: CatalogSeed = {
   biome: "swamp",
   stations: [
     { slug: "smelter", en: "Smelter", ru: "Плавильня" },
-    { slug: "stonecutter", en: "Stonecutter", ru: "Камнерез" }
+    { slug: "stonecutter", en: "Stonecutter", ru: "Камнерез" },
+    { slug: "iron-cooking-station", en: "Iron Cooking Station", ru: "Железная кулинарная стойка" }
   ],
   items: [
     { slug: "scrap-iron", type: "resource", category: "material", en: "Scrap Iron", ru: "Железный лом", descriptionEn: "Iron scrap mined from muddy scrap piles and crypt chests.", descriptionRu: "Железный лом из грязных куч металлолома и сундуков Затонувших крипт.", imageFile: "Scrap_iron.png", source: source("scrap-iron") },
