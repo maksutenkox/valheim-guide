@@ -7,6 +7,7 @@ import { ensureCatalogSchema } from "./services/catalog-seed";
 import { ensureSwampCatalog } from "./services/seed-swamp";
 import { ensureMountainCatalog } from "./services/seed-mountains";
 import { ensurePlainsCatalog } from "./services/seed-plains";
+import { ensureMistlandsCatalog } from "./services/seed-mistlands";
 import { handleTelegramUpdate } from "./telegram/bot";
 
 type ItemRow = {
@@ -50,6 +51,7 @@ const ensureCatalog = async (env: Env): Promise<void> => {
   await ensureSwampCatalog(env);
   await ensureMountainCatalog(env);
   await ensurePlainsCatalog(env);
+  await ensureMistlandsCatalog(env);
   catalogReady = true;
 };
 
@@ -86,7 +88,7 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/api/version") {
-      return json({ build: "2026-09-29-world-v2-plains" });
+      return json({ build: "2026-09-29-world-v3-mistlands" });
     }
 
     if (request.method === "GET" && url.pathname === "/api/health") {
@@ -115,7 +117,7 @@ export default {
         ORDER BY b.id
       `).all<{ slug: string; items: number; recipes: number }>();
       return json({
-        catalog: "world-v2",
+        catalog: "world-v3",
         biomes: Object.fromEntries(results.map((row) => [
           row.slug,
           { items: row.items, recipes: row.recipes }
