@@ -288,3 +288,84 @@ h2{margin:24px 0 12px;font-size:18px;letter-spacing:-.01em}
 .section-kicker{margin:0 0 3px;color:#8d7f65;font-size:9px;font-weight:850;letter-spacing:.15em}
 .craft-heading{align-items:flex-end;margin:4px 0 12px}
 .craft-heading h2{margin:0;font-family:var(--serif);font-size:24px;font-weight:600}
+
+
+/* Combat guide: creatures & bosses */
+.biome-view-switch{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:5px;border:1px solid #33382f;border-radius:16px;background:linear-gradient(180deg,#171a17,#131613);box-shadow:inset 0 1px rgba(255,255,255,.02)}
+.biome-view-switch button{min-height:42px;display:flex;align-items:center;justify-content:center;gap:6px;padding:7px 8px;border:1px solid transparent;border-radius:11px;background:transparent;color:#85877d;font-size:10px;font-weight:750;transition:.16s ease}
+.biome-view-switch button span{color:#9a8158;font-size:13px}
+.biome-view-switch button.active{border-color:#5e4b2c;background:linear-gradient(180deg,#3b3020,#2a2318);color:#edce90;box-shadow:inset 0 1px rgba(255,255,255,.04)}
+.biome-view-switch button.active span{color:#efbf62}
+.biome-view-switch button:active{transform:scale(.982)}
+
+.creature-grid{display:grid;gap:8px}
+.creature-card{position:relative;width:100%;display:flex;align-items:center;gap:11px;padding:12px;border:1px solid #30352d;border-radius:14px;background:linear-gradient(180deg,#1a1d19,#151815);color:inherit;text-align:left;overflow:hidden}
+.creature-card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 0 50%,rgba(190,139,66,.055),transparent 42%);pointer-events:none}
+.creature-card:active{transform:scale(.993);border-color:#4e503f}
+.creature-mark{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border:1px solid #4a4435;border-radius:11px;background:#24251e;color:#c7984e;font-size:18px}
+.creature-card-copy{min-width:0;flex:1;display:grid;gap:2px}
+.creature-card-copy>small{color:#7f755f;font-size:8px;font-weight:850;letter-spacing:.12em}
+.creature-card-copy>strong{overflow:hidden;color:#e8e2d6;font-family:var(--serif);font-size:16px;font-weight:600;text-overflow:ellipsis;white-space:nowrap}
+.creature-card-copy>span{color:#83857a;font-size:9px}
+.creature-card-copy>span b{color:#d6ad66;font-size:11px}
+.creature-card>i{color:#806f4e;font-style:normal;font-size:17px}
+
+.boss-card{position:relative;isolation:isolate;width:100%;min-height:155px;display:flex;align-items:center;gap:15px;overflow:hidden;padding:18px;border:1px solid #66502e;border-radius:19px;background:
+  radial-gradient(circle at 12% 18%,rgba(225,177,87,.13),transparent 11rem),
+  linear-gradient(145deg,#262218,#171813 62%);color:inherit;text-align:left;box-shadow:0 14px 35px rgba(0,0,0,.22)}
+.boss-card::before{content:"";position:absolute;z-index:-1;right:-38px;top:-48px;width:165px;height:165px;border:1px solid rgba(221,175,87,.08);border-radius:50%;box-shadow:0 0 0 24px rgba(221,175,87,.025)}
+.boss-crown{width:58px;height:58px;flex:0 0 58px;display:grid;place-items:center;border:1px solid #756039;border-radius:16px;background:linear-gradient(180deg,#47371f,#2b2418);color:#e1b45f;font-size:26px;box-shadow:inset 0 1px rgba(255,255,255,.05)}
+.boss-copy{min-width:0;flex:1;display:grid;gap:4px}
+.boss-copy>small{color:#a0804e;font-size:8px;font-weight:900;letter-spacing:.14em}
+.boss-copy>strong{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1}
+.boss-copy>span{color:#8f8d82;font-size:9px}
+.boss-copy>span b{color:#e0b968;font-size:12px}
+.boss-copy p{margin:2px 0 0;color:#aaa496;font-size:10px;line-height:1.35}
+.boss-card>i{color:#d3a75b;font-style:normal;font-size:19px}
+
+.creature-detail{display:grid}
+.creature-hero{display:flex;align-items:center;gap:15px;margin:2px 0 2px;padding:15px;border:1px solid #383d34;border-radius:20px;background:linear-gradient(145deg,#1c201b,#151815)}
+.creature-hero.boss{border-color:#66502e;background:radial-gradient(circle at 12% 15%,rgba(225,177,87,.1),transparent 11rem),linear-gradient(145deg,#211f17,#151713)}
+.creature-art{width:105px;height:105px;flex:0 0 105px;display:grid;place-items:center;overflow:hidden;border:1px solid #514c40;border-radius:20px;background:radial-gradient(circle,#d8d2c4,#9f9c93)}
+.creature-art img{width:100%;height:100%;object-fit:cover}
+.creature-art span{color:#8b6836;font-size:38px}
+.creature-hero>div:last-child{min-width:0;display:grid;gap:5px}
+.creature-hero h2{margin:0;font-family:var(--serif);font-size:clamp(24px,7vw,31px);font-weight:600;line-height:1}
+.health-badge{justify-self:start;padding:6px 9px;border:1px solid #4b4538;border-radius:999px;background:#1b1d18;color:#88877e;font-size:9px}
+.health-badge b{color:#e2b767;font-size:12px}
+
+.boss-facts{display:grid;gap:7px;margin-top:10px}
+.boss-facts>div{display:grid;gap:3px;padding:11px 12px;border:1px solid #30342c;border-radius:12px;background:#171a17}
+.boss-facts small{color:#80735d;font-size:8px;font-weight:850;letter-spacing:.12em}
+.boss-facts strong{color:#d9d0bf;font-size:11px;font-weight:650;line-height:1.4}
+
+.resistance-groups{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.resistance-block{min-width:0;padding:12px;border:1px solid #30342c;border-radius:14px;background:#161916}
+.resistance-block>small{display:block;margin-bottom:8px;color:#777b70;font-size:8px;font-weight:900;letter-spacing:.13em}
+.resistance-block>div{display:grid;gap:6px}
+.resistance-block span{display:grid;gap:1px;padding:7px 8px;border:1px solid #2f332c;border-radius:9px;background:#1c1f1b}
+.resistance-block span b{color:#ddd6c8;font-size:10px}
+.resistance-block span em{color:#888a80;font-size:8px;font-style:normal}
+.resistance-block.weak span{border-color:#405039;background:#1a2118}
+.resistance-block.weak span b{color:#b8d29c}
+.resistance-block.weak span em{color:#7d9b6b}
+.resistance-block.defend span.immune{border-color:#5b3f3a;background:#241b19}
+.resistance-block.defend span.immune b{color:#d89386}
+.resistance-block.defend span.very-resistant{border-color:#594b35}
+.resistance-block p{margin:0;color:#777b70;font-size:9px;line-height:1.4}
+
+.drop-list{display:grid;gap:6px}
+.drop-list>div{display:flex;align-items:center;gap:8px;padding:10px 11px;border:1px solid #2f332c;border-radius:11px;background:#171a17}
+.drop-list>div>span{min-width:0;flex:1;display:flex;align-items:baseline;gap:7px}
+.drop-list b{overflow:hidden;color:#ddd7ca;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
+.drop-list small{color:#8d887e;font-size:9px}
+.drop-list em{padding:4px 7px;border:1px solid #493e2d;border-radius:999px;background:#211d16;color:#cda65f;font-size:9px;font-style:normal;font-weight:750}
+
+@media (min-width:600px){
+  .creature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:430px){
+  .biome-view-switch button{font-size:9px}
+  .resistance-groups{grid-template-columns:1fr}
+  .creature-art{width:88px;height:88px;flex-basis:88px}
+}
