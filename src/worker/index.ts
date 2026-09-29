@@ -78,7 +78,7 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/api/version") {
-      return json({ build: "2026-09-29-black-forest-v4-craft-v3" });
+      return json({ build: "2026-09-29-black-forest-v5-images-v1" });
     }
 
     if (request.method === "GET" && url.pathname === "/api/health") {
@@ -112,7 +112,7 @@ export default {
         `).first<{ count: number }>()
       ]);
       return json({
-        catalog: "black-forest-v4",
+        catalog: "black-forest-v5",
         items: blackForest?.count ?? 0,
         recipes: blackForestRecipes?.count ?? 0
       });
