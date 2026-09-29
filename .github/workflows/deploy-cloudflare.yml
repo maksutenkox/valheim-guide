@@ -77,9 +77,16 @@ jobs:
           set -euo pipefail
           BASE_URL="https://valheim-guide.partiya-odobryaet-bot.workers.dev"
 
-          echo "Checking deployed build..."
-          VERSION_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/version")"
-          echo "$VERSION_JSON"
+          echo "Waiting for deployed build to propagate..."
+          VERSION_JSON=""
+          for attempt in $(seq 1 15); do
+            VERSION_JSON="$(curl --fail --silent --show-error "$BASE_URL/api/version" || true)"
+            echo "Attempt $attempt: $VERSION_JSON"
+            if echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-black-forest-v5-images-v1"'; then
+              break
+            fi
+            sleep 2
+          done
           echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-black-forest-v5-images-v1"'
 
           echo "Checking D1 health..."
@@ -105,3 +112,10 @@ jobs:
             exit 1
           fi
           echo "$AUTH_RESPONSE" | grep -Eq 'Invalid Telegram authorization data|Telegram authorization signature is invalid'
+
+          echo "Checking production media assets..."
+          for asset in copper-ore bronze-protection-idol pulled-bear; do
+            CONTENT_TYPE="$(curl --fail --silent --show-error --retry 3 --retry-delay 1 -o /dev/null -w '%{content_type}' "$BASE_URL/media/wiki/$asset.png")"
+            echo "$asset: $CONTENT_TYPE"
+            echo "$CONTENT_TYPE" | grep -q '^image/'
+          done
