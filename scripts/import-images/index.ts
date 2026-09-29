@@ -106,7 +106,10 @@ const resolveValheimToolsIcon = async (slug: string): Promise<string | null> => 
 
 await mkdir(outputDirectory, { recursive: true });
 
+const failures: string[] = [];
+
 for (const media of manifest.values()) {
+  try {
   const isBundledManifestUrl = media.url.startsWith("https://static.wikia.nocookie.net/");
   const sourceUrl = isBundledManifestUrl
     ? media.url
@@ -135,4 +138,13 @@ for (const media of manifest.values()) {
   await mkdir(dirname(destination), { recursive: true });
   await writeFile(destination, Buffer.from(await response.arrayBuffer()));
   console.info(`Imported ${media.slug} → public/media/wiki/${media.output}`);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    failures.push(`${media.slug}: ${message}`);
+    console.error(`FAILED ${media.slug}: ${message}`);
+  }
+}
+
+if (failures.length) {
+  throw new Error(`Media import failed for ${failures.length} entries:\n${failures.join("\n")}`);
 }
