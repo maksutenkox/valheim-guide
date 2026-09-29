@@ -26,7 +26,9 @@ const equals = (left: string, right: string): boolean => {
 };
 
 export const getTelegramUserId = async (request: Request, env: Env): Promise<string> => {
-  const initData = request.headers.get("x-telegram-init-data");
+  const authorization = request.headers.get("authorization");
+  const initData = request.headers.get("x-telegram-init-data")
+    ?? (authorization?.startsWith("tma ") ? authorization.slice(4) : null);
 
   if (!initData && env.ENVIRONMENT !== "production" && env.DEV_MOCK_TELEGRAM_USER_ID) {
     return env.DEV_MOCK_TELEGRAM_USER_ID;
