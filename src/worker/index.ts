@@ -20,12 +20,15 @@ type ItemRow = {
   category_slug: string | null;
   category_name_en: string | null;
   category_name_ru: string | null;
+  source_name: string | null;
+  source_url: string | null;
 };
 
 const itemSelect = `
   SELECT i.id, i.slug, i.entity_type, i.name_en, i.name_ru, i.description_en, i.description_ru,
          i.image_path, b.slug AS biome_slug, b.name_en AS biome_name_en, b.name_ru AS biome_name_ru,
-         c.slug AS category_slug, c.name_en AS category_name_en, c.name_ru AS category_name_ru
+         c.slug AS category_slug, c.name_en AS category_name_en, c.name_ru AS category_name_ru,
+         i.source_name, i.source_url
   FROM items i
   LEFT JOIN biomes b ON b.id = i.biome_id
   LEFT JOIN categories c ON c.id = i.category_id`;
