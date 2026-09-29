@@ -6,6 +6,13 @@ declare global {
   }
 }
 
+export class ApiError extends Error {
+  constructor(public status: number, message: string) {
+    super(message);
+    this.name = "ApiError";
+  }
+}
+
 const telegramInitData = (): string | undefined => {
   const fromSdk = window.Telegram?.WebApp?.initData?.trim();
   if (fromSdk) return fromSdk;
@@ -17,22 +24,45 @@ const telegramInitData = (): string | undefined => {
 
 const headers = (): HeadersInit => {
   const initData = telegramInitData();
-  return initData ? { "x-telegram-init-data": initData } : {};
+  if (!initData) return {};
+  return {
+    "x-telegram-init-data": initData,
+    authorization: `tma ${initData}`
+  };
+};
+
+const apiError = async (response: Response): Promise<ApiError> => {
+  let message = `API error: ${response.status}`;
+  try {
+    const payload = await response.json() as { error?: string };
+    if (payload.error) message = payload.error;
+  } catch {
+    // Keep the HTTP status fallback.
+  }
+  return new ApiError(response.status, message);
 };
 
 const request = async <T>(path: string): Promise<T> => {
   const response = await fetch(path, { headers: { ...headers() } });
-  if (!response.ok) throw new Error(`API error: ${response.status}`);
+  if (!response.ok) throw await apiError(response);
   return response.json() as Promise<T>;
 };
 
 const mutation = async <T>(path: string, method: "POST" | "DELETE", body?: unknown): Promise<T> => {
-  const response = await fetch(path, { method, headers: { ...headers(), ...(body ? { "content-type": "application/json" } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}) });
-  if (!response.ok) throw new Error(`API error: ${response.status}`);
+  const response = await fetch(path, {
+    method,
+    headers: {
+      ...headers(),
+      ...(body ? { "content-type": "application/json" } : {})
+    },
+    ...(body ? { body: JSON.stringify(body) } : {})
+  });
+  if (!response.ok) throw await apiError(response);
   return response.status === 204 ? (undefined as T) : response.json() as Promise<T>;
 };
 
 export const api = {
+  authStatus: () => request<{ authenticated: boolean; initDataPresent: boolean; userId?: string; error?: string }>("/api/auth-status"),
   biomes: () => request<{ data: Biome[] }>("/api/biomes"),
   biome: (slug: string) => request<{ data: Biome & { categories: Category[] } }>(`/api/biomes/${slug}`),
   items: (biome: string, category?: string) => request<{ data: GuideItem[] }>(`/api/items?biome=${encodeURIComponent(biome)}${category ? `&category=${encodeURIComponent(category)}` : ""}`),
