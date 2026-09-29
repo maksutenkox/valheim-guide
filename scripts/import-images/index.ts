@@ -114,6 +114,172 @@ const directIconOverrides: Record<string, string> = {
   "uncooked-roasted-crust-pie": "https://www.valheim.tools/icons/items/RoastedCrustPieUncooked.png"
 };
 
+const deepNorthIconIds: Record<string, string> = {
+  "kindled-ribs": "FaderDrop",
+  "embers": "FaderEmber",
+  "petrified-tissue": "GoldOre",
+  "bloodgold": "Gold",
+  "ice": "Ice",
+  "liquid-frost": "FrozenFuel",
+  "frostcore": "FrostCore",
+  "timberwood": "Frostwood",
+  "elaking-hair-bundle": "ElakingHairBundle",
+  "frozen-branch": "BarkaBranch",
+  "leather-straps": "Leatherstraps",
+  "memorial-coal": "MemorialCoal",
+  "moose-hide": "MooseHide",
+  "moose-meat": "MooseMeat",
+  "moose-sinew": "MooseSinew",
+  "nornathread": "NornThread",
+  "seal-blubber": "SealBlubber",
+  "seal-pelt": "SealHide",
+  "frostfire-essence": "OrbFrostFire",
+  "thunderblood-essence": "OrbThunderBlood",
+  "long-claws": "MoleClaws",
+  "hexen-trophy": "TrophyJotunWitch",
+  "moose-trophy": "TrophyMoose",
+  "lingonberries": "Lingonberry",
+  "raw-fish": "FishRaw",
+  "kale": "Kale",
+  "kale-seeds": "KaleSeeds",
+  "oats": "Oat",
+  "oat-seeds": "OatSeeds",
+  "oat-flour": "OatFlour",
+  "poteitr": "Poteitr",
+  "seed-poteitr": "PoteitrSeeds",
+  "malicious-blood": "HatefulBlood",
+  "bloodgold-battle-idol": "Upgrader7Weapon",
+  "bloodgold-protection-idol": "Upgrader7Armor",
+
+  "mould-nord-sword": "MoldSword",
+  "mould-nord-axe": "MoldAxe",
+  "mould-nord-mace": "MoldMace",
+  "mould-nord-spear": "MoldSpear",
+  "mould-nord-atgeir": "MoldAtgeir",
+  "mould-nord-greatsword": "MoldSword2H",
+  "mould-nord-greataxe": "MoldAxe2H",
+  "mould-nord-dagger": "MoldKnife",
+  "mould-nord-knucklechains": "MoldFistweapon",
+  "mould-nord-bow": "MoldBow",
+  "mould-nord-crossbow": "MoldCrossbow",
+  "mould-nord-sledge": "MoldMace2H",
+  "mould-nord-shield": "MoldShieldRound",
+  "mould-nord-greatshield": "MoldShieldTower",
+  "mould-nord-buckler": "MoldShieldBuckler",
+  "mould-lightning-strike": "MoldStaffthunderblood",
+  "mould-echo-spike": "MoldStaffOrbofAhri",
+  "mould-northern-vengeance": "MoldStafffrostorbs",
+  "mould-spirit-caller": "MoldStaffspiritcaller",
+  "mould-helmet-of-the-protector": "MoldArmorGoldHelmet",
+  "mould-breastplate-of-the-protector": "MoldArmorGoldChest",
+  "mould-trousers-of-the-protector": "MoldArmorGoldLegs",
+  "mould-hood-of-the-vanguard": "MoldArmorMediumHelmet",
+  "mould-chestpiece-of-the-vanguard": "MoldArmormediumChest",
+  "mould-trousers-of-the-vanguard": "MoldArmorMediumLegs",
+  "mould-headdress-of-the-caller": "MoldArmorMageHelmet",
+  "mould-robes-of-the-caller": "MoldArmorMageChest",
+  "mould-trousers-of-the-caller": "MoldArmorMageLegs",
+  "mould-intricate-key": "MoldKeys",
+
+  "crown-jewel": "CrownJewel",
+  "corked-vial": "BlobVial",
+  "dead-pulp": "OozeMork",
+  "pulp-trophy": "TrophyBlob_Morkhalla",
+  "ectoplasm": "Ectoplasm",
+  "ectoplasm-2": "Voidplasm",
+  "seasoning-of-the-gourd": "SpiceDeepNorth",
+
+  "nord-shield": "ShieldGold",
+  "nord-greatshield": "ShieldGoldTower",
+  "nord-buckler": "ShieldGoldBuckler",
+  "lightning-strike": "StaffThunderBlood",
+  "echo-spike": "StaffOrbofAhri",
+  "northern-vengeance": "StaffFrostOrbs",
+  "spirit-caller": "StaffSpiritCaller",
+  "voidcaller": "KnifeVoid",
+  "ember-charge-x10": "BombDynamite",
+  "snowball": "Snowball",
+  "blob-bomb-pulp": "BombBlob_Morkhalla",
+
+  "helmet-of-the-protector": "HelmetDNHeavy",
+  "breastplate-of-the-protector": "ArmorDeepNorthHeavyChest",
+  "trousers-of-the-protector": "ArmorDeepNorthHeavylegs",
+  "hood-of-the-vanguard": "HelmetDNMediumHood",
+  "chestpiece-of-the-vanguard": "ArmorDeepNorthMediumChest",
+  "trousers-of-the-vanguard": "ArmorDeepNorthMediumlegs",
+  "headdress-of-the-caller": "HelmetDNMage",
+  "robes-of-the-caller": "ArmorDeepNorthMageChest",
+  "trousers-of-the-caller": "ArmorDeepNorthMagelegs",
+  "cape-of-the-caller": "CapeDeepNorthMage",
+  "moose-hide-cape": "CapeDeepNorth",
+  "crown-of-valheim": "HelmetCrownofValheim",
+  "neckstabber": "TrinketBloodGoldHealth",
+  "witch-crown": "TrinketBloodGoldStamina",
+
+  "fish-soup": "FishSoup",
+  "lingonberry-juice": "Lingondricka",
+  "meat-in-bread": "MooseKebab",
+  "meatballs-and-poteitr": "MeatballsMashedPoteitr",
+  "oat-milk": "OatMilk",
+  "oatmeal": "OatmealLingonberryJam",
+  "pancakes": "Pancakes",
+  "seal-meat-soup": "SealSoup",
+  "smoked-fish": "SmokedFish",
+  "smoked-moose-meat": "SmokedMooseMeat",
+  "cooked-moose-meat": "CookedMooseMeat",
+  "snow-shovel": "Shovel",
+  "moose-saddle": "SaddleMoose",
+
+  "bloodgold-arrow": "ArrowBloodGold",
+  "bloodgold-bolt": "BoltBloodGold",
+  "bloodgold-missile": "TurretBoltBloodgold",
+  "bloodgold-payload": "Catapult_Ammo_BloodGold",
+  "intricate-key": "BloodGoldKey",
+  "unbaked-poteitr": "BakedPoteitrUncooked",
+  "baked-poteitr": "BakedPoteitr",
+  "raw-kale-chips": "KaleChipsUncooked",
+  "kale-chips": "KaleChips",
+  "oven-pancake-batter": "OvenPancakeUncooked",
+  "oven-pancake": "OvenPancake",
+  "cooked-seal-blubber": "CookedSealBlubber",
+  "northern-morning-fare": "FeastDeepNorth_Material"
+};
+
+for (const [slug, itemId] of Object.entries(deepNorthIconIds)) {
+  directIconOverrides[slug] = `https://www.valheim.tools/icons/items/${itemId}.png`;
+}
+
+const deepNorthWeaponIconIds: Record<string, string> = {
+  "sword": "SwordGold",
+  "axe": "AxeGold",
+  "mace": "MaceGold",
+  "spear": "SpearGold",
+  "atgeir": "AtgeirGold",
+  "greatsword": "THSwordGold",
+  "greataxe": "BattleaxeGold",
+  "dagger": "KnifeGold",
+  "knucklechains": "FistGold",
+  "bow": "BowGold",
+  "crossbow": "CrossbowGold",
+  "sledge": "SledgeGold"
+};
+
+for (const [weapon, itemId] of Object.entries(deepNorthWeaponIconIds)) {
+  directIconOverrides[`nord-${weapon}`] = `https://www.valheim.tools/icons/items/${itemId}.png`;
+  directIconOverrides[`frostfire-${weapon}`] = `https://www.valheim.tools/icons/items/${itemId}_FrostFire.png`;
+  directIconOverrides[`thunderblood-${weapon}`] = `https://www.valheim.tools/icons/items/${itemId}_BloodLightning.png`;
+}
+
+const deepNorthPieceIconIds: Record<string, string> = {
+  "eternal-pyre": "piece_EternalPyre",
+  "frigid-kiln": "piece_FrostKiln",
+  "frost-foundry": "piece_FrostFoundry"
+};
+
+for (const [slug, pieceId] of Object.entries(deepNorthPieceIconIds)) {
+  directIconOverrides[slug] = `https://www.valheim.tools/icons/pieces/${pieceId}.png`;
+}
+
 const resolveFandomFile = async (fileName: string): Promise<string | null> => {
   const api = new URL("https://valheim.fandom.com/api.php");
   api.searchParams.set("action", "query");
