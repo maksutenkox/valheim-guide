@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { ApiError, api } from "./services/api";
-import type { Biome, Category, CraftList, CraftListItem, CraftResourceTotal, GuideItem, ItemDetail, Locale, ResourceDetail } from "./types";
+import type { Biome, BossSummary, Category, CraftList, CraftListItem, CraftResourceTotal, CreatureDetail, CreatureSummary, GuideItem, ItemDetail, Locale, ResourceDetail } from "./types";
 import "./styles.css";
 
-type Section = "home" | "search" | "craft" | "favorites" | "biome" | "item" | "resource";
+type Section = "home" | "search" | "craft" | "favorites" | "biome" | "item" | "resource" | "creature";
 type NavSection = "home" | "search" | "craft" | "favorites";
+type BiomeView = "items" | "creatures" | "boss";
 
 const text = (locale: Locale, object: { name_en: string; name_ru: string }) => locale === "ru" ? object.name_ru : object.name_en;
 const categoryText = (locale: Locale, item: GuideItem) => locale === "ru" ? item.category_name_ru : item.category_name_en;
@@ -74,6 +75,11 @@ export function App() {
   const [currentBiome, setCurrentBiome] = useState<(Biome & { categories: Category[] }) | null>(null);
   const [biomeItems, setBiomeItems] = useState<GuideItem[]>([]);
   const [activeCategory, setActiveCategory] = useState<string | undefined>();
+  const [biomeView, setBiomeView] = useState<BiomeView>("items");
+  const [creatures, setCreatures] = useState<CreatureSummary[]>([]);
+  const [biomeBoss, setBiomeBoss] = useState<BossSummary | null>(null);
+  const [creature, setCreature] = useState<CreatureDetail | null>(null);
+  const [creaturesLoading, setCreaturesLoading] = useState(false);
   const [item, setItem] = useState<ItemDetail | null>(null);
   const [resource, setResource] = useState<ResourceDetail | null>(null);
   const [favorites, setFavorites] = useState<GuideItem[]>([]);
@@ -110,15 +116,48 @@ export function App() {
     home: "VALHEIM Guide", search: locale === "ru" ? "Поиск" : "Search", craft: locale === "ru" ? "Крафт" : "Craft",
     favorites: locale === "ru" ? "Избранное" : "Favorites", biome: text(locale, currentBiome ?? { name_en: "Biome", name_ru: "Биом" }),
     item: item ? text(locale, item) : locale === "ru" ? "Предмет" : "Item",
-    resource: resource ? text(locale, resource) : locale === "ru" ? "Ресурс" : "Resource"
-  })[section], [currentBiome, item, locale, resource, section]);
+    resource: resource ? text(locale, resource) : locale === "ru" ? "Ресурс" : "Resource",
+    creature: creature ? text(locale, creature) : locale === "ru" ? "Существо" : "Creature"
+  })[section], [creature, currentBiome, item, locale, resource, section]);
 
   const openBiome = async (slug: string) => {
     setMessage(""); setSection("biome"); setCurrentBiome(null); setBiomeItems([]); setActiveCategory(undefined);
+    setBiomeView("items"); setCreatures([]); setBiomeBoss(null); setCreature(null);
     try {
       const [{ data: biome }, { data: items }] = await Promise.all([api.biome(slug), api.items(slug)]);
       setCurrentBiome(biome); setBiomeItems(items);
     } catch { setMessage(locale === "ru" ? "Не удалось открыть биом." : "Could not open biome."); }
+  };
+
+  const selectBiomeView = async (view: BiomeView) => {
+    if (!currentBiome || biomeView === view) return;
+    setBiomeView(view);
+    setMessage("");
+    if (view === "items") return;
+    setCreaturesLoading(true);
+    try {
+      if (view === "creatures" && creatures.length === 0) {
+        setCreatures((await api.creatures(currentBiome.slug)).data);
+      }
+      if (view === "boss" && biomeBoss === null) {
+        setBiomeBoss((await api.boss(currentBiome.slug)).data);
+      }
+    } catch {
+      setMessage(locale === "ru" ? "Не удалось загрузить боевой справочник." : "Could not load combat guide.");
+    } finally {
+      setCreaturesLoading(false);
+    }
+  };
+
+  const openCreature = async (slug: string) => {
+    setMessage("");
+    setSection("creature");
+    setCreature(null);
+    try {
+      setCreature((await api.creature(slug)).data);
+    } catch {
+      setMessage(locale === "ru" ? "Не удалось загрузить существо." : "Could not load creature.");
+    }
   };
 
   const filterBiome = async (category?: string) => {
@@ -395,6 +434,7 @@ export function App() {
   const goBack = () => {
     setMessage("");
     if (section === "item" || section === "resource") return setSection(detailOrigin);
+    if (section === "creature") return setSection("biome");
     if (section === "biome") return setSection("home");
     setSection("home");
   };
@@ -437,8 +477,17 @@ export function App() {
       <div className="biome-intro" style={{ "--accent": currentBiome.accent_color ?? "#d89d46", "--art": currentBiome.image_path ? `url(${currentBiome.image_path})` : "none" } as CSSProperties}>
         <div><p>{locale === "ru" ? "ПУТЕВОДИТЕЛЬ ПО БИОМУ" : "BIOME FIELD GUIDE"}</p><h2>{text(locale,currentBiome)}</h2><span>{locale === "ru" ? currentBiome.description_ru : currentBiome.description_en}</span></div>
       </div>
-      <div className="chips category-chips"><button className={!activeCategory ? "chip active" : "chip"} onClick={() => void filterBiome()}><i>◈</i>{locale === "ru" ? "Все" : "All"}</button>{currentBiome.categories.map((category) => <button className={activeCategory === category.slug ? "chip active" : "chip"} key={category.slug} onClick={() => void filterBiome(category.slug)}><i>{categoryIcon(category.slug)}</i>{text(locale, category)}</button>)}</div>
-      {activeCategory === "trophy" ? <TrophyGrid locale={locale} items={biomeItems} onOpen={openEntry} /> : <ResultList locale={locale} items={biomeItems} onOpen={openEntry} />}
+      <div className="biome-view-switch">
+        <button className={biomeView === "items" ? "active" : ""} onClick={() => void selectBiomeView("items")}><span>◆</span>{locale === "ru" ? "Предметы" : "Items"}</button>
+        <button className={biomeView === "creatures" ? "active" : ""} onClick={() => void selectBiomeView("creatures")}><span>☠</span>{locale === "ru" ? "Существа" : "Creatures"}</button>
+        <button className={biomeView === "boss" ? "active" : ""} onClick={() => void selectBiomeView("boss")}><span>♛</span>{locale === "ru" ? "Босс" : "Boss"}</button>
+      </div>
+      {biomeView === "items" && <>
+        <div className="chips category-chips"><button className={!activeCategory ? "chip active" : "chip"} onClick={() => void filterBiome()}><i>◈</i>{locale === "ru" ? "Все" : "All"}</button>{currentBiome.categories.map((category) => <button className={activeCategory === category.slug ? "chip active" : "chip"} key={category.slug} onClick={() => void filterBiome(category.slug)}><i>{categoryIcon(category.slug)}</i>{text(locale, category)}</button>)}</div>
+        {activeCategory === "trophy" ? <TrophyGrid locale={locale} items={biomeItems} onOpen={openEntry} /> : <ResultList locale={locale} items={biomeItems} onOpen={openEntry} />}
+      </>}
+      {biomeView === "creatures" && (creaturesLoading ? <Empty message={locale === "ru" ? "Загружаем существ..." : "Loading creatures..."} /> : <CreatureGrid locale={locale} items={creatures} onOpen={openCreature} />)}
+      {biomeView === "boss" && (creaturesLoading ? <Empty message={locale === "ru" ? "Загружаем босса..." : "Loading boss..."} /> : biomeBoss ? <BossCard locale={locale} boss={biomeBoss} onOpen={openCreature} /> : <Empty message={locale === "ru" ? "В этом биоме нет отдельного Forsaken-босса." : "This biome has no dedicated Forsaken boss."} />)}
     </>}</section>}
 
     {section === "item" && item && <section className="detail">
@@ -455,6 +504,10 @@ export function App() {
       {resource.sources.length ? <div className="source-list">{resource.sources.map((source, index) => <p key={index}><b>{String(index + 1).padStart(2,"0")}</b><span>{locale === "ru" ? source.method_ru : source.method_en}</span></p>)}</div> : <Empty message={locale === "ru" ? "Проверенный источник пока добавляется." : "A verified source is being added."} />}
       <SectionTitle eyebrow={locale === "ru" ? "ПРИМЕНЕНИЕ" : "USES"} title={locale === "ru" ? "Используется в" : "Used in"} />
       <ResultList locale={locale} items={resource.used_by} onOpen={openEntry} /><SourceLink locale={locale} entry={resource} />
+    </section>}
+
+    {section === "creature" && <section className="detail creature-detail">
+      {!creature ? <Empty message={locale === "ru" ? "Загружаем боевые данные..." : "Loading combat data..."} /> : <CreatureDetailView locale={locale} creature={creature} boss={biomeBoss?.slug === creature.slug ? biomeBoss : null} />}
     </section>}
 
     {section === "craft" && <section>
