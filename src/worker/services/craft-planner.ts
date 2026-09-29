@@ -10,39 +10,116 @@ export type ResourceTotal = {
   remaining: number;
 };
 
+type IngredientRow = {
+  resource_id: number;
+  quantity: number;
+  slug: string;
+  name_en: string;
+  name_ru: string;
+};
+
+type IngredientIdentity = Omit<IngredientRow, "quantity">;
+
 export const calculateCraftList = async (env: Env, craftListId: number): Promise<ResourceTotal[]> => {
   const { results: plannedItems } = await env.DB.prepare(
     "SELECT item_id, quantity, target_level FROM craft_list_items WHERE craft_list_id = ?"
   ).bind(craftListId).all<{ item_id: number; quantity: number; target_level: number }>();
 
   const totals = new Map<number, Omit<ResourceTotal, "owned" | "remaining">>();
-  for (const planned of plannedItems) {
-    const base = await env.DB.prepare(`
+  const recipeCache = new Map<number, IngredientRow[]>();
+  const identityCache = new Map<number, IngredientIdentity>();
+
+  const itemIdentity = async (itemId: number): Promise<IngredientIdentity | null> => {
+    const cached = identityCache.get(itemId);
+    if (cached) return cached;
+    const row = await env.DB.prepare(
+      "SELECT id AS resource_id, slug, name_en, name_ru FROM items WHERE id = ?"
+    ).bind(itemId).first<IngredientIdentity>();
+    if (row) identityCache.set(itemId, row);
+    return row ?? null;
+  };
+
+  const recipeIngredients = async (itemId: number): Promise<IngredientRow[]> => {
+    const cached = recipeCache.get(itemId);
+    if (cached) return cached;
+    const { results } = await env.DB.prepare(`
       SELECT ri.resource_id, ri.quantity, r.slug, r.name_en, r.name_ru
-      FROM recipes re JOIN recipe_ingredients ri ON ri.recipe_id = re.id JOIN items r ON r.id = ri.resource_id
-      WHERE re.item_id = ?`
-    ).bind(planned.item_id).all<{ resource_id: number; quantity: number; slug: string; name_en: string; name_ru: string }>();
-    const upgrades = await env.DB.prepare(`
-      SELECT ui.resource_id, ui.quantity, r.slug, r.name_en, r.name_ru
-      FROM item_upgrades iu JOIN upgrade_ingredients ui ON ui.upgrade_id = iu.id JOIN items r ON r.id = ui.resource_id
-      WHERE iu.item_id = ? AND iu.level <= ?`
-    ).bind(planned.item_id, planned.target_level).all<{ resource_id: number; quantity: number; slug: string; name_en: string; name_ru: string }>();
-    for (const ingredient of [...base.results, ...upgrades.results]) {
-      const existing = totals.get(ingredient.resource_id);
-      const required = ingredient.quantity * planned.quantity;
-      totals.set(ingredient.resource_id, {
-        resource_id: ingredient.resource_id,
-        slug: ingredient.slug,
-        name_en: ingredient.name_en,
-        name_ru: ingredient.name_ru,
-        required: (existing?.required ?? 0) + required
-      });
+      FROM recipes re
+      JOIN recipe_ingredients ri ON ri.recipe_id = re.id
+      JOIN items r ON r.id = ri.resource_id
+      WHERE re.item_id = ?
+      ORDER BY r.name_en
+    `).bind(itemId).all<IngredientRow>();
+    recipeCache.set(itemId, results);
+    return results;
+  };
+
+  const addRaw = (ingredient: IngredientIdentity, quantity: number): void => {
+    const existing = totals.get(ingredient.resource_id);
+    totals.set(ingredient.resource_id, {
+      resource_id: ingredient.resource_id,
+      slug: ingredient.slug,
+      name_en: ingredient.name_en,
+      name_ru: ingredient.name_ru,
+      required: (existing?.required ?? 0) + quantity
+    });
+  };
+
+  const expandIngredient = async (
+    ingredient: IngredientIdentity,
+    quantity: number,
+    path: ReadonlySet<number>
+  ): Promise<void> => {
+    if (quantity <= 0) return;
+
+    // Guard against malformed recipe cycles: keep the cyclic component visible
+    // instead of recursing forever.
+    if (path.has(ingredient.resource_id)) {
+      addRaw(ingredient, quantity);
+      return;
     }
+
+    const nested = await recipeIngredients(ingredient.resource_id);
+    if (!nested.length) {
+      addRaw(ingredient, quantity);
+      return;
+    }
+
+    const nextPath = new Set(path);
+    nextPath.add(ingredient.resource_id);
+    for (const child of nested) {
+      await expandIngredient(child, quantity * child.quantity, nextPath);
+    }
+  };
+
+  for (const planned of plannedItems) {
+    const base = await recipeIngredients(planned.item_id);
+    for (const ingredient of base) {
+      await expandIngredient(ingredient, ingredient.quantity * planned.quantity, new Set([planned.item_id]));
+    }
+
+    const { results: upgrades } = await env.DB.prepare(`
+      SELECT ui.resource_id, ui.quantity, r.slug, r.name_en, r.name_ru
+      FROM item_upgrades iu
+      JOIN upgrade_ingredients ui ON ui.upgrade_id = iu.id
+      JOIN items r ON r.id = ui.resource_id
+      WHERE iu.item_id = ? AND iu.level <= ?
+      ORDER BY iu.level, r.name_en
+    `).bind(planned.item_id, planned.target_level).all<IngredientRow>();
+
+    for (const ingredient of upgrades) {
+      await expandIngredient(ingredient, ingredient.quantity * planned.quantity, new Set([planned.item_id]));
+    }
+
+    // Items without a recipe intentionally contribute no resource cost. This is
+    // preferable to treating the planned item itself as a material.
+    if (!base.length) await itemIdentity(planned.item_id);
   }
 
   const progress = await env.DB.prepare(
     "SELECT resource_id, quantity_owned FROM user_resource_progress WHERE craft_list_id = ?"
   ).bind(craftListId).all<{ resource_id: number; quantity_owned: number }>();
+
   const ownedByResource = new Map(progress.results.map((entry) => [entry.resource_id, entry.quantity_owned]));
   return [...totals.values()]
     .map((total) => {
