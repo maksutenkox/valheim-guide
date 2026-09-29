@@ -49,6 +49,22 @@ export default {
       }
     }
 
+    if (request.method === "GET" && url.pathname === "/api/auth-status") {
+      const initDataPresent = Boolean(
+        request.headers.get("x-telegram-init-data")
+        || request.headers.get("authorization")?.startsWith("tma ")
+      );
+      try {
+        const userId = await getTelegramUserId(request, env);
+        return json({ authenticated: true, initDataPresent, userId });
+      } catch (error) {
+        if (error instanceof AuthError) {
+          return json({ authenticated: false, initDataPresent, error: error.message }, 401);
+        }
+        return json({ authenticated: false, initDataPresent, error: "Authentication check failed" }, 500);
+      }
+    }
+
     if (request.method === "GET" && url.pathname === "/api/health") {
       try {
         const result = await env.DB.prepare("SELECT 1 AS value").first<{ value: number }>();
@@ -81,11 +97,12 @@ export default {
     if (request.method === "GET" && url.pathname === "/api/items") {
       const page = parsePositiveInt(url.searchParams.get("page"), 1, 10_000);
       const limit = parsePositiveInt(url.searchParams.get("limit"), 30, 100);
-      const filters: string[] = ["i.entity_type = 'item'"];
+      const filters: string[] = [];
       const bindings: (string | number)[] = [];
       if (url.searchParams.has("biome")) { filters.push("b.slug = ?"); bindings.push(url.searchParams.get("biome")!); }
       if (url.searchParams.has("category")) { filters.push("c.slug = ?"); bindings.push(url.searchParams.get("category")!); }
-      const query = `${itemSelect} WHERE ${filters.join(" AND ")} ORDER BY i.name_en LIMIT ? OFFSET ?`;
+      const where = filters.length ? ` WHERE ${filters.join(" AND ")}` : "";
+      const query = `${itemSelect}${where} ORDER BY c.sort_order, i.name_en LIMIT ? OFFSET ?`;
       const { results } = await env.DB.prepare(query).bind(...bindings, limit, (page - 1) * limit).all<ItemRow>();
       return json({ data: results, page, limit });
     }
