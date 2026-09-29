@@ -116,7 +116,14 @@ jobs:
 
           echo "Checking production media assets..."
           for asset in copper-ore bronze-protection-idol pulled-bear scrap-iron iron-sword root-mask black-soup silver-ore frostner draugr-fang fenris-hood onion-soup; do
-            CONTENT_TYPE="$(curl --fail --silent --show-error --retry 3 --retry-delay 1 -o /dev/null -w '%{content_type}' "$BASE_URL/media/wiki/$asset.png")"
-            echo "$asset: $CONTENT_TYPE"
+            CONTENT_TYPE=""
+            for attempt in $(seq 1 12); do
+              CONTENT_TYPE="$(curl --silent --show-error -o /dev/null -w '%{content_type}' "$BASE_URL/media/wiki/$asset.png" || true)"
+              echo "$asset attempt $attempt: $CONTENT_TYPE"
+              if echo "$CONTENT_TYPE" | grep -q '^image/'; then
+                break
+              fi
+              sleep 2
+            done
             echo "$CONTENT_TYPE" | grep -q '^image/'
           done
