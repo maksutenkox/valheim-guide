@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { ApiError, api } from "./services/api";
 import type { Biome, Category, CraftList, CraftListItem, CraftResourceTotal, GuideItem, ItemDetail, Locale, ResourceDetail } from "./types";
@@ -78,6 +78,7 @@ export function App() {
   const [craftItems, setCraftItems] = useState<CraftListItem[]>([]);
   const [craftTotals, setCraftTotals] = useState<CraftResourceTotal[]>([]);
   const [craftListBusy, setCraftListBusy] = useState(false);
+  const craftListActionLock = useRef(false);
 
   useEffect(() => {
     window.Telegram?.WebApp?.ready?.();
@@ -193,11 +194,12 @@ export function App() {
   };
 
   const createCraftList = async () => {
-    if (craftListBusy) return;
+    if (craftListActionLock.current) return;
     if (activeCraftList && craftItems.length === 0) {
       setMessage(locale === "ru" ? "Текущий список уже пуст — можно использовать его." : "The current list is already empty — you can use it.");
       return;
     }
+    craftListActionLock.current = true;
     setCraftListBusy(true);
     try {
       const { data } = await api.createCraftList(nextCraftListName());
@@ -209,14 +211,16 @@ export function App() {
     } catch (error) {
       setMessage(protectedErrorText(locale, error));
     } finally {
+      craftListActionLock.current = false;
       setCraftListBusy(false);
     }
   };
 
   const renameCraftList = async () => {
-    if (!activeCraftList || craftListBusy) return;
+    if (!activeCraftList || craftListActionLock.current) return;
     const nextName = window.prompt(locale === "ru" ? "Название списка" : "List name", activeCraftList.name)?.trim();
     if (!nextName || nextName === activeCraftList.name) return;
+    craftListActionLock.current = true;
     setCraftListBusy(true);
     try {
       const { data } = await api.renameCraftList(activeCraftList.id, nextName);
@@ -226,16 +230,18 @@ export function App() {
     } catch (error) {
       setMessage(protectedErrorText(locale, error));
     } finally {
+      craftListActionLock.current = false;
       setCraftListBusy(false);
     }
   };
 
   const deleteCraftList = async () => {
-    if (!activeCraftList || craftListBusy) return;
+    if (!activeCraftList || craftListActionLock.current) return;
     const confirmed = window.confirm(locale === "ru"
       ? `Удалить список «${activeCraftList.name}»? Предметы и отмеченные ресурсы в нём будут удалены.`
       : `Delete “${activeCraftList.name}”? Its items and resource progress will be removed.`);
     if (!confirmed) return;
+    craftListActionLock.current = true;
     setCraftListBusy(true);
     try {
       await api.deleteCraftList(activeCraftList.id);
@@ -253,12 +259,15 @@ export function App() {
     } catch (error) {
       setMessage(protectedErrorText(locale, error));
     } finally {
+      craftListActionLock.current = false;
       setCraftListBusy(false);
     }
   };
 
   const addToCraftList = async () => {
-    if (!item) return;
+    if (!item || craftListActionLock.current) return;
+    craftListActionLock.current = true;
+    setCraftListBusy(true);
     try {
       let target = activeCraftList;
 
@@ -280,7 +289,12 @@ export function App() {
       setCraftItems(items.data);
       setCraftTotals(totals.data);
       setMessage(locale === "ru" ? `Добавлено в «${target.name}».` : `Added to “${target.name}”.`);
-    } catch (error) { setMessage(protectedErrorText(locale, error)); }
+    } catch (error) {
+      setMessage(protectedErrorText(locale, error));
+    } finally {
+      craftListActionLock.current = false;
+      setCraftListBusy(false);
+    }
   };
 
   const selectCraftList = async (list: CraftList) => {
@@ -358,7 +372,7 @@ export function App() {
 
     {section === "biome" && <section>{!currentBiome ? <Empty message={locale === "ru" ? "Загружаем биом..." : "Loading biome..."} /> : <><p className="lede">{locale === "ru" ? currentBiome.description_ru : currentBiome.description_en}</p><div className="chips"><button className={!activeCategory ? "chip active" : "chip"} onClick={() => void filterBiome()}>{locale === "ru" ? "Все" : "All"}</button>{currentBiome.categories.map((category) => <button className={activeCategory === category.slug ? "chip active" : "chip"} key={category.slug} onClick={() => void filterBiome(category.slug)}>{text(locale, category)}</button>)}</div><ResultList locale={locale} items={biomeItems} onOpen={openEntry} /></>}</section>}
 
-    {section === "item" && item && <section className="detail"><Visual entry={item} hero /><p className="item-type">{categoryText(locale, item) ?? (locale === "ru" ? "Предмет" : "Item")}</p><p className="lede">{locale === "ru" ? item.description_ru : item.description_en}</p><div className="detail-actions"><button className="save" onClick={() => void toggleFavorite()}>{saved ? "♥" : "♡"} {saved ? (locale === "ru" ? "Сохранено" : "Saved") : (locale === "ru" ? "В избранное" : "Save")}</button><button className="save" onClick={() => void addToCraftList()}>⚒ {locale === "ru" ? "В мой крафт" : "Add to craft"}</button></div><DetailStats locale={locale} item={item} /><Recipe locale={locale} item={item} onResource={openResource} /><Upgrades locale={locale} item={item} onResource={openResource} /><SourceLink locale={locale} entry={item} /></section>}
+    {section === "item" && item && <section className="detail"><Visual entry={item} hero /><p className="item-type">{categoryText(locale, item) ?? (locale === "ru" ? "Предмет" : "Item")}</p><p className="lede">{locale === "ru" ? item.description_ru : item.description_en}</p><div className="detail-actions"><button className="save" onClick={() => void toggleFavorite()}>{saved ? "♥" : "♡"} {saved ? (locale === "ru" ? "Сохранено" : "Saved") : (locale === "ru" ? "В избранное" : "Save")}</button><button className="save" disabled={craftListBusy} onClick={() => void addToCraftList()}>⚒ {locale === "ru" ? "В мой крафт" : "Add to craft"}</button></div><DetailStats locale={locale} item={item} /><Recipe locale={locale} item={item} onResource={openResource} /><Upgrades locale={locale} item={item} onResource={openResource} /><SourceLink locale={locale} entry={item} /></section>}
 
     {section === "resource" && resource && <section className="detail"><Visual entry={resource} hero /><p className="item-type">{locale === "ru" ? "Материал" : "Material"}</p><p className="lede">{locale === "ru" ? resource.description_ru : resource.description_en}</p><h2>{locale === "ru" ? "Где найти" : "Where to find"}</h2>{resource.sources.length ? <div className="source-list">{resource.sources.map((source, index) => <p key={index}>{locale === "ru" ? source.method_ru : source.method_en}</p>)}</div> : <Empty message={locale === "ru" ? "Проверенный источник пока добавляется." : "A verified source is being added."} />}<h2>{locale === "ru" ? "Используется в" : "Used in"}</h2><ResultList locale={locale} items={resource.used_by} onOpen={openEntry} /><SourceLink locale={locale} entry={resource} /></section>}
 
