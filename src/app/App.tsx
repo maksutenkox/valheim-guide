@@ -30,11 +30,23 @@ const protectedErrorText = (locale: Locale, error: unknown): string => {
 };
 
 const statLabel = (locale: Locale, key: string) => ({
-  slash_damage: locale === "ru" ? "Урон рубящий" : "Slash damage",
+  slash_damage: locale === "ru" ? "Рубящий урон" : "Slash damage",
+  blunt_damage: locale === "ru" ? "Дробящий урон" : "Blunt damage",
+  pierce_damage: locale === "ru" ? "Колющий урон" : "Pierce damage",
+  fire_damage: locale === "ru" ? "Огненный урон" : "Fire damage",
   chop: locale === "ru" ? "Рубка" : "Chop",
+  pickaxe: locale === "ru" ? "Урон киркой" : "Pickaxe damage",
   durability: locale === "ru" ? "Прочность" : "Durability",
   stamina_use: locale === "ru" ? "Затраты выносливости" : "Stamina use",
-  armor: locale === "ru" ? "Броня" : "Armor"
+  armor: locale === "ru" ? "Броня" : "Armor",
+  block_armor: locale === "ru" ? "Блок" : "Block armor",
+  parry_bonus: locale === "ru" ? "Бонус парирования" : "Parry bonus",
+  health: locale === "ru" ? "Здоровье" : "Health",
+  stamina: locale === "ru" ? "Выносливость" : "Stamina",
+  duration: locale === "ru" ? "Длительность" : "Duration",
+  healing: locale === "ru" ? "Регенерация" : "Healing",
+  health_regen_bonus: locale === "ru" ? "Регенерация здоровья" : "Health regeneration",
+  stamina_regen_bonus: locale === "ru" ? "Регенерация выносливости" : "Stamina regeneration"
 }[key] ?? key.replaceAll("_", " "));
 
 export function App() {
