@@ -191,11 +191,14 @@ export default {
     if (request.method === "GET" && resourceMatch) {
       const resource = await env.DB.prepare(`${itemSelect} WHERE i.slug = ? AND i.entity_type = 'resource'`).bind(resourceMatch[1]).first<ItemRow>();
       if (!resource) return notFound();
-      const [sources, usedBy] = await Promise.all([
+      const [sources, recipeUsedBy, upgradeUsedBy] = await Promise.all([
         env.DB.prepare("SELECT method_en, method_ru, source_url FROM resource_sources WHERE resource_id = ? ORDER BY sort_order").bind(resource.id).all(),
-        env.DB.prepare(`${itemSelect} JOIN recipes re ON re.item_id = i.id JOIN recipe_ingredients ri ON ri.recipe_id = re.id WHERE ri.resource_id = ? AND i.entity_type = 'item' ORDER BY i.name_en`).bind(resource.id).all<ItemRow>()
+        env.DB.prepare(`${itemSelect} JOIN recipes re ON re.item_id = i.id JOIN recipe_ingredients ri ON ri.recipe_id = re.id WHERE ri.resource_id = ? AND i.entity_type = 'item' ORDER BY i.name_en`).bind(resource.id).all<ItemRow>(),
+        env.DB.prepare(`${itemSelect} JOIN item_upgrades iu ON iu.item_id = i.id JOIN upgrade_ingredients ui ON ui.upgrade_id = iu.id WHERE ui.resource_id = ? AND i.entity_type = 'item' ORDER BY i.name_en`).bind(resource.id).all<ItemRow>()
       ]);
-      return json({ data: { ...resource, sources: sources.results, used_by: usedBy.results } });
+      const usedBy = [...recipeUsedBy.results, ...upgradeUsedBy.results];
+      const uniqueUsedBy = [...new Map(usedBy.map((entry) => [entry.id, entry])).values()];
+      return json({ data: { ...resource, sources: sources.results, used_by: uniqueUsedBy } });
     }
 
     if (request.method === "GET" && url.pathname === "/api/search") {
@@ -289,6 +292,7 @@ export default {
         if (!await ownsCraftList(env, listId, userId)) return notFound();
         const { results } = await env.DB.prepare(`
           SELECT cli.item_id, cli.quantity, cli.target_level,
+                 COALESCE((SELECT MAX(iu.level) FROM item_upgrades iu WHERE iu.item_id = i.id), 1) AS max_level,
                  i.slug, i.name_en, i.name_ru, i.image_path
           FROM craft_list_items cli
           JOIN items i ON i.id = cli.item_id
@@ -320,6 +324,12 @@ export default {
         const targetLevel = body?.targetLevel;
         if (!Number.isSafeInteger(targetItemId) || !Number.isInteger(quantity) || quantity! < 1 || !Number.isInteger(targetLevel) || targetLevel! < 1) {
           return json({ error: "itemId, quantity and targetLevel must be positive integers" }, 400);
+        }
+        const maxLevelRow = await env.DB.prepare("SELECT COALESCE(MAX(level), 1) AS max_level FROM item_upgrades WHERE item_id = ?")
+          .bind(targetItemId).first<{ max_level: number }>();
+        const maxLevel = Math.max(1, Number(maxLevelRow?.max_level ?? 1));
+        if (targetLevel! > maxLevel) {
+          return json({ error: `targetLevel cannot exceed ${maxLevel}` }, 400);
         }
         if (request.method === "POST") {
           await env.DB.prepare(`INSERT INTO craft_list_items (craft_list_id, item_id, quantity, target_level)
