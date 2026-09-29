@@ -114,6 +114,7 @@ export const creatures: CreatureSummary[] = [
   creature("charred-marksman","Charred Marksman","Обугленный стрелок","ashlands",200),
   creature("charred-warlock","Charred Warlock","Обугленный чародей","ashlands",600),
   creature("asksvin","Asksvin","Асксвин","ashlands",800),
+  creature("asksvin-hatchling","Asksvin Hatchling","Детёныш асксвина","ashlands",400),
   creature("bonemaw","Bonemaw","Костегрыз","ashlands",1100),
   creature("fallen-valkyrie","Fallen Valkyrie","Падшая валькирия","ashlands",1500),
   creature("lava-blob","Lava Blob","Лавовый слизень","ashlands",300),
