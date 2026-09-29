@@ -1,4 +1,4 @@
-import type { Biome, Category, CraftList, CraftResourceTotal, GuideItem, ItemDetail, ResourceDetail } from "../types";
+import type { Biome, Category, CraftList, CraftListItem, CraftResourceTotal, GuideItem, ItemDetail, ResourceDetail } from "../types";
 
 declare global {
   interface Window {
@@ -74,7 +74,12 @@ export const api = {
   removeFavorite: (itemId: number) => mutation<void>(`/api/favorites/${itemId}`, "DELETE"),
   craftLists: () => request<{ data: CraftList[] }>("/api/craft-lists"),
   createCraftList: (name: string) => mutation<{ data: CraftList }>("/api/craft-lists", "POST", { name }),
+  craftItems: (listId: number) => request<{ data: CraftListItem[] }>(`/api/craft-lists/${listId}/items`),
   addCraftItem: (listId: number, itemId: number, quantity = 1, targetLevel = 1) => mutation<{ status: string }>(`/api/craft-lists/${listId}/items`, "POST", { itemId, quantity, targetLevel }),
+  updateCraftItem: (listId: number, itemId: number, quantity: number, targetLevel = 1) =>
+    mutation<{ status: string }>(`/api/craft-lists/${listId}/items/${itemId}`, "PATCH", { quantity, targetLevel }),
+  removeCraftItem: (listId: number, itemId: number) =>
+    mutation<void>(`/api/craft-lists/${listId}/items/${itemId}`, "DELETE"),
   craftSummary: (listId: number) => request<{ data: CraftResourceTotal[] }>(`/api/craft-lists/${listId}/summary`),
   updateCraftResource: (listId: number, resourceId: number, quantityOwned: number) =>
     mutation<{ status: string }>(`/api/craft-lists/${listId}/resources/${resourceId}`, "PATCH", { quantityOwned })
