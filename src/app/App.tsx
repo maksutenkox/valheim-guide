@@ -40,6 +40,9 @@ const statLabel = (locale: Locale, key: string) => ({
   blunt_damage: locale === "ru" ? "Дробящий урон" : "Blunt damage",
   pierce_damage: locale === "ru" ? "Колющий урон" : "Pierce damage",
   fire_damage: locale === "ru" ? "Огненный урон" : "Fire damage",
+  frost_damage: locale === "ru" ? "Морозный урон" : "Frost damage",
+  spirit_damage: locale === "ru" ? "Духовный урон" : "Spirit damage",
+  poison_damage: locale === "ru" ? "Ядовитый урон" : "Poison damage",
   chop: locale === "ru" ? "Рубка" : "Chop",
   pickaxe: locale === "ru" ? "Урон киркой" : "Pickaxe damage",
   durability: locale === "ru" ? "Прочность" : "Durability",
@@ -52,7 +55,8 @@ const statLabel = (locale: Locale, key: string) => ({
   duration: locale === "ru" ? "Длительность" : "Duration",
   healing: locale === "ru" ? "Регенерация" : "Healing",
   health_regen_bonus: locale === "ru" ? "Регенерация здоровья" : "Health regeneration",
-  stamina_regen_bonus: locale === "ru" ? "Регенерация выносливости" : "Stamina regeneration"
+  stamina_regen_bonus: locale === "ru" ? "Регенерация выносливости" : "Stamina regeneration",
+  adrenaline: locale === "ru" ? "Порог адреналина" : "Adrenaline threshold"
 }[key] ?? key.replaceAll("_", " "));
 
 export function App() {
