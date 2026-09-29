@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -14,13 +14,18 @@ type FandomImageInfoResponse = {
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const manifestPath = resolve(root, "data/media/wiki-manifest.json");
-const blackForestSeedPath = resolve(root, "src/worker/services/seed-black-forest.ts");
+const seedDirectory = resolve(root, "src/worker/services");
 const outputDirectory = resolve(root, "public/media/wiki");
 
 const staticManifest = JSON.parse(await readFile(manifestPath, "utf8")) as MediaRecord[];
-const seedSource = await readFile(blackForestSeedPath, "utf8");
+const seedFiles = (await readdir(seedDirectory))
+  .filter((name) => /^seed-.*\.ts$/.test(name))
+  .sort();
+const seedSource = (await Promise.all(
+  seedFiles.map((name) => readFile(resolve(seedDirectory, name), "utf8"))
+)).join("\n");
 
-const blackForestManifest: MediaRecord[] = seedSource
+const catalogManifest: MediaRecord[] = seedSource
   .split("\n")
   .map((line) => {
     const match = line.match(/\{ slug: "([^"]+)".*imageFile: "([^"]+)"/);
@@ -35,7 +40,7 @@ const blackForestManifest: MediaRecord[] = seedSource
   .filter((entry): entry is MediaRecord => Boolean(entry));
 
 const manifest = new Map<string, MediaRecord>();
-for (const entry of [...staticManifest, ...blackForestManifest]) {
+for (const entry of [...staticManifest, ...catalogManifest]) {
   manifest.set(entry.output, entry);
 }
 
