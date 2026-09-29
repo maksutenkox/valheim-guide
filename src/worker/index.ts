@@ -94,16 +94,17 @@ export default {
     if (request.method === "GET" && itemMatch) {
       const item = await env.DB.prepare(`${itemSelect} WHERE i.slug = ? AND i.entity_type = 'item'`).bind(itemMatch[1]).first<ItemRow>();
       if (!item) return notFound();
-      const [stats, ingredients, upgrades] = await Promise.all([
+      const [stats, ingredients, upgrades, recipe] = await Promise.all([
         env.DB.prepare("SELECT stat_key, stat_value, unit FROM item_stats WHERE item_id = ? ORDER BY sort_order").bind(item.id).all(),
         env.DB.prepare(`SELECT ri.quantity, r.slug, r.name_en, r.name_ru FROM recipes re JOIN recipe_ingredients ri ON ri.recipe_id = re.id JOIN items r ON r.id = ri.resource_id WHERE re.item_id = ? ORDER BY r.name_en`).bind(item.id).all(),
-        env.DB.prepare("SELECT id, level, station_level FROM item_upgrades WHERE item_id = ? ORDER BY level").bind(item.id).all<{ id: number; level: number; station_level: number | null }>()
+        env.DB.prepare("SELECT id, level, station_level FROM item_upgrades WHERE item_id = ? ORDER BY level").bind(item.id).all<{ id: number; level: number; station_level: number | null }>(),
+        env.DB.prepare("SELECT s.slug, s.name_en, s.name_ru, re.station_level FROM recipes re LEFT JOIN crafting_stations s ON s.id = re.crafting_station_id WHERE re.item_id = ?").bind(item.id).first()
       ]);
       const upgradeDetails = await Promise.all(upgrades.results.map(async (upgrade) => ({
         ...upgrade,
         ingredients: (await env.DB.prepare("SELECT ui.quantity, r.slug, r.name_en, r.name_ru FROM upgrade_ingredients ui JOIN items r ON r.id = ui.resource_id WHERE ui.upgrade_id = ? ORDER BY r.name_en").bind(upgrade.id).all()).results
       })));
-      return json({ data: { ...item, stats: stats.results, ingredients: ingredients.results, upgrades: upgradeDetails } });
+      return json({ data: { ...item, recipe, stats: stats.results, ingredients: ingredients.results, upgrades: upgradeDetails } });
     }
 
     if (request.method === "GET" && url.pathname === "/api/resources") {

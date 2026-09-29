@@ -20,3 +20,51 @@ export type GuideItem = {
   category_name_en: string | null;
   category_name_ru: string | null;
 };
+
+export type Category = {
+  slug: string;
+  name_en: string;
+  name_ru: string;
+};
+
+export type Ingredient = {
+  quantity: number;
+  slug: string;
+  name_en: string;
+  name_ru: string;
+};
+
+export type ItemDetail = GuideItem & {
+  description_en: string;
+  description_ru: string;
+  biome_name_en: string | null;
+  biome_name_ru: string | null;
+  recipe: { slug: string; name_en: string; name_ru: string; station_level: number } | null;
+  stats: { stat_key: string; stat_value: string; unit: string | null }[];
+  ingredients: Ingredient[];
+  upgrades: { level: number; station_level: number | null; ingredients: Ingredient[] }[];
+};
+
+export type ResourceDetail = GuideItem & {
+  description_en: string;
+  description_ru: string;
+  sources: { method_en: string; method_ru: string; source_url: string | null }[];
+  used_by: GuideItem[];
+};
+
+export type CraftList = {
+  id: number;
+  name: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CraftResourceTotal = {
+  resource_id: number;
+  slug: string;
+  name_en: string;
+  name_ru: string;
+  required: number;
+  owned: number;
+  remaining: number;
+};
