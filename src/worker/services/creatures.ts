@@ -96,6 +96,7 @@ export const creatures: CreatureSummary[] = [
   creature("growth","Growth","Нарост","plains",100),
   creature("lox","Lox","Локс","plains",1000),
   creature("vile","Vile","Мерзкий медведь","plains",1200),
+  creature("zil-and-thungr","Zil & Thungr","Зил и Тунгр","plains",4200),
 
   // Mistlands
   creature("seeker","Seeker","Искатель","mistlands",200),
@@ -121,6 +122,25 @@ export const creatures: CreatureSummary[] = [
   creature("lord-reto","Lord Reto","Лорд Рето","ashlands",2500),
 
   // Deep North
+  creature("aspect-of-the-lightning-stag","Aspect of the Lightning Stag","Аспект Грозового Оленя","deep-north",3000),
+  creature("aspect-of-the-crawling-matriarch","Aspect of the Crawling Matriarch","Аспект Ползучей Матриархини","deep-north",1700),
+  creature("aspect-of-the-emerald-flame","Aspect of the Emerald Flame","Аспект Изумрудного Пламени","deep-north",1700),
+  creature("aspect-of-the-twisted-soul","Aspect of the Twisted Soul","Аспект Искажённой Души","deep-north",1700),
+  creature("aspect-of-the-living-forest","Aspect of the Living Forest","Аспект Живого Леса","deep-north",1600),
+  creature("aspect-of-the-writhing-dead","Aspect of the Writhing Dead","Аспект Извивающегося Мертвеца","deep-north",1600),
+  creature("aspect-of-the-dragon-mother","Aspect of the Dragon Mother","Аспект Матери Драконов","deep-north",1500),
+  creature("bjorn-spiritcaller","Bjorn Spiritcaller","Бьорн-призыватель духов","deep-north",1500),
+  creature("moose-spiritcaller","Moose Spiritcaller","Лось-призыватель духов","deep-north",1100),
+  creature("boar-spiritcaller","Boar Spiritcaller","Кабан-призыватель духов","deep-north",1000),
+  creature("moose-calf","Moose Calf","Лосёнок","deep-north",1000),
+  creature("wolf-spiritcaller","Wolf Spiritcaller","Волк-призыватель духов","deep-north",800),
+  creature("baby-seal","Baby Seal","Детёныш тюленя","deep-north",200),
+  creature("frost-wisp","Frost Wisp","Морозный огонёк","deep-north",100),
+  creature("frysling","Frysling","Фрислинг","deep-north",100),
+  creature("tendril","Tendril","Щупальце","deep-north",80),
+  creature("the-void","The Void","Пустота","deep-north",60),
+  creature("tiny-pulp","Tiny Pulp","Малая мякоть","deep-north",50),
+  creature("deer-white","Deer White","Белый олень","deep-north",30),
   creature("barka","Barka","Барка","deep-north",2200),
   creature("elaking","Elaking","Элакинг","deep-north",350),
   creature("eyeless-one","Eyeless One","Безглазый","deep-north",1400),
