@@ -262,9 +262,21 @@ export default {
         if (!Number.isSafeInteger(targetItemId) || !Number.isInteger(quantity) || quantity! < 1 || !Number.isInteger(targetLevel) || targetLevel! < 1) {
           return json({ error: "itemId, quantity and targetLevel must be positive integers" }, 400);
         }
-        await env.DB.prepare(`INSERT INTO craft_list_items (craft_list_id, item_id, quantity, target_level)
-          VALUES (?, ?, ?, ?) ON CONFLICT(craft_list_id, item_id) DO UPDATE SET quantity = excluded.quantity, target_level = excluded.target_level`)
-          .bind(listId, targetItemId, quantity, targetLevel).run();
+        if (request.method === "POST") {
+          await env.DB.prepare(`INSERT INTO craft_list_items (craft_list_id, item_id, quantity, target_level)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(craft_list_id, item_id) DO UPDATE SET
+              quantity = craft_list_items.quantity + excluded.quantity,
+              target_level = MAX(craft_list_items.target_level, excluded.target_level)`)
+            .bind(listId, targetItemId, quantity, targetLevel).run();
+        } else {
+          await env.DB.prepare(`INSERT INTO craft_list_items (craft_list_id, item_id, quantity, target_level)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(craft_list_id, item_id) DO UPDATE SET
+              quantity = excluded.quantity,
+              target_level = excluded.target_level`)
+            .bind(listId, targetItemId, quantity, targetLevel).run();
+        }
         await env.DB.prepare("UPDATE craft_lists SET updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(listId).run();
         return json({ status: "ok" }, request.method === "POST" ? 201 : 200);
       } catch (error) {
