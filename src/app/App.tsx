@@ -497,7 +497,7 @@ export function App() {
     {section === "search" && <section><div className="section-heading"><div><p>{locale === "ru" ? "ПОИСК ПО СПРАВОЧНИКУ" : "GUIDE SEARCH"}</p><h2>{locale === "ru" ? "Результаты" : "Results"}</h2></div>{query.length >= 2 && <span>{String(results.length).padStart(2,"0")}</span>}</div>{query.length < 2 ? <Empty message={locale === "ru" ? "Введите минимум 2 символа." : "Type at least 2 characters."} /> : <ResultList locale={locale} items={results} onOpen={openEntry} />}</section>}
 
     {section === "bosses" && <section className="bosses-section">
-      <div className="section-heading"><div><p>{locale === "ru" ? "FORSAKEN · БОЕВОЙ СПРАВОЧНИК" : "FORSAKEN · COMBAT GUIDE"}</p><h2>{locale === "ru" ? "Боссы" : "Bosses"}</h2></div><span>{String(bosses.length || 8).padStart(2,"0")}</span></div>
+      <div className="section-heading"><div><p>{locale === "ru" ? "БОССЫ · БОЕВОЙ СПРАВОЧНИК" : "BOSSES · COMBAT GUIDE"}</p><h2>{locale === "ru" ? "Боссы" : "Bosses"}</h2></div><span>{String(bosses.length || 8).padStart(2,"0")}</span></div>
       <p className="bosses-intro">{locale === "ru" ? "Главные боссы Valheim по порядку прохождения. Открой карточку, чтобы посмотреть призыв, силу, рекомендуемое снаряжение, резисты и дроп." : "Valheim's major bosses in progression order. Open a card for summon requirements, power, recommended gear, resistances and drops."}</p>
       {bossesLoading ? <Empty message={locale === "ru" ? "Загружаем боссов..." : "Loading bosses..."} /> : bosses.length ? <div className="bosses-list">{bosses.map((boss,index) => <div className="bosses-list-entry" key={boss.slug}><span className="bosses-order">{String(index + 1).padStart(2,"0")}</span><BossCard locale={locale} boss={boss} onOpen={(slug) => void openCreature(slug, "bosses")} /></div>)}</div> : <Empty message={locale === "ru" ? "Список боссов пока недоступен." : "Boss list is currently unavailable."} />}
     </section>}
@@ -680,7 +680,7 @@ function CreatureDetailView({ locale, creature, boss, onResource }: { locale: Lo
     {creature.resistances.length ? <div className="resistance-groups">
       <div className="resistance-block weak"><small>{locale === "ru" ? "ЛУЧШЕ БИТЬ" : "BEST AGAINST"}</small>{weak.length ? <div>{weak.map((entry) => <span key={entry.type}><b>{damageTypeText(locale,entry.type)}</b><em>{resistanceText(locale,entry.level)}</em></span>)}</div> : <p>{locale === "ru" ? "Выраженных слабостей нет." : "No listed weakness."}</p>}</div>
       <div className="resistance-block defend"><small>{locale === "ru" ? "ЗАЩИТА" : "DEFENSES"}</small>{defended.length ? <div>{defended.map((entry) => <span className={entry.level} key={entry.type}><b>{damageTypeText(locale,entry.type)}</b><em>{resistanceText(locale,entry.level)}</em></span>)}</div> : <p>{locale === "ru" ? "Нет особых сопротивлений." : "No special resistances."}</p>}</div>
-    </div> : <Empty message={locale === "ru" ? "Подробные резисты сейчас недоступны — базовые HP сохранены." : "Detailed resistances are currently unavailable — base HP is still available."} />}
+    </div> : <Empty message={locale === "ru" ? "Особых слабостей и сопротивлений не зафиксировано." : "No special weaknesses or resistances are recorded."} />}
 
     <SectionTitle eyebrow={locale === "ru" ? "ЛУТ" : "LOOT"} title={locale === "ru" ? "Что выпадает" : "Drops"} />
     {creature.drops.length ? <div className="drop-list">{creature.drops.map((drop,index) => {
@@ -691,7 +691,7 @@ function CreatureDetailView({ locale, creature, boss, onResource }: { locale: Lo
         {drop.chance && <em>{drop.chance}</em>}
         {drop.slug && <i>›</i>}
       </button>;
-    })}</div> : <Empty message={locale === "ru" ? "У этого существа нет зафиксированного дропа." : "No recorded drops for this creature yet."} />}
+    })}</div> : <Empty message={locale === "ru" ? "Это существо не роняет предметы." : "This creature does not drop items."} />}
 
     <p className="source-credit"><a href={creature.source_url} target="_blank" rel="noreferrer">{locale === "ru" ? "Боевые данные" : "Combat data"} ↗</a><span>{creature.source_name}</span></p>
   </>;
