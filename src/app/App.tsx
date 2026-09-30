@@ -23,8 +23,9 @@ type FishingBaitGuide = {
 };
 type SkillGuide = { slug: string; icon: string; name_en: string; name_ru: string; group: "combat" | "magic" | "movement" | "craft"; effect_en: string; effect_ru: string };
 type BuildAsset = { slug: string; name_en: string; name_ru: string };
+type BuildBiomeSlug = "meadows" | "black-forest" | "swamp" | "mountains" | "plains" | "mistlands" | "ashlands" | "deep-north" | "ocean";
 type CharacterBuild = {
-  id: string; icon: string; name_en: string; name_ru: string; tag_en: string; tag_ru: string;
+  id: string; biome: BuildBiomeSlug; icon: string; name_en: string; name_ru: string; tag_en: string; tag_ru: string;
   description_en: string; description_ru: string; weapons: BuildAsset[]; armor: BuildAsset[]; food: BuildAsset[];
 };
 
@@ -69,25 +70,197 @@ const skillGuides: SkillGuide[] = [
 ];
 
 const asset = (slug: string, name_en: string, name_ru: string): BuildAsset => ({ slug, name_en, name_ru });
+const buildBiomes: Array<{ slug: BuildBiomeSlug; icon: string; name_en: string; name_ru: string }> = [
+  {slug:"meadows",icon:"🌿",name_en:"Meadows",name_ru:"Луга"},
+  {slug:"black-forest",icon:"🌲",name_en:"Black Forest",name_ru:"Чёрный лес"},
+  {slug:"swamp",icon:"☠",name_en:"Swamp",name_ru:"Болота"},
+  {slug:"mountains",icon:"❄",name_en:"Mountains",name_ru:"Горы"},
+  {slug:"plains",icon:"🌾",name_en:"Plains",name_ru:"Равнины"},
+  {slug:"mistlands",icon:"◌",name_en:"Mistlands",name_ru:"Туманные земли"},
+  {slug:"ashlands",icon:"🔥",name_en:"Ashlands",name_ru:"Пепельные земли"},
+  {slug:"deep-north",icon:"ᛉ",name_en:"Deep North",name_ru:"Глубокий Север"},
+  {slug:"ocean",icon:"🌊",name_en:"Ocean",name_ru:"Океан"}
+];
+
 const characterBuilds: CharacterBuild[] = [
   {
-    id:"protector",icon:"🛡",name_en:"Protector",name_ru:"Защитник",tag_en:"Tank · safe frontline",tag_ru:"Танк · безопасный фронт",
-    description_en:"Maximum survivability for bosses and dangerous Deep North fights. Shield play, heavy armour and two health foods.",
-    description_ru:"Максимальная живучесть для боссов и тяжёлых боёв Глубокого Севера. Щит, тяжёлая броня и две еды на здоровье.",
+    id:"meadows-viking",biome:"meadows",icon:"🛡",name_en:"Viking Starter",name_ru:"Начинающий викинг",tag_en:"Balanced · first boss",tag_ru:"Баланс · первый босс",
+    description_en:"Safe first-biome setup with a spear for reach, a shield for mistakes and three reliable cooked foods.",
+    description_ru:"Надёжный стартовый комплект: копьё держит дистанцию, щит прощает ошибки, а три простые еды дают стабильные характеристики.",
+    weapons:[asset("flint-spear","Flint Spear","Кремнёвое копьё"),asset("wood-shield","Wood Shield","Деревянный щит")],
+    armor:[asset("leather-helmet","Leather Helmet","Кожаный шлем"),asset("leather-tunic","Leather Tunic","Кожаная туника"),asset("leather-pants","Leather Trousers","Кожаные штаны")],
+    food:[asset("cooked-deer-meat","Cooked Deer Meat","Жареное мясо оленя"),asset("grilled-neck-tail","Grilled Neck Tail","Жареный хвост никса"),asset("cooked-boar-meat","Cooked Boar Meat","Жареное мясо кабана")]
+  },
+  {
+    id:"meadows-hunter",biome:"meadows",icon:"🏹",name_en:"Meadows Hunter",name_ru:"Охотник Лугов",tag_en:"Ranged · mobile",tag_ru:"Дальний бой · мобильность",
+    description_en:"Bow-first setup for deer, Eikthyr and safer exploration. The flint knife covers close-range fights.",
+    description_ru:"Билд через лук для охоты, Эйктюра и безопасного исследования. Кремнёвый нож закрывает ближний бой.",
+    weapons:[asset("crude-bow","Crude Bow","Простой лук"),asset("flint-knife","Flint Knife","Кремнёвый нож")],
+    armor:[asset("leather-helmet","Leather Helmet","Кожаный шлем"),asset("leather-tunic","Leather Tunic","Кожаная туника"),asset("leather-pants","Leather Trousers","Кожаные штаны"),asset("deer-hide-cape","Deer Hide Cape","Плащ из шкуры оленя")],
+    food:[asset("cooked-deer-meat","Cooked Deer Meat","Жареное мясо оленя"),asset("grilled-neck-tail","Grilled Neck Tail","Жареный хвост никса"),asset("cooked-boar-meat","Cooked Boar Meat","Жареное мясо кабана")]
+  },
+  {
+    id:"forest-bronze-guard",biome:"black-forest",icon:"🛡",name_en:"Bronze Guard",name_ru:"Бронзовый страж",tag_en:"Melee · parry",tag_ru:"Ближний бой · парирование",
+    description_en:"Classic bronze progression: mace and buckler for compact fights, backed by the full heavy set.",
+    description_ru:"Классическая бронзовая прогрессия: булава с баклером для тесных боёв и полный тяжёлый комплект.",
+    weapons:[asset("bronze-mace","Bronze Mace","Бронзовая булава"),asset("bronze-buckler","Bronze Buckler","Бронзовый баклер")],
+    armor:[asset("bronze-helmet","Bronze Helmet","Бронзовый шлем"),asset("bronze-plate-cuirass","Bronze Plate Tunic","Бронзовая пластинчатая туника"),asset("bronze-plate-leggings","Bronze Plate Leggings","Бронзовые поножи")],
+    food:[asset("deer-stew","Deer Stew","Оленина тушёная"),asset("minced-meat-sauce","Minced Meat Sauce","Мясной соус"),asset("carrot-soup","Carrot Soup","Морковный суп")]
+  },
+  {
+    id:"forest-troll-scout",biome:"black-forest",icon:"↯",name_en:"Troll Scout",name_ru:"Тролль-разведчик",tag_en:"Light · stamina",tag_ru:"Лёгкий · выносливость",
+    description_en:"Light armour keeps movement fast while the atgeir gives crowd control against greydwarfs and skeletons.",
+    description_ru:"Лёгкая броня сохраняет скорость, а атгейр помогает контролировать группы грейдворфов и скелетов.",
+    weapons:[asset("bronze-atgeir","Bronze Atgeir","Бронзовый атгейр"),asset("bronze-spear","Bronze Spear","Бронзовое копьё")],
+    armor:[asset("troll-leather-helmet","Troll Leather Hood","Капюшон из кожи тролля"),asset("troll-leather-tunic","Troll Leather Tunic","Туника из кожи тролля"),asset("troll-leather-pants","Troll Leather Pants","Штаны из кожи тролля"),asset("troll-hide-cape","Troll Hide Cape","Плащ из шкуры тролля")],
+    food:[asset("deer-stew","Deer Stew","Оленина тушёная"),asset("carrot-soup","Carrot Soup","Морковный суп"),asset("queens-jam-x4","Queen's Jam","Королевский джем")]
+  },
+  {
+    id:"forest-bear-brawler",biome:"black-forest",icon:"🐻",name_en:"Bear Brawler",name_ru:"Медвежий боец",tag_en:"1.0 set · aggressive",tag_ru:"Комплект 1.0 · агрессия",
+    description_en:"A close-range alternative built around the Black Forest bear set and Paws of the Bear.",
+    description_ru:"Альтернатива для ближнего боя вокруг нового медвежьего комплекта Чёрного леса и Медвежьих лап.",
+    weapons:[asset("paws-of-the-bear","Paws of the Bear","Медвежьи лапы")],
+    armor:[asset("headdress-of-the-bear","Headdress of the Bear","Головной убор медведя"),asset("patterns-of-the-bear","Patterns of the Bear","Медвежьи узоры"),asset("loincloth-of-the-bear","Loincloth of the Bear","Набедренная повязка медведя")],
+    food:[asset("pulled-bear","Pulled Bear","Томлёная медвежатина"),asset("carrot-soup","Carrot Soup","Морковный суп"),asset("boar-jerky-x2","Boar Jerky","Вяленое мясо кабана")]
+  },
+  {
+    id:"swamp-bonemass",biome:"swamp",icon:"⚒",name_en:"Bonemass Breaker",name_ru:"Крушитель Массы Костей",tag_en:"Blunt · boss ready",tag_ru:"Дробящий · готов к боссу",
+    description_en:"The community staple for the Swamp: iron mace, buckler and heavy armour. Strong against the biome's blunt-vulnerable threats.",
+    description_ru:"Классический вариант для Болота: железная булава, баклер и тяжёлая броня. Особенно хорош против уязвимых к дробящему урону врагов.",
+    weapons:[asset("iron-mace","Iron Mace","Железная булава"),asset("iron-buckler","Iron Buckler","Железный баклер")],
+    armor:[asset("iron-helmet","Iron Helmet","Железный шлем"),asset("iron-scale-mail","Iron Scale Mail","Железная чешуйчатая броня"),asset("iron-greaves","Iron Greaves","Железные поножи")],
+    food:[asset("sausages","Sausages","Сосиски"),asset("black-soup","Black Soup","Чёрный суп"),asset("turnip-stew","Turnip Stew","Рагу из репы")]
+  },
+  {
+    id:"swamp-root-ranger",biome:"swamp",icon:"🏹",name_en:"Root Ranger",name_ru:"Корневой стрелок",tag_en:"Bow · light armour",tag_ru:"Лук · лёгкая броня",
+    description_en:"Mobile ranged setup with the Root set and Huntsman Bow. Good for routine exploration and kiting dangerous targets.",
+    description_ru:"Мобильный дальний билд с Корневым комплектом и Охотничьим луком. Удобен для исследования и кайта опасных целей.",
+    weapons:[asset("huntsman-bow","Huntsman Bow","Охотничий лук"),asset("iron-buckler","Iron Buckler","Железный баклер")],
+    armor:[asset("root-mask","Root Mask","Корневая маска"),asset("root-harnesk","Root Harnesk","Корневой харнеск"),asset("root-leggings","Root Leggings","Корневые поножи")],
+    food:[asset("sausages","Sausages","Сосиски"),asset("turnip-stew","Turnip Stew","Рагу из репы"),asset("muckshake","Muckshake","Грязевой коктейль")]
+  },
+  {
+    id:"swamp-crypt-crusher",biome:"swamp",icon:"💥",name_en:"Crypt Crusher",name_ru:"Крушитель склепов",tag_en:"AoE · dungeon",tag_ru:"AoE · подземелья",
+    description_en:"Iron Sledge controls cramped crypt rooms and clustered enemies; sword covers ordinary single-target fights.",
+    description_ru:"Железная кувалда контролирует тесные комнаты склепов и группы врагов, а меч удобен против одиночных целей.",
+    weapons:[asset("iron-sledge","Iron Sledge","Железная кувалда"),asset("iron-sword","Iron Sword","Железный меч")],
+    armor:[asset("iron-helmet","Iron Helmet","Железный шлем"),asset("iron-scale-mail","Iron Scale Mail","Железная чешуйчатая броня"),asset("iron-greaves","Iron Greaves","Железные поножи")],
+    food:[asset("sausages","Sausages","Сосиски"),asset("black-soup","Black Soup","Чёрный суп"),asset("turnip-stew","Turnip Stew","Рагу из репы")]
+  },
+  {
+    id:"mountain-frostner",biome:"mountains",icon:"❄",name_en:"Frostner Guard",name_ru:"Страж Морознера",tag_en:"Control · shield",tag_ru:"Контроль · щит",
+    description_en:"A durable mountain setup with Frostner's slowing frost damage and a silver shield for reliable parries.",
+    description_ru:"Живучий горный билд: мороз Морознера замедляет врагов, а серебряный щит даёт надёжное парирование.",
+    weapons:[asset("frostner","Frostner","Морознер"),asset("silver-shield","Silver Shield","Серебряный щит")],
+    armor:[asset("drake-helmet","Drake Helmet","Драконий шлем"),asset("wolf-hide-chestpiece","Wolf Hide Chestpiece","Нагрудник из волчьей шкуры"),asset("wolf-hide-trousers","Wolf Hide Trousers","Штаны из волчьей шкуры"),asset("wolf-fur-cape","Wolf Fur Cape","Плащ из волчьей шкуры")],
+    food:[asset("wolf-skewer","Wolf Skewer","Волчий шашлык"),asset("onion-soup","Onion Soup","Луковый суп"),asset("eyescream","Eyescream","Глазомороженое")]
+  },
+  {
+    id:"mountain-fenris",biome:"mountains",icon:"↯",name_en:"Fenris Runner",name_ru:"Бегун Фенриса",tag_en:"Speed · fists",tag_ru:"Скорость · кулаки",
+    description_en:"High-mobility cave and mountain build. Flesh Rippers pair naturally with the lightweight Fenris set.",
+    description_ru:"Очень мобильный билд для Гор и пещер. Разрыватели плоти естественно сочетаются с лёгким комплектом Фенриса.",
+    weapons:[asset("flesh-rippers","Flesh Rippers","Разрыватели плоти"),asset("silver-knife","Silver Knife","Серебряный нож")],
+    armor:[asset("fenris-hood","Fenris Hood","Капюшон Фенриса"),asset("fenris-coat","Fenris Coat","Куртка Фенриса"),asset("fenris-leggings","Fenris Leggings","Поножи Фенриса")],
+    food:[asset("wolf-skewer","Wolf Skewer","Волчий шашлык"),asset("onion-soup","Onion Soup","Луковый суп"),asset("eyescream","Eyescream","Глазомороженое")]
+  },
+  {
+    id:"mountain-ranger",biome:"mountains",icon:"🏹",name_en:"Draugr Ranger",name_ru:"Стрелок Драугра",tag_en:"Bow · safe range",tag_ru:"Лук · безопасная дистанция",
+    description_en:"Draugr Fang handles drakes and distant threats while wolf armour keeps the build forgiving in close quarters.",
+    description_ru:"Клык драугра отлично работает по драконам и дальним целям, а волчья броня прощает ошибки в ближнем бою.",
+    weapons:[asset("draugr-fang","Draugr Fang","Клык драугра"),asset("silver-sword","Silver Sword","Серебряный меч")],
+    armor:[asset("drake-helmet","Drake Helmet","Драконий шлем"),asset("wolf-hide-chestpiece","Wolf Hide Chestpiece","Нагрудник из волчьей шкуры"),asset("wolf-hide-trousers","Wolf Hide Trousers","Штаны из волчьей шкуры"),asset("wolf-fur-cape","Wolf Fur Cape","Плащ из волчьей шкуры")],
+    food:[asset("wolf-skewer","Wolf Skewer","Волчий шашлык"),asset("onion-soup","Onion Soup","Луковый суп"),asset("eyescream","Eyescream","Глазомороженое")]
+  },
+  {
+    id:"plains-blackmetal",biome:"plains",icon:"🛡",name_en:"Blackmetal Guard",name_ru:"Страж чёрного металла",tag_en:"Melee · durable",tag_ru:"Ближний бой · живучесть",
+    description_en:"Straightforward Plains frontline with black-metal sword and shield plus the full padded set.",
+    description_ru:"Надёжный фронтовой комплект Равнин: меч и щит из чёрного металла плюс полный стёганый сет.",
+    weapons:[asset("black-metal-sword","Black Metal Sword","Меч из чёрного металла"),asset("black-metal-shield","Black Metal Shield","Щит из чёрного металла")],
+    armor:[asset("padded-helmet","Padded Helmet","Стёганый шлем"),asset("padded-cuirass","Padded Cuirass","Стёганая кираса"),asset("padded-greaves","Padded Greaves","Стёганые поножи")],
+    food:[asset("lox-meat-pie","Lox Meat Pie","Пирог с мясом локса"),asset("blood-pudding","Blood Pudding","Кровяная колбаса"),asset("bread","Bread","Хлеб")]
+  },
+  {
+    id:"plains-atgeir",biome:"plains",icon:"↻",name_en:"Atgeir Raider",name_ru:"Рейдер с атгейром",tag_en:"AoE · stamina",tag_ru:"AoE · выносливость",
+    description_en:"Uses the atgeir's reach and spin control against groups while keeping enough stamina for repositioning.",
+    description_ru:"Атгейр даёт дальность и круговой контроль против групп, а рацион оставляет много выносливости для перемещения.",
+    weapons:[asset("black-metal-atgeir","Black Metal Atgeir","Атгейр из чёрного металла"),asset("black-metal-knife","Black Metal Knife","Нож из чёрного металла")],
+    armor:[asset("padded-helmet","Padded Helmet","Стёганый шлем"),asset("padded-cuirass","Padded Cuirass","Стёганая кираса"),asset("padded-greaves","Padded Greaves","Стёганые поножи")],
+    food:[asset("lox-meat-pie","Lox Meat Pie","Пирог с мясом локса"),asset("bread","Bread","Хлеб"),asset("blood-pudding","Blood Pudding","Кровяная колбаса")]
+  },
+  {
+    id:"plains-ranger",biome:"plains",icon:"🏹",name_en:"Plains Ranger",name_ru:"Стрелок Равнин",tag_en:"Bow · flexible",tag_ru:"Лук · универсальность",
+    description_en:"Draugr Fang remains a strong ranged option in the Plains; padded armour makes deathsquito mistakes less punishing.",
+    description_ru:"Клык драугра остаётся сильным дальним оружием в Равнинах, а стёганая броня делает ошибки против комаров менее болезненными.",
+    weapons:[asset("draugr-fang","Draugr Fang","Клык драугра"),asset("black-metal-knife","Black Metal Knife","Нож из чёрного металла")],
+    armor:[asset("padded-helmet","Padded Helmet","Стёганый шлем"),asset("padded-cuirass","Padded Cuirass","Стёганая кираса"),asset("padded-greaves","Padded Greaves","Стёганые поножи")],
+    food:[asset("fish-wraps","Fish Wraps","Рыбные рулеты"),asset("bread","Bread","Хлеб"),asset("lox-meat-pie","Lox Meat Pie","Пирог с мясом локса")]
+  },
+  {
+    id:"mistlands-melee",biome:"mistlands",icon:"⚔",name_en:"Mistwalker Frontline",name_ru:"Фронтовик с Туманником",tag_en:"Melee · parry",tag_ru:"Ближний бой · парирование",
+    description_en:"Carapace armour and buckler make a forgiving frontline, while Mistwalker adds reliable control in the mist.",
+    description_ru:"Панцирная броня и баклер дают надёжный фронт, а Туманный странник помогает контролировать противников в тумане.",
+    weapons:[asset("mistwalker","Mistwalker","Туманный странник"),asset("carapace-buckler","Carapace Buckler","Панцирный баклер")],
+    armor:[asset("carapace-helmet","Carapace Helmet","Панцирный шлем"),asset("carapace-breastplate","Carapace Breastplate","Панцирный нагрудник"),asset("carapace-greaves","Carapace Greaves","Панцирные поножи"),asset("feather-cape","Feather Cape","Перьевой плащ")],
+    food:[asset("misthare-supreme","Misthare Supreme","Высший зайчатник"),asset("meat-platter","Meat Platter","Мясная тарелка"),asset("salad-x3","Salad","Салат")]
+  },
+  {
+    id:"mistlands-mage",biome:"mistlands",icon:"✦",name_en:"Eitr Mage",name_ru:"Эйтровый маг",tag_en:"Magic · barrier",tag_ru:"Магия · барьер",
+    description_en:"Two offensive staves plus Staff of Protection, full Eitr-weave and a two-eitr/one-stamina food split.",
+    description_ru:"Два атакующих посоха плюс Посох защиты, полный эйтровый сет и рацион из двух эйтр-блюд и одного блюда на выносливость.",
+    weapons:[asset("staff-of-embers","Staff of Embers","Посох углей"),asset("staff-of-frost","Staff of Frost","Посох мороза"),asset("staff-of-protection","Staff of Protection","Посох защиты")],
+    armor:[asset("eitr-weave-hood","Eitr-weave Hood","Эйтровый капюшон"),asset("eitr-weave-robe","Eitr-weave Robe","Эйтровая мантия"),asset("eitr-weave-trousers","Eitr-weave Trousers","Эйтровые штаны"),asset("feather-cape","Feather Cape","Перьевой плащ")],
+    food:[asset("seeker-aspic-x2","Seeker Aspic","Заливное из Искателя"),asset("yggdrasil-porridge","Yggdrasil Porridge","Каша Иггдрасиля"),asset("salad-x3","Salad","Салат")]
+  },
+  {
+    id:"mistlands-ranged",biome:"mistlands",icon:"➶",name_en:"Seeker Hunter",name_ru:"Охотник на Искателей",tag_en:"Crossbow · bow",tag_ru:"Арбалет · лук",
+    description_en:"A ranged toolkit for opening with Arbalest, following with Spinesnap and keeping a spear as a close fallback.",
+    description_ru:"Дальний набор: открыть бой из Арбалета, продолжить Позвоночным луком и держать панцирное копьё как запасной вариант.",
+    weapons:[asset("arbalest","Arbalest","Арбалет"),asset("spinesnap","Spinesnap","Позвоночный лук"),asset("carapace-spear","Carapace Spear","Панцирное копьё")],
+    armor:[asset("carapace-helmet","Carapace Helmet","Панцирный шлем"),asset("carapace-breastplate","Carapace Breastplate","Панцирный нагрудник"),asset("carapace-greaves","Carapace Greaves","Панцирные поножи"),asset("feather-cape","Feather Cape","Перьевой плащ")],
+    food:[asset("misthare-supreme","Misthare Supreme","Высший зайчатник"),asset("salad-x3","Salad","Салат"),asset("mushroom-omelette","Mushroom Omelette","Грибной омлет")]
+  },
+  {
+    id:"ashlands-heavy",biome:"ashlands",icon:"🛡",name_en:"Flametal Vanguard",name_ru:"Фламеталловый авангард",tag_en:"Heavy · melee",tag_ru:"Тяжёлый · ближний бой",
+    description_en:"High-survival Ashlands setup with a lightning Nidhögg variant, shield and full Flametal armour.",
+    description_ru:"Живучий билд Пепельных земель: громовой Нидхёгг, щит и полный фламеталловый комплект.",
+    weapons:[asset("nidhogg-thundering","Nidhögg the Thundering","Нидхёгг Громовой"),asset("flametal-shield","Flametal Shield","Фламеталловый щит")],
+    armor:[asset("flametal-helmet","Flametal Helmet","Фламеталловый шлем"),asset("flametal-breastplate","Flametal Breastplate","Фламеталловый нагрудник"),asset("flametal-greaves","Flametal Greaves","Фламеталловые поножи"),asset("ashen-cape","Ashen Cape","Пепельный плащ")],
+    food:[asset("fiery-svinstew","Fiery Svinstew","Огненное рагу из асксвина"),asset("roasted-crust-pie","Roasted Crust Pie","Хрустящий печёный пирог"),asset("salad-x3","Salad","Салат")]
+  },
+  {
+    id:"ashlands-skirmisher",biome:"ashlands",icon:"🪓",name_en:"Ask Skirmisher",name_ru:"Скирмишёр Аска",tag_en:"Mobile · hybrid ranged",tag_ru:"Мобильный · гибридный дальний",
+    description_en:"Fast Ask armour with dual axes and a bow gives strong mobility and several damage options in crowded fights.",
+    description_ru:"Быстрый комплект Аска, парные топоры и лук дают мобильность и несколько вариантов урона в плотных боях.",
+    weapons:[asset("thundering-berserkir-axes","Thundering Berserkir Axes","Громовые топоры берсерка"),asset("storm-fang","Storm Fang","Штормовой клык")],
+    armor:[asset("hood-of-ask","Hood of Ask","Капюшон Аска"),asset("breastplate-of-ask","Breastplate of Ask","Нагрудник Аска"),asset("trousers-of-ask","Trousers of Ask","Штаны Аска"),asset("asksvin-cloak","Asksvin Cloak","Плащ асксвина")],
+    food:[asset("fiery-svinstew","Fiery Svinstew","Огненное рагу из асксвина"),asset("roasted-crust-pie","Roasted Crust Pie","Хрустящий печёный пирог"),asset("salad-x3","Salad","Салат")]
+  },
+  {
+    id:"ashlands-mage",biome:"ashlands",icon:"✦",name_en:"Embla Mage",name_ru:"Маг Эмблы",tag_en:"Magic · summons",tag_ru:"Магия · призывы",
+    description_en:"Full caster setup built around Ashlands staves, Embla armour and enough eitr to keep pressure from range.",
+    description_ru:"Полный магический билд вокруг посохов Пепельных земель, брони Эмблы и большого запаса эйтра.",
+    weapons:[asset("staff-of-fracturing","Staff of Fracturing","Посох раскола"),asset("dundr","Dundr","Дундр"),asset("staff-of-the-wild","Staff of the Wild","Посох дикой природы")],
+    armor:[asset("hood-of-embla","Hood of Embla","Капюшон Эмблы"),asset("robes-of-embla","Robes of Embla","Одеяния Эмблы"),asset("trousers-of-embla","Trousers of Embla","Штаны Эмблы"),asset("ashen-cape","Ashen Cape","Пепельный плащ")],
+    food:[asset("seeker-aspic-x2","Seeker Aspic","Заливное из Искателя"),asset("yggdrasil-porridge","Yggdrasil Porridge","Каша Иггдрасиля"),asset("fiery-svinstew","Fiery Svinstew","Огненное рагу из асксвина")]
+  },
+  {
+    id:"north-protector",biome:"deep-north",icon:"🛡",name_en:"Protector",name_ru:"Защитник",tag_en:"Tank · safe frontline",tag_ru:"Танк · безопасный фронт",
+    description_en:"Maximum survivability for dangerous Deep North fights. Shield play, heavy armour and two health foods.",
+    description_ru:"Максимальная живучесть для тяжёлых боёв Глубокого Севера. Щит, тяжёлая броня и две еды на здоровье.",
     weapons:[asset("nord-sword","Nord Sword","Меч Nord"),asset("nord-shield","Nord Shield","Щит Nord")],
     armor:[asset("helmet-of-the-protector","Helmet of the Protector","Шлем Защитника"),asset("breastplate-of-the-protector","Breastplate of the Protector","Нагрудник Защитника"),asset("trousers-of-the-protector","Trousers of the Protector","Штаны Защитника")],
     food:[asset("meat-in-bread","Meat In Bread","Мясо в хлебе"),asset("seal-meat-soup","Seal Meat Soup","Суп из тюленя"),asset("pancakes","Pancakes","Блины")]
   },
   {
-    id:"berserker",icon:"🪓",name_en:"Frostfire Berserker",name_ru:"Берсерк морозного огня",tag_en:"Melee DPS · two-handed",tag_ru:"Ближний DPS · двуручное",
-    description_en:"Aggressive two-handed setup with Vanguard armour. High stamina keeps heavy swings and dodges flowing.",
-    description_ru:"Агрессивный двуручный билд в броне Авангарда. Большой запас выносливости помогает постоянно атаковать и уклоняться.",
+    id:"north-berserker",biome:"deep-north",icon:"🪓",name_en:"Frostfire Berserker",name_ru:"Берсерк морозного огня",tag_en:"Melee DPS · two-handed",tag_ru:"Ближний DPS · двуручное",
+    description_en:"Aggressive two-handed setup with Vanguard armour and a stamina-heavy food split.",
+    description_ru:"Агрессивный двуручный билд в броне Авангарда с упором рациона на выносливость.",
     weapons:[asset("frostfire-greataxe","Frostfire Greataxe","Секира морозного огня"),asset("nord-buckler","Nord Buckler","Баклер Nord")],
     armor:[asset("hood-of-the-vanguard","Hood of the Vanguard","Капюшон Авангарда"),asset("chestpiece-of-the-vanguard","Chestpiece of the Vanguard","Нагрудник Авангарда"),asset("trousers-of-the-vanguard","Trousers of the Vanguard","Штаны Авангарда")],
     food:[asset("meat-in-bread","Meat In Bread","Мясо в хлебе"),asset("pancakes","Pancakes","Блины"),asset("oat-milk","Oat Milk","Овсяное молоко")]
   },
   {
-    id:"hunter",icon:"🏹",name_en:"Thunderblood Hunter",name_ru:"Охотник грозовой крови",tag_en:"Ranged · stamina",tag_ru:"Дальний бой · выносливость",
+    id:"north-hunter",biome:"deep-north",icon:"🏹",name_en:"Thunderblood Hunter",name_ru:"Охотник грозовой крови",tag_en:"Ranged · stamina",tag_ru:"Дальний бой · выносливость",
     description_en:"Mobile bow build for keeping distance and sustaining long draw-and-dodge chains.",
     description_ru:"Мобильный билд лучника: держим дистанцию и поддерживаем длинные серии натяжения лука и уклонений.",
     weapons:[asset("thunderblood-bow","Thunderblood Bow","Лук грозовой крови"),asset("nord-dagger","Nord Dagger","Кинжал Nord")],
@@ -95,22 +268,39 @@ const characterBuilds: CharacterBuild[] = [
     food:[asset("meat-in-bread","Meat In Bread","Мясо в хлебе"),asset("pancakes","Pancakes","Блины"),asset("oat-milk","Oat Milk","Овсяное молоко")]
   },
   {
-    id:"caller",icon:"✦",name_en:"Caller Mage",name_ru:"Маг Призывателя",tag_en:"Magic · high eitr",tag_ru:"Магия · высокий эйтр",
-    description_en:"Full caster setup with two 105-eitr foods, Caller armour and both direct-damage and summon tools.",
-    description_ru:"Полный магический билд: две еды по 105 эйтра, комплект Призывателя, прямой урон и призыв.",
+    id:"north-caller",biome:"deep-north",icon:"✦",name_en:"Caller Mage",name_ru:"Маг Призывателя",tag_en:"Magic · high eitr",tag_ru:"Магия · высокий эйтр",
+    description_en:"Full caster setup with two high-eitr foods, Caller armour and both direct-damage and summon tools.",
+    description_ru:"Полный магический билд: две сильные еды на эйтр, комплект Призывателя, прямой урон и призыв.",
     weapons:[asset("lightning-strike","Lightning Strike","Удар молнии"),asset("spirit-caller","Spirit Caller","Призыватель духов"),asset("echo-spike","Echo Spike","Эхо-шип")],
     armor:[asset("headdress-of-the-caller","Headdress of the Caller","Головной убор Призывателя"),asset("robes-of-the-caller","Robes of the Caller","Одеяния Призывателя"),asset("trousers-of-the-caller","Trousers of the Caller","Штаны Призывателя"),asset("cape-of-the-caller","Cape of the Caller","Плащ Призывателя")],
     food:[asset("fish-soup","Fish Soup","Рыбный суп"),asset("meatballs-and-poteitr","Meatballs and Poteitr","Фрикадельки с Потейтером"),asset("meat-in-bread","Meat In Bread","Мясо в хлебе")]
   },
   {
-    id:"hybrid",icon:"◈",name_en:"Storm Battlemage",name_ru:"Грозовой боевой маг",tag_en:"Hybrid · melee + magic",tag_ru:"Гибрид · ближний бой + магия",
-    description_en:"A flexible setup for players who want a melee fallback without giving up magic. Oatmeal bridges stamina and eitr.",
-    description_ru:"Гибкий билд для тех, кто хочет надёжный ближний бой и не отказываться от магии. Овсянка одновременно даёт выносливость и эйтр.",
+    id:"north-hybrid",biome:"deep-north",icon:"◈",name_en:"Storm Battlemage",name_ru:"Грозовой боевой маг",tag_en:"Hybrid · melee + magic",tag_ru:"Гибрид · ближний бой + магия",
+    description_en:"A flexible setup with a melee fallback, lightning magic and Oatmeal bridging stamina and eitr.",
+    description_ru:"Гибкий билд с надёжным ближним боем, магией молний и овсянкой, которая одновременно поддерживает выносливость и эйтр.",
     weapons:[asset("nord-sword","Nord Sword","Меч Nord"),asset("nord-buckler","Nord Buckler","Баклер Nord"),asset("lightning-strike","Lightning Strike","Удар молнии")],
     armor:[asset("hood-of-the-vanguard","Hood of the Vanguard","Капюшон Авангарда"),asset("chestpiece-of-the-vanguard","Chestpiece of the Vanguard","Нагрудник Авангарда"),asset("trousers-of-the-vanguard","Trousers of the Vanguard","Штаны Авангарда")],
     food:[asset("meat-in-bread","Meat In Bread","Мясо в хлебе"),asset("oatmeal","Oatmeal","Овсянка"),asset("fish-soup","Fish Soup","Рыбный суп")]
+  },
+  {
+    id:"ocean-serpent",biome:"ocean",icon:"🌊",name_en:"Serpent Hunter",name_ru:"Охотник на змеев",tag_en:"Sea hunt · control",tag_ru:"Морская охота · контроль",
+    description_en:"Harpoon controls the serpent near shore, Draugr Fang provides ranged pressure and the scale shield is a durable backup.",
+    description_ru:"Гарпун помогает контролировать морского змея у берега, Клык драугра наносит урон с дистанции, а чешуйчатый щит страхует вблизи.",
+    weapons:[asset("abyssal-harpoon","Abyssal Harpoon","Гарпун бездны"),asset("draugr-fang","Draugr Fang","Клык драугра"),asset("serpent-scale-shield","Serpent Scale Shield","Щит из змеиной чешуи")],
+    armor:[asset("padded-helmet","Padded Helmet","Стёганый шлем"),asset("padded-cuirass","Padded Cuirass","Стёганая кираса"),asset("padded-greaves","Padded Greaves","Стёганые поножи")],
+    food:[asset("serpent-stew","Serpent Stew","Рагу из змея"),asset("bread","Bread","Хлеб"),asset("blood-pudding","Blood Pudding","Кровяная колбаса")]
+  },
+  {
+    id:"ocean-fast",biome:"ocean",icon:"⛵",name_en:"Fast Sailor",name_ru:"Быстрый моряк",tag_en:"Light · recovery",tag_ru:"Лёгкий · спасение",
+    description_en:"A lighter setup for boarding, recovering floating loot and moving quickly around coastal fights.",
+    description_ru:"Более лёгкий комплект для высадки, подбора плавающего лута и быстрого перемещения в прибрежных боях.",
+    weapons:[asset("abyssal-harpoon","Abyssal Harpoon","Гарпун бездны"),asset("silver-sword","Silver Sword","Серебряный меч")],
+    armor:[asset("fenris-hood","Fenris Hood","Капюшон Фенриса"),asset("fenris-coat","Fenris Coat","Куртка Фенриса"),asset("fenris-leggings","Fenris Leggings","Поножи Фенриса")],
+    food:[asset("serpent-stew","Serpent Stew","Рагу из змея"),asset("onion-soup","Onion Soup","Луковый суп"),asset("eyescream","Eyescream","Глазомороженое")]
   }
 ];
+
 const protectedErrorText = (locale: Locale, error: unknown): string => {
   if (error instanceof ApiError) {
     if (error.status === 401) {
@@ -197,6 +387,7 @@ export function App() {
     }
   });
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const [buildBiome, setBuildBiome] = useState<BuildBiomeSlug>("meadows");
   const [toolOrigin, setToolOrigin] = useState<Section>("home");
   const [libraryTab, setLibraryTab] = useState<"craft" | "favorites">("craft");
   const [creature, setCreature] = useState<CreatureDetail | null>(null);
@@ -212,6 +403,42 @@ export function App() {
   const [craftListBusy, setCraftListBusy] = useState(false);
   const [detailOrigin, setDetailOrigin] = useState<Exclude<Section, "item" | "resource">>("home");
   const craftListActionLock = useRef(false);
+
+  useEffect(() => {
+    if (!moreMenuOpen) return;
+    const body = document.body;
+    const root = document.documentElement;
+    const scrollY = window.scrollY;
+    const previous = {
+      bodyPosition: body.style.position,
+      bodyTop: body.style.top,
+      bodyLeft: body.style.left,
+      bodyRight: body.style.right,
+      bodyWidth: body.style.width,
+      bodyOverflow: body.style.overflow,
+      rootOverflow: root.style.overflow,
+      rootOverscroll: root.style.overscrollBehavior
+    };
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
+    root.style.overflow = "hidden";
+    root.style.overscrollBehavior = "none";
+    return () => {
+      body.style.position = previous.bodyPosition;
+      body.style.top = previous.bodyTop;
+      body.style.left = previous.bodyLeft;
+      body.style.right = previous.bodyRight;
+      body.style.width = previous.bodyWidth;
+      body.style.overflow = previous.bodyOverflow;
+      root.style.overflow = previous.rootOverflow;
+      root.style.overscrollBehavior = previous.rootOverscroll;
+      window.scrollTo(0, scrollY);
+    };
+  }, [moreMenuOpen]);
 
   useEffect(() => {
     window.Telegram?.WebApp?.ready?.();
@@ -302,6 +529,8 @@ export function App() {
     [trophies, trophyBiome]
   );
   const collectedCount = trophies.reduce((count, entry) => count + (collectedTrophies.includes(entry.slug) ? 1 : 0), 0);
+  const selectedBuildBiome = buildBiomes.find((biome) => biome.slug === buildBiome) ?? buildBiomes[0];
+  const visibleCharacterBuilds = characterBuilds.filter((build) => build.biome === buildBiome);
 
   const openBiome = async (slug: string) => {
     setMessage(""); setSection("biome"); setCurrentBiome(null); setBiomeItems([]); setActiveCategory(undefined);
@@ -933,16 +1162,24 @@ export function App() {
     {section === "builds" && <section className="builds-guide-section">
       <div className="guide-hero builds-guide-hero">
         <span className="guide-hero-icon">🛡</span>
-        <div><p>{locale === "ru" ? "ЭНДГЕЙМ · DEEP NORTH" : "ENDGAME · DEEP NORTH"}</p><h2>{locale === "ru" ? "Готовые билды" : "Character builds"}</h2><span>{locale === "ru" ? "Это практические наборы под разные роли, а не единственно правильный способ игры. Нажмите на предмет — откроется его полная карточка." : "These are practical role-based loadouts, not the only correct way to play. Tap any item to open its full guide card."}</span></div>
+        <div><p>{locale === "ru" ? "ПРОГРЕССИЯ · ПО БИОМАМ" : "PROGRESSION · BY BIOME"}</p><h2>{locale === "ru" ? "Билды персонажа" : "Character builds"}</h2><span>{locale === "ru" ? "Выберите биом. Внутри — практические пресеты из снаряжения, доступного на этом этапе или непосредственно перед ним. Это рекомендации, а не единственно правильный способ игры." : "Choose a biome. Each tab contains practical loadouts using gear available at that stage or immediately before it. These are recommendations, not the only correct way to play."}</span></div>
       </div>
-      <div className="build-list">{characterBuilds.map((build) => <article className="build-card" key={build.id}>
+      <div className="chips build-biome-chips" role="tablist" aria-label={locale === "ru" ? "Биомы для билдов" : "Build biomes"}>
+        {buildBiomes.map((biome) => <button className={buildBiome === biome.slug ? "chip active" : "chip"} role="tab" aria-selected={buildBiome === biome.slug} key={biome.slug} onClick={() => setBuildBiome(biome.slug)}><i>{biome.icon}</i>{locale === "ru" ? biome.name_ru : biome.name_en}</button>)}
+      </div>
+      <div className="build-stage-heading">
+        <span>{selectedBuildBiome.icon}</span>
+        <div><small>{locale === "ru" ? "РЕКОМЕНДУЕМЫЕ ПРЕСЕТЫ" : "RECOMMENDED LOADOUTS"}</small><strong>{locale === "ru" ? selectedBuildBiome.name_ru : selectedBuildBiome.name_en}</strong><p>{locale === "ru" ? `${visibleCharacterBuilds.length} варианта под разные стили игры` : `${visibleCharacterBuilds.length} options for different playstyles`}</p></div>
+      </div>
+      <div className="build-list">{visibleCharacterBuilds.map((build) => <article className="build-card" key={build.id}>
         <div className="build-head"><span>{build.icon}</span><div><small>{locale === "ru" ? build.tag_ru : build.tag_en}</small><h3>{locale === "ru" ? build.name_ru : build.name_en}</h3><p>{locale === "ru" ? build.description_ru : build.description_en}</p></div></div>
         {([
           ["weapons",locale === "ru" ? "ОРУЖИЕ" : "WEAPONS",build.weapons],
           ["armor",locale === "ru" ? "БРОНЯ" : "ARMOUR",build.armor],
           ["food",locale === "ru" ? "ЕДА · 3 СЛОТА" : "FOOD · 3 SLOTS",build.food]
-        ] as const).map(([kind,label,entries]) => <div className={`build-row ${kind}`} key={kind}><small>{label}</small><div>{entries.map((entry) => <button key={entry.slug} onClick={() => void openItem(entry.slug)}><i><img src={`/media/wiki/${entry.slug}.png`} alt="" /></i><span>{locale === "ru" ? entry.name_ru : entry.name_en}</span></button>)}</div></div>)}
+        ] as const).map(([kind,label,entries]) => <div className={`build-row ${kind}`} key={kind}><small>{label}</small><div>{entries.map((entry) => <button key={entry.slug} onClick={() => void openItem(entry.slug)}><i className="build-asset-art"><img src={`/media/wiki/${entry.slug}.png`} alt="" onError={(event) => { event.currentTarget.hidden = true; event.currentTarget.parentElement?.classList.add("fallback"); }} /><b>◆</b></i><span>{locale === "ru" ? entry.name_ru : entry.name_en}</span></button>)}</div></div>)}
       </article>)}</div>
+      <p className="guide-source"><a href="https://www.valheim.tools/guides/progression" target="_blank" rel="noreferrer">{locale === "ru" ? "Сверить прогрессию и предметы ↗" : "Review progression and gear ↗"}</a></p>
     </section>}
 
     {section === "bosses" && <section className="bosses-section">
