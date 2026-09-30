@@ -648,6 +648,11 @@ export function App() {
           <span><small>{locale === "ru" ? "ЖИВОТНЫЕ · СПРАВОЧНИК" : "ANIMALS · GUIDE"}</small><strong>{locale === "ru" ? "Приручение" : "Taming"}</strong><p>{locale === "ru" ? "Корм, время, разведение и ездовые животные." : "Food, timing, breeding and rideable creatures."}</p></span>
           <i>›</i>
         </button>
+        <button className="more-menu-item trophies" onClick={() => void openTrophies()}>
+          <span className="more-menu-icon">♛</span>
+          <span><small>{locale === "ru" ? "КОЛЛЕКЦИЯ · 70 ТРОФЕЕВ" : "COLLECTION · 70 TROPHIES"}</small><strong>{locale === "ru" ? "Добытые трофеи" : "Trophy Collection"}</strong><p>{locale === "ru" ? "Отмечайте найденные трофеи и следите за прогрессом коллекции." : "Mark collected trophies and track your collection progress."}</p></span>
+          <i>›</i>
+        </button>
       </aside>
     </>}
 
@@ -758,6 +763,26 @@ export function App() {
             <a className="taming-source" href={guide.source_url} target="_blank" rel="noreferrer">{locale === "ru" ? "Проверить игровые данные ↗" : "View game data ↗"}</a>
           </div>}
         </div>;
+      })}</div>}
+    </section>}
+
+    {section === "trophies" && <section className="trophy-collection-section">
+      <div className="trophy-collection-hero">
+        <span className="trophy-collection-rune">♛</span>
+        <div><p>{locale === "ru" ? "КОЛЛЕКЦИЯ ТРОФЕЕВ" : "TROPHY COLLECTION"}</p><h2>{collectedCount} / {trophies.length || 70}</h2><span>{locale === "ru" ? "Отмечайте трофеи, которые уже добыли. Прогресс сохраняется на этом устройстве." : "Mark trophies you have collected. Progress is saved on this device."}</span></div>
+        <div className="trophy-progress"><i style={{ width: ((collectedCount / Math.max(1, trophies.length || 70)) * 100) + "%" }} /></div>
+      </div>
+      <div className="chips trophy-biome-chips">
+        <button className={trophyBiome === "all" ? "chip active" : "chip"} onClick={() => setTrophyBiome("all")}><i>◈</i>{locale === "ru" ? "Все" : "All"}</button>
+        {trophyBiomes.map((biome) => <button className={trophyBiome === biome.slug ? "chip active" : "chip"} key={biome.slug} onClick={() => setTrophyBiome(biome.slug)}><i>⌖</i>{text(locale,biome)}</button>)}
+      </div>
+      {trophiesLoading ? <Empty message={locale === "ru" ? "Загружаем трофеи..." : "Loading trophies..."} /> : <div className="trophy-check-grid">{visibleTrophies.map((entry) => {
+        const collected = collectedTrophies.includes(entry.slug);
+        return <button className={collected ? "trophy-check-card collected" : "trophy-check-card"} key={entry.slug} onClick={() => toggleTrophy(entry.slug)}>
+          <span className="trophy-check-art">{entry.image_path ? <img src={entry.image_path} alt="" /> : "♛"}</span>
+          <span className="trophy-check-copy"><small>{locale === "ru" ? entry.biome_name_ru : entry.biome_name_en}</small><strong>{text(locale,entry)}</strong><span>{collected ? (locale === "ru" ? "Добыт" : "Collected") : (locale === "ru" ? "Не найден" : "Missing")}</span></span>
+          <i className="trophy-check-mark">{collected ? "✓" : "+"}</i>
+        </button>;
       })}</div>}
     </section>}
 
