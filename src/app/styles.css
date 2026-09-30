@@ -575,3 +575,16 @@ h2{margin:24px 0 12px;font-size:18px;letter-spacing:-.01em}
 @media (max-width:430px){
   .taming-rules{grid-template-columns:1fr}
 }
+
+
+/* Combined library: craft + favorites */
+.library-section{display:grid;gap:12px}
+.library-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:5px;border:1px solid #33382f;border-radius:16px;background:linear-gradient(180deg,#171a17,#131613);box-shadow:inset 0 1px rgba(255,255,255,.02)}
+.library-tabs button{min-height:43px;display:flex;align-items:center;justify-content:center;gap:7px;padding:8px 10px;border:1px solid transparent;border-radius:11px;background:transparent;color:#85877d;font-size:10px;font-weight:780;transition:transform .16s ease,color .16s ease,background .16s ease,border-color .16s ease}
+.library-tabs button span{color:#917a54;font-size:14px}
+.library-tabs button.active{border-color:#5e4b2c;background:linear-gradient(180deg,#3b3020,#2a2318);color:#edce90;box-shadow:inset 0 1px rgba(255,255,255,.04)}
+.library-tabs button.active span{color:#efbf62}
+.library-tabs button:active{transform:scale(.985)}
+.library-section .craft-heading{margin-top:0}
+.library-section>.section-heading{margin-top:0}
+.bottom-nav .nav-more .nav-icon svg circle{fill:currentColor;stroke:none}
