@@ -53,5 +53,13 @@ jobs:
             test -s "public/media/wiki/$slug.png" || { echo "::error::Missing boss drop icon: $slug"; exit 1; }
           done
 
+      - name: Verify world guide media
+        shell: bash
+        run: |
+          set -euo pipefail
+          for slug in anti-sting-concoction berserkir-mead brew-of-animal-whispers draught-of-vananidir lightfoot-mead lingering-eitr-mead lingering-healing-mead love-potion mead-of-troll-endurance medium-stamina-mead tonic-of-ratatosk yule-hat dverger-circlet megingjord ymir-flesh thunder-stone egg barrel-hoops scythe-handle serving-tray crown-of-roots; do
+            test -s "public/media/wiki/$slug.png" || { echo "::error::Missing world guide icon: $slug"; exit 1; }
+          done
+
       - name: Production build
         run: pnpm build

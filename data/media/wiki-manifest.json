@@ -253,5 +253,110 @@
     "slug": "pufferfish",
     "url": "https://www.valheim.tools/items/pufferfish",
     "output": "pufferfish.png"
+  },
+  {
+    "slug": "anti-sting-concoction",
+    "url": "https://www.valheim.tools/items/anti-sting-concoction",
+    "output": "anti-sting-concoction.png"
+  },
+  {
+    "slug": "berserkir-mead",
+    "url": "https://www.valheim.tools/items/berserkir-mead",
+    "output": "berserkir-mead.png"
+  },
+  {
+    "slug": "brew-of-animal-whispers",
+    "url": "https://www.valheim.tools/items/brew-of-animal-whispers",
+    "output": "brew-of-animal-whispers.png"
+  },
+  {
+    "slug": "draught-of-vananidir",
+    "url": "https://www.valheim.tools/items/draught-of-vananidir",
+    "output": "draught-of-vananidir.png"
+  },
+  {
+    "slug": "lightfoot-mead",
+    "url": "https://www.valheim.tools/items/lightfoot-mead",
+    "output": "lightfoot-mead.png"
+  },
+  {
+    "slug": "lingering-eitr-mead",
+    "url": "https://www.valheim.tools/items/lingering-eitr-mead",
+    "output": "lingering-eitr-mead.png"
+  },
+  {
+    "slug": "lingering-healing-mead",
+    "url": "https://www.valheim.tools/items/lingering-healing-mead",
+    "output": "lingering-healing-mead.png"
+  },
+  {
+    "slug": "love-potion",
+    "url": "https://www.valheim.tools/items/love-potion",
+    "output": "love-potion.png"
+  },
+  {
+    "slug": "mead-of-troll-endurance",
+    "url": "https://www.valheim.tools/items/mead-of-troll-endurance",
+    "output": "mead-of-troll-endurance.png"
+  },
+  {
+    "slug": "medium-stamina-mead",
+    "url": "https://www.valheim.tools/items/medium-stamina-mead",
+    "output": "medium-stamina-mead.png"
+  },
+  {
+    "slug": "tonic-of-ratatosk",
+    "url": "https://www.valheim.tools/items/tonic-of-ratatosk",
+    "output": "tonic-of-ratatosk.png"
+  },
+  {
+    "slug": "yule-hat",
+    "url": "https://www.valheim.tools/items/yule-hat",
+    "output": "yule-hat.png"
+  },
+  {
+    "slug": "dverger-circlet",
+    "url": "https://www.valheim.tools/items/dverger-circlet",
+    "output": "dverger-circlet.png"
+  },
+  {
+    "slug": "megingjord",
+    "url": "https://www.valheim.tools/items/megingjord",
+    "output": "megingjord.png"
+  },
+  {
+    "slug": "ymir-flesh",
+    "url": "https://www.valheim.tools/items/ymir-flesh",
+    "output": "ymir-flesh.png"
+  },
+  {
+    "slug": "thunder-stone",
+    "url": "https://www.valheim.tools/items/thunder-stone",
+    "output": "thunder-stone.png"
+  },
+  {
+    "slug": "egg",
+    "url": "https://www.valheim.tools/items/egg",
+    "output": "egg.png"
+  },
+  {
+    "slug": "barrel-hoops",
+    "url": "https://www.valheim.tools/items/barrel-hoops",
+    "output": "barrel-hoops.png"
+  },
+  {
+    "slug": "scythe-handle",
+    "url": "https://www.valheim.tools/items/scythe-handle",
+    "output": "scythe-handle.png"
+  },
+  {
+    "slug": "serving-tray",
+    "url": "https://www.valheim.tools/items/serving-tray",
+    "output": "serving-tray.png"
+  },
+  {
+    "slug": "crown-of-roots",
+    "url": "https://www.valheim.tools/items/crown-of-roots",
+    "output": "crown-of-roots.png"
   }
 ]

@@ -252,6 +252,13 @@ jobs:
             echo "$CONTENT_TYPE" | grep -q '^image/'
           done
 
+          echo "Checking world guide media..."
+          for asset in anti-sting-concoction berserkir-mead brew-of-animal-whispers draught-of-vananidir lightfoot-mead lingering-eitr-mead lingering-healing-mead love-potion mead-of-troll-endurance medium-stamina-mead tonic-of-ratatosk yule-hat dverger-circlet megingjord ymir-flesh thunder-stone egg barrel-hoops scythe-handle serving-tray crown-of-roots; do
+            CONTENT_TYPE="$(curl --fail --silent --show-error -o /dev/null -w '%{content_type}' --retry 4 --retry-delay 1 "$BASE_URL/media/wiki/$asset.png")"
+            echo "$asset: $CONTENT_TYPE"
+            echo "$CONTENT_TYPE" | grep -q '^image/'
+          done
+
           echo "Checking every boss drop icon..."
           for boss in eikthyr the-elder bonemass moder yagluth the-queen fader kall-fimbulbringer; do
             BOSS_DETAIL="$(curl --fail --silent --show-error --retry 4 --retry-delay 2 "$BASE_URL/api/creatures/$boss")"

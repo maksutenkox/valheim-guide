@@ -5,7 +5,7 @@ import type { Biome, BossSummary, Category, CraftList, CraftListItem, CraftResou
 import { APP_BUILD } from "../shared/build";
 import "./styles.css";
 
-type Section = "home" | "search" | "craft" | "favorites" | "food-builder" | "taming" | "trophies" | "fishing" | "skills" | "builds" | "bosses" | "biome" | "item" | "resource" | "creature";
+type Section = "home" | "search" | "craft" | "favorites" | "food-builder" | "taming" | "trophies" | "fishing" | "skills" | "builds" | "merchants" | "dungeons" | "meads" | "bosses" | "biome" | "item" | "resource" | "creature";
 type NavSection = "home" | "library" | "search";
 type BiomeView = "items" | "creatures" | "boss";
 
@@ -27,6 +27,24 @@ type BuildBiomeSlug = "meadows" | "black-forest" | "swamp" | "mountains" | "plai
 type CharacterBuild = {
   id: string; biome: BuildBiomeSlug; icon: string; name_en: string; name_ru: string; tag_en: string; tag_ru: string;
   description_en: string; description_ru: string; weapons: BuildAsset[]; armor: BuildAsset[]; food: BuildAsset[];
+};
+
+type MerchantHighlight = { slug?: string; icon?: string; name_en: string; name_ru: string; price: string; unlock_en?: string; unlock_ru?: string };
+type MerchantTier = { icon: string; title_en: string; title_ru: string; count: number; note_en: string; note_ru: string };
+type MerchantGuide = {
+  id: string; icon: string; name: string; biome_en: string; biome_ru: string; distance: string; stock_count: number;
+  description_en: string; description_ru: string; highlights: MerchantHighlight[]; tiers: MerchantTier[];
+};
+type DungeonLoot = { slug: string; name_en: string; name_ru: string };
+type DungeonGuide = {
+  id: string; icon: string; biome: BuildBiomeSlug; name_en: string; name_ru: string; kind_en: string; kind_ru: string;
+  access_en: string; access_ru: string; description_en: string; description_ru: string; enemies_en: string[]; enemies_ru: string[];
+  loot: DungeonLoot[];
+};
+type MeadGroup = "recovery" | "resistance" | "utility" | "special";
+type MeadGuide = {
+  slug: string; icon_slug: string; group: MeadGroup; name_en: string; name_ru: string;
+  effect_en: string; effect_ru: string; duration: string; cooldown_en: string; cooldown_ru: string; recipe_en: string; recipe_ru: string;
 };
 
 const fish = (slug: string, name_en: string, name_ru: string): FishingFish => ({ slug, name_en, name_ru });
@@ -301,6 +319,113 @@ const characterBuilds: CharacterBuild[] = [
   }
 ];
 
+
+const merchantGuides: MerchantGuide[] = [
+  {
+    id:"haldor",icon:"🧙",name:"Haldor",biome_en:"Black Forest",biome_ru:"Чёрный лес",distance:"~1.9 km",stock_count:11,
+    description_en:"The classic dvergr trader. His shop carries unique utility gear, fishing supplies and two permanent inventory-row upgrades added in 1.0.",
+    description_ru:"Классический двегр-торговец. У него продаются уникальные полезные вещи, снасти для рыбалки и два постоянных улучшения инвентаря из 1.0.",
+    highlights:[
+      {slug:"yule-hat",name_en:"Yule Hat",name_ru:"Йольская шапка",price:"100"},
+      {slug:"dverger-circlet",name_en:"Dverger Circlet",name_ru:"Обруч двегров",price:"620"},
+      {slug:"megingjord",name_en:"Megingjord",name_ru:"Мегингъёрд",price:"950"},
+      {slug:"ymir-flesh",name_en:"Ymir Flesh",name_ru:"Плоть Имира",price:"120",unlock_en:"The Elder defeated",unlock_ru:"Побеждён Древний"},
+      {slug:"fishing-rod",name_en:"Fishing Rod",name_ru:"Удочка",price:"350"},
+      {slug:"fishing-bait",name_en:"Fishing Bait ×20",name_ru:"Наживка ×20",price:"10"},
+      {slug:"thunder-stone",name_en:"Thunder Stone",name_ru:"Громовой камень",price:"50",unlock_en:"The Elder defeated",unlock_ru:"Побеждён Древний"},
+      {slug:"egg",name_en:"Egg",name_ru:"Яйцо",price:"1500",unlock_en:"Yagluth defeated",unlock_ru:"Побеждён Яглут"},
+      {slug:"barrel-hoops",name_en:"Barrel Hoops ×3",name_ru:"Обручи для бочки ×3",price:"100"},
+      {icon:"▤",name_en:"Wider Pockets",name_ru:"Широкие карманы",price:"1000",unlock_en:"+1 inventory row · Moder defeated",unlock_ru:"+1 ряд инвентаря · побеждена Моудер"},
+      {icon:"▥",name_en:"Deeper Pockets",name_ru:"Глубокие карманы",price:"2000",unlock_en:"+1 inventory row · The Queen defeated",unlock_ru:"+1 ряд инвентаря · побеждена Королева"}
+    ],
+    tiers:[
+      {icon:"⌖",title_en:"Where to look",title_ru:"Где искать",count:1,note_en:"Black Forest, beyond roughly 1,500 m from the world centre.",note_ru:"Чёрный лес, обычно дальше примерно 1500 м от центра мира."},
+      {icon:"🎒",title_en:"1.0 upgrade",title_ru:"Новое в 1.0",count:2,note_en:"Wider and Deeper Pockets permanently add one inventory row each.",note_ru:"Широкие и Глубокие карманы навсегда добавляют по одному ряду инвентаря."}
+    ]
+  },
+  {
+    id:"hildir",icon:"🧵",name:"Hildir",biome_en:"Meadows",biome_ru:"Луга",distance:"~3.1 km",stock_count:38,
+    description_en:"A cosmetic-focused trader whose stock expands when you return her three stolen chests from special dungeons.",
+    description_ru:"Торговка с упором на одежду и косметику. Ассортимент расширяется, когда вы возвращаете три украденных сундука из особых подземелий.",
+    highlights:[
+      {icon:"◇",name_en:"Base stock",name_ru:"Базовый ассортимент",price:"8 items",unlock_en:"Available immediately",unlock_ru:"Доступен сразу"},
+      {icon:"♨",name_en:"Brass tier",name_ru:"Латунный уровень",price:"11 items",unlock_en:"Smouldering Tomb · Brenna",unlock_ru:"Тлеющая гробница · Бренна"},
+      {icon:"❄",name_en:"Silver tier",name_ru:"Серебряный уровень",price:"9 items",unlock_en:"Howling Cavern · Geirrhafa",unlock_ru:"Воющая пещера · Гейрхафа"},
+      {icon:"♜",name_en:"Bronze tier",name_ru:"Бронзовый уровень",price:"10 items",unlock_en:"Sealed Tower · Zil & Thungr",unlock_ru:"Запечатанная башня · Зил и Тунгр"}
+    ],
+    tiers:[
+      {icon:"♨",title_en:"Brass Chest",title_ru:"Латунный сундук",count:11,note_en:"Return Brenna's chest from a Smouldering Tomb in the Black Forest.",note_ru:"Верните сундук Бренны из Тлеющей гробницы в Чёрном лесу."},
+      {icon:"❄",title_en:"Silver Chest",title_ru:"Серебряный сундук",count:9,note_en:"Return Geirrhafa's chest from a Howling Cavern in the Mountains.",note_ru:"Верните сундук Гейрхафы из Воющей пещеры в Горах."},
+      {icon:"♜",title_en:"Bronze Chest",title_ru:"Бронзовый сундук",count:10,note_en:"Return Zil & Thungr's chest from a Sealed Tower in the Plains.",note_ru:"Верните сундук Зила и Тунгра из Запечатанной башни на Равнинах."}
+    ]
+  },
+  {
+    id:"bog-witch",icon:"🧪",name:"The Bog Witch",biome_en:"Swamp",biome_ru:"Болота",distance:"~3.2 km",stock_count:20,
+    description_en:"The Swamp trader for brewing and feasts. Her ingredients unlock with world progression, and 1.0 extends that chain all the way through Kall.",
+    description_ru:"Болотная торговка для зелий и пиров. Ингредиенты открываются по мере прогресса мира, а в 1.0 цепочка продолжается вплоть до Калла.",
+    highlights:[
+      {slug:"love-potion",name_en:"Love Potion ×5",name_ru:"Любовное зелье ×5",price:"110"},
+      {slug:"scythe-handle",name_en:"Scythe Handle",name_ru:"Рукоять косы",price:"200",unlock_en:"Moder defeated",unlock_ru:"Побеждена Моудер"},
+      {slug:"serving-tray",name_en:"Serving Tray",name_ru:"Поднос",price:"140"},
+      {icon:"✿",name_en:"Fragrant Bundle ×5",name_ru:"Ароматный набор ×5",price:"140",unlock_en:"Moder defeated",unlock_ru:"Побеждена Моудер"},
+      {slug:"corked-vial",name_en:"Corked Vial ×5",name_ru:"Флакон с пробкой ×5",price:"150",unlock_en:"The Elder defeated",unlock_ru:"Побеждён Древний"},
+      {slug:"crown-of-roots",name_en:"Crown of Roots",name_ru:"Корона корней",price:"3000",unlock_en:"Writhan killed",unlock_ru:"Убит Врайтан"}
+    ],
+    tiers:[
+      {icon:"🌲",title_en:"Early progression",title_ru:"Ранний прогресс",count:2,note_en:"Woodland Herb Blend and Corked Vials unlock after The Elder.",note_ru:"Лесная смесь трав и флаконы открываются после Древнего."},
+      {icon:"⚓",title_en:"Sea & Mountains",title_ru:"Море и Горы",count:4,note_en:"Serpent and Moder progression unlock more feast and potion ingredients.",note_ru:"Убийство морского змея и Моудер открывает новые ингредиенты для пиров и зелий."},
+      {icon:"🔥",title_en:"Late game",title_ru:"Поздняя игра",count:4,note_en:"Yagluth, The Queen, Fader and Kall each unlock later spice tiers.",note_ru:"Яглут, Королева, Фейдер и Калл последовательно открывают поздние специи."}
+    ]
+  }
+];
+
+const dungeonGuides: DungeonGuide[] = [
+  {id:"burial-chamber",icon:"☠",biome:"black-forest",name_en:"Burial Chamber",name_ru:"Погребальная камера",kind_en:"Dungeon",kind_ru:"Подземелье",access_en:"No key required.",access_ru:"Ключ не требуется.",description_en:"The first procedural dungeon tier. Clear skeleton rooms for Surtling Cores and valuables.",description_ru:"Первый полноценный процедурный данж. Зачищайте комнаты со скелетами ради ядер суртлингов и ценностей.",enemies_en:["Skeleton","Rancid Remains","Ghost"],enemies_ru:["Скелет","Гнилые останки","Призрак"],loot:[{slug:"surtling-core",name_en:"Surtling Core",name_ru:"Ядро суртлинга"},{slug:"bone-fragments",name_en:"Bone Fragments",name_ru:"Обломки костей"}]},
+  {id:"troll-cave",icon:"👣",biome:"black-forest",name_en:"Troll Cave",name_ru:"Пещера тролля",kind_en:"Dungeon",kind_ru:"Подземелье",access_en:"Open cave; usually a troll inside.",access_ru:"Открытая пещера; обычно внутри тролль.",description_en:"A compact cave used as a reliable troll hunting spot and early source of coins and Troll Hide.",description_ru:"Компактная пещера для охоты на троллей и раннего получения монет и шкуры тролля.",enemies_en:["Troll"],enemies_ru:["Тролль"],loot:[{slug:"troll-hide",name_en:"Troll Hide",name_ru:"Шкура тролля"},{slug:"troll-trophy",name_en:"Troll Trophy",name_ru:"Трофей тролля"}]},
+  {id:"bear-cave",icon:"🐻",biome:"black-forest",name_en:"Bear Cave",name_ru:"Медвежья пещера",kind_en:"1.0 dungeon",kind_ru:"Подземелье 1.0",access_en:"Open cave in the Black Forest.",access_ru:"Открытая пещера в Чёрном лесу.",description_en:"A 1.0 Black Forest cave with a sleeping bear and useful beehive loot in the back.",description_ru:"Новая пещера Чёрного леса из 1.0 со спящим медведем и полезным лутом из ульев.",enemies_en:["Bear"],enemies_ru:["Медведь"],loot:[{slug:"bear-trophy",name_en:"Bear Trophy",name_ru:"Трофей медведя"},{slug:"honey",name_en:"Honey",name_ru:"Мёд"},{slug:"queen-bee",name_en:"Queen Bee",name_ru:"Пчелиная матка"}]},
+  {id:"smouldering-tomb",icon:"♨",biome:"black-forest",name_en:"Smouldering Tomb",name_ru:"Тлеющая гробница",kind_en:"Hildir dungeon",kind_ru:"Задание Хильдир",access_en:"Use Hildir's map table to reveal the marked variants.",access_ru:"Карта у Хильдир отмечает специальные варианты на карте мира.",description_en:"A tougher Burial Chamber variant ending with Brenna. Her chest unlocks Hildir's Brass stock tier.",description_ru:"Усиленный вариант Погребальной камеры с Бренной в финале. Её сундук открывает латунный ассортимент Хильдир.",enemies_en:["Skeleton","Ghost","Brenna"],enemies_ru:["Скелет","Призрак","Бренна"],loot:[{slug:"brenna-trophy",name_en:"Brenna Trophy",name_ru:"Трофей Бренны"}]},
+  {id:"sunken-crypt",icon:"⚿",biome:"swamp",name_en:"Sunken Crypt",name_ru:"Затонувший склеп",kind_en:"Dungeon",kind_ru:"Подземелье",access_en:"Requires the Swamp Key dropped by The Elder.",access_ru:"Нужен Болотный ключ, выпадающий с Древнего.",description_en:"The main iron dungeon of the Swamp. Muddy Scrap Piles block corridors and are the core source of Scrap Iron.",description_ru:"Главный железный данж Болот. Грязные кучи металлолома перекрывают коридоры и являются основным источником железного лома.",enemies_en:["Draugr","Draugr Elite","Blob","Oozer"],enemies_ru:["Драугр","Элитный драугр","Слизень","Гнилец"],loot:[{slug:"scrap-iron",name_en:"Scrap Iron",name_ru:"Железный лом"},{slug:"chain",name_en:"Chain",name_ru:"Цепь"}]},
+  {id:"frost-cave",icon:"❄",biome:"mountains",name_en:"Frost Cave",name_ru:"Морозная пещера",kind_en:"Dungeon",kind_ru:"Подземелье",access_en:"Mountain cave; bring frost protection for the trip.",access_ru:"Пещера в Горах; для пути нужна защита от мороза.",description_en:"Large cave network with Cultists, Ulvs and bats. The key source of Fenris materials, red jute and crystal.",description_ru:"Большая сеть пещер с культистами, ульвами и летучими мышами. Главный источник материалов Фенриса, красного джута и кристаллов.",enemies_en:["Cultist","Ulv","Bat","Stone Golem"],enemies_ru:["Культист","Ульв","Летучая мышь","Каменный голем"],loot:[{slug:"fenris-hair",name_en:"Fenris Hair",name_ru:"Шерсть Фенриса"},{slug:"fenris-claw",name_en:"Fenris Claw",name_ru:"Коготь Фенриса"},{slug:"crystal",name_en:"Crystal",name_ru:"Кристалл"}]},
+  {id:"howling-cavern",icon:"🐺",biome:"mountains",name_en:"Howling Cavern",name_ru:"Воющая пещера",kind_en:"Hildir dungeon",kind_ru:"Задание Хильдир",access_en:"Revealed from Hildir's map table.",access_ru:"Отмечается через карту у Хильдир.",description_en:"A special Mountain cave ending with Geirrhafa. Returning his chest unlocks Hildir's Silver stock tier.",description_ru:"Особая горная пещера с Гейрхафой в финале. Возврат его сундука открывает серебряный ассортимент Хильдир.",enemies_en:["Bat","Ulv","Geirrhafa"],enemies_ru:["Летучая мышь","Ульв","Гейрхафа"],loot:[{slug:"geirrhafa-trophy",name_en:"Geirrhafa Trophy",name_ru:"Трофей Гейрхафы"}]},
+  {id:"sealed-tower",icon:"♜",biome:"plains",name_en:"Sealed Tower",name_ru:"Запечатанная башня",kind_en:"Hildir structure",kind_ru:"Задание Хильдир",access_en:"Surface dungeon; Hildir's map table reveals its locations.",access_ru:"Наземный данж; его точки отмечает карта у Хильдир.",description_en:"A vertical Plains fortress with Fulings and the miniboss pair Zil & Thungr. Their chest unlocks Hildir's Bronze tier.",description_ru:"Вертикальная крепость Равнин с фулингами и парой мини-боссов Зил и Тунгр. Их сундук открывает бронзовый уровень Хильдир.",enemies_en:["Fuling","Fuling Shaman","Zil & Thungr"],enemies_ru:["Фулинг","Шаман фулингов","Зил и Тунгр"],loot:[{slug:"zil-trophy",name_en:"Zil Trophy",name_ru:"Трофей Зила"},{slug:"thungr-trophy",name_en:"Thungr Trophy",name_ru:"Трофей Тунгра"}]},
+  {id:"infested-mine",icon:"◌",biome:"mistlands",name_en:"Infested Mine",name_ru:"Заражённая шахта",kind_en:"Dungeon",kind_ru:"Подземелье",access_en:"Found through Mistlands mine entrances and ruined dvergr structures.",access_ru:"Ищите входы в шахты и разрушенные строения двегров в Туманных землях.",description_en:"The key Mistlands dungeon: Seekers and Ticks guard Black Cores, Royal Jelly and Queen progression.",description_ru:"Ключевой данж Туманных земель: Искатели и Клещи охраняют Чёрные ядра, королевское желе и прогресс к Королеве.",enemies_en:["Seeker","Seeker Soldier","Tick"],enemies_ru:["Искатель","Солдат-искатель","Клещ"],loot:[{slug:"black-core",name_en:"Black Core",name_ru:"Чёрное ядро"},{slug:"royal-jelly",name_en:"Royal Jelly",name_ru:"Королевское желе"}]},
+  {id:"charred-fortress",icon:"🔥",biome:"ashlands",name_en:"Charred Fortress",name_ru:"Крепость Обугленных",kind_en:"Surface fortress",kind_ru:"Наземная крепость",access_en:"Green beam marks it from afar; breach the fortress with siege tools.",access_ru:"Зелёный луч виден издалека; стены и ворота пробиваются осадными средствами.",description_en:"The main Ashlands fortress objective with Charred defenders, Flametal loot, gemstones and Bell Fragments.",description_ru:"Главная крепость Пепельных земель с Обугленными, фламеталлом, самоцветами и фрагментами колокола.",enemies_en:["Charred Warrior","Charred Marksman","Charred Warlock"],enemies_ru:["Обугленный воин","Обугленный стрелок","Обугленный чародей"],loot:[{slug:"flametal-ore",name_en:"Flametal Ore",name_ru:"Фламеталловая руда"},{slug:"bell-fragment",name_en:"Bell Fragment",name_ru:"Фрагмент колокола"}]},
+  {id:"winding-tunnels",icon:"↝",biome:"deep-north",name_en:"Winding Tunnels",name_ru:"Извилистые туннели",kind_en:"1.0 dungeon",kind_ru:"Подземелье 1.0",access_en:"No map marker; explore the Deep North on foot.",access_ru:"Не отмечаются на карте — входы нужно искать по Глубокому Северу.",description_en:"A long 32–48 room gallery dungeon. The major source of Nord moulds and Frost Cores.",description_ru:"Длинный галерейный данж на 32–48 комнат. Один из главных источников форм для Nord-экипировки и Морозных ядер.",enemies_en:["Eyeless One","Shadow","Elaking"],enemies_ru:["Безглазый","Тень","Элакинг"],loot:[{slug:"frostcore",name_en:"Frost Core",name_ru:"Морозное ядро"},{slug:"mould-nord-sword",name_en:"Nord weapon moulds",name_ru:"Формы оружия Nord"},{slug:"timberwood",name_en:"Timberwood",name_ru:"Северная древесина"}]},
+  {id:"morkhalla",icon:"ᛉ",biome:"deep-north",name_en:"Mörkhalla",name_ru:"Мёркхалла",kind_en:"1.0 fortress dungeon",kind_ru:"Крепость-подземелье 1.0",access_en:"Door consumes an Intricate Key.",access_ru:"Дверь расходует Замысловатый ключ.",description_en:"A compact Deep North fortress dungeon packed with Krigen and Hexen. Ancient chests hold gemstones, coins and moulds; breaking the black ice advances the Jotun chain.",description_ru:"Компактная северная крепость с Кригенами и Хексенами. В древних сундуках лежат самоцветы, монеты и формы; разрушение чёрного льда двигает цепочку йотунов.",enemies_en:["Krigen","Hexen","Shapeless Pulp","Imprisoned Dvergr"],enemies_ru:["Криген","Хексен","Бесформенная мякоть","Пленный двегр"],loot:[{slug:"ancient-coin",name_en:"Ancient Coin",name_ru:"Древняя монета"},{slug:"draumyx",name_en:"Draumyx",name_ru:"Драумикс"},{slug:"mould-nord-sword",name_en:"Nord moulds",name_ru:"Формы Nord"}]}
+];
+
+const meadGuides: MeadGuide[] = [
+  {slug:"minor-healing-mead",icon_slug:"minor-healing-mead-x6",group:"recovery",name_en:"Minor Healing Mead",name_ru:"Малая лечебная медовуха",effect_en:"Restores 50 health",effect_ru:"Восстанавливает 50 здоровья",duration:"2 min",cooldown_en:"Shared health cooldown",cooldown_ru:"Общий откат лечения",recipe_en:"Honey ×10 · Blueberries ×5 · Raspberries ×10 · Dandelion ×1",recipe_ru:"Мёд ×10 · Черника ×5 · Малина ×10 · Одуванчик ×1"},
+  {slug:"medium-healing-mead",icon_slug:"medium-healing-mead",group:"recovery",name_en:"Medium Healing Mead",name_ru:"Средняя лечебная медовуха",effect_en:"Restores 75 health",effect_ru:"Восстанавливает 75 здоровья",duration:"2 min",cooldown_en:"Shared health cooldown",cooldown_ru:"Общий откат лечения",recipe_en:"Honey ×10 · Bloodbag ×4 · Raspberries ×10 · Dandelion ×1",recipe_ru:"Мёд ×10 · Кровяной мешок ×4 · Малина ×10 · Одуванчик ×1"},
+  {slug:"major-healing-mead",icon_slug:"major-healing-mead-x6",group:"recovery",name_en:"Major Healing Mead",name_ru:"Большая лечебная медовуха",effect_en:"Restores 125 health",effect_ru:"Восстанавливает 125 здоровья",duration:"2 min",cooldown_en:"Shared health cooldown",cooldown_ru:"Общий откат лечения",recipe_en:"Honey ×10 · Blood Clot ×4 · Royal Jelly ×5",recipe_ru:"Мёд ×10 · Сгусток крови ×4 · Королевское желе ×5"},
+  {slug:"minor-stamina-mead",icon_slug:"minor-stamina-mead-x6",group:"recovery",name_en:"Minor Stamina Mead",name_ru:"Малая медовуха выносливости",effect_en:"Restores 80 stamina",effect_ru:"Восстанавливает 80 выносливости",duration:"2 min",cooldown_en:"Shared stamina cooldown",cooldown_ru:"Общий откат выносливости",recipe_en:"Honey ×10 · Raspberries ×10 · Yellow Mushroom ×10",recipe_ru:"Мёд ×10 · Малина ×10 · Жёлтый гриб ×10"},
+  {slug:"medium-stamina-mead",icon_slug:"medium-stamina-mead",group:"recovery",name_en:"Medium Stamina Mead",name_ru:"Средняя медовуха выносливости",effect_en:"Restores 160 stamina",effect_ru:"Восстанавливает 160 выносливости",duration:"2 min",cooldown_en:"Shared stamina cooldown",cooldown_ru:"Общий откат выносливости",recipe_en:"Honey ×10 · Cloudberries ×10 · Yellow Mushroom ×10",recipe_ru:"Мёд ×10 · Морошка ×10 · Жёлтый гриб ×10"},
+  {slug:"minor-eitr-mead",icon_slug:"minor-eitr-mead-x6",group:"recovery",name_en:"Minor Eitr Mead",name_ru:"Малая медовуха эйтра",effect_en:"Restores 125 eitr",effect_ru:"Восстанавливает 125 эйтра",duration:"2 min",cooldown_en:"Shared eitr cooldown",cooldown_ru:"Общий откат эйтра",recipe_en:"Honey ×10 · Sap ×5 · Jotun Puffs ×2 · Magecap ×5",recipe_ru:"Мёд ×10 · Сок ×5 · Йотунские шарики ×2 · Магический колпак ×5"},
+  {slug:"lingering-healing-mead",icon_slug:"lingering-healing-mead",group:"recovery",name_en:"Lingering Healing Mead",name_ru:"Длительная лечебная медовуха",effect_en:"+25% health regeneration",effect_ru:"+25% регенерации здоровья",duration:"5 min",cooldown_en:"Shared health cooldown",cooldown_ru:"Общий откат лечения",recipe_en:"Sap ×10 · Vineberry Cluster ×10 · Smoke Puff ×10",recipe_ru:"Сок ×10 · Гроздь винной ягоды ×10 · Дымчатый гриб ×10"},
+  {slug:"lingering-stamina-mead",icon_slug:"lingering-stamina-mead-x6",group:"recovery",name_en:"Lingering Stamina Mead",name_ru:"Длительная медовуха выносливости",effect_en:"+25% stamina regeneration",effect_ru:"+25% регенерации выносливости",duration:"5 min",cooldown_en:"Shared stamina cooldown",cooldown_ru:"Общий откат выносливости",recipe_en:"Sap ×10 · Cloudberries ×10 · Jotun Puffs ×10",recipe_ru:"Сок ×10 · Морошка ×10 · Йотунские шарики ×10"},
+  {slug:"lingering-eitr-mead",icon_slug:"lingering-eitr-mead",group:"recovery",name_en:"Lingering Eitr Mead",name_ru:"Длительная медовуха эйтра",effect_en:"+25% eitr regeneration",effect_ru:"+25% регенерации эйтра",duration:"5 min",cooldown_en:"Shared eitr cooldown",cooldown_ru:"Общий откат эйтра",recipe_en:"Sap ×10 · Vineberry Cluster ×10 · Magecap ×10",recipe_ru:"Сок ×10 · Гроздь винной ягоды ×10 · Магический колпак ×10"},
+  {slug:"poison-resistance-mead",icon_slug:"poison-resistance-mead-x6",group:"resistance",name_en:"Poison Resistance Mead",name_ru:"Медовуха сопротивления яду",effect_en:"Poison resistance",effect_ru:"Сопротивление яду",duration:"10 min",cooldown_en:"No cooldown",cooldown_ru:"Без отката",recipe_en:"Honey ×10 · Thistle ×5 · Neck Tail ×1 · Coal ×10",recipe_ru:"Мёд ×10 · Чертополох ×5 · Хвост никса ×1 · Уголь ×10"},
+  {slug:"frost-resistance-mead",icon_slug:"frost-resistance-mead",group:"resistance",name_en:"Frost Resistance Mead",name_ru:"Медовуха сопротивления морозу",effect_en:"Frost resistance",effect_ru:"Сопротивление морозу",duration:"10 min",cooldown_en:"No cooldown",cooldown_ru:"Без отката",recipe_en:"Honey ×10 · Thistle ×5 · Bloodbag ×2 · Greydwarf Eye ×1",recipe_ru:"Мёд ×10 · Чертополох ×5 · Кровяной мешок ×2 · Глаз грейдворфа ×1"},
+  {slug:"fire-resistance-barley-wine",icon_slug:"fire-resistance-barley-wine-x6",group:"resistance",name_en:"Fire Resistance Barley Wine",name_ru:"Ячменное вино сопротивления огню",effect_en:"Fire resistance",effect_ru:"Сопротивление огню",duration:"10 min",cooldown_en:"No cooldown",cooldown_ru:"Без отката",recipe_en:"Barley ×10 · Cloudberries ×10",recipe_ru:"Ячмень ×10 · Морошка ×10"},
+  {slug:"tasty-mead",icon_slug:"tasty-mead-x6",group:"utility",name_en:"Tasty Mead",name_ru:"Вкусная медовуха",effect_en:"+100% stamina regen · -50% health regen",effect_ru:"+100% регенерации выносливости · -50% регенерации здоровья",duration:"10s",cooldown_en:"No cooldown",cooldown_ru:"Без отката",recipe_en:"Honey ×10 · Raspberries ×10 · Blueberries ×5",recipe_ru:"Мёд ×10 · Малина ×10 · Черника ×5"},
+  {slug:"anti-sting-concoction",icon_slug:"anti-sting-concoction",group:"utility",name_en:"Anti-Sting Concoction",name_ru:"Противокомариный отвар",effect_en:"Deathsquitos break off before stinging",effect_ru:"Комары смерти отступают, не нанося укус",duration:"10 min",cooldown_en:"No cooldown",cooldown_ru:"Без отката",recipe_en:"Cloudberries ×10 · Grouper ×3 · Fragrant Bundle ×1",recipe_ru:"Морошка ×10 · Групер ×3 · Ароматный набор ×1"},
+  {slug:"brew-of-animal-whispers",icon_slug:"brew-of-animal-whispers",group:"utility",name_en:"Brew of Animal Whispers",name_ru:"Настой шёпота животных",effect_en:"Nearby creatures tame twice as fast",effect_ru:"Животные поблизости приручаются вдвое быстрее",duration:"10 min",cooldown_en:"No cooldown",cooldown_ru:"Без отката",recipe_en:"Onion ×5 · Carrot ×10 · Pungent Pebbles ×1",recipe_ru:"Лук ×5 · Морковь ×10 · Резкие камешки ×1"},
+  {slug:"draught-of-vananidir",icon_slug:"draught-of-vananidir",group:"utility",name_en:"Draught of Vananidir",name_ru:"Настой Вананидира",effect_en:"-50% swimming stamina cost",effect_ru:"-50% расхода выносливости при плавании",duration:"5 min",cooldown_en:"No cooldown",cooldown_ru:"Без отката",recipe_en:"Dandelion ×10 · Perch ×2 · Fresh Seaweed ×1",recipe_ru:"Одуванчик ×10 · Окунь ×2 · Свежие водоросли ×1"},
+  {slug:"lightfoot-mead",icon_slug:"lightfoot-mead",group:"utility",name_en:"Lightfoot Mead",name_ru:"Медовуха лёгких ног",effect_en:"-30% jump stamina cost · +20% jump height",effect_ru:"-30% выносливости на прыжок · +20% высоты прыжка",duration:"10 min",cooldown_en:"No cooldown",cooldown_ru:"Без отката",recipe_en:"Scale Hide ×2 · Feathers ×5 · Magecap ×5",recipe_ru:"Чешуйчатая шкура ×2 · Перья ×5 · Магический колпак ×5"},
+  {slug:"mead-of-troll-endurance",icon_slug:"mead-of-troll-endurance",group:"utility",name_en:"Mead of Troll Endurance",name_ru:"Медовуха тролльей выносливости",effect_en:"+250 carry weight",effect_ru:"+250 к переносимому весу",duration:"5 min",cooldown_en:"2 min",cooldown_ru:"2 мин",recipe_en:"Trollfish ×2 · Honey ×10 · Powdered Dragon Eggshells ×1",recipe_ru:"Тролль-рыба ×2 · Мёд ×10 · Порошок скорлупы драконьего яйца ×1"},
+  {slug:"tonic-of-ratatosk",icon_slug:"tonic-of-ratatosk",group:"utility",name_en:"Tonic of Ratatosk",name_ru:"Тоник Рататоска",effect_en:"+15% run/walk speed · +7.5% swim speed",effect_ru:"+15% скорости бега/ходьбы · +7,5% скорости плавания",duration:"10 min",cooldown_en:"No cooldown",cooldown_ru:"Без отката",recipe_en:"Honey ×10 · Blueberries ×10 · Cured Squirrel Hamstring ×1",recipe_ru:"Мёд ×10 · Черника ×10 · Вяленое сухожилие белки ×1"},
+  {slug:"berserkir-mead",icon_slug:"berserkir-mead",group:"special",name_en:"Berserkir Mead",name_ru:"Медовуха берсерка",effect_en:"-80% attack/block/dodge stamina cost, but 1.5× physical damage taken",effect_ru:"-80% затрат выносливости на атаку/блок/уклонение, но ×1,5 физического урона по вам",duration:"20s",cooldown_en:"2 min",cooldown_ru:"2 мин",recipe_en:"Mushroom ×10 · Yellow Mushroom ×10 · Toadstool ×1",recipe_ru:"Гриб ×10 · Жёлтый гриб ×10 · Поганка ×1"},
+  {slug:"love-potion",icon_slug:"love-potion",group:"special",name_en:"Love Potion",name_ru:"Любовное зелье",effect_en:"Draws trolls toward the drinker",effect_ru:"Привлекает троллей к выпившему",duration:"5 min",cooldown_en:"No cooldown",cooldown_ru:"Без отката",recipe_en:"Bought from the Bog Witch · 110 coins for 5",recipe_ru:"Покупается у Болотной ведьмы · 110 монет за 5"}
+];
+
+const meadGroups: Array<{ id:"all" | MeadGroup; icon:string; en:string; ru:string }> = [
+  {id:"all",icon:"◈",en:"All",ru:"Все"},
+  {id:"recovery",icon:"✚",en:"Recovery",ru:"Восстановление"},
+  {id:"resistance",icon:"🛡",en:"Resistance",ru:"Сопротивления"},
+  {id:"utility",icon:"↯",en:"Utility",ru:"Полезные"},
+  {id:"special",icon:"✦",en:"Special",ru:"Особые"}
+];
+
 const protectedErrorText = (locale: Locale, error: unknown): string => {
   if (error instanceof ApiError) {
     if (error.status === 401) {
@@ -388,6 +513,8 @@ export function App() {
   });
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const [buildBiome, setBuildBiome] = useState<BuildBiomeSlug>("meadows");
+  const [dungeonBiome, setDungeonBiome] = useState<"all" | BuildBiomeSlug>("all");
+  const [meadGroup, setMeadGroup] = useState<"all" | MeadGroup>("all");
   const [toolOrigin, setToolOrigin] = useState<Section>("home");
   const [libraryTab, setLibraryTab] = useState<"craft" | "favorites">("craft");
   const [creature, setCreature] = useState<CreatureDetail | null>(null);
@@ -492,7 +619,7 @@ export function App() {
 
   const title = useMemo(() => ({
     home: "VALHEIM Guide", search: locale === "ru" ? "Поиск" : "Search", craft: locale === "ru" ? "Крафт" : "Craft",
-    favorites: locale === "ru" ? "Избранное" : "Favorites", "food-builder": locale === "ru" ? "Конструктор еды" : "Food Builder", taming: locale === "ru" ? "Приручение" : "Taming", trophies: locale === "ru" ? "Трофеи" : "Trophies", fishing: locale === "ru" ? "Рыбалка" : "Fishing", skills: locale === "ru" ? "Навыки" : "Skills", builds: locale === "ru" ? "Билды" : "Builds", bosses: locale === "ru" ? "Боссы" : "Bosses", biome: text(locale, currentBiome ?? { name_en: "Biome", name_ru: "Биом" }),
+    favorites: locale === "ru" ? "Избранное" : "Favorites", "food-builder": locale === "ru" ? "Конструктор еды" : "Food Builder", taming: locale === "ru" ? "Приручение" : "Taming", trophies: locale === "ru" ? "Трофеи" : "Trophies", fishing: locale === "ru" ? "Рыбалка" : "Fishing", skills: locale === "ru" ? "Навыки" : "Skills", builds: locale === "ru" ? "Билды" : "Builds", merchants: locale === "ru" ? "Торговцы" : "Traders", dungeons: locale === "ru" ? "Подземелья" : "Dungeons", meads: locale === "ru" ? "Зелья" : "Meads", bosses: locale === "ru" ? "Боссы" : "Bosses", biome: text(locale, currentBiome ?? { name_en: "Biome", name_ru: "Биом" }),
     item: item ? text(locale, item) : locale === "ru" ? "Предмет" : "Item",
     resource: resource ? text(locale, resource) : locale === "ru" ? "Ресурс" : "Resource",
     creature: creature ? text(locale, creature) : locale === "ru" ? "Существо" : "Creature"
@@ -531,6 +658,9 @@ export function App() {
   const collectedCount = trophies.reduce((count, entry) => count + (collectedTrophies.includes(entry.slug) ? 1 : 0), 0);
   const selectedBuildBiome = buildBiomes.find((biome) => biome.slug === buildBiome) ?? buildBiomes[0];
   const visibleCharacterBuilds = characterBuilds.filter((build) => build.biome === buildBiome);
+  const dungeonBiomes = buildBiomes.filter((biome) => dungeonGuides.some((dungeon) => dungeon.biome === biome.slug));
+  const visibleDungeons = dungeonGuides.filter((dungeon) => dungeonBiome === "all" || dungeon.biome === dungeonBiome);
+  const visibleMeads = meadGuides.filter((mead) => meadGroup === "all" || mead.group === meadGroup);
 
   const openBiome = async (slug: string) => {
     setMessage(""); setSection("biome"); setCurrentBiome(null); setBiomeItems([]); setActiveCategory(undefined);
@@ -631,8 +761,8 @@ export function App() {
     });
   };
 
-  const openGuideSection = (next: "fishing" | "skills" | "builds") => {
-    const moreSections: Section[] = ["food-builder", "taming", "trophies", "fishing", "skills", "builds"];
+  const openGuideSection = (next: "fishing" | "skills" | "builds" | "merchants" | "dungeons" | "meads") => {
+    const moreSections: Section[] = ["food-builder", "taming", "trophies", "fishing", "skills", "builds", "merchants", "dungeons", "meads"];
     setToolOrigin(moreSections.includes(section) ? "home" : section);
     setMoreMenuOpen(false);
     setSection(next);
@@ -946,7 +1076,7 @@ export function App() {
     setMessage("");
     if (section === "item" || section === "resource") return setSection(detailOrigin);
     if (section === "creature") return setSection(creatureOrigin);
-    if (section === "food-builder" || section === "taming" || section === "trophies" || section === "fishing" || section === "skills" || section === "builds") return setSection(toolOrigin);
+    if (section === "food-builder" || section === "taming" || section === "trophies" || section === "fishing" || section === "skills" || section === "builds" || section === "merchants" || section === "dungeons" || section === "meads") return setSection(toolOrigin);
     if (section === "biome") return setSection("home");
     setSection("home");
   };
@@ -998,6 +1128,21 @@ export function App() {
         <button className="more-menu-item builds" onClick={() => openGuideSection("builds")}>
           <span className="more-menu-icon">🛡</span>
           <span><small>{locale === "ru" ? "ОРУЖИЕ · БРОНЯ · ЕДА" : "WEAPONS · ARMOUR · FOOD"}</small><strong>{locale === "ru" ? "Билды персонажа" : "Character Builds"}</strong><p>{locale === "ru" ? "Готовые наборы экипировки под разные стили игры." : "Ready-to-use loadouts for different playstyles."}</p></span>
+          <i>›</i>
+        </button>
+        <button className="more-menu-item merchants" onClick={() => openGuideSection("merchants")}>
+          <span className="more-menu-icon">🧙</span>
+          <span><small>{locale === "ru" ? "3 ТОРГОВЦА · 69 ТОВАРОВ" : "3 TRADERS · 69 GOODS"}</small><strong>{locale === "ru" ? "Торговцы" : "Traders"}</strong><p>{locale === "ru" ? "Где искать, что продают и чем открывается ассортимент." : "Where to find them, what they sell and how stock unlocks."}</p></span>
+          <i>›</i>
+        </button>
+        <button className="more-menu-item dungeons" onClick={() => openGuideSection("dungeons")}>
+          <span className="more-menu-icon">🏚</span>
+          <span><small>{locale === "ru" ? "ДАНЖИ · ОСОБЫЕ ЛОКАЦИИ" : "DUNGEONS · SPECIAL LOCATIONS"}</small><strong>{locale === "ru" ? "Подземелья" : "Dungeons"}</strong><p>{locale === "ru" ? "Вход, враги и главный лут по биомам." : "Access, enemies and key loot by biome."}</p></span>
+          <i>›</i>
+        </button>
+        <button className="more-menu-item meads" onClick={() => openGuideSection("meads")}>
+          <span className="more-menu-icon">🧪</span>
+          <span><small>{locale === "ru" ? "21 ЗЕЛЬЕ · ЭФФЕКТЫ" : "21 MEADS · EFFECTS"}</small><strong>{locale === "ru" ? "Зелья и медовуха" : "Meads & Potions"}</strong><p>{locale === "ru" ? "Рецепты, длительность, откаты и эффекты." : "Recipes, duration, cooldowns and effects."}</p></span>
           <i>›</i>
         </button>
       </aside>
@@ -1182,6 +1327,50 @@ export function App() {
       <p className="guide-source"><a href="https://www.valheim.tools/guides/progression" target="_blank" rel="noreferrer">{locale === "ru" ? "Сверить прогрессию и предметы ↗" : "Review progression and gear ↗"}</a></p>
     </section>}
 
+
+    {section === "merchants" && <section className="merchants-guide-section">
+      <div className="guide-hero merchants-guide-hero"><span className="guide-hero-icon">🧙</span><div><p>{locale === "ru" ? "ТОРГОВЛЯ · ПРОГРЕСС МИРА" : "TRADING · WORLD PROGRESSION"}</p><h2>{locale === "ru" ? "Три торговца Valheim" : "Valheim's three traders"}</h2><span>{locale === "ru" ? "Где искать каждого торговца, что у него действительно важно купить и какие победы или задания расширяют ассортимент." : "Where to find each trader, which purchases matter and which bosses or quests expand their stock."}</span></div></div>
+      <div className="merchant-list">{merchantGuides.map((merchant) => <article className="merchant-card" key={merchant.id}>
+        <div className="merchant-head"><span>{merchant.icon}</span><div><small>{locale === "ru" ? merchant.biome_ru : merchant.biome_en}</small><h3>{merchant.name}</h3><p>{locale === "ru" ? merchant.description_ru : merchant.description_en}</p></div></div>
+        <div className="merchant-meta"><span>⌖ {merchant.distance}</span><span>¤ {merchant.stock_count} {locale === "ru" ? "товаров" : "goods"}</span></div>
+        <div className="merchant-stock">{merchant.highlights.map((entry) => <div className="merchant-stock-row" key={entry.name_en}>
+          {entry.slug ? <GuideArt slug={entry.slug} /> : <span className="guide-symbol-art">{entry.icon ?? "◆"}</span>}
+          <span className="merchant-stock-copy"><strong>{locale === "ru" ? entry.name_ru : entry.name_en}</strong>{(entry.unlock_en || entry.unlock_ru) && <small>{locale === "ru" ? entry.unlock_ru : entry.unlock_en}</small>}</span><b>{entry.price}</b>
+        </div>)}</div>
+        <div className="merchant-tier-list">{merchant.tiers.map((tier) => <div className="merchant-tier" key={tier.title_en}><span>{tier.icon}</span><div><small>{locale === "ru" ? tier.title_ru : tier.title_en} · {tier.count}</small><p>{locale === "ru" ? tier.note_ru : tier.note_en}</p></div></div>)}</div>
+      </article>)}</div>
+      <p className="guide-source"><a href="https://www.valheim.tools/traders" target="_blank" rel="noreferrer">{locale === "ru" ? "Полная таблица цен и разблокировок ↗" : "Full prices and unlock table ↗"}</a></p>
+    </section>}
+
+    {section === "dungeons" && <section className="dungeons-guide-section">
+      <div className="guide-hero dungeons-guide-hero"><span className="guide-hero-icon">🏚</span><div><p>{locale === "ru" ? "ПОДЗЕМЕЛЬЯ · ОСОБЫЕ ЛОКАЦИИ" : "DUNGEONS · SPECIAL LOCATIONS"}</p><h2>{locale === "ru" ? "Куда идти и зачем" : "Where to go and why"}</h2><span>{locale === "ru" ? "Основные данжи и прогрессионные крепости: условия входа, противники и лут, ради которого их стоит зачищать." : "Major dungeons and progression fortresses with access requirements, enemies and the loot that makes them worth clearing."}</span></div></div>
+      <div className="chips dungeon-biome-chips" role="tablist"><button className={dungeonBiome === "all" ? "chip active" : "chip"} onClick={() => setDungeonBiome("all")}><i>◈</i>{locale === "ru" ? "Все" : "All"}</button>{dungeonBiomes.map((biome) => <button className={dungeonBiome === biome.slug ? "chip active" : "chip"} key={biome.slug} onClick={() => setDungeonBiome(biome.slug)}><i>{biome.icon}</i>{locale === "ru" ? biome.name_ru : biome.name_en}</button>)}</div>
+      <div className="dungeon-list">{visibleDungeons.map((dungeon) => {
+        const biome = buildBiomes.find((entry) => entry.slug === dungeon.biome);
+        return <article className="dungeon-card" key={dungeon.id}>
+          <div className="dungeon-head"><span>{dungeon.icon}</span><div><small>{locale === "ru" ? dungeon.kind_ru : dungeon.kind_en}</small><h3>{locale === "ru" ? dungeon.name_ru : dungeon.name_en}</h3><p>{biome ? biome.icon + " " + (locale === "ru" ? biome.name_ru : biome.name_en) : dungeon.biome}</p></div></div>
+          <p className="dungeon-description">{locale === "ru" ? dungeon.description_ru : dungeon.description_en}</p>
+          <div className="dungeon-access"><b>⚿</b><span><small>{locale === "ru" ? "ВХОД / ПОИСК" : "ACCESS / FINDING"}</small>{locale === "ru" ? dungeon.access_ru : dungeon.access_en}</span></div>
+          <div className="dungeon-enemies"><small>{locale === "ru" ? "ВРАГИ" : "ENEMIES"}</small><div>{(locale === "ru" ? dungeon.enemies_ru : dungeon.enemies_en).map((enemy) => <span key={enemy}>{enemy}</span>)}</div></div>
+          <div className="dungeon-loot"><small>{locale === "ru" ? "ГЛАВНЫЙ ЛУТ" : "KEY LOOT"}</small><div>{dungeon.loot.map((loot) => <span key={loot.slug}><GuideArt slug={loot.slug}/><b>{locale === "ru" ? loot.name_ru : loot.name_en}</b></span>)}</div></div>
+        </article>;
+      })}</div>
+      <p className="guide-source"><a href="https://www.valheim.tools/locations" target="_blank" rel="noreferrer">{locale === "ru" ? "База локаций Valheim ↗" : "Valheim locations database ↗"}</a></p>
+    </section>}
+
+    {section === "meads" && <section className="meads-guide-section">
+      <div className="guide-hero meads-guide-hero"><span className="guide-hero-icon">🧪</span><div><p>{locale === "ru" ? "21 ЗЕЛЬЕ · РЕЦЕПТЫ · ОТКАТЫ" : "21 MEADS · RECIPES · COOLDOWNS"}</p><h2>{locale === "ru" ? "Зелья и медовуха" : "Meads & potions"}</h2><span>{locale === "ru" ? "Весь актуальный набор 1.0: лечение, выносливость, эйтр, сопротивления и специальные отвары Болотной ведьмы." : "The current 1.0 set: healing, stamina, eitr, resistances and the Bog Witch's special brews."}</span></div></div>
+      <div className="chips mead-group-chips" role="tablist">{meadGroups.map((group) => <button className={meadGroup === group.id ? "chip active" : "chip"} key={group.id} onClick={() => setMeadGroup(group.id)}><i>{group.icon}</i>{locale === "ru" ? group.ru : group.en}</button>)}</div>
+      <div className="mead-grid">{visibleMeads.map((mead) => <article className="mead-card" key={mead.slug}>
+        <div className="mead-head"><GuideArt slug={mead.icon_slug}/><div><small>{meadGroups.find((group) => group.id === mead.group)?.[locale === "ru" ? "ru" : "en"]}</small><h3>{locale === "ru" ? mead.name_ru : mead.name_en}</h3></div></div>
+        <strong className="mead-effect">{locale === "ru" ? mead.effect_ru : mead.effect_en}</strong>
+        <div className="mead-meta"><span>◷ {mead.duration}</span><span>↻ {locale === "ru" ? mead.cooldown_ru : mead.cooldown_en}</span></div>
+        <div className="mead-recipe"><small>{locale === "ru" ? "ОСНОВА / ПОЛУЧЕНИЕ" : "BASE / SOURCE"}</small><p>{locale === "ru" ? mead.recipe_ru : mead.recipe_en}</p></div>
+      </article>)}</div>
+      <p className="mead-note">{locale === "ru" ? "Обычные основы готовятся и ферментируются. Любовное зелье — исключение: оно покупается у Болотной ведьмы." : "Normal bases are brewed and fermented. Love Potion is the exception: it is bought from the Bog Witch."}</p>
+      <p className="guide-source"><a href="https://www.valheim.tools/meads" target="_blank" rel="noreferrer">{locale === "ru" ? "Проверить эффекты и рецепты ↗" : "Review effects and recipes ↗"}</a></p>
+    </section>}
+
     {section === "bosses" && <section className="bosses-section">
       <div className="section-heading"><div><p>{locale === "ru" ? "БОССЫ · БОЕВОЙ СПРАВОЧНИК" : "BOSSES · COMBAT GUIDE"}</p><h2>{locale === "ru" ? "Боссы" : "Bosses"}</h2></div><span>{String(bosses.length || 8).padStart(2,"0")}</span></div>
       <p className="bosses-intro">{locale === "ru" ? "Главные боссы Valheim по порядку прохождения. Открой карточку, чтобы посмотреть призыв, силу, рекомендуемое снаряжение, резисты и дроп." : "Valheim's major bosses in progression order. Open a card for summon requirements, power, recommended gear, resistances and drops."}</p>
@@ -1271,12 +1460,16 @@ export function App() {
         <span className="nav-icon"><NavIcon id="search" /></span>
         <span className="nav-label">{locale === "ru" ? "Поиск" : "Search"}</span>
       </button>
-      <button className={moreMenuOpen || section === "food-builder" || section === "taming" || section === "trophies" || section === "fishing" || section === "skills" || section === "builds" ? "active nav-more" : "nav-more"} aria-expanded={moreMenuOpen} aria-label={locale === "ru" ? "Дополнительное меню" : "More menu"} onClick={() => setMoreMenuOpen((open) => !open)}>
+      <button className={moreMenuOpen || section === "food-builder" || section === "taming" || section === "trophies" || section === "fishing" || section === "skills" || section === "builds" || section === "merchants" || section === "dungeons" || section === "meads" ? "active nav-more" : "nav-more"} aria-expanded={moreMenuOpen} aria-label={locale === "ru" ? "Дополнительное меню" : "More menu"} onClick={() => setMoreMenuOpen((open) => !open)}>
         <span className="nav-icon"><NavIcon id="more" /></span>
         <span className="nav-label">{locale === "ru" ? "Ещё" : "More"}</span>
       </button>
     </nav>
   </main>;
+} 
+
+function GuideArt({ slug }: { slug: string }) {
+  return <span className="guide-mini-art"><img src={"/media/wiki/" + slug + ".png"} alt="" onError={(event) => { event.currentTarget.hidden = true; event.currentTarget.parentElement?.classList.add("fallback"); }} /><b>◆</b></span>;
 }
 
 function NavIcon({ id }: { id: "home" | "library" | "search" | "more" }) {
