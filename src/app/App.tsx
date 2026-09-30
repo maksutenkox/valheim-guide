@@ -4,7 +4,7 @@ import { ApiError, api } from "./services/api";
 import type { Biome, BossSummary, Category, CraftList, CraftListItem, CraftResourceTotal, CreatureDetail, CreatureSummary, GuideItem, ItemDetail, Locale, ResourceDetail } from "./types";
 import "./styles.css";
 
-type Section = "home" | "search" | "craft" | "favorites" | "biome" | "item" | "resource" | "creature";
+type Section = "home" | "search" | "craft" | "favorites" | "bosses" | "biome" | "item" | "resource" | "creature";
 type NavSection = "home" | "search" | "craft" | "favorites";
 type BiomeView = "items" | "creatures" | "boss";
 
@@ -78,6 +78,8 @@ export function App() {
   const [biomeView, setBiomeView] = useState<BiomeView>("items");
   const [creatures, setCreatures] = useState<CreatureSummary[]>([]);
   const [biomeBoss, setBiomeBoss] = useState<BossSummary | null>(null);
+  const [bosses, setBosses] = useState<BossSummary[]>([]);
+  const [bossesLoading, setBossesLoading] = useState(false);
   const [creature, setCreature] = useState<CreatureDetail | null>(null);
   const [creatureOrigin, setCreatureOrigin] = useState<Exclude<Section, "creature">>("biome");
   const [creaturesLoading, setCreaturesLoading] = useState(false);
@@ -115,7 +117,7 @@ export function App() {
 
   const title = useMemo(() => ({
     home: "VALHEIM Guide", search: locale === "ru" ? "Поиск" : "Search", craft: locale === "ru" ? "Крафт" : "Craft",
-    favorites: locale === "ru" ? "Избранное" : "Favorites", biome: text(locale, currentBiome ?? { name_en: "Biome", name_ru: "Биом" }),
+    favorites: locale === "ru" ? "Избранное" : "Favorites", bosses: locale === "ru" ? "Боссы" : "Bosses", biome: text(locale, currentBiome ?? { name_en: "Biome", name_ru: "Биом" }),
     item: item ? text(locale, item) : locale === "ru" ? "Предмет" : "Item",
     resource: resource ? text(locale, resource) : locale === "ru" ? "Ресурс" : "Resource",
     creature: creature ? text(locale, creature) : locale === "ru" ? "Существо" : "Creature"
@@ -147,6 +149,20 @@ export function App() {
       setMessage(locale === "ru" ? "Не удалось загрузить боевой справочник." : "Could not load combat guide.");
     } finally {
       setCreaturesLoading(false);
+    }
+  };
+
+  const openBosses = async () => {
+    setMessage("");
+    setSection("bosses");
+    if (bosses.length > 0) return;
+    setBossesLoading(true);
+    try {
+      setBosses((await api.bosses()).data);
+    } catch {
+      setMessage(locale === "ru" ? "Не удалось загрузить список боссов." : "Could not load bosses.");
+    } finally {
+      setBossesLoading(false);
     }
   };
 
@@ -465,6 +481,11 @@ export function App() {
         <p>{locale === "ru" ? "Рецепты, ресурсы, трофеи и личный список крафта от Лугов до Глубокого Севера." : "Recipes, resources, trophies and your personal craft plan from the Meadows to the Deep North."}</p>
         <div className="hero-metrics"><span><b>{biomes.length || 9}</b>{locale === "ru" ? "биомов" : "biomes"}</span><span><b>70+</b>{locale === "ru" ? "трофеев" : "trophies"}</span><span><b>1.0.16</b>{locale === "ru" ? "актуально" : "current"}</span></div>
       </div>
+      <button className="bosses-entry" onClick={() => void openBosses()}>
+        <span className="bosses-entry-icon">♛</span>
+        <span className="bosses-entry-copy"><small>{locale === "ru" ? "БОЕВОЙ СПРАВОЧНИК" : "COMBAT GUIDE"}</small><strong>{locale === "ru" ? "Все боссы" : "All bosses"}</strong><p>{locale === "ru" ? "Призыв, здоровье, слабости, сопротивления и дроп каждого главного босса." : "Summons, health, weaknesses, resistances and drops for every major boss."}</p></span>
+        <span className="bosses-entry-arrow">↗</span>
+      </button>
       <div className="section-heading"><div><p>{locale === "ru" ? "ИССЛЕДОВАНИЕ МИРА" : "WORLD EXPLORATION"}</p><h2>{locale === "ru" ? "Биомы" : "Biomes"}</h2></div><span>{String(biomes.length || 9).padStart(2,"0")}</span></div>
       {loading ? <p className="muted">{locale === "ru" ? "Загрузка..." : "Loading..."}</p> : biomes.length === 0 ? <Empty message={locale === "ru" ? "Данные биомов появятся после первого проверенного импорта." : "Biome data will appear after the first verified import."} /> : <div className="biome-list">{biomes.map((biome, index) => <button className="biome-card" key={biome.slug} onClick={() => void openBiome(biome.slug)} style={{ "--accent": biome.accent_color ?? "#d89d46", "--art": biome.image_path ? `url(${biome.image_path})` : "none" } as CSSProperties}><span className="biome-order">{String(index + 1).padStart(2, "0")}</span><span className="biome-copy"><small>{locale === "ru" ? "БИОМ" : "BIOME"} {String(index + 1).padStart(2, "0")}</small><strong>{text(locale, biome)}</strong><p>{locale === "ru" ? biome.description_ru : biome.description_en}</p></span><span className="biome-arrow">↗</span></button>)}</div>}
     <div className="legal-note">
@@ -474,6 +495,12 @@ export function App() {
       </div></section>}
 
     {section === "search" && <section><div className="section-heading"><div><p>{locale === "ru" ? "ПОИСК ПО СПРАВОЧНИКУ" : "GUIDE SEARCH"}</p><h2>{locale === "ru" ? "Результаты" : "Results"}</h2></div>{query.length >= 2 && <span>{String(results.length).padStart(2,"0")}</span>}</div>{query.length < 2 ? <Empty message={locale === "ru" ? "Введите минимум 2 символа." : "Type at least 2 characters."} /> : <ResultList locale={locale} items={results} onOpen={openEntry} />}</section>}
+
+    {section === "bosses" && <section className="bosses-section">
+      <div className="section-heading"><div><p>{locale === "ru" ? "FORSAKEN · БОЕВОЙ СПРАВОЧНИК" : "FORSAKEN · COMBAT GUIDE"}</p><h2>{locale === "ru" ? "Боссы" : "Bosses"}</h2></div><span>{String(bosses.length || 8).padStart(2,"0")}</span></div>
+      <p className="bosses-intro">{locale === "ru" ? "Главные боссы Valheim по порядку прохождения. Открой карточку, чтобы посмотреть призыв, силу, рекомендуемое снаряжение, резисты и дроп." : "Valheim's major bosses in progression order. Open a card for summon requirements, power, recommended gear, resistances and drops."}</p>
+      {bossesLoading ? <Empty message={locale === "ru" ? "Загружаем боссов..." : "Loading bosses..."} /> : bosses.length ? <div className="bosses-list">{bosses.map((boss,index) => <div className="bosses-list-entry" key={boss.slug}><span className="bosses-order">{String(index + 1).padStart(2,"0")}</span><BossCard locale={locale} boss={boss} onOpen={(slug) => void openCreature(slug, "bosses")} /></div>)}</div> : <Empty message={locale === "ru" ? "Список боссов пока недоступен." : "Boss list is currently unavailable."} />}
+    </section>}
 
     {section === "biome" && <section className="biome-section">{!currentBiome ? <Empty message={locale === "ru" ? "Загружаем биом..." : "Loading biome..."} /> : <>
       <div className="biome-intro" style={{ "--accent": currentBiome.accent_color ?? "#d89d46", "--art": currentBiome.image_path ? `url(${currentBiome.image_path})` : "none" } as CSSProperties}>
@@ -519,7 +546,7 @@ export function App() {
     </section>}
 
     {section === "creature" && <section className="detail creature-detail">
-      {!creature ? <Empty message={locale === "ru" ? "Загружаем боевые данные..." : "Loading combat data..."} /> : <CreatureDetailView locale={locale} creature={creature} boss={biomeBoss?.slug === creature.slug ? biomeBoss : null} onResource={openResource} />}
+      {!creature ? <Empty message={locale === "ru" ? "Загружаем боевые данные..." : "Loading combat data..."} /> : <CreatureDetailView locale={locale} creature={creature} boss={biomeBoss?.slug === creature.slug ? biomeBoss : bosses.find((entry) => entry.slug === creature.slug) ?? null} onResource={openResource} />}
     </section>}
 
     {section === "craft" && <section>
@@ -541,7 +568,7 @@ export function App() {
     {section === "favorites" && <section><div className="section-heading"><div><p>{locale === "ru" ? "ЛИЧНАЯ КОЛЛЕКЦИЯ" : "PERSONAL COLLECTION"}</p><h2>{locale === "ru" ? "Избранное" : "Favorites"}</h2></div><span>{String(favorites.length).padStart(2,"0")}</span></div><ResultList locale={locale} items={favorites} onOpen={openEntry} /></section>}
 
     <nav className="bottom-nav" aria-label={locale === "ru" ? "Главное меню" : "Main navigation"}>{([['home', locale === "ru" ? "Главная" : "Home"], ['craft', locale === "ru" ? "Крафт" : "Craft"], ['favorites', locale === "ru" ? "Избранное" : "Saved"], ['search', locale === "ru" ? "Поиск" : "Search"]] as const).map(([id, label]) => {
-      const active = section === id || (id === "home" && (section === "biome" || section === "creature"));
+      const active = section === id || (id === "home" && (section === "bosses" || section === "biome" || section === "creature"));
       return <button key={id} className={active ? "active" : ""} aria-current={active ? "page" : undefined} onClick={() => void goNav(id)}>
         <span className="nav-icon"><NavIcon id={id} /></span>
         <span className="nav-label">{label}</span>
