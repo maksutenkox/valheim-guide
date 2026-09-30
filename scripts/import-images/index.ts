@@ -157,6 +157,34 @@ const directIconOverrides: Record<string, string> = {
   "uncooked-roasted-crust-pie": "https://www.valheim.tools/icons/items/RoastedCrustPieUncooked.png"
 };
 
+const fishingIconOverrides: Record<string, string> = {
+  "fishing-rod": "https://www.valheim.tools/icons/items/FishingRod.png",
+  "fishing-hat": "https://www.valheim.tools/icons/items/HelmetFishingHat.png",
+  "fishing-bait": "https://www.valheim.tools/icons/items/FishingBait.png",
+  "mossy-fishing-bait": "https://www.valheim.tools/icons/items/FishingBaitForest.png",
+  "sticky-fishing-bait": "https://www.valheim.tools/icons/items/FishingBaitSwamp.png",
+  "cold-fishing-bait": "https://www.valheim.tools/icons/items/FishingBaitCave.png",
+  "stingy-fishing-bait": "https://www.valheim.tools/icons/items/FishingBaitPlains.png",
+  "heavy-fishing-bait": "https://www.valheim.tools/icons/items/FishingBaitOcean.png",
+  "misty-fishing-bait": "https://www.valheim.tools/icons/items/FishingBaitMistlands.png",
+  "hot-fishing-bait": "https://www.valheim.tools/icons/items/FishingBaitAshlands.png",
+  "frosty-fishing-bait": "https://www.valheim.tools/icons/items/FishingBaitDeepNorth.png",
+  "perch": "https://www.valheim.tools/icons/items/Fish1.png",
+  "pike": "https://www.valheim.tools/icons/items/Fish2.png",
+  "tuna": "https://www.valheim.tools/icons/items/Fish3.png",
+  "tetra": "https://www.valheim.tools/icons/items/Fish4_cave.png",
+  "trollfish": "https://www.valheim.tools/icons/items/Fish5.png",
+  "giant-herring": "https://www.valheim.tools/icons/items/Fish6.png",
+  "grouper": "https://www.valheim.tools/icons/items/Fish7.png",
+  "coral-cod": "https://www.valheim.tools/icons/items/Fish8.png",
+  "anglerfish": "https://www.valheim.tools/icons/items/Fish9.png",
+  "northern-salmon": "https://www.valheim.tools/icons/items/Fish10.png",
+  "magmafish": "https://www.valheim.tools/icons/items/Fish11.png",
+  "pufferfish": "https://www.valheim.tools/icons/items/Fish12.png"
+};
+
+Object.assign(directIconOverrides, fishingIconOverrides);
+
 const specialDropIconOverrides: Record<string, string> = {
   "hard-antler": "https://www.valheim.tools/icons/items/HardAntler.png",
   "antler-pickaxe": "https://www.valheim.tools/icons/items/PickaxeAntler.png",
