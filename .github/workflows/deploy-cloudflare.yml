@@ -177,6 +177,20 @@ jobs:
           echo "$TAMING_JSON" | grep -q '"slug":"moose"'
           echo "$TAMING_JSON" | grep -q '"slug":"lingonberries"'
 
+          echo "Checking trophy collection catalog..."
+          TROPHIES_JSON="$(curl --fail --silent --show-error --retry 4 --retry-delay 2 "$BASE_URL/api/trophies")"
+          TROPHY_SLUGS="$(sed -n 's/^[[:space:]]*\["\([^"]*\)".*/\1/p' src/worker/services/seed-trophies.ts)"
+          TROPHY_COUNT="$(printf '%s\n' "$TROPHY_SLUGS" | sed '/^$/d' | wc -l | tr -d ' ')"
+          echo "Expected trophy count: $TROPHY_COUNT"
+          test "$TROPHY_COUNT" = "70"
+          API_TROPHY_COUNT="$(printf '%s' "$TROPHIES_JSON" | grep -o '"category_slug":"trophy"' | wc -l | tr -d ' ')"
+          echo "Production trophy count: $API_TROPHY_COUNT"
+          test "$API_TROPHY_COUNT" = "70"
+          while IFS= read -r trophy_slug; do
+            test -n "$trophy_slug" || continue
+            printf '%s' "$TROPHIES_JSON" | grep -Fq "\"slug\":\"$trophy_slug\""
+          done <<< "$TROPHY_SLUGS"
+
           MEADOWS_ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"meadows":{"items":\([0-9][0-9]*\).*/\1/p')"
           OCEAN_ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"ocean":{"items":\([0-9][0-9]*\).*/\1/p')"
           MOUNTAIN_ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"mountains":{"items":\([0-9][0-9]*\).*/\1/p')"
@@ -214,3 +228,19 @@ jobs:
             done
             echo "$CONTENT_TYPE" | grep -q '^image/'
           done
+
+          echo "Checking all trophy images..."
+          TROPHY_SLUGS="$(sed -n 's/^[[:space:]]*\["\([^"]*\)".*/\1/p' src/worker/services/seed-trophies.ts)"
+          while IFS= read -r trophy_slug; do
+            test -n "$trophy_slug" || continue
+            CONTENT_TYPE=""
+            for attempt in $(seq 1 5); do
+              CONTENT_TYPE="$(curl --silent --show-error -o /dev/null -w '%{content_type}' "$BASE_URL/media/wiki/$trophy_slug.png" || true)"
+              if echo "$CONTENT_TYPE" | grep -q '^image/'; then
+                break
+              fi
+              sleep 1
+            done
+            echo "$trophy_slug: $CONTENT_TYPE"
+            echo "$CONTENT_TYPE" | grep -q '^image/'
+          done <<< "$TROPHY_SLUGS"
