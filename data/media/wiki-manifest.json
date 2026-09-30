@@ -358,5 +358,10 @@
     "slug": "crown-of-roots",
     "url": "https://www.valheim.tools/items/crown-of-roots",
     "output": "crown-of-roots.png"
+  },
+  {
+    "slug": "bell-fragment",
+    "url": "https://www.valheim.tools/items/bell-fragment",
+    "output": "bell-fragment.png"
   }
 ]

@@ -57,8 +57,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for slug in anti-sting-concoction berserkir-mead brew-of-animal-whispers draught-of-vananidir lightfoot-mead lingering-eitr-mead lingering-healing-mead love-potion mead-of-troll-endurance medium-stamina-mead tonic-of-ratatosk yule-hat dverger-circlet megingjord ymir-flesh thunder-stone egg barrel-hoops scythe-handle serving-tray crown-of-roots; do
+          for slug in anti-sting-concoction berserkir-mead brew-of-animal-whispers draught-of-vananidir lightfoot-mead lingering-eitr-mead lingering-healing-mead love-potion mead-of-troll-endurance medium-stamina-mead tonic-of-ratatosk yule-hat dverger-circlet megingjord ymir-flesh thunder-stone egg barrel-hoops scythe-handle serving-tray crown-of-roots bell-fragment; do
             test -s "public/media/wiki/$slug.png" || { echo "::error::Missing world guide icon: $slug"; exit 1; }
+          done
+
+      - name: Verify dungeon loot media
+        shell: bash
+        run: |
+          set -euo pipefail
+          for slug in surtling-core bone-fragments troll-hide troll-trophy bear-trophy honey queen-bee brenna-trophy scrap-iron chain fenris-hair fenris-claw crystal geirrhafa-trophy zil-trophy thungr-trophy black-core royal-jelly flametal-ore bell-fragment frostcore mould-nord-sword timberwood ancient-coin draumyx; do
+            test -s "public/media/wiki/$slug.png" || { echo "::error::Missing dungeon loot icon: $slug"; exit 1; }
           done
 
       - name: Production build

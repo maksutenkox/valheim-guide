@@ -177,7 +177,8 @@ const worldGuideIconOverrides: Record<string, string> = {
   "megingjord": "https://www.valheim.tools/icons/items/BeltStrength.png",
   "barrel-hoops": "https://www.valheim.tools/icons/items/BarrelRings.png",
   "thunder-stone": "https://www.valheim.tools/icons/items/Thunderstone.png",
-  "serving-tray": "https://www.valheim.tools/icons/items/Feaster.png"
+  "serving-tray": "https://www.valheim.tools/icons/items/Feaster.png",
+  "bell-fragment": "https://www.valheim.tools/icons/items/BellFragment.png"
 };
 
 Object.assign(directIconOverrides, worldGuideIconOverrides);

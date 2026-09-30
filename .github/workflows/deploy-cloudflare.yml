@@ -253,7 +253,14 @@ jobs:
           done
 
           echo "Checking world guide media..."
-          for asset in anti-sting-concoction berserkir-mead brew-of-animal-whispers draught-of-vananidir lightfoot-mead lingering-eitr-mead lingering-healing-mead love-potion mead-of-troll-endurance medium-stamina-mead tonic-of-ratatosk yule-hat dverger-circlet megingjord ymir-flesh thunder-stone egg barrel-hoops scythe-handle serving-tray crown-of-roots; do
+          for asset in anti-sting-concoction berserkir-mead brew-of-animal-whispers draught-of-vananidir lightfoot-mead lingering-eitr-mead lingering-healing-mead love-potion mead-of-troll-endurance medium-stamina-mead tonic-of-ratatosk yule-hat dverger-circlet megingjord ymir-flesh thunder-stone egg barrel-hoops scythe-handle serving-tray crown-of-roots bell-fragment; do
+            CONTENT_TYPE="$(curl --fail --silent --show-error -o /dev/null -w '%{content_type}' --retry 4 --retry-delay 1 "$BASE_URL/media/wiki/$asset.png")"
+            echo "$asset: $CONTENT_TYPE"
+            echo "$CONTENT_TYPE" | grep -q '^image/'
+          done
+
+          echo "Checking dungeon loot media..."
+          for asset in surtling-core bone-fragments troll-hide troll-trophy bear-trophy honey queen-bee brenna-trophy scrap-iron chain fenris-hair fenris-claw crystal geirrhafa-trophy zil-trophy thungr-trophy black-core royal-jelly flametal-ore bell-fragment frostcore mould-nord-sword timberwood ancient-coin draumyx; do
             CONTENT_TYPE="$(curl --fail --silent --show-error -o /dev/null -w '%{content_type}' --retry 4 --retry-delay 1 "$BASE_URL/media/wiki/$asset.png")"
             echo "$asset: $CONTENT_TYPE"
             echo "$CONTENT_TYPE" | grep -q '^image/'
