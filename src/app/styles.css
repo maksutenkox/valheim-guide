@@ -385,3 +385,36 @@ h2{margin:24px 0 12px;font-size:18px;letter-spacing:-.01em}
   .resistance-groups{grid-template-columns:1fr}
   .creature-art{width:88px;height:88px;flex-basis:88px}
 }
+
+
+/* Standalone bosses guide */
+.bosses-entry{position:relative;isolation:isolate;width:100%;display:flex;align-items:center;gap:13px;margin:0 0 18px;padding:15px 16px;overflow:hidden;border:1px solid #5e4b2d;border-radius:17px;background:
+  radial-gradient(circle at 6% 10%,rgba(225,177,87,.12),transparent 9rem),
+  linear-gradient(145deg,#211e16,#151813 68%);color:inherit;text-align:left;box-shadow:0 10px 28px rgba(0,0,0,.2);transition:transform .16s ease,border-color .16s ease}
+.bosses-entry::after{content:"";position:absolute;z-index:-1;right:-34px;top:-58px;width:150px;height:150px;border:1px solid rgba(224,181,95,.08);border-radius:50%;box-shadow:0 0 0 22px rgba(224,181,95,.022)}
+.bosses-entry:active{transform:scale(.993);border-color:#806638}
+.bosses-entry-icon{width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;border:1px solid #6a542f;border-radius:14px;background:linear-gradient(180deg,#493821,#2d2518);color:var(--gold-strong);font-size:23px}
+.bosses-entry-copy{min-width:0;flex:1;display:grid;gap:3px}
+.bosses-entry-copy small{color:#9b7e50;font-size:8px;font-weight:900;letter-spacing:.14em}
+.bosses-entry-copy strong{font-family:var(--serif);font-size:20px;font-weight:600}
+.bosses-entry-copy p{margin:1px 0 0;color:#9f9b90;font-size:10px;line-height:1.35}
+.bosses-entry-arrow{color:#d3a75b;font-size:20px}
+
+.bosses-section{display:grid;gap:12px}
+.bosses-intro{margin:-2px 0 3px;color:#9e9b91;font-size:11px;line-height:1.5}
+.bosses-list{display:grid;gap:11px}
+.bosses-list-entry{position:relative;display:grid;grid-template-columns:26px minmax(0,1fr);gap:8px;align-items:start}
+.bosses-order{padding-top:15px;color:#77684d;font-family:var(--serif);font-size:12px;text-align:center}
+.bosses-list-entry .boss-card{min-height:142px}
+
+@media (min-width:600px){
+  .bosses-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bosses-list-entry{grid-template-columns:24px minmax(0,1fr)}
+  .bosses-list-entry .boss-card{height:100%}
+}
+@media (max-width:430px){
+  .bosses-entry{padding:13px}
+  .bosses-entry-copy p{font-size:9px}
+  .bosses-list-entry{grid-template-columns:22px minmax(0,1fr);gap:6px}
+  .bosses-order{padding-top:14px;font-size:11px}
+}
