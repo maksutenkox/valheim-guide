@@ -102,6 +102,54 @@ const creatureArtwork = async (env: Env, slug: string): Promise<string | null> =
   return row?.image_path ?? null;
 };
 
+const specialResourceUseNotes: Record<string, Array<{ en: string; ru: string }>> = {
+  "swamp-key": [
+    {
+      en: "Keep it in your inventory to unlock the sealed gate of each Sunken Crypt. The key is not consumed.",
+      ru: "Держите ключ в инвентаре, чтобы открыть запечатанный вход каждого Затонувшего склепа. Ключ не расходуется."
+    }
+  ],
+  "wishbone": [
+    {
+      en: "Equip it in the utility slot to detect buried silver veins, muddy scrap piles and hidden treasure.",
+      ru: "Наденьте в слот полезного предмета, чтобы находить скрытые серебряные жилы, грязные груды металлолома и зарытые сокровища."
+    }
+  ],
+  "sacrificial-blood": [
+    {
+      en: "After defeating Kall Fimbulbringer, offer it at the Chiselled Platform on the Sacrificial Stones to trigger the ending.",
+      ru: "После победы над Каллом Фимбулбрингером поднесите её на Высеченной платформе у Жертвенных камней, чтобы запустить концовку."
+    }
+  ],
+  "bukeperries": [
+    {
+      en: "Eating one applies Feeling sick and clears your active food buffs over several seconds so you can replace your meal early.",
+      ru: "После употребления накладывают эффект тошноты и за несколько секунд очищают активные эффекты еды, позволяя заменить рацион раньше."
+    }
+  ],
+  "rotten-meat": [
+    {
+      en: "Eating it causes the same food-clearing sickness as Bukeperries.",
+      ru: "При употреблении вызывает тот же эффект очистки еды, что и тошноягоды."
+    }
+  ],
+  "ancient-coin": [
+    { en: "A Deep North valuable worth 10 coins.", ru: "Ценность Глубокого Севера стоимостью 10 монет." }
+  ],
+  "grimvarn": [
+    { en: "A Deep North valuable worth 55 coins.", ru: "Ценность Глубокого Севера стоимостью 55 монет." }
+  ],
+  "solryth": [
+    { en: "A Deep North valuable worth 95 coins.", ru: "Ценность Глубокого Севера стоимостью 95 монет." }
+  ],
+  "veydris": [
+    { en: "A Deep North valuable worth 135 coins.", ru: "Ценность Глубокого Севера стоимостью 135 монет." }
+  ],
+  "draumyx": [
+    { en: "A Deep North valuable worth 175 coins.", ru: "Ценность Глубокого Севера стоимостью 175 монет." }
+  ]
+};
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -268,7 +316,13 @@ export default {
         ...entry,
         image_path: await creatureArtwork(env, entry.slug)
       })));
-      return json({ data: { ...resource, sources: sources.results, used_by: uniqueUsedBy, dropped_by: droppedBy } });
+      return json({ data: {
+        ...resource,
+        sources: sources.results,
+        used_by: uniqueUsedBy,
+        dropped_by: droppedBy,
+        use_notes: specialResourceUseNotes[resource.slug] ?? []
+      } });
     }
 
     if (request.method === "GET" && url.pathname === "/api/search") {
