@@ -71,6 +71,7 @@ export const api = {
   creatures: (biome: string) => request<{ data: CreatureSummary[] }>(`/api/creatures?biome=${encodeURIComponent(biome)}`),
   creature: (slug: string) => request<{ data: CreatureDetail }>(`/api/creatures/${slug}`),
   boss: (biome: string) => request<{ data: BossSummary | null }>(`/api/bosses?biome=${encodeURIComponent(biome)}`),
+  bosses: () => request<{ data: BossSummary[] }>("/api/bosses"),
   search: (query: string) => request<{ data: GuideItem[] }>(`/api/search?q=${encodeURIComponent(query)}`),
   favorites: () => request<{ data: GuideItem[] }>("/api/favorites"),
   addFavorite: (itemId: number) => mutation<{ status: string }>(`/api/favorites/${itemId}`, "POST"),
