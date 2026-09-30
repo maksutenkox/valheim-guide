@@ -596,7 +596,7 @@ export function App() {
       <div className="food-builder-intro">
         <p>{locale === "ru" ? "КОНСТРУКТОР РАЦИОНА" : "DIET BUILDER"}</p>
         <h2>{locale === "ru" ? "Выберите до трёх блюд" : "Choose up to three foods"}</h2>
-        <span>{locale === "ru" ? "Показатели пересчитываются сразу при каждом выборе. HP и выносливость включают базовые 25 HP и 50 выносливости персонажа." : "Totals update instantly. Health and stamina include the character's base 25 health and 50 stamina."}</span>
+        <span>{locale === "ru" ? "Показатели пересчитываются сразу при каждом выборе. HP и выносливость включают базовые 25 HP и 50 выносливости персонажа. Это максимальные значения сразу после еды — со временем бонусы постепенно уменьшаются." : "Totals update instantly. Health and stamina include the character's base 25 health and 50 stamina. These are peak values right after eating; food bonuses gradually decay over time."}</span>
       </div>
 
       <div className="food-loadout">
@@ -641,6 +641,12 @@ export function App() {
         <p>{locale === "ru" ? "ПРИРУЧЕНИЕ · 1.0" : "TAMING · 1.0"}</p>
         <h2>{locale === "ru" ? "Домашние звери Вальхейма" : "Tameable creatures"}</h2>
         <span>{locale === "ru" ? "Нажмите на животное — внутри корм, время приручения, условия разведения и полезные особенности." : "Open a creature for accepted food, taming time, breeding limits and useful traits."}</span>
+      </div>
+      <div className="taming-rules">
+        <div><span>♡</span><p><strong>{locale === "ru" ? "Сыт и спокоен" : "Fed & calm"}</strong><small>{locale === "ru" ? "Приручение и размножение останавливаются, когда зверь голоден или встревожен." : "Taming and breeding pause while the creature is hungry or alerted."}</small></p></div>
+        <div><span>⌖</span><p><strong>{locale === "ru" ? "Оставайтесь рядом" : "Stay nearby"}</strong><small>{locale === "ru" ? "Прогресс идёт только пока зона активна и игрок находится поблизости." : "Progress only advances while the area is active and a player is nearby."}</small></p></div>
+        <div><span>★</span><p><strong>{locale === "ru" ? "Звёзды наследуются" : "Stars are inherited"}</strong><small>{locale === "ru" ? "Уровень приручённых животных передаётся потомству — двухзвёздочные особенно ценны." : "Tamed creature levels pass to offspring, making two-star animals especially valuable."}</small></p></div>
+        <div><span>✦</span><p><strong>Brew of animal whispers</strong><small>{locale === "ru" ? "Сокращает непрерывное приручение примерно с 30 до 15 минут." : "Cuts uninterrupted taming time from about 30 to 15 minutes."}</small></p></div>
       </div>
       {tamingLoading ? <Empty message={locale === "ru" ? "Загружаем животных..." : "Loading tameable creatures..."} /> : <div className="taming-list">{tamingGuides.map((guide) => {
         const open = expandedTaming === guide.slug;
