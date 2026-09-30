@@ -74,6 +74,7 @@ export const api = {
   bosses: () => request<{ data: BossSummary[] }>("/api/bosses"),
   foods: () => request<{ data: FoodSummary[] }>("/api/foods"),
   taming: () => request<{ data: TamingGuide[] }>("/api/taming"),
+  trophies: () => request<{ data: GuideItem[] }>("/api/trophies"),
   search: (query: string) => request<{ data: GuideItem[] }>(`/api/search?q=${encodeURIComponent(query)}`),
   favorites: () => request<{ data: GuideItem[] }>("/api/favorites"),
   addFavorite: (itemId: number) => mutation<{ status: string }>(`/api/favorites/${itemId}`, "POST"),
