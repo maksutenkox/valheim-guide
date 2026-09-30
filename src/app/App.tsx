@@ -6,7 +6,7 @@ import { APP_BUILD } from "../shared/build";
 import "./styles.css";
 
 type Section = "home" | "search" | "craft" | "favorites" | "food-builder" | "taming" | "bosses" | "biome" | "item" | "resource" | "creature";
-type NavSection = "home" | "search" | "craft" | "favorites";
+type NavSection = "home" | "library" | "search";
 type BiomeView = "items" | "creatures" | "boss";
 
 const text = (locale: Locale, object: { name_en: string; name_ru: string }) => locale === "ru" ? object.name_ru : object.name_en;
@@ -91,6 +91,7 @@ export function App() {
   const [expandedTaming, setExpandedTaming] = useState<string | null>(null);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const [toolOrigin, setToolOrigin] = useState<Section>("home");
+  const [libraryTab, setLibraryTab] = useState<"craft" | "favorites">("craft");
   const [creature, setCreature] = useState<CreatureDetail | null>(null);
   const [creatureOrigin, setCreatureOrigin] = useState<Exclude<Section, "creature">>("biome");
   const [creaturesLoading, setCreaturesLoading] = useState(false);
@@ -338,28 +339,38 @@ export function App() {
     setCraftTotals(totals.data);
   };
 
-  const goNav = async (next: NavSection) => {
-    setMessage(""); setSection(next);
+  const openLibraryTab = async (next: "craft" | "favorites") => {
+    setMessage("");
+    setLibraryTab(next);
+    setSection(next);
     if (next === "favorites") {
       try { setFavorites((await api.favorites()).data); }
       catch (error) { setMessage(protectedErrorText(locale, error)); }
+      return;
     }
-    if (next === "craft") {
-      try {
-        const { data } = await api.craftLists();
-        setCraftLists(data);
-        const selected = activeCraftList && data.find((list) => list.id === activeCraftList.id)
-          ? data.find((list) => list.id === activeCraftList.id)!
-          : data[0] ?? null;
-        if (selected) {
-          await loadCraftList(selected);
-        } else {
-          setActiveCraftList(null);
-          setCraftItems([]);
-          setCraftTotals([]);
-        }
-      } catch (error) { setMessage(protectedErrorText(locale, error)); }
+    try {
+      const { data } = await api.craftLists();
+      setCraftLists(data);
+      const selected = activeCraftList && data.find((list) => list.id === activeCraftList.id)
+        ? data.find((list) => list.id === activeCraftList.id)!
+        : data[0] ?? null;
+      if (selected) {
+        await loadCraftList(selected);
+      } else {
+        setActiveCraftList(null);
+        setCraftItems([]);
+        setCraftTotals([]);
+      }
+    } catch (error) { setMessage(protectedErrorText(locale, error)); }
+  };
+
+  const goNav = async (next: NavSection) => {
+    setMessage("");
+    if (next === "library") {
+      await openLibraryTab(libraryTab);
+      return;
     }
+    setSection(next);
   };
 
   const nextCraftListName = (): string => {
@@ -759,7 +770,8 @@ export function App() {
       {!creature ? <Empty message={locale === "ru" ? "Загружаем боевые данные..." : "Loading combat data..."} /> : <CreatureDetailView locale={locale} creature={creature} boss={biomeBoss?.slug === creature.slug ? biomeBoss : bosses.find((entry) => entry.slug === creature.slug) ?? null} onResource={openResource} />}
     </section>}
 
-    {section === "craft" && <section>
+    {section === "craft" && <section className="library-section">
+      <LibraryTabs locale={locale} active="craft" onChange={openLibraryTab} />
       <div className="section-row craft-heading"><div><p className="section-kicker">{locale === "ru" ? "ПЛАНИРОВЩИК РЕСУРСОВ" : "RESOURCE PLANNER"}</p><h2>{locale === "ru" ? "Мой крафт" : "My craft"}</h2></div><button className="save primary" disabled={craftListBusy} onClick={() => void createCraftList()}>+ {locale === "ru" ? "Новый список" : "New list"}</button></div>
       {craftLists.length > 1 && <div className="chips">{craftLists.map((list) => <button className={activeCraftList?.id === list.id ? "chip active" : "chip"} onClick={() => void selectCraftList(list)} key={list.id}>{list.name}</button>)}</div>}
       {!activeCraftList ? <Empty message={locale === "ru" ? "Создайте список, затем добавляйте в него предметы из их карточек." : "Create a list, then add items from their cards."} /> : <>
@@ -775,7 +787,11 @@ export function App() {
         <CraftTotals locale={locale} totals={craftTotals} onResource={openResource} onOwnedChange={updateOwnedResource} />
       </>}
     </section>}
-    {section === "favorites" && <section><div className="section-heading"><div><p>{locale === "ru" ? "ЛИЧНАЯ КОЛЛЕКЦИЯ" : "PERSONAL COLLECTION"}</p><h2>{locale === "ru" ? "Избранное" : "Favorites"}</h2></div><span>{String(favorites.length).padStart(2,"0")}</span></div><ResultList locale={locale} items={favorites} onOpen={openEntry} /></section>}
+    {section === "favorites" && <section className="library-section">
+      <LibraryTabs locale={locale} active="favorites" onChange={openLibraryTab} />
+      <div className="section-heading"><div><p>{locale === "ru" ? "ЛИЧНАЯ КОЛЛЕКЦИЯ" : "PERSONAL COLLECTION"}</p><h2>{locale === "ru" ? "Избранное" : "Favorites"}</h2></div><span>{String(favorites.length).padStart(2,"0")}</span></div>
+      <ResultList locale={locale} items={favorites} onOpen={openEntry} />
+    </section>}
 
     <nav className="bottom-nav" aria-label={locale === "ru" ? "Главное меню" : "Main navigation"}>{([['home', locale === "ru" ? "Главная" : "Home"], ['craft', locale === "ru" ? "Крафт" : "Craft"], ['favorites', locale === "ru" ? "Избранное" : "Saved"], ['search', locale === "ru" ? "Поиск" : "Search"]] as const).map(([id, label]) => {
       const active = section === id || (id === "home" && (section === "bosses" || section === "biome" || section === "creature"));
