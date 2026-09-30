@@ -5,7 +5,7 @@ import type { Biome, BossSummary, Category, CraftList, CraftListItem, CraftResou
 import { APP_BUILD } from "../shared/build";
 import "./styles.css";
 
-type Section = "home" | "search" | "craft" | "favorites" | "food-builder" | "taming" | "bosses" | "biome" | "item" | "resource" | "creature";
+type Section = "home" | "search" | "craft" | "favorites" | "food-builder" | "taming" | "trophies" | "bosses" | "biome" | "item" | "resource" | "creature";
 type NavSection = "home" | "library" | "search";
 type BiomeView = "items" | "creatures" | "boss";
 
@@ -89,6 +89,17 @@ export function App() {
   const [tamingGuides, setTamingGuides] = useState<TamingGuide[]>([]);
   const [tamingLoading, setTamingLoading] = useState(false);
   const [expandedTaming, setExpandedTaming] = useState<string | null>(null);
+  const [trophies, setTrophies] = useState<GuideItem[]>([]);
+  const [trophiesLoading, setTrophiesLoading] = useState(false);
+  const [trophyBiome, setTrophyBiome] = useState("all");
+  const [collectedTrophies, setCollectedTrophies] = useState<string[]>(() => {
+    try {
+      const stored = window.localStorage.getItem("valheim-guide-collected-trophies-v1");
+      return stored ? JSON.parse(stored) as string[] : [];
+    } catch {
+      return [];
+    }
+  });
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const [toolOrigin, setToolOrigin] = useState<Section>("home");
   const [libraryTab, setLibraryTab] = useState<"craft" | "favorites">("craft");
@@ -158,7 +169,7 @@ export function App() {
 
   const title = useMemo(() => ({
     home: "VALHEIM Guide", search: locale === "ru" ? "Поиск" : "Search", craft: locale === "ru" ? "Крафт" : "Craft",
-    favorites: locale === "ru" ? "Избранное" : "Favorites", "food-builder": locale === "ru" ? "Конструктор еды" : "Food Builder", taming: locale === "ru" ? "Приручение" : "Taming", bosses: locale === "ru" ? "Боссы" : "Bosses", biome: text(locale, currentBiome ?? { name_en: "Biome", name_ru: "Биом" }),
+    favorites: locale === "ru" ? "Избранное" : "Favorites", "food-builder": locale === "ru" ? "Конструктор еды" : "Food Builder", taming: locale === "ru" ? "Приручение" : "Taming", trophies: locale === "ru" ? "Трофеи" : "Trophies", bosses: locale === "ru" ? "Боссы" : "Bosses", biome: text(locale, currentBiome ?? { name_en: "Biome", name_ru: "Биом" }),
     item: item ? text(locale, item) : locale === "ru" ? "Предмет" : "Item",
     resource: resource ? text(locale, resource) : locale === "ru" ? "Ресурс" : "Resource",
     creature: creature ? text(locale, creature) : locale === "ru" ? "Существо" : "Creature"
@@ -185,6 +196,16 @@ export function App() {
       return biomeMatches && queryMatches;
     });
   }, [foodBiome, foodQuery, foods]);
+
+  const trophyBiomes = useMemo(() => [...new Map(trophies.filter((entry) => entry.biome_slug).map((entry) => [
+    entry.biome_slug!,
+    { slug: entry.biome_slug!, name_en: entry.biome_name_en ?? entry.biome_slug!, name_ru: entry.biome_name_ru ?? entry.biome_slug! }
+  ])).values()], [trophies]);
+  const visibleTrophies = useMemo(
+    () => trophies.filter((entry) => trophyBiome === "all" || entry.biome_slug === trophyBiome),
+    [trophies, trophyBiome]
+  );
+  const collectedCount = trophies.reduce((count, entry) => count + (collectedTrophies.includes(entry.slug) ? 1 : 0), 0);
 
   const openBiome = async (slug: string) => {
     setMessage(""); setSection("biome"); setCurrentBiome(null); setBiomeItems([]); setActiveCategory(undefined);
@@ -259,6 +280,30 @@ export function App() {
     } finally {
       setTamingLoading(false);
     }
+  };
+
+  const openTrophies = async () => {
+    setMessage("");
+    setToolOrigin(section === "food-builder" || section === "taming" || section === "trophies" ? "home" : section);
+    setMoreMenuOpen(false);
+    setSection("trophies");
+    if (trophies.length > 0) return;
+    setTrophiesLoading(true);
+    try {
+      setTrophies((await api.trophies()).data);
+    } catch {
+      setMessage(locale === "ru" ? "Не удалось загрузить список трофеев." : "Could not load trophies.");
+    } finally {
+      setTrophiesLoading(false);
+    }
+  };
+
+  const toggleTrophy = (slug: string) => {
+    setCollectedTrophies((current) => {
+      const next = current.includes(slug) ? current.filter((entry) => entry !== slug) : [...current, slug];
+      try { window.localStorage.setItem("valheim-guide-collected-trophies-v1", JSON.stringify(next)); } catch { /* best effort */ }
+      return next;
+    });
   };
 
   const toggleFood = (food: FoodSummary) => {
@@ -569,7 +614,7 @@ export function App() {
     setMessage("");
     if (section === "item" || section === "resource") return setSection(detailOrigin);
     if (section === "creature") return setSection(creatureOrigin);
-    if (section === "food-builder" || section === "taming") return setSection(toolOrigin);
+    if (section === "food-builder" || section === "taming" || section === "trophies") return setSection(toolOrigin);
     if (section === "biome") return setSection("home");
     setSection("home");
   };
@@ -805,7 +850,7 @@ export function App() {
         <span className="nav-icon"><NavIcon id="search" /></span>
         <span className="nav-label">{locale === "ru" ? "Поиск" : "Search"}</span>
       </button>
-      <button className={moreMenuOpen || section === "food-builder" || section === "taming" ? "active nav-more" : "nav-more"} aria-expanded={moreMenuOpen} aria-label={locale === "ru" ? "Дополнительное меню" : "More menu"} onClick={() => setMoreMenuOpen((open) => !open)}>
+      <button className={moreMenuOpen || section === "food-builder" || section === "taming" || section === "trophies" ? "active nav-more" : "nav-more"} aria-expanded={moreMenuOpen} aria-label={locale === "ru" ? "Дополнительное меню" : "More menu"} onClick={() => setMoreMenuOpen((open) => !open)}>
         <span className="nav-icon"><NavIcon id="more" /></span>
         <span className="nav-label">{locale === "ru" ? "Ещё" : "More"}</span>
       </button>
