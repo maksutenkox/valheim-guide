@@ -159,6 +159,29 @@ const directIconOverrides: Record<string, string> = {
   "uncooked-roasted-crust-pie": "https://www.valheim.tools/icons/items/RoastedCrustPieUncooked.png"
 };
 
+const worldGuideIconOverrides: Record<string, string> = {
+  "draught-of-vananidir": "https://www.valheim.tools/icons/items/MeadSwimmer.png",
+  "brew-of-animal-whispers": "https://www.valheim.tools/icons/items/MeadTamer.png",
+  "berserkir-mead": "https://www.valheim.tools/icons/items/MeadBzerker.png",
+  "lightfoot-mead": "https://www.valheim.tools/icons/items/MeadLightfoot.png",
+  "anti-sting-concoction": "https://www.valheim.tools/icons/items/MeadBugRepellent.png",
+  "tonic-of-ratatosk": "https://www.valheim.tools/icons/items/MeadHasty.png",
+  "love-potion": "https://www.valheim.tools/icons/items/MeadTrollPheromones.png",
+  "dverger-circlet": "https://www.valheim.tools/icons/items/HelmetDverger.png",
+  "medium-stamina-mead": "https://www.valheim.tools/icons/items/MeadStaminaMedium.png",
+  "yule-hat": "https://www.valheim.tools/icons/items/HelmetYule.png",
+  "mead-of-troll-endurance": "https://www.valheim.tools/icons/items/MeadStrength.png",
+  "lingering-healing-mead": "https://www.valheim.tools/icons/items/MeadHealthLingering.png",
+  "lingering-eitr-mead": "https://www.valheim.tools/icons/items/MeadEitrLingering.png",
+  "crown-of-roots": "https://www.valheim.tools/icons/items/HelmetRootCrown.png",
+  "megingjord": "https://www.valheim.tools/icons/items/BeltStrength.png",
+  "barrel-hoops": "https://www.valheim.tools/icons/items/BarrelRings.png",
+  "thunder-stone": "https://www.valheim.tools/icons/items/Thunderstone.png",
+  "serving-tray": "https://www.valheim.tools/icons/items/Feaster.png"
+};
+
+Object.assign(directIconOverrides, worldGuideIconOverrides);
+
 const fishingIconOverrides: Record<string, string> = {
   "fishing-rod": "https://www.valheim.tools/icons/items/FishingRod.png",
   "fishing-hat": "https://www.valheim.tools/icons/items/HelmetFishingHat.png",
