@@ -4,8 +4,8 @@ import { ApiError, api } from "./services/api";
 import type { Biome, BossSummary, Category, CraftList, CraftListItem, CraftResourceTotal, CreatureDetail, CreatureSummary, FoodSummary, GuideItem, ItemDetail, Locale, ResourceDetail, TamingGuide } from "./types";
 import "./styles.css";
 
-type Section = "home" | "search" | "craft" | "favorites" | "tools" | "food-builder" | "taming" | "bosses" | "biome" | "item" | "resource" | "creature";
-type NavSection = "home" | "tools" | "search" | "craft" | "favorites";
+type Section = "home" | "search" | "craft" | "favorites" | "food-builder" | "taming" | "bosses" | "biome" | "item" | "resource" | "creature";
+type NavSection = "home" | "search" | "craft" | "favorites";
 type BiomeView = "items" | "creatures" | "boss";
 
 const text = (locale: Locale, object: { name_en: string; name_ru: string }) => locale === "ru" ? object.name_ru : object.name_en;
@@ -88,6 +88,8 @@ export function App() {
   const [tamingGuides, setTamingGuides] = useState<TamingGuide[]>([]);
   const [tamingLoading, setTamingLoading] = useState(false);
   const [expandedTaming, setExpandedTaming] = useState<string | null>(null);
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const [toolOrigin, setToolOrigin] = useState<Section>("home");
   const [creature, setCreature] = useState<CreatureDetail | null>(null);
   const [creatureOrigin, setCreatureOrigin] = useState<Exclude<Section, "creature">>("biome");
   const [creaturesLoading, setCreaturesLoading] = useState(false);
@@ -125,7 +127,7 @@ export function App() {
 
   const title = useMemo(() => ({
     home: "VALHEIM Guide", search: locale === "ru" ? "Поиск" : "Search", craft: locale === "ru" ? "Крафт" : "Craft",
-    favorites: locale === "ru" ? "Избранное" : "Favorites", tools: locale === "ru" ? "Инструменты" : "Tools", "food-builder": locale === "ru" ? "Конструктор еды" : "Food Builder", taming: locale === "ru" ? "Приручение" : "Taming", bosses: locale === "ru" ? "Боссы" : "Bosses", biome: text(locale, currentBiome ?? { name_en: "Biome", name_ru: "Биом" }),
+    favorites: locale === "ru" ? "Избранное" : "Favorites", "food-builder": locale === "ru" ? "Конструктор еды" : "Food Builder", taming: locale === "ru" ? "Приручение" : "Taming", bosses: locale === "ru" ? "Боссы" : "Bosses", biome: text(locale, currentBiome ?? { name_en: "Biome", name_ru: "Биом" }),
     item: item ? text(locale, item) : locale === "ru" ? "Предмет" : "Item",
     resource: resource ? text(locale, resource) : locale === "ru" ? "Ресурс" : "Resource",
     creature: creature ? text(locale, creature) : locale === "ru" ? "Существо" : "Creature"
@@ -198,6 +200,8 @@ export function App() {
 
   const openFoodBuilder = async () => {
     setMessage("");
+    setToolOrigin(section === "food-builder" || section === "taming" ? "home" : section);
+    setMoreMenuOpen(false);
     setSection("food-builder");
     if (foods.length > 0) return;
     setFoodsLoading(true);
@@ -212,6 +216,8 @@ export function App() {
 
   const openTaming = async () => {
     setMessage("");
+    setToolOrigin(section === "food-builder" || section === "taming" ? "home" : section);
+    setMoreMenuOpen(false);
     setSection("taming");
     if (tamingGuides.length > 0) return;
     setTamingLoading(true);
@@ -522,7 +528,7 @@ export function App() {
     setMessage("");
     if (section === "item" || section === "resource") return setSection(detailOrigin);
     if (section === "creature") return setSection(creatureOrigin);
-    if (section === "food-builder" || section === "taming") return setSection("tools");
+    if (section === "food-builder" || section === "taming") return setSection(toolOrigin);
     if (section === "biome") return setSection("home");
     setSection("home");
   };
@@ -533,12 +539,32 @@ export function App() {
   return <main className="app-shell">
     <header className="topbar">
       <div className="topbar-copy">
-        {!(["home", "search", "craft", "favorites", "tools"] as Section[]).includes(section) && <button className="back" onClick={goBack}>‹ {locale === "ru" ? "Назад" : "Back"}</button>}
+        {!(["home", "search", "craft", "favorites"] as Section[]).includes(section) && <button className="back" onClick={goBack}>‹ {locale === "ru" ? "Назад" : "Back"}</button>}
         <p className="eyebrow"><span>ᚱ</span> Unofficial companion</p>
         <h1>{title}</h1>
       </div>
-      <button className="language" onClick={() => setLocale(locale === "ru" ? "en" : "ru")}><span>文</span>{locale.toUpperCase()}</button>
+      <div className="topbar-actions">
+        <button className="language" onClick={() => setLocale(locale === "ru" ? "en" : "ru")}><span>文</span>{locale.toUpperCase()}</button>
+        <button className={moreMenuOpen ? "more-menu-button active" : "more-menu-button"} aria-label={locale === "ru" ? "Открыть меню" : "Open menu"} aria-expanded={moreMenuOpen} onClick={() => setMoreMenuOpen((open) => !open)}><span>•••</span></button>
+      </div>
     </header>
+
+    {moreMenuOpen && <>
+      <button className="more-menu-backdrop" aria-label={locale === "ru" ? "Закрыть меню" : "Close menu"} onClick={() => setMoreMenuOpen(false)} />
+      <aside className="more-menu-panel" aria-label={locale === "ru" ? "Дополнительное меню" : "More menu"}>
+        <div className="more-menu-head"><div><small>{locale === "ru" ? "ДОПОЛНИТЕЛЬНО" : "MORE"}</small><strong>{locale === "ru" ? "Инструменты" : "Tools"}</strong></div><button onClick={() => setMoreMenuOpen(false)}>×</button></div>
+        <button className="more-menu-item food" onClick={() => void openFoodBuilder()}>
+          <span className="more-menu-icon">♨</span>
+          <span><small>{locale === "ru" ? "РАЦИОН · КАЛЬКУЛЯТОР" : "DIET · CALCULATOR"}</small><strong>{locale === "ru" ? "Конструктор еды" : "Food Builder"}</strong><p>{locale === "ru" ? "Соберите три блюда и посчитайте показатели." : "Build a three-food loadout and calculate its stats."}</p></span>
+          <i>›</i>
+        </button>
+        <button className="more-menu-item taming" onClick={() => void openTaming()}>
+          <span className="more-menu-icon">♞</span>
+          <span><small>{locale === "ru" ? "ЖИВОТНЫЕ · СПРАВОЧНИК" : "ANIMALS · GUIDE"}</small><strong>{locale === "ru" ? "Приручение" : "Taming"}</strong><p>{locale === "ru" ? "Корм, время, разведение и ездовые животные." : "Food, timing, breeding and rideable creatures."}</p></span>
+          <i>›</i>
+        </button>
+      </aside>
+    </>}
 
     {showSearch && <label className="search"><span className="search-icon">⌕</span><input value={query} onChange={(event) => { setQuery(event.target.value); setSection("search"); }} placeholder={locale === "ru" ? "Предмет, ресурс, трофей..." : "Item, resource, trophy..."} />{query && <button type="button" className="search-clear" onClick={() => { setQuery(""); setResults([]); }}>×</button>}</label>}
     {message && <div className="toast" role="status"><span>✦</span><p>{message}</p><button onClick={() => setMessage("")}>×</button></div>}
@@ -565,27 +591,6 @@ export function App() {
       </div></section>}
 
     {section === "search" && <section><div className="section-heading"><div><p>{locale === "ru" ? "ПОИСК ПО СПРАВОЧНИКУ" : "GUIDE SEARCH"}</p><h2>{locale === "ru" ? "Результаты" : "Results"}</h2></div>{query.length >= 2 && <span>{String(results.length).padStart(2,"0")}</span>}</div>{query.length < 2 ? <Empty message={locale === "ru" ? "Введите минимум 2 символа." : "Type at least 2 characters."} /> : <ResultList locale={locale} items={results} onOpen={openEntry} />}</section>}
-
-    {section === "tools" && <section className="tools-section">
-      <div className="tools-hero">
-        <span className="tools-rune">ᛏ</span>
-        <p>{locale === "ru" ? "ПОЛЕЗНО ВО ВРЕМЯ ИГРЫ" : "USEFUL WHILE PLAYING"}</p>
-        <h2>{locale === "ru" ? "Инструменты викинга" : "Viking tools"}</h2>
-        <span>{locale === "ru" ? "Быстрые помощники, которые удобно открыть прямо во время прохождения." : "Quick helpers designed to stay useful during a playthrough."}</span>
-      </div>
-      <div className="tool-card-grid">
-        <button className="tool-card food" onClick={() => void openFoodBuilder()}>
-          <span className="tool-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11h14c0 5-2.7 8-7 8s-7-3-7-8Z"/><path d="M8 8c0-1.5 1.4-2 1.4-3.5M12 8c0-1.5 1.4-2 1.4-3.5M16 8c0-1.5 1.4-2 1.4-3.5"/></svg></span>
-          <span className="tool-card-copy"><small>{locale === "ru" ? "РАЦИОН · 3 СЛОТА" : "DIET · 3 SLOTS"}</small><strong>{locale === "ru" ? "Конструктор еды" : "Food Builder"}</strong><p>{locale === "ru" ? "Соберите три блюда и сразу увидите итоговые HP, выносливость и эйтр." : "Pick three foods and instantly see total health, stamina and eitr."}</p></span>
-          <i>↗</i>
-        </button>
-        <button className="tool-card taming" onClick={() => void openTaming()}>
-          <span className="tool-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.2 11.2c-1.6 0-3 1.2-3 2.8 0 2.6 3.2 5.2 6.8 5.2s6.8-2.6 6.8-5.2c0-1.6-1.4-2.8-3-2.8-1.5 0-2.4.8-3.8.8s-2.3-.8-3.8-.8Z"/><circle cx="6.5" cy="7.3" r="2"/><circle cx="11" cy="5.2" r="2"/><circle cx="15.5" cy="7.3" r="2"/></svg></span>
-          <span className="tool-card-copy"><small>{locale === "ru" ? "ЖИВОТНЫЕ · РАЗВЕДЕНИЕ" : "ANIMALS · BREEDING"}</small><strong>{locale === "ru" ? "Приручение" : "Taming"}</strong><p>{locale === "ru" ? "Кого можно приручить, чем кормить, сколько ждать и как разводить." : "What can be tamed, accepted food, timing and breeding rules."}</p></span>
-          <i>↗</i>
-        </button>
-      </div>
-    </section>}
 
     {section === "food-builder" && <section className="food-builder-section">
       <div className="food-builder-intro">
@@ -736,8 +741,8 @@ export function App() {
     </section>}
     {section === "favorites" && <section><div className="section-heading"><div><p>{locale === "ru" ? "ЛИЧНАЯ КОЛЛЕКЦИЯ" : "PERSONAL COLLECTION"}</p><h2>{locale === "ru" ? "Избранное" : "Favorites"}</h2></div><span>{String(favorites.length).padStart(2,"0")}</span></div><ResultList locale={locale} items={favorites} onOpen={openEntry} /></section>}
 
-    <nav className="bottom-nav" aria-label={locale === "ru" ? "Главное меню" : "Main navigation"}>{([['home', locale === "ru" ? "Главная" : "Home"], ['tools', locale === "ru" ? "Инструм." : "Tools"], ['craft', locale === "ru" ? "Крафт" : "Craft"], ['favorites', locale === "ru" ? "Избранное" : "Saved"], ['search', locale === "ru" ? "Поиск" : "Search"]] as const).map(([id, label]) => {
-      const active = section === id || (id === "tools" && (section === "food-builder" || section === "taming")) || (id === "home" && (section === "bosses" || section === "biome" || section === "creature"));
+    <nav className="bottom-nav" aria-label={locale === "ru" ? "Главное меню" : "Main navigation"}>{([['home', locale === "ru" ? "Главная" : "Home"], ['craft', locale === "ru" ? "Крафт" : "Craft"], ['favorites', locale === "ru" ? "Избранное" : "Saved"], ['search', locale === "ru" ? "Поиск" : "Search"]] as const).map(([id, label]) => {
+      const active = section === id || (id === "home" && (section === "bosses" || section === "biome" || section === "creature"));
       return <button key={id} className={active ? "active" : ""} aria-current={active ? "page" : undefined} onClick={() => void goNav(id)}>
         <span className="nav-icon"><NavIcon id={id} /></span>
         <span className="nav-label">{label}</span>
@@ -748,7 +753,6 @@ export function App() {
 
 function NavIcon({ id }: { id: NavSection }) {
   if (id === "home") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.6 12 4l8 6.6v8.1a1.3 1.3 0 0 1-1.3 1.3H15v-5.5H9V20H5.3A1.3 1.3 0 0 1 4 18.7v-8.1Z" /></svg>;
-  if (id === "tools") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5h14M7.5 6.5V18M16.5 6.5V18M5 18h14"/><path d="M9.5 10.5h5v4h-5z"/></svg>;
   if (id === "craft") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.2 5.2 4.6 4.6M13 6.4l4.6 4.6M5 19l8.7-8.7M4.2 15.8 8.2 19.8M16.7 4.4l2.9-1 1 1-1 2.9-2.3 2.3-2.9-2.9 2.3-2.3Z" /></svg>;
   if (id === "favorites") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3 4.9 13.7A5.4 5.4 0 0 1 12 5.6a5.4 5.4 0 0 1 7.1 8.1L12 20.3Z" /></svg>;
   return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.8" /><path d="m15 15 5 5" /></svg>;
