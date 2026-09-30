@@ -56,6 +56,7 @@ export type ResourceDetail = GuideItem & {
   sources: { method_en: string; method_ru: string; source_url: string | null }[];
   used_by: GuideItem[];
   dropped_by: CreatureSummary[];
+  use_notes: { en: string; ru: string }[];
 };
 
 export type CraftList = {
