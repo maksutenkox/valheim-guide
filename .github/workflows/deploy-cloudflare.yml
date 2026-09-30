@@ -82,12 +82,12 @@ jobs:
           for attempt in $(seq 1 15); do
             VERSION_JSON="$(curl --fail --silent --show-error "$BASE_URL/api/version" || true)"
             echo "Attempt $attempt: $VERSION_JSON"
-            if echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-world-v6-complete-pass1"'; then
+            if echo "$VERSION_JSON" | grep -q '"build":"2026-09-30-tools-v1"'; then
               break
             fi
             sleep 2
           done
-          echo "$VERSION_JSON" | grep -q '"build":"2026-09-29-world-v6-complete-pass1"'
+          echo "$VERSION_JSON" | grep -q '"build":"2026-09-30-tools-v1"'
 
           echo "Checking D1 health..."
           HEALTH_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/health")"
@@ -141,6 +141,22 @@ jobs:
           echo "$BOSS_JSON"
           echo "$BOSS_JSON" | grep -q '"slug":"fader"'
           echo "$BOSS_JSON" | grep -q '"health":25000'
+
+          echo "Checking food builder and taming guide..."
+          FOODS_JSON="$(curl --fail --silent --show-error --retry 4 --retry-delay 2 "$BASE_URL/api/foods")"
+          echo "$FOODS_JSON"
+          echo "$FOODS_JSON" | grep -q '"slug":"cooked-boar-meat"'
+          echo "$FOODS_JSON" | grep -q '"health":'
+          echo "$FOODS_JSON" | grep -q '"stamina":'
+          echo "$FOODS_JSON" | grep -q '"slug":"fish-soup"'
+          echo "$FOODS_JSON" | grep -q '"eitr":'
+
+          TAMING_JSON="$(curl --fail --silent --show-error --retry 4 --retry-delay 2 "$BASE_URL/api/taming")"
+          echo "$TAMING_JSON"
+          echo "$TAMING_JSON" | grep -q '"slug":"boar"'
+          echo "$TAMING_JSON" | grep -q '"slug":"asksvin"'
+          echo "$TAMING_JSON" | grep -q '"slug":"moose"'
+          echo "$TAMING_JSON" | grep -q '"slug":"lingonberries"'
 
           MEADOWS_ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"meadows":{"items":\([0-9][0-9]*\).*/\1/p')"
           OCEAN_ITEMS="$(echo "$CATALOG_JSON" | sed -n 's/.*"ocean":{"items":\([0-9][0-9]*\).*/\1/p')"
