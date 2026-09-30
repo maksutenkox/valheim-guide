@@ -94,17 +94,19 @@ jobs:
           set -euo pipefail
           BASE_URL="https://valheim-guide.partiya-odobryaet-bot.workers.dev"
 
-          echo "Waiting for deployed build to propagate..."
+          EXPECTED_BUILD="$(sed -n 's/.*APP_BUILD = "\([^"]*\)".*/\1/p' src/shared/build.ts)"
+          test -n "$EXPECTED_BUILD"
+          echo "Waiting for deployed build $EXPECTED_BUILD to propagate..."
           VERSION_JSON=""
           for attempt in $(seq 1 30); do
             VERSION_JSON="$(curl --fail --silent --show-error "$BASE_URL/api/version" || true)"
             echo "Attempt $attempt: $VERSION_JSON"
-            if echo "$VERSION_JSON" | grep -q '"build":"2026-09-30-tools-v1"'; then
+            if echo "$VERSION_JSON" | grep -Fq "\"build\":\"$EXPECTED_BUILD\""; then
               break
             fi
             sleep 2
           done
-          echo "$VERSION_JSON" | grep -q '"build":"2026-09-30-tools-v1"'
+          echo "$VERSION_JSON" | grep -Fq "\"build\":\"$EXPECTED_BUILD\""
 
           echo "Checking D1 health..."
           HEALTH_JSON="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 "$BASE_URL/api/health")"
