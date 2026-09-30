@@ -132,6 +132,30 @@ const directIconOverrides: Record<string, string> = {
   "uncooked-roasted-crust-pie": "https://www.valheim.tools/icons/items/RoastedCrustPieUncooked.png"
 };
 
+const specialDropIconOverrides: Record<string, string> = {
+  "hard-antler": "https://www.valheim.tools/icons/items/HardAntler.png",
+  "antler-pickaxe": "https://www.valheim.tools/icons/items/PickaxeAntler.png",
+  "swamp-key": "https://www.valheim.tools/icons/items/CryptKey.png",
+  "bukeperries": "https://www.valheim.tools/icons/items/Pukeberries.png",
+  "wishbone": "https://www.valheim.tools/icons/items/Wishbone.png",
+  "red-jute": "https://www.valheim.tools/icons/items/JuteRed.png",
+  "vile-ribcage": "https://www.valheim.tools/icons/items/UndeadBjornRibcage.png",
+  "rotten-meat": "https://www.valheim.tools/icons/items/RottenMeat.png",
+  "vilebone-cage": "https://www.valheim.tools/icons/items/ArmorBerserkerUndeadChest.png",
+  "vilebone-drapes": "https://www.valheim.tools/icons/items/ArmorBerserkerUndeadLegs.png",
+  "vilebone-maulclaws": "https://www.valheim.tools/icons/items/FistBjornUndeadClaw.png",
+  "majestic-carapace": "https://www.valheim.tools/icons/items/QueenDrop.png",
+  "artisan-press": "https://www.valheim.tools/icons/pieces/artisan_ext1.png",
+  "sacrificial-blood": "https://www.valheim.tools/icons/items/FrozenKingDrop.png",
+  "ancient-coin": "https://www.valheim.tools/icons/items/AncientCoin.png",
+  "draumyx": "https://www.valheim.tools/icons/items/AncientGemstoneBlack.png",
+  "grimvarn": "https://www.valheim.tools/icons/items/AncientGemstoneGreen.png",
+  "solryth": "https://www.valheim.tools/icons/items/AncientGemstoneOrange.png",
+  "veydris": "https://www.valheim.tools/icons/items/AncientGemstonePurple.png"
+};
+
+Object.assign(directIconOverrides, specialDropIconOverrides);
+
 const trophyIconIds: Record<string, string> = {
   "boar-trophy": "TrophyBoar",
   "trophy-deer-white": "TrophyDeerWhite",
