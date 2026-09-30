@@ -1,4 +1,4 @@
-import type { Biome, BossSummary, Category, CraftList, CraftListItem, CraftResourceTotal, CreatureDetail, CreatureSummary, GuideItem, ItemDetail, ResourceDetail } from "../types";
+import type { Biome, BossSummary, Category, CraftList, CraftListItem, CraftResourceTotal, CreatureDetail, CreatureSummary, FoodSummary, GuideItem, ItemDetail, ResourceDetail, TamingGuide } from "../types";
 
 declare global {
   interface Window {
@@ -72,6 +72,8 @@ export const api = {
   creature: (slug: string) => request<{ data: CreatureDetail }>(`/api/creatures/${slug}`),
   boss: (biome: string) => request<{ data: BossSummary | null }>(`/api/bosses?biome=${encodeURIComponent(biome)}`),
   bosses: () => request<{ data: BossSummary[] }>("/api/bosses"),
+  foods: () => request<{ data: FoodSummary[] }>("/api/foods"),
+  taming: () => request<{ data: TamingGuide[] }>("/api/taming"),
   search: (query: string) => request<{ data: GuideItem[] }>(`/api/search?q=${encodeURIComponent(query)}`),
   favorites: () => request<{ data: GuideItem[] }>("/api/favorites"),
   addFavorite: (itemId: number) => mutation<{ status: string }>(`/api/favorites/${itemId}`, "POST"),
