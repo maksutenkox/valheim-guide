@@ -1,4 +1,5 @@
 import type { Env } from "./env";
+import { APP_BUILD } from "../shared/build";
 import { json, notFound, parsePositiveInt } from "./api/helpers";
 import { AuthError, ensureUser, getTelegramUserId } from "./telegram/auth";
 import { calculateCraftList } from "./services/craft-planner";
@@ -305,7 +306,7 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/api/version") {
-      return json({ build: "2026-09-30-tools-v1" });
+      return json({ build: APP_BUILD });
     }
 
     if (request.method === "GET" && url.pathname === "/api/health") {

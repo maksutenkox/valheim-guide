@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { ApiError, api } from "./services/api";
 import type { Biome, BossSummary, Category, CraftList, CraftListItem, CraftResourceTotal, CreatureDetail, CreatureSummary, FoodSummary, GuideItem, ItemDetail, Locale, ResourceDetail, TamingGuide } from "./types";
+import { APP_BUILD } from "../shared/build";
 import "./styles.css";
 
 type Section = "home" | "search" | "craft" | "favorites" | "food-builder" | "taming" | "bosses" | "biome" | "item" | "resource" | "creature";
@@ -109,6 +110,35 @@ export function App() {
     window.Telegram?.WebApp?.expand?.();
     api.biomes().then(({ data }) => setBiomes(data)).catch(() => setMessage(locale === "ru" ? "Не удалось загрузить биомы." : "Could not load biomes.")).finally(() => setLoading(false));
     api.favorites().then(({ data }) => setFavorites(data)).catch(() => undefined);
+  }, []);
+
+  useEffect(() => {
+    let reloading = false;
+    const checkBuild = async () => {
+      if (reloading || document.visibilityState === "hidden") return;
+      try {
+        const response = await fetch(`/api/version?client=${encodeURIComponent(APP_BUILD)}&t=${Date.now()}`, {
+          cache: "no-store"
+        });
+        if (!response.ok) return;
+        const payload = await response.json() as { build?: string };
+        if (!payload.build || payload.build === APP_BUILD) return;
+
+        reloading = true;
+        const nextUrl = new URL(window.location.href);
+        nextUrl.searchParams.set("v", payload.build);
+        window.location.replace(nextUrl.toString());
+      } catch {
+        // Version checks are best-effort and must never block the guide.
+      }
+    };
+
+    void checkBuild();
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") void checkBuild();
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
   }, []);
 
   useEffect(() => {

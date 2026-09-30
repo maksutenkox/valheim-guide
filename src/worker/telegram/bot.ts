@@ -1,4 +1,5 @@
 import type { Env } from "../env";
+import { APP_BUILD } from "../../shared/build";
 
 type TelegramUpdate = {
   message?: { chat: { id: number }; text?: string };
@@ -22,12 +23,14 @@ export const handleTelegramUpdate = async (request: Request, env: Env): Promise<
   const update = await request.json<TelegramUpdate>();
   const message = update.message;
   if (message?.text === "/start") {
+    const appUrl = new URL(env.PUBLIC_APP_URL);
+    appUrl.searchParams.set("v", APP_BUILD);
     await telegramApi(env, "sendMessage", {
       chat_id: message.chat.id,
       text: "⚔️ <b>VALHEIM Guide</b>\n\nВсе предметы, рецепты и ресурсы Valheim в одном месте.",
       parse_mode: "HTML",
       reply_markup: {
-        inline_keyboard: [[{ text: "Открыть гайд", web_app: { url: env.PUBLIC_APP_URL } }]]
+        inline_keyboard: [[{ text: "Открыть гайд", web_app: { url: appUrl.toString() } }]]
       }
     });
   }
