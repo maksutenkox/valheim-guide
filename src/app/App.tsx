@@ -522,6 +522,7 @@ export function App() {
     setMessage("");
     if (section === "item" || section === "resource") return setSection(detailOrigin);
     if (section === "creature") return setSection(creatureOrigin);
+    if (section === "food-builder" || section === "taming") return setSection("tools");
     if (section === "biome") return setSection("home");
     setSection("home");
   };
@@ -532,7 +533,7 @@ export function App() {
   return <main className="app-shell">
     <header className="topbar">
       <div className="topbar-copy">
-        {!(["home", "search", "craft", "favorites"] as Section[]).includes(section) && <button className="back" onClick={goBack}>‹ {locale === "ru" ? "Назад" : "Back"}</button>}
+        {!(["home", "search", "craft", "favorites", "tools"] as Section[]).includes(section) && <button className="back" onClick={goBack}>‹ {locale === "ru" ? "Назад" : "Back"}</button>}
         <p className="eyebrow"><span>ᚱ</span> Unofficial companion</p>
         <h1>{title}</h1>
       </div>
@@ -735,8 +736,8 @@ export function App() {
     </section>}
     {section === "favorites" && <section><div className="section-heading"><div><p>{locale === "ru" ? "ЛИЧНАЯ КОЛЛЕКЦИЯ" : "PERSONAL COLLECTION"}</p><h2>{locale === "ru" ? "Избранное" : "Favorites"}</h2></div><span>{String(favorites.length).padStart(2,"0")}</span></div><ResultList locale={locale} items={favorites} onOpen={openEntry} /></section>}
 
-    <nav className="bottom-nav" aria-label={locale === "ru" ? "Главное меню" : "Main navigation"}>{([['home', locale === "ru" ? "Главная" : "Home"], ['craft', locale === "ru" ? "Крафт" : "Craft"], ['favorites', locale === "ru" ? "Избранное" : "Saved"], ['search', locale === "ru" ? "Поиск" : "Search"]] as const).map(([id, label]) => {
-      const active = section === id || (id === "home" && (section === "bosses" || section === "biome" || section === "creature"));
+    <nav className="bottom-nav" aria-label={locale === "ru" ? "Главное меню" : "Main navigation"}>{([['home', locale === "ru" ? "Главная" : "Home"], ['tools', locale === "ru" ? "Инструм." : "Tools"], ['craft', locale === "ru" ? "Крафт" : "Craft"], ['favorites', locale === "ru" ? "Избранное" : "Saved"], ['search', locale === "ru" ? "Поиск" : "Search"]] as const).map(([id, label]) => {
+      const active = section === id || (id === "tools" && (section === "food-builder" || section === "taming")) || (id === "home" && (section === "bosses" || section === "biome" || section === "creature"));
       return <button key={id} className={active ? "active" : ""} aria-current={active ? "page" : undefined} onClick={() => void goNav(id)}>
         <span className="nav-icon"><NavIcon id={id} /></span>
         <span className="nav-label">{label}</span>
@@ -747,6 +748,7 @@ export function App() {
 
 function NavIcon({ id }: { id: NavSection }) {
   if (id === "home") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.6 12 4l8 6.6v8.1a1.3 1.3 0 0 1-1.3 1.3H15v-5.5H9V20H5.3A1.3 1.3 0 0 1 4 18.7v-8.1Z" /></svg>;
+  if (id === "tools") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5h14M7.5 6.5V18M16.5 6.5V18M5 18h14"/><path d="M9.5 10.5h5v4h-5z"/></svg>;
   if (id === "craft") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.2 5.2 4.6 4.6M13 6.4l4.6 4.6M5 19l8.7-8.7M4.2 15.8 8.2 19.8M16.7 4.4l2.9-1 1 1-1 2.9-2.3 2.3-2.9-2.9 2.3-2.3Z" /></svg>;
   if (id === "favorites") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3 4.9 13.7A5.4 5.4 0 0 1 12 5.6a5.4 5.4 0 0 1 7.1 8.1L12 20.3Z" /></svg>;
   return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.8" /><path d="m15 15 5 5" /></svg>;
@@ -933,6 +935,17 @@ function CraftTotals({ locale, totals, onResource, onOwnedChange }: { locale: Lo
 function SourceLink({ locale, entry }: { locale: Locale; entry: GuideItem }) {
   if (!entry.source_url) return null;
   return <p className="source-credit"><a href={entry.source_url} target="_blank" rel="noreferrer">{locale === "ru" ? "Источник данных" : "Data source"} ↗</a>{entry.source_name ? <span>{entry.source_name}</span> : null}</p>;
+}
+
+function FoodMeter({ locale, kind, base, bonus, max }: { locale: Locale; kind: "health" | "stamina" | "eitr"; base: number; bonus: number; max: number }) {
+  const total = base + bonus;
+  const label = kind === "health" ? (locale === "ru" ? "Здоровье" : "Health") : kind === "stamina" ? (locale === "ru" ? "Выносливость" : "Stamina") : (locale === "ru" ? "Эйтр" : "Eitr");
+  const symbol = kind === "health" ? "♥" : kind === "stamina" ? "⚡" : "✦";
+  return <div className={"food-meter " + kind}>
+    <span className="food-meter-label"><i>{symbol}</i>{label}</span>
+    <span className="food-meter-values"><strong key={kind + "-" + total}>{total}</strong><small key={kind + "-bonus-" + bonus}>+{bonus}</small></span>
+    <span className="food-meter-track"><i style={{ width: Math.min(100, Math.round((total / max) * 100)) + "%" }} /></span>
+  </div>;
 }
 
 function Empty({ message }: { message: string }) { return <div className="empty">{message}</div>; }
