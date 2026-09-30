@@ -565,6 +565,105 @@ export function App() {
 
     {section === "search" && <section><div className="section-heading"><div><p>{locale === "ru" ? "ПОИСК ПО СПРАВОЧНИКУ" : "GUIDE SEARCH"}</p><h2>{locale === "ru" ? "Результаты" : "Results"}</h2></div>{query.length >= 2 && <span>{String(results.length).padStart(2,"0")}</span>}</div>{query.length < 2 ? <Empty message={locale === "ru" ? "Введите минимум 2 символа." : "Type at least 2 characters."} /> : <ResultList locale={locale} items={results} onOpen={openEntry} />}</section>}
 
+    {section === "tools" && <section className="tools-section">
+      <div className="tools-hero">
+        <span className="tools-rune">ᛏ</span>
+        <p>{locale === "ru" ? "ПОЛЕЗНО ВО ВРЕМЯ ИГРЫ" : "USEFUL WHILE PLAYING"}</p>
+        <h2>{locale === "ru" ? "Инструменты викинга" : "Viking tools"}</h2>
+        <span>{locale === "ru" ? "Быстрые помощники, которые удобно открыть прямо во время прохождения." : "Quick helpers designed to stay useful during a playthrough."}</span>
+      </div>
+      <div className="tool-card-grid">
+        <button className="tool-card food" onClick={() => void openFoodBuilder()}>
+          <span className="tool-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11h14c0 5-2.7 8-7 8s-7-3-7-8Z"/><path d="M8 8c0-1.5 1.4-2 1.4-3.5M12 8c0-1.5 1.4-2 1.4-3.5M16 8c0-1.5 1.4-2 1.4-3.5"/></svg></span>
+          <span className="tool-card-copy"><small>{locale === "ru" ? "РАЦИОН · 3 СЛОТА" : "DIET · 3 SLOTS"}</small><strong>{locale === "ru" ? "Конструктор еды" : "Food Builder"}</strong><p>{locale === "ru" ? "Соберите три блюда и сразу увидите итоговые HP, выносливость и эйтр." : "Pick three foods and instantly see total health, stamina and eitr."}</p></span>
+          <i>↗</i>
+        </button>
+        <button className="tool-card taming" onClick={() => void openTaming()}>
+          <span className="tool-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.2 11.2c-1.6 0-3 1.2-3 2.8 0 2.6 3.2 5.2 6.8 5.2s6.8-2.6 6.8-5.2c0-1.6-1.4-2.8-3-2.8-1.5 0-2.4.8-3.8.8s-2.3-.8-3.8-.8Z"/><circle cx="6.5" cy="7.3" r="2"/><circle cx="11" cy="5.2" r="2"/><circle cx="15.5" cy="7.3" r="2"/></svg></span>
+          <span className="tool-card-copy"><small>{locale === "ru" ? "ЖИВОТНЫЕ · РАЗВЕДЕНИЕ" : "ANIMALS · BREEDING"}</small><strong>{locale === "ru" ? "Приручение" : "Taming"}</strong><p>{locale === "ru" ? "Кого можно приручить, чем кормить, сколько ждать и как разводить." : "What can be tamed, accepted food, timing and breeding rules."}</p></span>
+          <i>↗</i>
+        </button>
+      </div>
+    </section>}
+
+    {section === "food-builder" && <section className="food-builder-section">
+      <div className="food-builder-intro">
+        <p>{locale === "ru" ? "КОНСТРУКТОР РАЦИОНА" : "DIET BUILDER"}</p>
+        <h2>{locale === "ru" ? "Выберите до трёх блюд" : "Choose up to three foods"}</h2>
+        <span>{locale === "ru" ? "Показатели пересчитываются сразу при каждом выборе. HP и выносливость включают базовые 25 HP и 50 выносливости персонажа." : "Totals update instantly. Health and stamina include the character's base 25 health and 50 stamina."}</span>
+      </div>
+
+      <div className="food-loadout">
+        <div className="food-slots">
+          {[0,1,2].map((slot) => {
+            const picked = selectedFoods[slot];
+            return picked ? <button className="food-slot filled" key={picked.slug} onClick={() => toggleFood(picked)}>
+              <span>{picked.image_path ? <img src={picked.image_path} alt="" /> : "◆"}</span>
+              <strong>{text(locale,picked)}</strong><small>{locale === "ru" ? "Нажмите, чтобы убрать" : "Tap to remove"}</small>
+            </button> : <div className="food-slot empty" key={slot}><span>+</span><strong>{(locale === "ru" ? "Слот " : "Slot ") + (slot + 1)}</strong><small>{locale === "ru" ? "Выберите блюдо" : "Choose food"}</small></div>;
+          })}
+        </div>
+        <div className="food-total-grid">
+          <FoodMeter locale={locale} kind="health" base={25} bonus={foodTotals.health} max={380} />
+          <FoodMeter locale={locale} kind="stamina" base={50} bonus={foodTotals.stamina} max={420} />
+          <FoodMeter locale={locale} kind="eitr" base={0} bonus={foodTotals.eitr} max={330} />
+        </div>
+      </div>
+
+      <label className="food-search"><span>⌕</span><input value={foodQuery} onChange={(event) => setFoodQuery(event.target.value)} placeholder={locale === "ru" ? "Найти блюдо..." : "Find food..."} />{foodQuery && <button type="button" onClick={() => setFoodQuery("")}>×</button>}</label>
+      <div className="chips food-biome-chips">
+        <button className={foodBiome === "all" ? "chip active" : "chip"} onClick={() => setFoodBiome("all")}><i>◈</i>{locale === "ru" ? "Все" : "All"}</button>
+        {foodBiomes.map((biome) => <button className={foodBiome === biome.slug ? "chip active" : "chip"} key={biome.slug} onClick={() => setFoodBiome(biome.slug)}><i>⌖</i>{text(locale,biome)}</button>)}
+      </div>
+      <div className="food-result-heading"><span>{locale === "ru" ? "ДОСТУПНАЯ ЕДА" : "AVAILABLE FOOD"}</span><b>{visibleFoods.length}</b></div>
+      {foodsLoading ? <Empty message={locale === "ru" ? "Загружаем блюда..." : "Loading food..."} /> : visibleFoods.length ? <div className="food-grid">{visibleFoods.map((food) => {
+        const selected = selectedFoodSlugs.includes(food.slug);
+        const locked = !selected && selectedFoodSlugs.length >= 3;
+        return <button className={selected ? "food-card selected" : locked ? "food-card locked" : "food-card"} key={food.slug} onClick={() => toggleFood(food)}>
+          <span className="food-card-art">{food.image_path ? <img src={food.image_path} alt="" /> : "◆"}</span>
+          <span className="food-card-copy"><small>{locale === "ru" ? food.biome_name_ru : food.biome_name_en}</small><strong>{text(locale,food)}</strong><p>{locale === "ru" ? food.description_ru : food.description_en}</p>
+            <span className="food-card-stats"><i className="hp">♥ {food.health}</i><i className="stam">⚡ {food.stamina}</i>{food.eitr > 0 && <i className="eitr">✦ {food.eitr}</i>}</span>
+            <span className="food-card-meta">{food.duration ? <b>◷ {food.duration} {locale === "ru" ? "мин" : "min"}</b> : null}{food.healing ? <b>+{food.healing} {locale === "ru" ? "HP/тик" : "HP/tick"}</b> : null}</span>
+          </span>
+          <span className="food-card-action">{selected ? "✓" : "+"}</span>
+        </button>;
+      })}</div> : <Empty message={locale === "ru" ? "По этому фильтру ничего не найдено." : "No foods match this filter."} />}
+    </section>}
+
+    {section === "taming" && <section className="taming-section">
+      <div className="taming-intro">
+        <p>{locale === "ru" ? "ПРИРУЧЕНИЕ · 1.0" : "TAMING · 1.0"}</p>
+        <h2>{locale === "ru" ? "Домашние звери Вальхейма" : "Tameable creatures"}</h2>
+        <span>{locale === "ru" ? "Нажмите на животное — внутри корм, время приручения, условия разведения и полезные особенности." : "Open a creature for accepted food, taming time, breeding limits and useful traits."}</span>
+      </div>
+      {tamingLoading ? <Empty message={locale === "ru" ? "Загружаем животных..." : "Loading tameable creatures..."} /> : <div className="taming-list">{tamingGuides.map((guide) => {
+        const open = expandedTaming === guide.slug;
+        return <div className={open ? "taming-card open" : "taming-card"} key={guide.slug}>
+          <button className="taming-card-head" onClick={() => setExpandedTaming(open ? null : guide.slug)}>
+            <span className="taming-animal-art">{guide.image_path ? <img src={guide.image_path} alt="" /> : "♞"}</span>
+            <span className="taming-animal-copy"><small>{locale === "ru" ? guide.biome_ru : guide.biome_en}</small><strong>{text(locale,guide)}</strong><span><b>◷ {guide.taming_minutes} {locale === "ru" ? "мин" : "min"}</b>{guide.rideable && <b>♞ {locale === "ru" ? "Можно ездить" : "Rideable"}</b>}{guide.commandable && <b>⌁ {locale === "ru" ? "Следует за игроком" : "Commandable"}</b>}</span></span>
+            <i>{open ? "−" : "+"}</i>
+          </button>
+          {open && <div className="taming-card-body">
+            <p className="taming-tip"><span>✦</span>{locale === "ru" ? guide.tip_ru : guide.tip_en}</p>
+            <div className="taming-facts">
+              <div><small>{locale === "ru" ? "ПРИРУЧЕНИЕ" : "TAMING"}</small><strong>{guide.taming_minutes} {locale === "ru" ? "мин" : "min"}</strong></div>
+              <div><small>{locale === "ru" ? "СЫТ ПОСЛЕ ЕДЫ" : "FED FOR"}</small><strong>{guide.fed_minutes} {locale === "ru" ? "мин" : "min"}</strong></div>
+              <div><small>{locale === "ru" ? "ПОТОМСТВО" : "OFFSPRING"}</small><strong>{locale === "ru" ? guide.offspring_ru : guide.offspring_en}</strong></div>
+              <div><small>{locale === "ru" ? "РАЗВЕДЕНИЕ" : "BREEDING CAP"}</small><strong>{guide.population_limit} / {guide.population_range} м</strong></div>
+            </div>
+            <div className="taming-food-title"><span>{locale === "ru" ? "ПОДХОДЯЩИЙ КОРМ" : "ACCEPTED FOOD"}</span><small>{locale === "ru" ? "Держите зверя сытым и спокойным" : "Keep the creature fed and calm"}</small></div>
+            <div className="taming-food-grid">{guide.food.map((food) => <span className="taming-food" key={food.slug}><i>{food.image_path ? <img src={food.image_path} alt="" /> : "◆"}</i><b>{text(locale,food)}</b></span>)}</div>
+            <div className="taming-breeding-note">
+              <span>♡</span><p>{locale === "ru" ? "Для размножения держите двух сытых и спокойных особей рядом: партнёр должен быть в радиусе " + guide.partner_range + " м. Создание потомства занимает около " + guide.gestation_minutes + " мин." : "For breeding, keep two fed and calm creatures together within " + guide.partner_range + " m. Offspring creation takes about " + guide.gestation_minutes + " min."}</p>
+            </div>
+            {guide.saddle_en && <p className="taming-saddle">♞ <b>{locale === "ru" ? "Седло:" : "Saddle:"}</b> {locale === "ru" ? guide.saddle_ru : guide.saddle_en}</p>}
+            <a className="taming-source" href={guide.source_url} target="_blank" rel="noreferrer">{locale === "ru" ? "Проверить игровые данные ↗" : "View game data ↗"}</a>
+          </div>}
+        </div>;
+      })}</div>}
+    </section>}
+
     {section === "bosses" && <section className="bosses-section">
       <div className="section-heading"><div><p>{locale === "ru" ? "БОССЫ · БОЕВОЙ СПРАВОЧНИК" : "BOSSES · COMBAT GUIDE"}</p><h2>{locale === "ru" ? "Боссы" : "Bosses"}</h2></div><span>{String(bosses.length || 8).padStart(2,"0")}</span></div>
       <p className="bosses-intro">{locale === "ru" ? "Главные боссы Valheim по порядку прохождения. Открой карточку, чтобы посмотреть призыв, силу, рекомендуемое снаряжение, резисты и дроп." : "Valheim's major bosses in progression order. Open a card for summon requirements, power, recommended gear, resistances and drops."}</p>
