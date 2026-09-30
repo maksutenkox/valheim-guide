@@ -586,7 +586,6 @@ export function App() {
       </div>
       <div className="topbar-actions">
         <button className="language" onClick={() => setLocale(locale === "ru" ? "en" : "ru")}><span>文</span>{locale.toUpperCase()}</button>
-        <button className={moreMenuOpen ? "more-menu-button active" : "more-menu-button"} aria-label={locale === "ru" ? "Открыть меню" : "Open menu"} aria-expanded={moreMenuOpen} onClick={() => setMoreMenuOpen((open) => !open)}><span>•••</span></button>
       </div>
     </header>
 
@@ -793,21 +792,39 @@ export function App() {
       <ResultList locale={locale} items={favorites} onOpen={openEntry} />
     </section>}
 
-    <nav className="bottom-nav" aria-label={locale === "ru" ? "Главное меню" : "Main navigation"}>{([['home', locale === "ru" ? "Главная" : "Home"], ['craft', locale === "ru" ? "Крафт" : "Craft"], ['favorites', locale === "ru" ? "Избранное" : "Saved"], ['search', locale === "ru" ? "Поиск" : "Search"]] as const).map(([id, label]) => {
-      const active = section === id || (id === "home" && (section === "bosses" || section === "biome" || section === "creature"));
-      return <button key={id} className={active ? "active" : ""} aria-current={active ? "page" : undefined} onClick={() => void goNav(id)}>
-        <span className="nav-icon"><NavIcon id={id} /></span>
-        <span className="nav-label">{label}</span>
-      </button>;
-    })}</nav>
+    <nav className="bottom-nav" aria-label={locale === "ru" ? "Главное меню" : "Main navigation"}>
+      <button className={section === "home" || section === "bosses" || section === "biome" || section === "creature" ? "active" : ""} aria-current={section === "home" || section === "bosses" || section === "biome" || section === "creature" ? "page" : undefined} onClick={() => void goNav("home")}>
+        <span className="nav-icon"><NavIcon id="home" /></span>
+        <span className="nav-label">{locale === "ru" ? "Главная" : "Home"}</span>
+      </button>
+      <button className={section === "craft" || section === "favorites" ? "active" : ""} aria-current={section === "craft" || section === "favorites" ? "page" : undefined} onClick={() => void goNav("library")}>
+        <span className="nav-icon"><NavIcon id="library" /></span>
+        <span className="nav-label">{locale === "ru" ? "Моё" : "Mine"}</span>
+      </button>
+      <button className={section === "search" ? "active" : ""} aria-current={section === "search" ? "page" : undefined} onClick={() => void goNav("search")}>
+        <span className="nav-icon"><NavIcon id="search" /></span>
+        <span className="nav-label">{locale === "ru" ? "Поиск" : "Search"}</span>
+      </button>
+      <button className={moreMenuOpen || section === "food-builder" || section === "taming" ? "active nav-more" : "nav-more"} aria-expanded={moreMenuOpen} aria-label={locale === "ru" ? "Дополнительное меню" : "More menu"} onClick={() => setMoreMenuOpen((open) => !open)}>
+        <span className="nav-icon"><NavIcon id="more" /></span>
+        <span className="nav-label">{locale === "ru" ? "Ещё" : "More"}</span>
+      </button>
+    </nav>
   </main>;
 }
 
-function NavIcon({ id }: { id: NavSection }) {
+function NavIcon({ id }: { id: "home" | "library" | "search" | "more" }) {
   if (id === "home") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.6 12 4l8 6.6v8.1a1.3 1.3 0 0 1-1.3 1.3H15v-5.5H9V20H5.3A1.3 1.3 0 0 1 4 18.7v-8.1Z" /></svg>;
-  if (id === "craft") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.2 5.2 4.6 4.6M13 6.4l4.6 4.6M5 19l8.7-8.7M4.2 15.8 8.2 19.8M16.7 4.4l2.9-1 1 1-1 2.9-2.3 2.3-2.9-2.9 2.3-2.3Z" /></svg>;
-  if (id === "favorites") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3 4.9 13.7A5.4 5.4 0 0 1 12 5.6a5.4 5.4 0 0 1 7.1 8.1L12 20.3Z" /></svg>;
-  return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.8" /><path d="m15 15 5 5" /></svg>;
+  if (id === "library") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5h14v13H5z"/><path d="M8 9h8M8 12h5"/><path d="M15.2 14.7c1.8-2.3 5.1.2 2.6 2.3l-2.6 2.2-2.6-2.2c-2.5-2.1.8-4.6 2.6-2.3Z"/></svg>;
+  if (id === "search") return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.8" /><path d="m15 15 5 5" /></svg>;
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/></svg>;
+}
+
+function LibraryTabs({ locale, active, onChange }: { locale: Locale; active: "craft" | "favorites"; onChange: (next: "craft" | "favorites") => Promise<void> }) {
+  return <div className="library-tabs" role="tablist" aria-label={locale === "ru" ? "Моё" : "Mine"}>
+    <button className={active === "craft" ? "active" : ""} role="tab" aria-selected={active === "craft"} onClick={() => void onChange("craft")}><span>⚒</span>{locale === "ru" ? "Крафт" : "Craft"}</button>
+    <button className={active === "favorites" ? "active" : ""} role="tab" aria-selected={active === "favorites"} onClick={() => void onChange("favorites")}><span>♡</span>{locale === "ru" ? "Избранное" : "Favorites"}</button>
+  </div>;
 }
 
 function DetailStats({ locale, item }: { locale: Locale; item: ItemDetail }) {
