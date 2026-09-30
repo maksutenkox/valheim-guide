@@ -173,6 +173,7 @@ const tamingGuides: TamingGuideSeed[] = [
       {slug:"deer-meat",name_en:"Deer Meat",name_ru:"Мясо оленя"},
       {slug:"lox-meat",name_en:"Lox Meat",name_ru:"Мясо локса"},
       {slug:"neck-tail",name_en:"Neck Tail",name_ru:"Хвост никса"},
+      {slug:"raw-fish",name_en:"Raw Fish",name_ru:"Сырая рыба"},
       {slug:"sausages",name_en:"Sausages",name_ru:"Колбаски"}
     ],
     tip_en:"A pit or strong pen is safer than fences alone. Once tamed, wolves can follow you or stay in place and make strong combat companions.",
