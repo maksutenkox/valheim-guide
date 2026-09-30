@@ -305,7 +305,7 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/api/version") {
-      return json({ build: "2026-09-29-world-v6-complete-pass1" });
+      return json({ build: "2026-09-30-tools-v1" });
     }
 
     if (request.method === "GET" && url.pathname === "/api/health") {
