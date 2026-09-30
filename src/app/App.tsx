@@ -5,7 +5,7 @@ import type { Biome, BossSummary, Category, CraftList, CraftListItem, CraftResou
 import { APP_BUILD } from "../shared/build";
 import "./styles.css";
 
-type Section = "home" | "search" | "craft" | "favorites" | "food-builder" | "taming" | "trophies" | "bosses" | "biome" | "item" | "resource" | "creature";
+type Section = "home" | "search" | "craft" | "favorites" | "food-builder" | "taming" | "trophies" | "fishing" | "skills" | "builds" | "bosses" | "biome" | "item" | "resource" | "creature";
 type NavSection = "home" | "library" | "search";
 type BiomeView = "items" | "creatures" | "boss";
 
@@ -15,6 +15,102 @@ const categoryIcon = (slug?: string) => ({
   weapon: "⚔", armor: "♜", magic: "✦", tool: "⌁", food: "◆", consumable: "✚",
   trophy: "♛", material: "⬡", building: "⌂", other: "•"
 }[slug ?? ""] ?? "•");
+
+type FishingFish = { slug: string; name_en: string; name_ru: string };
+type FishingBaitGuide = {
+  slug: string; name_en: string; name_ru: string; recipe_en: string; recipe_ru: string;
+  water_en: string; water_ru: string; fish: FishingFish[];
+};
+type SkillGuide = { slug: string; icon: string; name_en: string; name_ru: string; group: "combat" | "magic" | "movement" | "craft"; effect_en: string; effect_ru: string };
+type BuildAsset = { slug: string; name_en: string; name_ru: string };
+type CharacterBuild = {
+  id: string; icon: string; name_en: string; name_ru: string; tag_en: string; tag_ru: string;
+  description_en: string; description_ru: string; weapons: BuildAsset[]; armor: BuildAsset[]; food: BuildAsset[];
+};
+
+const fish = (slug: string, name_en: string, name_ru: string): FishingFish => ({ slug, name_en, name_ru });
+const fishingGuides: FishingBaitGuide[] = [
+  { slug:"fishing-bait", name_en:"Fishing Bait", name_ru:"Наживка", recipe_en:"Haldor · 10 coins for 20", recipe_ru:"Хальдор · 10 монет за 20", water_en:"Meadows · Black Forest", water_ru:"Луга · Чёрный лес", fish:[fish("perch","Perch","Окунь"),fish("pike","Pike","Щука")] },
+  { slug:"mossy-fishing-bait", name_en:"Mossy Fishing Bait", name_ru:"Мшистая наживка", recipe_en:"20 Fishing Bait + Troll Trophy", recipe_ru:"20 наживки + трофей тролля", water_en:"Black Forest", water_ru:"Чёрный лес", fish:[fish("trollfish","Trollfish","Тролль-рыба")] },
+  { slug:"sticky-fishing-bait", name_en:"Sticky Fishing Bait", name_ru:"Липкая наживка", recipe_en:"20 Fishing Bait + Abomination Trophy", recipe_ru:"20 наживки + трофей мерзости", water_en:"Swamp", water_ru:"Болота", fish:[fish("giant-herring","Giant Herring","Гигантская сельдь")] },
+  { slug:"cold-fishing-bait", name_en:"Cold Fishing Bait", name_ru:"Холодная наживка", recipe_en:"20 Fishing Bait + Fenring Trophy", recipe_ru:"20 наживки + трофей фенринга", water_en:"Meadows / Black Forest waters · Frost Caves", water_ru:"Водоёмы Лугов / Чёрного леса · Морозные пещеры", fish:[fish("pike","Pike","Щука"),fish("tetra","Tetra","Тетра")] },
+  { slug:"stingy-fishing-bait", name_en:"Stingy Fishing Bait", name_ru:"Колючая наживка", recipe_en:"20 Fishing Bait + Fuling Trophy", recipe_ru:"20 наживки + трофей фулинга", water_en:"Plains", water_ru:"Равнины", fish:[fish("grouper","Grouper","Групер")] },
+  { slug:"heavy-fishing-bait", name_en:"Heavy Fishing Bait", name_ru:"Тяжёлая наживка", recipe_en:"20 Fishing Bait + Serpent Trophy", recipe_ru:"20 наживки + трофей морского змея", water_en:"Ocean", water_ru:"Океан", fish:[fish("tuna","Tuna","Тунец"),fish("coral-cod","Coral Cod","Коралловая треска")] },
+  { slug:"misty-fishing-bait", name_en:"Misty Fishing Bait", name_ru:"Туманная наживка", recipe_en:"20 Fishing Bait + Lox Trophy", recipe_ru:"20 наживки + трофей локса", water_en:"Mistlands", water_ru:"Туманные земли", fish:[fish("pufferfish","Pufferfish","Иглобрюх"),fish("anglerfish","Anglerfish","Удильщик")] },
+  { slug:"hot-fishing-bait", name_en:"Hot Fishing Bait", name_ru:"Горячая наживка", recipe_en:"20 Fishing Bait + Warrior Trophy", recipe_ru:"20 наживки + трофей обугленного воина", water_en:"Ashlands", water_ru:"Пепельные земли", fish:[fish("magmafish","Magmafish","Магмовая рыба")] },
+  { slug:"frosty-fishing-bait", name_en:"Frosty Fishing Bait", name_ru:"Морозная наживка", recipe_en:"20 Fishing Bait + Drake Trophy", recipe_ru:"20 наживки + трофей дракона", water_en:"Deep North", water_ru:"Глубокий Север", fish:[fish("northern-salmon","Northern Salmon","Северный лосось")] }
+];
+
+const skillGuides: SkillGuide[] = [
+  {slug:"axes",icon:"🪓",name_en:"Axes",name_ru:"Топоры",group:"combat",effect_en:"Increases axe damage.",effect_ru:"Повышает урон топорами."},
+  {slug:"blocking",icon:"🛡",name_en:"Blocking",name_ru:"Блок",group:"combat",effect_en:"Increases damage absorbed while blocking.",effect_ru:"Повышает количество урона, поглощаемого блоком."},
+  {slug:"blood-magic",icon:"♥",name_en:"Blood Magic",name_ru:"Магия крови",group:"magic",effect_en:"Improves blood-magic damage and reduces eitr and health costs.",effect_ru:"Усиливает магию крови и снижает расход эйтра и здоровья."},
+  {slug:"bows",icon:"🏹",name_en:"Bows",name_ru:"Луки",group:"combat",effect_en:"Increases bow damage.",effect_ru:"Повышает урон из луков."},
+  {slug:"clubs",icon:"⚒",name_en:"Clubs",name_ru:"Дубины",group:"combat",effect_en:"Increases club and mace damage.",effect_ru:"Повышает урон дубинами и булавами."},
+  {slug:"cooking",icon:"♨",name_en:"Cooking",name_ru:"Готовка",group:"craft",effect_en:"Improves cooking speed, serving-tray wear and bonus-yield chance.",effect_ru:"Ускоряет готовку, снижает износ подноса и повышает шанс бонусного выхода."},
+  {slug:"crafting",icon:"🔨",name_en:"Crafting",name_ru:"Крафт",group:"craft",effect_en:"Improves crafting speed, hammer wear and building stamina use.",effect_ru:"Ускоряет крафт, снижает износ молота и расход выносливости при строительстве."},
+  {slug:"crossbows",icon:"➶",name_en:"Crossbows",name_ru:"Арбалеты",group:"combat",effect_en:"Improves crossbow accuracy and damage.",effect_ru:"Повышает точность и урон арбалетов."},
+  {slug:"dodge",icon:"↯",name_en:"Dodge",name_ru:"Уклонение",group:"movement",effect_en:"Reduces stamina spent on dodging.",effect_ru:"Снижает расход выносливости при уклонении."},
+  {slug:"elemental-magic",icon:"✦",name_en:"Elemental Magic",name_ru:"Стихийная магия",group:"magic",effect_en:"Increases elemental damage and reduces eitr use.",effect_ru:"Повышает стихийный урон и снижает расход эйтра."},
+  {slug:"farming",icon:"🌱",name_en:"Farming",name_ru:"Земледелие",group:"craft",effect_en:"Reduces farming stamina and cultivator wear; improves harvest radius and bonus yields.",effect_ru:"Снижает расход выносливости и износ культиватора, увеличивает радиус сбора и шанс бонусного урожая."},
+  {slug:"fishing",icon:"🎣",name_en:"Fishing",name_ru:"Рыбалка",group:"craft",effect_en:"Reduces stamina drain and increases pull speed while fishing.",effect_ru:"Снижает расход выносливости и ускоряет подтягивание рыбы."},
+  {slug:"fists",icon:"✊",name_en:"Fists",name_ru:"Кулаки",group:"combat",effect_en:"Increases unarmed damage.",effect_ru:"Повышает урон без оружия."},
+  {slug:"jump",icon:"↑",name_en:"Jump",name_ru:"Прыжок",group:"movement",effect_en:"Increases jump height.",effect_ru:"Увеличивает высоту прыжка."},
+  {slug:"knives",icon:"†",name_en:"Knives",name_ru:"Ножи",group:"combat",effect_en:"Increases knife damage.",effect_ru:"Повышает урон ножами."},
+  {slug:"pickaxes",icon:"⛏",name_en:"Pickaxes",name_ru:"Кирки",group:"craft",effect_en:"Increases pickaxe damage.",effect_ru:"Повышает урон кирками."},
+  {slug:"polearms",icon:"⚔",name_en:"Polearms",name_ru:"Древковое оружие",group:"combat",effect_en:"Increases polearm damage.",effect_ru:"Повышает урон древковым оружием."},
+  {slug:"riding",icon:"♞",name_en:"Riding",name_ru:"Верховая езда",group:"movement",effect_en:"Improves mount speed and stamina efficiency.",effect_ru:"Повышает скорость ездовых животных и эффективность их выносливости."},
+  {slug:"run",icon:"➟",name_en:"Run",name_ru:"Бег",group:"movement",effect_en:"Increases running speed and reduces stamina drain.",effect_ru:"Повышает скорость бега и снижает расход выносливости."},
+  {slug:"sneak",icon:"◌",name_en:"Sneak",name_ru:"Скрытность",group:"movement",effect_en:"Reduces stamina drain and improves stealth.",effect_ru:"Снижает расход выносливости и повышает скрытность."},
+  {slug:"spears",icon:"↗",name_en:"Spears",name_ru:"Копья",group:"combat",effect_en:"Increases spear damage.",effect_ru:"Повышает урон копьями."},
+  {slug:"swim",icon:"≈",name_en:"Swim",name_ru:"Плавание",group:"movement",effect_en:"Reduces stamina drain while swimming.",effect_ru:"Снижает расход выносливости при плавании."},
+  {slug:"swords",icon:"⚔",name_en:"Swords",name_ru:"Мечи",group:"combat",effect_en:"Increases sword damage.",effect_ru:"Повышает урон мечами."},
+  {slug:"wood-cutting",icon:"♧",name_en:"Wood Cutting",name_ru:"Рубка леса",group:"craft",effect_en:"Increases axe damage against trees.",effect_ru:"Повышает урон топором по деревьям."}
+];
+
+const asset = (slug: string, name_en: string, name_ru: string): BuildAsset => ({ slug, name_en, name_ru });
+const characterBuilds: CharacterBuild[] = [
+  {
+    id:"protector",icon:"🛡",name_en:"Protector",name_ru:"Защитник",tag_en:"Tank · safe frontline",tag_ru:"Танк · безопасный фронт",
+    description_en:"Maximum survivability for bosses and dangerous Deep North fights. Shield play, heavy armour and two health foods.",
+    description_ru:"Максимальная живучесть для боссов и тяжёлых боёв Глубокого Севера. Щит, тяжёлая броня и две еды на здоровье.",
+    weapons:[asset("nord-sword","Nord Sword","Меч Nord"),asset("nord-shield","Nord Shield","Щит Nord")],
+    armor:[asset("helmet-of-the-protector","Helmet of the Protector","Шлем Защитника"),asset("breastplate-of-the-protector","Breastplate of the Protector","Нагрудник Защитника"),asset("trousers-of-the-protector","Trousers of the Protector","Штаны Защитника")],
+    food:[asset("meat-in-bread","Meat In Bread","Мясо в хлебе"),asset("seal-meat-soup","Seal Meat Soup","Суп из тюленя"),asset("pancakes","Pancakes","Блины")]
+  },
+  {
+    id:"berserker",icon:"🪓",name_en:"Frostfire Berserker",name_ru:"Берсерк морозного огня",tag_en:"Melee DPS · two-handed",tag_ru:"Ближний DPS · двуручное",
+    description_en:"Aggressive two-handed setup with Vanguard armour. High stamina keeps heavy swings and dodges flowing.",
+    description_ru:"Агрессивный двуручный билд в броне Авангарда. Большой запас выносливости помогает постоянно атаковать и уклоняться.",
+    weapons:[asset("frostfire-greataxe","Frostfire Greataxe","Секира морозного огня"),asset("nord-buckler","Nord Buckler","Баклер Nord")],
+    armor:[asset("hood-of-the-vanguard","Hood of the Vanguard","Капюшон Авангарда"),asset("chestpiece-of-the-vanguard","Chestpiece of the Vanguard","Нагрудник Авангарда"),asset("trousers-of-the-vanguard","Trousers of the Vanguard","Штаны Авангарда")],
+    food:[asset("meat-in-bread","Meat In Bread","Мясо в хлебе"),asset("pancakes","Pancakes","Блины"),asset("oat-milk","Oat Milk","Овсяное молоко")]
+  },
+  {
+    id:"hunter",icon:"🏹",name_en:"Thunderblood Hunter",name_ru:"Охотник грозовой крови",tag_en:"Ranged · stamina",tag_ru:"Дальний бой · выносливость",
+    description_en:"Mobile bow build for keeping distance and sustaining long draw-and-dodge chains.",
+    description_ru:"Мобильный билд лучника: держим дистанцию и поддерживаем длинные серии натяжения лука и уклонений.",
+    weapons:[asset("thunderblood-bow","Thunderblood Bow","Лук грозовой крови"),asset("nord-dagger","Nord Dagger","Кинжал Nord")],
+    armor:[asset("hood-of-the-vanguard","Hood of the Vanguard","Капюшон Авангарда"),asset("chestpiece-of-the-vanguard","Chestpiece of the Vanguard","Нагрудник Авангарда"),asset("trousers-of-the-vanguard","Trousers of the Vanguard","Штаны Авангарда")],
+    food:[asset("meat-in-bread","Meat In Bread","Мясо в хлебе"),asset("pancakes","Pancakes","Блины"),asset("oat-milk","Oat Milk","Овсяное молоко")]
+  },
+  {
+    id:"caller",icon:"✦",name_en:"Caller Mage",name_ru:"Маг Призывателя",tag_en:"Magic · high eitr",tag_ru:"Магия · высокий эйтр",
+    description_en:"Full caster setup with two 105-eitr foods, Caller armour and both direct-damage and summon tools.",
+    description_ru:"Полный магический билд: две еды по 105 эйтра, комплект Призывателя, прямой урон и призыв.",
+    weapons:[asset("lightning-strike","Lightning Strike","Удар молнии"),asset("spirit-caller","Spirit Caller","Призыватель духов"),asset("echo-spike","Echo Spike","Эхо-шип")],
+    armor:[asset("headdress-of-the-caller","Headdress of the Caller","Головной убор Призывателя"),asset("robes-of-the-caller","Robes of the Caller","Одеяния Призывателя"),asset("trousers-of-the-caller","Trousers of the Caller","Штаны Призывателя"),asset("cape-of-the-caller","Cape of the Caller","Плащ Призывателя")],
+    food:[asset("fish-soup","Fish Soup","Рыбный суп"),asset("meatballs-and-poteitr","Meatballs and Poteitr","Фрикадельки с Потейтером"),asset("meat-in-bread","Meat In Bread","Мясо в хлебе")]
+  },
+  {
+    id:"hybrid",icon:"◈",name_en:"Storm Battlemage",name_ru:"Грозовой боевой маг",tag_en:"Hybrid · melee + magic",tag_ru:"Гибрид · ближний бой + магия",
+    description_en:"A flexible setup for players who want a melee fallback without giving up magic. Oatmeal bridges stamina and eitr.",
+    description_ru:"Гибкий билд для тех, кто хочет надёжный ближний бой и не отказываться от магии. Овсянка одновременно даёт выносливость и эйтр.",
+    weapons:[asset("nord-sword","Nord Sword","Меч Nord"),asset("nord-buckler","Nord Buckler","Баклер Nord"),asset("lightning-strike","Lightning Strike","Удар молнии")],
+    armor:[asset("hood-of-the-vanguard","Hood of the Vanguard","Капюшон Авангарда"),asset("chestpiece-of-the-vanguard","Chestpiece of the Vanguard","Нагрудник Авангарда"),asset("trousers-of-the-vanguard","Trousers of the Vanguard","Штаны Авангарда")],
+    food:[asset("meat-in-bread","Meat In Bread","Мясо в хлебе"),asset("oatmeal","Oatmeal","Овсянка"),asset("fish-soup","Fish Soup","Рыбный суп")]
+  }
+];
 const protectedErrorText = (locale: Locale, error: unknown): string => {
   if (error instanceof ApiError) {
     if (error.status === 401) {
@@ -169,7 +265,7 @@ export function App() {
 
   const title = useMemo(() => ({
     home: "VALHEIM Guide", search: locale === "ru" ? "Поиск" : "Search", craft: locale === "ru" ? "Крафт" : "Craft",
-    favorites: locale === "ru" ? "Избранное" : "Favorites", "food-builder": locale === "ru" ? "Конструктор еды" : "Food Builder", taming: locale === "ru" ? "Приручение" : "Taming", trophies: locale === "ru" ? "Трофеи" : "Trophies", bosses: locale === "ru" ? "Боссы" : "Bosses", biome: text(locale, currentBiome ?? { name_en: "Biome", name_ru: "Биом" }),
+    favorites: locale === "ru" ? "Избранное" : "Favorites", "food-builder": locale === "ru" ? "Конструктор еды" : "Food Builder", taming: locale === "ru" ? "Приручение" : "Taming", trophies: locale === "ru" ? "Трофеи" : "Trophies", fishing: locale === "ru" ? "Рыбалка" : "Fishing", skills: locale === "ru" ? "Навыки" : "Skills", builds: locale === "ru" ? "Билды" : "Builds", bosses: locale === "ru" ? "Боссы" : "Bosses", biome: text(locale, currentBiome ?? { name_en: "Biome", name_ru: "Биом" }),
     item: item ? text(locale, item) : locale === "ru" ? "Предмет" : "Item",
     resource: resource ? text(locale, resource) : locale === "ru" ? "Ресурс" : "Resource",
     creature: creature ? text(locale, creature) : locale === "ru" ? "Существо" : "Creature"
@@ -304,6 +400,13 @@ export function App() {
       try { window.localStorage.setItem("valheim-guide-collected-trophies-v1", JSON.stringify(next)); } catch { /* best effort */ }
       return next;
     });
+  };
+
+  const openGuideSection = (next: "fishing" | "skills" | "builds") => {
+    const moreSections: Section[] = ["food-builder", "taming", "trophies", "fishing", "skills", "builds"];
+    setToolOrigin(moreSections.includes(section) ? "home" : section);
+    setMoreMenuOpen(false);
+    setSection(next);
   };
 
   const toggleFood = (food: FoodSummary) => {
@@ -614,7 +717,7 @@ export function App() {
     setMessage("");
     if (section === "item" || section === "resource") return setSection(detailOrigin);
     if (section === "creature") return setSection(creatureOrigin);
-    if (section === "food-builder" || section === "taming" || section === "trophies") return setSection(toolOrigin);
+    if (section === "food-builder" || section === "taming" || section === "trophies" || section === "fishing" || section === "skills" || section === "builds") return setSection(toolOrigin);
     if (section === "biome") return setSection("home");
     setSection("home");
   };
@@ -651,6 +754,21 @@ export function App() {
         <button className="more-menu-item trophies" onClick={() => void openTrophies()}>
           <span className="more-menu-icon">♛</span>
           <span><small>{locale === "ru" ? "КОЛЛЕКЦИЯ · 70 ТРОФЕЕВ" : "COLLECTION · 70 TROPHIES"}</small><strong>{locale === "ru" ? "Добытые трофеи" : "Trophy Collection"}</strong><p>{locale === "ru" ? "Отмечайте найденные трофеи и следите за прогрессом коллекции." : "Mark collected trophies and track your collection progress."}</p></span>
+          <i>›</i>
+        </button>
+        <button className="more-menu-item fishing" onClick={() => openGuideSection("fishing")}>
+          <span className="more-menu-icon">🎣</span>
+          <span><small>{locale === "ru" ? "12 РЫБ · 9 НАЖИВОК" : "12 FISH · 9 BAITS"}</small><strong>{locale === "ru" ? "Энциклопедия рыбалки" : "Fishing Encyclopedia"}</strong><p>{locale === "ru" ? "Где ловить, на что клюёт и как получить нужную наживку." : "Where to fish, what bites and which bait to use."}</p></span>
+          <i>›</i>
+        </button>
+        <button className="more-menu-item skills" onClick={() => openGuideSection("skills")}>
+          <span className="more-menu-icon">⚔</span>
+          <span><small>{locale === "ru" ? "ПЕРСОНАЖ · 24 НАВЫКА" : "CHARACTER · 24 SKILLS"}</small><strong>{locale === "ru" ? "Навыки персонажа" : "Character Skills"}</strong><p>{locale === "ru" ? "Что прокачивает каждый навык и какой эффект дают уровни." : "What each skill governs and how levels improve it."}</p></span>
+          <i>›</i>
+        </button>
+        <button className="more-menu-item builds" onClick={() => openGuideSection("builds")}>
+          <span className="more-menu-icon">🛡</span>
+          <span><small>{locale === "ru" ? "ОРУЖИЕ · БРОНЯ · ЕДА" : "WEAPONS · ARMOUR · FOOD"}</small><strong>{locale === "ru" ? "Билды персонажа" : "Character Builds"}</strong><p>{locale === "ru" ? "Готовые наборы экипировки под разные стили игры." : "Ready-to-use loadouts for different playstyles."}</p></span>
           <i>›</i>
         </button>
       </aside>
@@ -786,6 +904,47 @@ export function App() {
       })}</div>}
     </section>}
 
+    {section === "fishing" && <section className="fishing-guide-section">
+      <div className="guide-hero fishing-guide-hero">
+        <span className="guide-hero-icon">🎣</span>
+        <div><p>{locale === "ru" ? "РЫБАЛКА · 1.0" : "FISHING · 1.0"}</p><h2>{locale === "ru" ? "12 видов рыбы" : "12 fish species"}</h2><span>{locale === "ru" ? "Удочка продаётся у Хальдора за 350 монет. Для поздних биомов берите еду на выносливость: крупная рыба быстро опустошает её запас." : "Haldor sells the rod for 350 coins. Bring stamina food for late-biome catches: large fish drain stamina quickly."}</span></div>
+        <div className="guide-hero-tools"><span><img src="/media/wiki/fishing-rod.png" alt="" /><b>{locale === "ru" ? "Удочка" : "Fishing Rod"}</b></span><span><img src="/media/wiki/fishing-hat.png" alt="" /><b>{locale === "ru" ? "Рыбацкая шляпа" : "Fishing Hat"}</b></span></div>
+      </div>
+      <div className="fishing-bait-list">{fishingGuides.map((bait,index) => <article className="fishing-bait-card" key={bait.slug}>
+        <div className="fishing-bait-head"><span className="fishing-bait-art"><img src={`/media/wiki/${bait.slug}.png`} alt="" /></span><span><small>{String(index + 1).padStart(2,"0")} · {locale === "ru" ? bait.water_ru : bait.water_en}</small><strong>{locale === "ru" ? bait.name_ru : bait.name_en}</strong><p>{locale === "ru" ? bait.recipe_ru : bait.recipe_en}</p></span></div>
+        <div className="fishing-catches">{bait.fish.map((entry) => <div className="fish-chip" key={entry.slug}><i><img src={`/media/wiki/${entry.slug}.png`} alt="" /></i><span><small>{locale === "ru" ? "КЛЮЁТ" : "CATCH"}</small><b>{locale === "ru" ? entry.name_ru : entry.name_en}</b></span></div>)}</div>
+      </article>)}</div>
+      <p className="guide-source"><a href="https://www.valheim.tools/guides/fishing" target="_blank" rel="noreferrer">{locale === "ru" ? "Проверить данные рыбалки ↗" : "View fishing data ↗"}</a></p>
+    </section>}
+
+    {section === "skills" && <section className="skills-guide-section">
+      <div className="guide-hero skills-guide-hero">
+        <span className="guide-hero-icon">⚔</span>
+        <div><p>{locale === "ru" ? "ПЕРСОНАЖ · 0—100" : "CHARACTER · 0—100"}</p><h2>{locale === "ru" ? "24 навыка" : "24 skills"}</h2><span>{locale === "ru" ? "Навыки растут от соответствующих действий. Более высокий уровень обычно повышает эффективность и/или снижает расход выносливости или эйтра." : "Skills grow by performing their related actions. Higher levels generally improve effectiveness and/or reduce stamina or eitr costs."}</span></div>
+      </div>
+      {(["combat","magic","movement","craft"] as const).map((group) => {
+        const titles = { combat:[locale === "ru" ? "БОЙ" : "COMBAT",locale === "ru" ? "Боевые" : "Combat"], magic:[locale === "ru" ? "МАГИЯ" : "MAGIC",locale === "ru" ? "Магические" : "Magic"], movement:[locale === "ru" ? "ДВИЖЕНИЕ" : "MOVEMENT",locale === "ru" ? "Передвижение" : "Movement"], craft:[locale === "ru" ? "РЕМЕСЛО" : "UTILITY",locale === "ru" ? "Ремесло и быт" : "Craft & utility"] }[group];
+        const entries = skillGuides.filter((skill) => skill.group === group);
+        return <div className="skill-group" key={group}><div className="section-heading"><div><p>{titles[0]}</p><h2>{titles[1]}</h2></div><span>{String(entries.length).padStart(2,"0")}</span></div><div className="skill-grid">{entries.map((skill) => <article className="skill-card" key={skill.slug}><span className="skill-icon">{skill.icon}</span><span><strong>{locale === "ru" ? skill.name_ru : skill.name_en}</strong><p>{locale === "ru" ? skill.effect_ru : skill.effect_en}</p></span></article>)}</div></div>;
+      })}
+      <p className="guide-source"><a href="https://www.valheim.tools/skills" target="_blank" rel="noreferrer">{locale === "ru" ? "Проверить данные навыков ↗" : "View skill data ↗"}</a></p>
+    </section>}
+
+    {section === "builds" && <section className="builds-guide-section">
+      <div className="guide-hero builds-guide-hero">
+        <span className="guide-hero-icon">🛡</span>
+        <div><p>{locale === "ru" ? "ЭНДГЕЙМ · DEEP NORTH" : "ENDGAME · DEEP NORTH"}</p><h2>{locale === "ru" ? "Готовые билды" : "Character builds"}</h2><span>{locale === "ru" ? "Это практические наборы под разные роли, а не единственно правильный способ игры. Нажмите на предмет — откроется его полная карточка." : "These are practical role-based loadouts, not the only correct way to play. Tap any item to open its full guide card."}</span></div>
+      </div>
+      <div className="build-list">{characterBuilds.map((build) => <article className="build-card" key={build.id}>
+        <div className="build-head"><span>{build.icon}</span><div><small>{locale === "ru" ? build.tag_ru : build.tag_en}</small><h3>{locale === "ru" ? build.name_ru : build.name_en}</h3><p>{locale === "ru" ? build.description_ru : build.description_en}</p></div></div>
+        {([
+          ["weapons",locale === "ru" ? "ОРУЖИЕ" : "WEAPONS",build.weapons],
+          ["armor",locale === "ru" ? "БРОНЯ" : "ARMOUR",build.armor],
+          ["food",locale === "ru" ? "ЕДА · 3 СЛОТА" : "FOOD · 3 SLOTS",build.food]
+        ] as const).map(([kind,label,entries]) => <div className={`build-row ${kind}`} key={kind}><small>{label}</small><div>{entries.map((entry) => <button key={entry.slug} onClick={() => void openItem(entry.slug)}><i><img src={`/media/wiki/${entry.slug}.png`} alt="" /></i><span>{locale === "ru" ? entry.name_ru : entry.name_en}</span></button>)}</div></div>)}
+      </article>)}</div>
+    </section>}
+
     {section === "bosses" && <section className="bosses-section">
       <div className="section-heading"><div><p>{locale === "ru" ? "БОССЫ · БОЕВОЙ СПРАВОЧНИК" : "BOSSES · COMBAT GUIDE"}</p><h2>{locale === "ru" ? "Боссы" : "Bosses"}</h2></div><span>{String(bosses.length || 8).padStart(2,"0")}</span></div>
       <p className="bosses-intro">{locale === "ru" ? "Главные боссы Valheim по порядку прохождения. Открой карточку, чтобы посмотреть призыв, силу, рекомендуемое снаряжение, резисты и дроп." : "Valheim's major bosses in progression order. Open a card for summon requirements, power, recommended gear, resistances and drops."}</p>
@@ -875,7 +1034,7 @@ export function App() {
         <span className="nav-icon"><NavIcon id="search" /></span>
         <span className="nav-label">{locale === "ru" ? "Поиск" : "Search"}</span>
       </button>
-      <button className={moreMenuOpen || section === "food-builder" || section === "taming" || section === "trophies" ? "active nav-more" : "nav-more"} aria-expanded={moreMenuOpen} aria-label={locale === "ru" ? "Дополнительное меню" : "More menu"} onClick={() => setMoreMenuOpen((open) => !open)}>
+      <button className={moreMenuOpen || section === "food-builder" || section === "taming" || section === "trophies" || section === "fishing" || section === "skills" || section === "builds" ? "active nav-more" : "nav-more"} aria-expanded={moreMenuOpen} aria-label={locale === "ru" ? "Дополнительное меню" : "More menu"} onClick={() => setMoreMenuOpen((open) => !open)}>
         <span className="nav-icon"><NavIcon id="more" /></span>
         <span className="nav-label">{locale === "ru" ? "Ещё" : "More"}</span>
       </button>

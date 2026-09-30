@@ -1,30 +1,257 @@
 [
-  {"slug":"wood","url":"https://static.wikia.nocookie.net/valheim/images/d/df/Wood.png/revision/latest?cb=20210215132125","output":"wood.webp"},
-  {"slug":"flint","url":"https://static.wikia.nocookie.net/valheim/images/2/2e/Flint.png/revision/latest?cb=20210215131615","output":"flint.webp"},
-  {"slug":"deer-hide","url":"https://static.wikia.nocookie.net/valheim/images/9/94/Deer_Hide.png/revision/latest?cb=20210215131542","output":"deer-hide.webp"},
-  {"slug":"bone-fragments","url":"https://static.wikia.nocookie.net/valheim/images/7/7a/Bone_Fragments.png/revision/latest?cb=20210215131409","output":"bone-fragments.webp"},
-  {"slug":"leather-scraps","url":"https://static.wikia.nocookie.net/valheim/images/d/d9/Leather_Scraps.png/revision/latest?cb=20210208222814","output":"leather-scraps.webp"},
-  {"slug":"finewood","url":"https://static.wikia.nocookie.net/valheim/images/9/98/Finewood.png/revision/latest?cb=20210215131556","output":"finewood.webp"},
-  {"slug":"corewood","url":"https://static.wikia.nocookie.net/valheim/images/5/53/Corewood.png/revision/latest?cb=20210215131825","output":"corewood.webp"},
-  {"slug":"stone","url":"https://static.wikia.nocookie.net/valheim/images/d/d4/Stone.png/revision/latest?cb=20210215131958","output":"stone.webp"},
-  {"slug":"resin","url":"https://static.wikia.nocookie.net/valheim/images/2/2c/Resin.png/revision/latest?cb=20210215131821","output":"resin.webp"},
-  {"slug":"club","url":"https://static.wikia.nocookie.net/valheim/images/5/50/Club.png/revision/latest?cb=20210215131512","output":"club.webp"},
-  {"slug":"crude-bow","url":"https://static.wikia.nocookie.net/valheim/images/b/be/Crude_Bow.png/revision/latest?cb=20210208233336","output":"crude-bow.webp"},
-  {"slug":"flint-axe","url":"https://static.wikia.nocookie.net/valheim/images/9/92/Flint_Axe.png/revision/latest?cb=20230101110252","output":"flint-axe.webp"},
-  {"slug":"flint-knife","url":"https://static.wikia.nocookie.net/valheim/images/e/e8/Flint_Knife.png/revision/latest?cb=20210209001832","output":"flint-knife.webp"},
-  {"slug":"flint-spear","url":"https://static.wikia.nocookie.net/valheim/images/6/6b/Flint_Spear.png/revision/latest?cb=20210209152025","output":"flint-spear.webp"},
-  {"slug":"finewood-bow","url":"https://static.wikia.nocookie.net/valheim/images/a/a6/Finewood_Bow.png/revision/latest?cb=20210214051911","output":"finewood-bow.webp"},
-  {"slug":"leather-helmet","url":"https://static.wikia.nocookie.net/valheim/images/6/6e/Leather_Helmet.png/revision/latest?cb=20210209040310","output":"leather-helmet.webp"},
-  {"slug":"leather-tunic","url":"https://static.wikia.nocookie.net/valheim/images/9/96/Leather_Tunic.png/revision/latest?cb=20210209042720","output":"leather-tunic.webp"},
-  {"slug":"leather-pants","url":"https://static.wikia.nocookie.net/valheim/images/2/28/Leather_Pants.png/revision/latest?cb=20210209042343","output":"leather-pants.webp"},
-  {"slug":"deer-hide-cape","url":"https://static.wikia.nocookie.net/valheim/images/6/67/Deer_Hide_Cape.png/revision/latest?cb=20210209041809","output":"deer-hide-cape.webp"},
-  {"slug":"biome-meadows","url":"https://static.wikia.nocookie.net/valheim/images/5/52/Biome_meadows.png/revision/latest?cb=20210215131217","output":"biomes/meadows.webp"},
-  {"slug":"biome-black-forest","url":"https://static.wikia.nocookie.net/valheim/images/5/5c/Blackforest2.jpg/revision/latest?cb=20210205163807","output":"biomes/black-forest.webp"},
-  {"slug":"biome-swamp","url":"https://static.wikia.nocookie.net/valheim/images/d/d4/Biome_swamp.png/revision/latest?cb=20210215131223","output":"biomes/swamp.webp"},
-  {"slug":"biome-mountains","url":"https://static.wikia.nocookie.net/valheim/images/7/78/Biome_mountain.png/revision/latest?cb=20210215131220","output":"biomes/mountains.webp"},
-  {"slug":"biome-plains","url":"https://static.wikia.nocookie.net/valheim/images/9/91/Biome_heath.png/revision/latest?cb=20210215131216","output":"biomes/plains.webp"},
-  {"slug":"biome-mistlands","url":"https://static.wikia.nocookie.net/valheim/images/1/1e/Biome_mistlands.png/revision/latest?cb=20221209075159","output":"biomes/mistlands.webp"},
-  {"slug":"biome-ashlands","url":"https://static.wikia.nocookie.net/valheim/images/2/2f/Ashlands1.jpg/revision/latest?cb=20210205140657","output":"biomes/ashlands.webp"},
-  {"slug":"biome-deep-north","url":"https://static.wikia.nocookie.net/valheim/images/b/bb/Deep_North_shoreline_teaser.png/revision/latest?cb=20260302215447","output":"biomes/deep-north.webp"},
-  {"slug":"biome-ocean","url":"https://static.wikia.nocookie.net/valheim/images/6/62/Biome_ocean.png/revision/latest?cb=20210215131222","output":"biomes/ocean.webp"}
+  {
+    "slug": "wood",
+    "url": "https://static.wikia.nocookie.net/valheim/images/d/df/Wood.png/revision/latest?cb=20210215132125",
+    "output": "wood.webp"
+  },
+  {
+    "slug": "flint",
+    "url": "https://static.wikia.nocookie.net/valheim/images/2/2e/Flint.png/revision/latest?cb=20210215131615",
+    "output": "flint.webp"
+  },
+  {
+    "slug": "deer-hide",
+    "url": "https://static.wikia.nocookie.net/valheim/images/9/94/Deer_Hide.png/revision/latest?cb=20210215131542",
+    "output": "deer-hide.webp"
+  },
+  {
+    "slug": "bone-fragments",
+    "url": "https://static.wikia.nocookie.net/valheim/images/7/7a/Bone_Fragments.png/revision/latest?cb=20210215131409",
+    "output": "bone-fragments.webp"
+  },
+  {
+    "slug": "leather-scraps",
+    "url": "https://static.wikia.nocookie.net/valheim/images/d/d9/Leather_Scraps.png/revision/latest?cb=20210208222814",
+    "output": "leather-scraps.webp"
+  },
+  {
+    "slug": "finewood",
+    "url": "https://static.wikia.nocookie.net/valheim/images/9/98/Finewood.png/revision/latest?cb=20210215131556",
+    "output": "finewood.webp"
+  },
+  {
+    "slug": "corewood",
+    "url": "https://static.wikia.nocookie.net/valheim/images/5/53/Corewood.png/revision/latest?cb=20210215131825",
+    "output": "corewood.webp"
+  },
+  {
+    "slug": "stone",
+    "url": "https://static.wikia.nocookie.net/valheim/images/d/d4/Stone.png/revision/latest?cb=20210215131958",
+    "output": "stone.webp"
+  },
+  {
+    "slug": "resin",
+    "url": "https://static.wikia.nocookie.net/valheim/images/2/2c/Resin.png/revision/latest?cb=20210215131821",
+    "output": "resin.webp"
+  },
+  {
+    "slug": "club",
+    "url": "https://static.wikia.nocookie.net/valheim/images/5/50/Club.png/revision/latest?cb=20210215131512",
+    "output": "club.webp"
+  },
+  {
+    "slug": "crude-bow",
+    "url": "https://static.wikia.nocookie.net/valheim/images/b/be/Crude_Bow.png/revision/latest?cb=20210208233336",
+    "output": "crude-bow.webp"
+  },
+  {
+    "slug": "flint-axe",
+    "url": "https://static.wikia.nocookie.net/valheim/images/9/92/Flint_Axe.png/revision/latest?cb=20230101110252",
+    "output": "flint-axe.webp"
+  },
+  {
+    "slug": "flint-knife",
+    "url": "https://static.wikia.nocookie.net/valheim/images/e/e8/Flint_Knife.png/revision/latest?cb=20210209001832",
+    "output": "flint-knife.webp"
+  },
+  {
+    "slug": "flint-spear",
+    "url": "https://static.wikia.nocookie.net/valheim/images/6/6b/Flint_Spear.png/revision/latest?cb=20210209152025",
+    "output": "flint-spear.webp"
+  },
+  {
+    "slug": "finewood-bow",
+    "url": "https://static.wikia.nocookie.net/valheim/images/a/a6/Finewood_Bow.png/revision/latest?cb=20210214051911",
+    "output": "finewood-bow.webp"
+  },
+  {
+    "slug": "leather-helmet",
+    "url": "https://static.wikia.nocookie.net/valheim/images/6/6e/Leather_Helmet.png/revision/latest?cb=20210209040310",
+    "output": "leather-helmet.webp"
+  },
+  {
+    "slug": "leather-tunic",
+    "url": "https://static.wikia.nocookie.net/valheim/images/9/96/Leather_Tunic.png/revision/latest?cb=20210209042720",
+    "output": "leather-tunic.webp"
+  },
+  {
+    "slug": "leather-pants",
+    "url": "https://static.wikia.nocookie.net/valheim/images/2/28/Leather_Pants.png/revision/latest?cb=20210209042343",
+    "output": "leather-pants.webp"
+  },
+  {
+    "slug": "deer-hide-cape",
+    "url": "https://static.wikia.nocookie.net/valheim/images/6/67/Deer_Hide_Cape.png/revision/latest?cb=20210209041809",
+    "output": "deer-hide-cape.webp"
+  },
+  {
+    "slug": "biome-meadows",
+    "url": "https://static.wikia.nocookie.net/valheim/images/5/52/Biome_meadows.png/revision/latest?cb=20210215131217",
+    "output": "biomes/meadows.webp"
+  },
+  {
+    "slug": "biome-black-forest",
+    "url": "https://static.wikia.nocookie.net/valheim/images/5/5c/Blackforest2.jpg/revision/latest?cb=20210205163807",
+    "output": "biomes/black-forest.webp"
+  },
+  {
+    "slug": "biome-swamp",
+    "url": "https://static.wikia.nocookie.net/valheim/images/d/d4/Biome_swamp.png/revision/latest?cb=20210215131223",
+    "output": "biomes/swamp.webp"
+  },
+  {
+    "slug": "biome-mountains",
+    "url": "https://static.wikia.nocookie.net/valheim/images/7/78/Biome_mountain.png/revision/latest?cb=20210215131220",
+    "output": "biomes/mountains.webp"
+  },
+  {
+    "slug": "biome-plains",
+    "url": "https://static.wikia.nocookie.net/valheim/images/9/91/Biome_heath.png/revision/latest?cb=20210215131216",
+    "output": "biomes/plains.webp"
+  },
+  {
+    "slug": "biome-mistlands",
+    "url": "https://static.wikia.nocookie.net/valheim/images/1/1e/Biome_mistlands.png/revision/latest?cb=20221209075159",
+    "output": "biomes/mistlands.webp"
+  },
+  {
+    "slug": "biome-ashlands",
+    "url": "https://static.wikia.nocookie.net/valheim/images/2/2f/Ashlands1.jpg/revision/latest?cb=20210205140657",
+    "output": "biomes/ashlands.webp"
+  },
+  {
+    "slug": "biome-deep-north",
+    "url": "https://static.wikia.nocookie.net/valheim/images/b/bb/Deep_North_shoreline_teaser.png/revision/latest?cb=20260302215447",
+    "output": "biomes/deep-north.webp"
+  },
+  {
+    "slug": "biome-ocean",
+    "url": "https://static.wikia.nocookie.net/valheim/images/6/62/Biome_ocean.png/revision/latest?cb=20210215131222",
+    "output": "biomes/ocean.webp"
+  },
+  {
+    "slug": "fishing-rod",
+    "url": "https://www.valheim.tools/items/fishing-rod",
+    "output": "fishing-rod.png"
+  },
+  {
+    "slug": "fishing-hat",
+    "url": "https://www.valheim.tools/items/fishing-hat",
+    "output": "fishing-hat.png"
+  },
+  {
+    "slug": "fishing-bait",
+    "url": "https://www.valheim.tools/items/fishing-bait",
+    "output": "fishing-bait.png"
+  },
+  {
+    "slug": "mossy-fishing-bait",
+    "url": "https://www.valheim.tools/items/mossy-fishing-bait",
+    "output": "mossy-fishing-bait.png"
+  },
+  {
+    "slug": "sticky-fishing-bait",
+    "url": "https://www.valheim.tools/items/sticky-fishing-bait",
+    "output": "sticky-fishing-bait.png"
+  },
+  {
+    "slug": "cold-fishing-bait",
+    "url": "https://www.valheim.tools/items/cold-fishing-bait",
+    "output": "cold-fishing-bait.png"
+  },
+  {
+    "slug": "stingy-fishing-bait",
+    "url": "https://www.valheim.tools/items/stingy-fishing-bait",
+    "output": "stingy-fishing-bait.png"
+  },
+  {
+    "slug": "heavy-fishing-bait",
+    "url": "https://www.valheim.tools/items/heavy-fishing-bait",
+    "output": "heavy-fishing-bait.png"
+  },
+  {
+    "slug": "misty-fishing-bait",
+    "url": "https://www.valheim.tools/items/misty-fishing-bait",
+    "output": "misty-fishing-bait.png"
+  },
+  {
+    "slug": "hot-fishing-bait",
+    "url": "https://www.valheim.tools/items/hot-fishing-bait",
+    "output": "hot-fishing-bait.png"
+  },
+  {
+    "slug": "frosty-fishing-bait",
+    "url": "https://www.valheim.tools/items/frosty-fishing-bait",
+    "output": "frosty-fishing-bait.png"
+  },
+  {
+    "slug": "perch",
+    "url": "https://www.valheim.tools/items/perch",
+    "output": "perch.png"
+  },
+  {
+    "slug": "pike",
+    "url": "https://www.valheim.tools/items/pike",
+    "output": "pike.png"
+  },
+  {
+    "slug": "tuna",
+    "url": "https://www.valheim.tools/items/tuna",
+    "output": "tuna.png"
+  },
+  {
+    "slug": "tetra",
+    "url": "https://www.valheim.tools/items/tetra",
+    "output": "tetra.png"
+  },
+  {
+    "slug": "trollfish",
+    "url": "https://www.valheim.tools/items/trollfish",
+    "output": "trollfish.png"
+  },
+  {
+    "slug": "giant-herring",
+    "url": "https://www.valheim.tools/items/giant-herring",
+    "output": "giant-herring.png"
+  },
+  {
+    "slug": "grouper",
+    "url": "https://www.valheim.tools/items/grouper",
+    "output": "grouper.png"
+  },
+  {
+    "slug": "coral-cod",
+    "url": "https://www.valheim.tools/items/coral-cod",
+    "output": "coral-cod.png"
+  },
+  {
+    "slug": "anglerfish",
+    "url": "https://www.valheim.tools/items/anglerfish",
+    "output": "anglerfish.png"
+  },
+  {
+    "slug": "northern-salmon",
+    "url": "https://www.valheim.tools/items/northern-salmon",
+    "output": "northern-salmon.png"
+  },
+  {
+    "slug": "magmafish",
+    "url": "https://www.valheim.tools/items/magmafish",
+    "output": "magmafish.png"
+  },
+  {
+    "slug": "pufferfish",
+    "url": "https://www.valheim.tools/items/pufferfish",
+    "output": "pufferfish.png"
+  }
 ]

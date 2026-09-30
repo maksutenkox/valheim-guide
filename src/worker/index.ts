@@ -403,10 +403,15 @@ export default {
       const detail = await loadCreatureDetail(creatureMatch[1]);
       if (!detail) return notFound();
       const drops = await Promise.all(detail.drops.map(async (drop) => {
+        const fallbackSlug = drop.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
         const linked = await env.DB.prepare(
-          "SELECT slug, entity_type, name_en, name_ru, image_path FROM items WHERE LOWER(name_en) = LOWER(?) LIMIT 1"
-        ).bind(drop.name).first<{ slug: string; entity_type: "item" | "resource"; name_en: string; name_ru: string; image_path: string | null }>();
-        return linked ? { ...drop, ...linked } : drop;
+          `SELECT slug, entity_type, name_en, name_ru, image_path
+           FROM items
+           WHERE LOWER(name_en) = LOWER(?) OR slug = ?
+           ORDER BY CASE WHEN LOWER(name_en) = LOWER(?) THEN 0 ELSE 1 END
+           LIMIT 1`
+        ).bind(drop.name, fallbackSlug, drop.name).first<{ slug: string; entity_type: "item" | "resource"; name_en: string; name_ru: string; image_path: string | null }>();
+        return linked ? { ...drop, ...linked, image_path: linked.image_path ?? `/media/wiki/${linked.slug}.png` } : drop;
       }));
       return json({ data: { ...detail, image_url: detail.image_url ?? await creatureArtwork(env, detail.slug), drops } });
     }

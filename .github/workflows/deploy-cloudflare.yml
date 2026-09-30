@@ -244,3 +244,25 @@ jobs:
             echo "$trophy_slug: $CONTENT_TYPE"
             echo "$CONTENT_TYPE" | grep -q '^image/'
           done <<< "$TROPHY_SLUGS"
+
+          echo "Checking fishing encyclopedia media..."
+          for asset in fishing-rod fishing-hat fishing-bait mossy-fishing-bait sticky-fishing-bait cold-fishing-bait stingy-fishing-bait heavy-fishing-bait misty-fishing-bait hot-fishing-bait frosty-fishing-bait perch pike tuna tetra trollfish giant-herring grouper coral-cod anglerfish northern-salmon magmafish pufferfish; do
+            CONTENT_TYPE="$(curl --fail --silent --show-error -o /dev/null -w '%{content_type}' --retry 4 --retry-delay 1 "$BASE_URL/media/wiki/$asset.png")"
+            echo "$asset: $CONTENT_TYPE"
+            echo "$CONTENT_TYPE" | grep -q '^image/'
+          done
+
+          echo "Checking every boss drop icon..."
+          for boss in eikthyr the-elder bonemass moder yagluth the-queen fader kall-fimbulbringer; do
+            BOSS_DETAIL="$(curl --fail --silent --show-error --retry 4 --retry-delay 2 "$BASE_URL/api/creatures/$boss")"
+            MISSING_DROP_ICONS="$(printf '%s' "$BOSS_DETAIL" | node -e 'const fs=require("fs");const d=JSON.parse(fs.readFileSync(0,"utf8")).data;process.stdout.write(String((d.drops||[]).filter(x=>!x.image_path).length))')"
+            echo "$boss missing drop icons: $MISSING_DROP_ICONS"
+            test "$MISSING_DROP_ICONS" = "0"
+            DROP_PATHS="$(printf '%s' "$BOSS_DETAIL" | node -e 'const fs=require("fs");const d=JSON.parse(fs.readFileSync(0,"utf8")).data;process.stdout.write((d.drops||[]).map(x=>x.image_path).filter(Boolean).join("\n"))')"
+            while IFS= read -r drop_path; do
+              test -n "$drop_path" || continue
+              CONTENT_TYPE="$(curl --fail --silent --show-error -o /dev/null -w '%{content_type}' --retry 4 --retry-delay 1 "$BASE_URL$drop_path")"
+              echo "$boss $drop_path: $CONTENT_TYPE"
+              echo "$CONTENT_TYPE" | grep -q '^image/'
+            done <<< "$DROP_PATHS"
+          done

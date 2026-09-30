@@ -628,3 +628,70 @@ h2{margin:24px 0 12px;font-size:18px;letter-spacing:-.01em}
 @media (max-width:390px){
   .trophy-check-grid{grid-template-columns:1fr}
 }
+
+
+/* Fishing, skills and builds */
+.more-menu-item.fishing small{color:#79a9b2}
+.more-menu-item.fishing .more-menu-icon{border-color:#35545a;background:linear-gradient(180deg,#253a3f,#18282c)}
+.more-menu-item.skills small{color:#c89b62}
+.more-menu-item.skills .more-menu-icon{border-color:#5e4930;background:linear-gradient(180deg,#382c20,#241d17)}
+.more-menu-item.builds small{color:#a5ad91}
+.more-menu-item.builds .more-menu-icon{border-color:#4f5946;background:linear-gradient(180deg,#30372a,#20251d)}
+.fishing-guide-section,.skills-guide-section,.builds-guide-section{display:grid;gap:12px}
+.guide-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:auto minmax(0,1fr);gap:13px;padding:17px;border:1px solid #3b4038;border-radius:19px;background:linear-gradient(145deg,#1c201b,#141713);box-shadow:var(--shadow)}
+.guide-hero-icon{width:55px;height:55px;display:grid;place-items:center;border:1px solid #4b5147;border-radius:15px;background:#252923;font-size:25px}
+.guide-hero p{margin:0 0 2px;color:#9b835d;font-size:8px;font-weight:900;letter-spacing:.14em}
+.guide-hero h2{margin:0;color:#e5dcc8;font-family:var(--serif);font-size:24px;font-weight:600}
+.guide-hero div>span{display:block;margin-top:6px;color:#9e9e94;font-size:9px;line-height:1.45}
+.guide-hero-tools{grid-column:1/-1;display:grid!important;grid-template-columns:1fr 1fr;gap:7px;margin-top:2px}
+.guide-hero-tools>span{display:flex!important;align-items:center;gap:8px;margin:0!important;padding:7px;border:1px solid #343b34;border-radius:11px;background:#181c18}
+.guide-hero-tools img{width:34px;height:34px;object-fit:contain}
+.guide-hero-tools b{color:#d5d2c8;font-size:9px}
+.fishing-bait-list{display:grid;gap:8px}
+.fishing-bait-card{padding:10px;border:1px solid #303a38;border-radius:15px;background:linear-gradient(180deg,#19201f,#151918)}
+.fishing-bait-head{display:flex;align-items:center;gap:10px}
+.fishing-bait-art{width:56px;height:56px;flex:0 0 56px;display:grid;place-items:center;border:1px solid #465557;border-radius:13px;background:linear-gradient(145deg,#263638,#182526)}
+.fishing-bait-art img{width:90%;height:90%;object-fit:contain}
+.fishing-bait-head>span:last-child{min-width:0}
+.fishing-bait-head small{display:block;color:#76969a;font-size:7px;font-weight:850;letter-spacing:.09em;text-transform:uppercase}
+.fishing-bait-head strong{display:block;margin-top:2px;color:#ddd9cf;font-family:var(--serif);font-size:15px}
+.fishing-bait-head p{margin:3px 0 0;color:#8f948f;font-size:8px;line-height:1.4}
+.fishing-catches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:9px}
+.fish-chip{display:flex;align-items:center;gap:7px;min-width:0;padding:6px;border:1px solid #2d3533;border-radius:10px;background:#151918}
+.fish-chip i{width:33px;height:33px;flex:0 0 33px;display:grid;place-items:center;border-radius:8px;background:#d0cdc2}
+.fish-chip img{width:100%;height:100%;object-fit:contain}
+.fish-chip span{min-width:0}
+.fish-chip small{display:block;color:#6e898c;font-size:6px;font-weight:900;letter-spacing:.1em}
+.fish-chip b{display:block;overflow:hidden;color:#cfcfc7;font-size:8px;text-overflow:ellipsis;white-space:nowrap}
+.guide-source{margin:1px 0 0;text-align:center}
+.guide-source a{color:#a1875f;font-size:8px;text-decoration:none}
+.skill-group{display:grid;gap:7px}
+.skill-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.skill-card{display:flex;align-items:flex-start;gap:8px;padding:9px;border:1px solid #30342d;border-radius:13px;background:linear-gradient(180deg,#191c18,#141714)}
+.skill-icon{width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;border:1px solid #484c42;border-radius:10px;background:#22261f;font-size:15px}
+.skill-card>span:last-child{min-width:0}
+.skill-card strong{display:block;color:#dad5c8;font-family:var(--serif);font-size:11px}
+.skill-card p{margin:3px 0 0;color:#8e9189;font-size:7px;line-height:1.35}
+.build-list{display:grid;gap:10px}
+.build-card{overflow:hidden;border:1px solid #3a3a31;border-radius:17px;background:linear-gradient(180deg,#1c1d19,#151613);box-shadow:var(--shadow)}
+.build-head{display:flex;gap:10px;padding:12px;border-bottom:1px solid #303129;background:radial-gradient(circle at 0 0,rgba(205,162,87,.08),transparent 45%)}
+.build-head>span{width:45px;height:45px;flex:0 0 45px;display:grid;place-items:center;border:1px solid #554831;border-radius:12px;background:#29231a;font-size:21px}
+.build-head small{display:block;color:#a1814f;font-size:7px;font-weight:900;letter-spacing:.09em;text-transform:uppercase}
+.build-head h3{margin:2px 0 0;color:#e2d6be;font-family:var(--serif);font-size:17px;font-weight:600}
+.build-head p{margin:4px 0 0;color:#92928a;font-size:8px;line-height:1.42}
+.build-row{display:grid;gap:6px;padding:9px 10px;border-top:1px solid #272a24}
+.build-row>small{color:#80735d;font-size:6.5px;font-weight:900;letter-spacing:.12em}
+.build-row>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.build-row button{min-width:0;padding:6px 4px;border:1px solid #30342d;border-radius:10px;background:#181a17;color:#cbc8bf;text-align:center}
+.build-row button i{width:40px;height:40px;display:grid;place-items:center;margin:0 auto 4px;border-radius:9px;background:#ccc8bd}
+.build-row button img{width:100%;height:100%;object-fit:contain}
+.build-row button span{display:block;overflow:hidden;font-size:7px;font-weight:700;line-height:1.2;text-overflow:ellipsis}
+.build-row.food button{border-color:#42392b;background:#1c1914}
+@media (min-width:600px){
+  .fishing-bait-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .skill-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:380px){
+  .skill-grid,.fishing-catches{grid-template-columns:1fr}
+  .build-row>div{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
