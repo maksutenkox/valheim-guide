@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { ApiError, api } from "./services/api";
-import type { Biome, BossSummary, Category, CraftList, CraftListItem, CraftResourceTotal, CreatureDetail, CreatureSummary, GuideItem, ItemDetail, Locale, ResourceDetail } from "./types";
+import type { Biome, BossSummary, Category, CraftList, CraftListItem, CraftResourceTotal, CreatureDetail, CreatureSummary, FoodSummary, GuideItem, ItemDetail, Locale, ResourceDetail, TamingGuide } from "./types";
 import "./styles.css";
 
-type Section = "home" | "search" | "craft" | "favorites" | "bosses" | "biome" | "item" | "resource" | "creature";
-type NavSection = "home" | "search" | "craft" | "favorites";
+type Section = "home" | "search" | "craft" | "favorites" | "tools" | "food-builder" | "taming" | "bosses" | "biome" | "item" | "resource" | "creature";
+type NavSection = "home" | "tools" | "search" | "craft" | "favorites";
 type BiomeView = "items" | "creatures" | "boss";
 
 const text = (locale: Locale, object: { name_en: string; name_ru: string }) => locale === "ru" ? object.name_ru : object.name_en;
@@ -80,6 +80,14 @@ export function App() {
   const [biomeBoss, setBiomeBoss] = useState<BossSummary | null>(null);
   const [bosses, setBosses] = useState<BossSummary[]>([]);
   const [bossesLoading, setBossesLoading] = useState(false);
+  const [foods, setFoods] = useState<FoodSummary[]>([]);
+  const [foodsLoading, setFoodsLoading] = useState(false);
+  const [selectedFoodSlugs, setSelectedFoodSlugs] = useState<string[]>([]);
+  const [foodBiome, setFoodBiome] = useState("all");
+  const [foodQuery, setFoodQuery] = useState("");
+  const [tamingGuides, setTamingGuides] = useState<TamingGuide[]>([]);
+  const [tamingLoading, setTamingLoading] = useState(false);
+  const [expandedTaming, setExpandedTaming] = useState<string | null>(null);
   const [creature, setCreature] = useState<CreatureDetail | null>(null);
   const [creatureOrigin, setCreatureOrigin] = useState<Exclude<Section, "creature">>("biome");
   const [creaturesLoading, setCreaturesLoading] = useState(false);
@@ -117,11 +125,33 @@ export function App() {
 
   const title = useMemo(() => ({
     home: "VALHEIM Guide", search: locale === "ru" ? "Поиск" : "Search", craft: locale === "ru" ? "Крафт" : "Craft",
-    favorites: locale === "ru" ? "Избранное" : "Favorites", bosses: locale === "ru" ? "Боссы" : "Bosses", biome: text(locale, currentBiome ?? { name_en: "Biome", name_ru: "Биом" }),
+    favorites: locale === "ru" ? "Избранное" : "Favorites", tools: locale === "ru" ? "Инструменты" : "Tools", "food-builder": locale === "ru" ? "Конструктор еды" : "Food Builder", taming: locale === "ru" ? "Приручение" : "Taming", bosses: locale === "ru" ? "Боссы" : "Bosses", biome: text(locale, currentBiome ?? { name_en: "Biome", name_ru: "Биом" }),
     item: item ? text(locale, item) : locale === "ru" ? "Предмет" : "Item",
     resource: resource ? text(locale, resource) : locale === "ru" ? "Ресурс" : "Resource",
     creature: creature ? text(locale, creature) : locale === "ru" ? "Существо" : "Creature"
   })[section], [creature, currentBiome, item, locale, resource, section]);
+
+  const selectedFoods = useMemo(
+    () => selectedFoodSlugs.map((slug) => foods.find((food) => food.slug === slug)).filter((food): food is FoodSummary => Boolean(food)),
+    [foods, selectedFoodSlugs]
+  );
+  const foodTotals = useMemo(() => selectedFoods.reduce((total, food) => ({
+    health: total.health + food.health,
+    stamina: total.stamina + food.stamina,
+    eitr: total.eitr + food.eitr
+  }), { health: 0, stamina: 0, eitr: 0 }), [selectedFoods]);
+  const foodBiomes = useMemo(() => [...new Map(foods.filter((food) => food.biome_slug).map((food) => [
+    food.biome_slug!,
+    { slug: food.biome_slug!, name_en: food.biome_name_en ?? food.biome_slug!, name_ru: food.biome_name_ru ?? food.biome_slug! }
+  ])).values()], [foods]);
+  const visibleFoods = useMemo(() => {
+    const wanted = foodQuery.trim().toLocaleLowerCase();
+    return foods.filter((food) => {
+      const biomeMatches = foodBiome === "all" || food.biome_slug === foodBiome;
+      const queryMatches = !wanted || food.name_en.toLocaleLowerCase().includes(wanted) || food.name_ru.toLocaleLowerCase().includes(wanted);
+      return biomeMatches && queryMatches;
+    });
+  }, [foodBiome, foodQuery, foods]);
 
   const openBiome = async (slug: string) => {
     setMessage(""); setSection("biome"); setCurrentBiome(null); setBiomeItems([]); setActiveCategory(undefined);
@@ -164,6 +194,45 @@ export function App() {
     } finally {
       setBossesLoading(false);
     }
+  };
+
+  const openFoodBuilder = async () => {
+    setMessage("");
+    setSection("food-builder");
+    if (foods.length > 0) return;
+    setFoodsLoading(true);
+    try {
+      setFoods((await api.foods()).data);
+    } catch {
+      setMessage(locale === "ru" ? "Не удалось загрузить еду." : "Could not load food data.");
+    } finally {
+      setFoodsLoading(false);
+    }
+  };
+
+  const openTaming = async () => {
+    setMessage("");
+    setSection("taming");
+    if (tamingGuides.length > 0) return;
+    setTamingLoading(true);
+    try {
+      setTamingGuides((await api.taming()).data);
+    } catch {
+      setMessage(locale === "ru" ? "Не удалось загрузить справочник приручения." : "Could not load taming guide.");
+    } finally {
+      setTamingLoading(false);
+    }
+  };
+
+  const toggleFood = (food: FoodSummary) => {
+    setSelectedFoodSlugs((current) => {
+      if (current.includes(food.slug)) return current.filter((slug) => slug !== food.slug);
+      if (current.length >= 3) {
+        setMessage(locale === "ru" ? "В Valheim одновременно можно съесть максимум 3 разных блюда." : "Valheim allows up to 3 different active foods.");
+        return current;
+      }
+      return [...current, food.slug];
+    });
   };
 
   const openCreature = async (slug: string, origin: Exclude<Section, "creature"> = "biome") => {
