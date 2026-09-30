@@ -132,3 +132,54 @@ export type BossSummary = CreatureSummary & {
   recommended_en: string;
   recommended_ru: string;
 };
+
+
+export type FoodSummary = {
+  id: number;
+  slug: string;
+  name_en: string;
+  name_ru: string;
+  description_en: string;
+  description_ru: string;
+  image_path: string | null;
+  biome_slug: string | null;
+  biome_name_en: string | null;
+  biome_name_ru: string | null;
+  health: number;
+  stamina: number;
+  eitr: number;
+  duration: number | null;
+  healing: number | null;
+};
+
+export type TamingFood = {
+  slug: string;
+  name_en: string;
+  name_ru: string;
+  image_path: string | null;
+};
+
+export type TamingGuide = {
+  slug: string;
+  name_en: string;
+  name_ru: string;
+  biome_en: string;
+  biome_ru: string;
+  image_path: string | null;
+  taming_minutes: number;
+  fed_minutes: number;
+  rideable: boolean;
+  commandable: boolean;
+  saddle_en: string | null;
+  saddle_ru: string | null;
+  offspring_en: string;
+  offspring_ru: string;
+  partner_range: number;
+  population_limit: number;
+  population_range: number;
+  gestation_minutes: number;
+  food: TamingFood[];
+  tip_en: string;
+  tip_ru: string;
+  source_url: string;
+};
