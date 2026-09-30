@@ -121,6 +121,112 @@ const creatureArtwork = async (env: Env, slug: string): Promise<string | null> =
   return row?.image_path ?? null;
 };
 
+type TamingFoodSeed = { slug: string; name_en: string; name_ru: string };
+type TamingGuideSeed = {
+  slug: string;
+  name_en: string;
+  name_ru: string;
+  biome_en: string;
+  biome_ru: string;
+  taming_minutes: number;
+  fed_minutes: number;
+  rideable: boolean;
+  commandable: boolean;
+  saddle_en: string | null;
+  saddle_ru: string | null;
+  offspring_en: string;
+  offspring_ru: string;
+  partner_range: number;
+  population_limit: number;
+  population_range: number;
+  gestation_minutes: number;
+  food: TamingFoodSeed[];
+  tip_en: string;
+  tip_ru: string;
+  source_url: string;
+};
+
+const tamingGuides: TamingGuideSeed[] = [
+  {
+    slug:"boar", name_en:"Boar", name_ru:"Кабан", biome_en:"Meadows", biome_ru:"Луга",
+    taming_minutes:30, fed_minutes:10, rideable:false, commandable:false, saddle_en:null, saddle_ru:null,
+    offspring_en:"Piggy", offspring_ru:"Поросёнок", partner_range:3, population_limit:5, population_range:10, gestation_minutes:1,
+    food:[
+      {slug:"blueberries",name_en:"Blueberries",name_ru:"Черника"},
+      {slug:"carrot",name_en:"Carrot",name_ru:"Морковь"},
+      {slug:"mushroom",name_en:"Mushroom",name_ru:"Гриб"},
+      {slug:"onion",name_en:"Onion",name_ru:"Лук"},
+      {slug:"raspberries",name_en:"Raspberries",name_ru:"Малина"},
+      {slug:"turnip",name_en:"Turnip",name_ru:"Репа"}
+    ],
+    tip_en:"Build a simple pen, drop food inside and move away until the boar is calm. Taming only progresses while the area is loaded.",
+    tip_ru:"Сделайте простой загон, бросьте еду внутрь и отойдите, пока кабан не успокоится. Приручение идёт только пока зона загружена.",
+    source_url:"https://valheim.gaming.tools/creatures/boar"
+  },
+  {
+    slug:"wolf", name_en:"Wolf", name_ru:"Волк", biome_en:"Mountains", biome_ru:"Горы",
+    taming_minutes:30, fed_minutes:10, rideable:false, commandable:true, saddle_en:null, saddle_ru:null,
+    offspring_en:"Wolf Cub", offspring_ru:"Волчонок", partner_range:3, population_limit:4, population_range:10, gestation_minutes:1,
+    food:[
+      {slug:"boar-meat",name_en:"Boar Meat",name_ru:"Мясо кабана"},
+      {slug:"chicken-meat",name_en:"Chicken Meat",name_ru:"Курятина"},
+      {slug:"deer-meat",name_en:"Deer Meat",name_ru:"Мясо оленя"},
+      {slug:"lox-meat",name_en:"Lox Meat",name_ru:"Мясо локса"},
+      {slug:"neck-tail",name_en:"Neck Tail",name_ru:"Хвост никса"},
+      {slug:"sausages",name_en:"Sausages",name_ru:"Колбаски"}
+    ],
+    tip_en:"A pit or strong pen is safer than fences alone. Once tamed, wolves can follow you or stay in place and make strong combat companions.",
+    tip_ru:"Яма или прочный загон надёжнее обычного забора. После приручения волку можно приказать следовать за вами или оставаться на месте.",
+    source_url:"https://valheim.gaming.tools/creatures/wolf"
+  },
+  {
+    slug:"lox", name_en:"Lox", name_ru:"Локс", biome_en:"Plains", biome_ru:"Равнины",
+    taming_minutes:30, fed_minutes:10, rideable:true, commandable:false, saddle_en:"Lox Saddle", saddle_ru:"Седло для локса",
+    offspring_en:"Lox Calf", offspring_ru:"Детёныш локса", partner_range:8, population_limit:4, population_range:20, gestation_minutes:2,
+    food:[
+      {slug:"barley",name_en:"Barley",name_ru:"Ячмень"},
+      {slug:"cloudberries",name_en:"Cloudberries",name_ru:"Морошка"},
+      {slug:"flax",name_en:"Flax",name_ru:"Лён"}
+    ],
+    tip_en:"Lox hit hard and can destroy weak pens. Use terrain or sturdy walls, then keep them calm and fed. A saddle turns a tamed Lox into a mount.",
+    tip_ru:"Локсы сильно бьют и ломают слабые загоны. Используйте рельеф или прочные стены, держите их спокойными и сытыми. Седло превращает приручённого локса в маунта.",
+    source_url:"https://valheim.gaming.tools/creatures/lox"
+  },
+  {
+    slug:"asksvin", name_en:"Asksvin", name_ru:"Асксвин", biome_en:"Ashlands", biome_ru:"Пепельные земли",
+    taming_minutes:30, fed_minutes:10, rideable:true, commandable:false, saddle_en:"Asksvin Saddle", saddle_ru:"Седло для асксвина",
+    offspring_en:"Asksvin Egg", offspring_ru:"Яйцо асксвина", partner_range:4, population_limit:10, population_range:10, gestation_minutes:1,
+    food:[
+      {slug:"fiddlehead",name_en:"Fiddlehead",name_ru:"Молодой папоротник"},
+      {slug:"smoke-puff",name_en:"Smoke Puff",name_ru:"Дымный гриб"},
+      {slug:"vineberry-cluster",name_en:"Vineberry Cluster",name_ru:"Гроздь лозовых ягод"}
+    ],
+    tip_en:"A tamed Asksvin can be saddled and ridden across lava safely. Breeding produces eggs that must be kept warm to hatch.",
+    tip_ru:"Приручённого асксвина можно оседлать и безопасно ездить на нём по лаве. При разведении появляются яйца, которым для вылупления нужно тепло.",
+    source_url:"https://valheim.gaming.tools/creatures/asksvin"
+  },
+  {
+    slug:"moose", name_en:"Moose", name_ru:"Лось", biome_en:"Deep North", biome_ru:"Глубокий Север",
+    taming_minutes:30, fed_minutes:10, rideable:true, commandable:false, saddle_en:"Moose Saddle", saddle_ru:"Седло для лося",
+    offspring_en:"Moose Calf", offspring_ru:"Лосёнок", partner_range:3, population_limit:5, population_range:10, gestation_minutes:1,
+    food:[{slug:"lingonberries",name_en:"Lingonberries",name_ru:"Брусника"}],
+    tip_en:"Moose accept Lingonberries and make excellent Deep North mounts. Keep the animal out of combat while taming and use a sturdy enclosure.",
+    tip_ru:"Лоси едят бруснику и отлично подходят для передвижения по Глубокому Северу. Во время приручения не допускайте боя и используйте прочный загон.",
+    source_url:"https://valheim.gaming.tools/creatures/moose"
+  }
+];
+
+const hydrateTamingFood = async (env: Env, food: TamingFoodSeed) => {
+  const row = await env.DB.prepare("SELECT name_en, name_ru, image_path FROM items WHERE slug = ? LIMIT 1")
+    .bind(food.slug).first<{ name_en: string; name_ru: string; image_path: string | null }>();
+  return {
+    slug: food.slug,
+    name_en: row?.name_en ?? food.name_en,
+    name_ru: row?.name_ru ?? food.name_ru,
+    image_path: row?.image_path ?? null
+  };
+};
+
 const specialResourceUseNotes: Record<string, Array<{ en: string; ru: string }>> = {
   "swamp-key": [
     {
@@ -233,6 +339,37 @@ export default {
           { items: row.items, recipes: row.recipes }
         ]))
       });
+    }
+
+    if (request.method === "GET" && url.pathname === "/api/foods") {
+      const { results } = await env.DB.prepare(`
+        SELECT i.id, i.slug, i.name_en, i.name_ru, i.description_en, i.description_ru, i.image_path,
+               b.slug AS biome_slug, b.name_en AS biome_name_en, b.name_ru AS biome_name_ru,
+               COALESCE(MAX(CASE WHEN s.stat_key = 'health' THEN CAST(s.stat_value AS REAL) END), 0) AS health,
+               COALESCE(MAX(CASE WHEN s.stat_key = 'stamina' THEN CAST(s.stat_value AS REAL) END), 0) AS stamina,
+               COALESCE(MAX(CASE WHEN s.stat_key = 'eitr' THEN CAST(s.stat_value AS REAL) END), 0) AS eitr,
+               MAX(CASE WHEN s.stat_key = 'duration' THEN CAST(s.stat_value AS REAL) END) AS duration,
+               MAX(CASE WHEN s.stat_key = 'healing' THEN CAST(s.stat_value AS REAL) END) AS healing
+        FROM items i
+        JOIN categories c ON c.id = i.category_id
+        JOIN item_stats s ON s.item_id = i.id
+        LEFT JOIN biomes b ON b.id = i.biome_id
+        WHERE c.slug = 'food' AND i.entity_type = 'item'
+        GROUP BY i.id, i.slug, i.name_en, i.name_ru, i.description_en, i.description_ru, i.image_path,
+                 b.id, b.slug, b.name_en, b.name_ru
+        HAVING MAX(CASE WHEN s.stat_key IN ('health','stamina','eitr') THEN 1 ELSE 0 END) = 1
+        ORDER BY b.id, i.name_en
+      `).all();
+      return json({ data: results });
+    }
+
+    if (request.method === "GET" && url.pathname === "/api/taming") {
+      const data = await Promise.all(tamingGuides.map(async (guide) => ({
+        ...guide,
+        image_path: await creatureArtwork(env, guide.slug),
+        food: await Promise.all(guide.food.map((food) => hydrateTamingFood(env, food)))
+      })));
+      return json({ data });
     }
 
     if (request.method === "GET" && url.pathname === "/api/creatures") {
