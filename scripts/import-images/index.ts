@@ -63,10 +63,16 @@ console.info(`Media manifest: ${manifest.size} total entries, including ${trophy
 const userAgent = "VALHEIM-Guide/0.1 (+https://github.com/maksutenkox/valheim-guide)";
 const productionMediaOrigin = "https://valheim-guide.partiya-odobryaet-bot.workers.dev";
 
+const fetchWithTimeout = (
+  input: string | URL,
+  init: RequestInit = {},
+  timeoutMs = 12000
+): Promise<Response> => fetch(input, { ...init, signal: AbortSignal.timeout(timeoutMs) });
+
 const resolveProductionMedia = async (output: string): Promise<string | null> => {
   const url = `${productionMediaOrigin}/media/wiki/${output}`;
   try {
-    const response = await fetch(url, {
+    const response = await fetchWithTimeout(url, {
       method: "HEAD",
       headers: { "user-agent": userAgent }
     });
@@ -389,7 +395,7 @@ const resolveFandomFile = async (fileName: string): Promise<string | null> => {
   api.searchParams.set("iiprop", "url");
   api.searchParams.set("titles", `File:${fileName}`);
 
-  const response = await fetch(api, {
+  const response = await fetchWithTimeout(api, {
     headers: {
       accept: "application/json",
       "user-agent": userAgent
@@ -419,7 +425,7 @@ const resolveValheimToolsIcon = async (slug: string): Promise<string | null> => 
   ];
 
   for (const pageUrl of candidates) {
-    const response = await fetch(pageUrl, {
+    const response = await fetchWithTimeout(pageUrl, {
       headers: {
         accept: "text/html",
         "user-agent": userAgent
@@ -465,7 +471,7 @@ await mkdir(outputDirectory, { recursive: true });
 
 const failures: string[] = [];
 
-for (const media of manifest.values()) {
+const importMedia = async (media: MediaRecord): Promise<void> => {
   try {
   const isBundledManifestUrl = media.url.startsWith("https://static.wikia.nocookie.net/");
   const deployedIcon = isBundledManifestUrl ? null : await resolveProductionMedia(media.output);
@@ -495,7 +501,7 @@ for (const media of manifest.values()) {
     throw new Error(`No image source found for ${media.slug} (Fandom file: ${media.url})`);
   }
 
-  const response = await fetch(sourceUrl, {
+  const response = await fetchWithTimeout(sourceUrl, {
     headers: {
       accept: media.output.endsWith(".png") ? "image/png,image/*;q=0.8" : "image/webp,image/*;q=0.8",
       "user-agent": userAgent
@@ -519,8 +525,15 @@ for (const media of manifest.values()) {
     failures.push(`${media.slug}: ${message}`);
     console.error(`FAILED ${media.slug}: ${message}`);
   }
-}
+};
 
+const mediaEntries = [...manifest.values()];
+const importConcurrency = 8;
+for (let index = 0; index < mediaEntries.length; index += importConcurrency) {
+  const batch = mediaEntries.slice(index, index + importConcurrency);
+  await Promise.all(batch.map(importMedia));
+  console.info(`Media import progress: ${Math.min(index + batch.length, mediaEntries.length)}/${mediaEntries.length}`);
+}
 if (failures.length) {
   throw new Error(`Media import failed for ${failures.length} entries:\n${failures.join("\n")}`);
 }
