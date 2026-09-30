@@ -174,6 +174,10 @@ h2{margin:24px 0 12px;font-size:18px;letter-spacing:-.01em}
 .source-list p{display:flex;align-items:flex-start;gap:10px;margin:0;padding:11px;border:1px solid #2e332b;border-radius:12px;background:#161916;color:#b9b5a8;font-size:11px;line-height:1.45}
 .source-list b{color:#836c45;font-size:9px}
 .source-list span{flex:1}
+.use-note-list{display:grid;gap:7px;margin-bottom:9px}
+.use-note-list p{display:flex;align-items:flex-start;gap:9px;margin:0;padding:11px 12px;border:1px solid #443b2d;border-radius:12px;background:linear-gradient(180deg,#1c1b16,#171915);color:#c5bdad;font-size:10px;line-height:1.5}
+.use-note-list p>span{color:#d5a956;font-size:11px;line-height:1.45}
+.use-recipes-label{margin:13px 0 7px;color:#7e735e;font-size:8px;font-weight:850;letter-spacing:.13em}
 .source-credit{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:21px 0 0;padding:12px 0 0;border-top:1px solid #262a24;font-size:9px}
 .source-credit a{color:#bb9555;text-decoration:none;font-weight:800}
 .source-credit span{color:#676a62}
