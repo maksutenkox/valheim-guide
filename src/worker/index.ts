@@ -13,6 +13,7 @@ import { ensureAshlandsCatalog } from "./services/seed-ashlands";
 import { ensureDeepNorthCatalog } from "./services/seed-deep-north";
 import { ensureOceanCatalog } from "./services/seed-ocean";
 import { ensureTrophyCatalog } from "./services/seed-trophies";
+import { ensureSpecialDropCatalog } from "./services/seed-special-drops";
 import { handleTelegramUpdate } from "./telegram/bot";
 import { bossForBiome, bosses, creaturesDroppingItem, creaturesForBiome, loadCreatureDetail } from "./services/creatures";
 
@@ -63,6 +64,7 @@ const ensureCatalog = async (env: Env): Promise<void> => {
   await ensureDeepNorthCatalog(env);
   await ensureOceanCatalog(env);
   await ensureTrophyCatalog(env);
+  await ensureSpecialDropCatalog(env);
   catalogReady = true;
 };
 
