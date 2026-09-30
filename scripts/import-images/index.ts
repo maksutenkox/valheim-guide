@@ -27,19 +27,16 @@ const seedSource = (await Promise.all(
 
 const trophySeedSource = await readFile(resolve(seedDirectory, "seed-trophies.ts"), "utf8").catch(() => "");
 
-const catalogManifest: MediaRecord[] = seedSource
-  .split("\n")
-  .map((line) => {
-    const match = line.match(/\{\s*slug:\s*"([^"]+)".*imageFile:\s*"([^"]+)"/);
-    if (!match) return null;
-    const [, slug, imageFile] = match;
-    return {
-      slug,
-      url: imageFile,
-      output: `${slug}.png`
-    };
-  })
-  .filter((entry): entry is MediaRecord => Boolean(entry));
+const catalogManifest: MediaRecord[] = [...seedSource.matchAll(
+  /\{\s*slug:\s*"([^"]+)"[^{}]*?imageFile:\s*"([^"]+)"/gs
+)].map((match) => {
+  const [, slug, imageFile] = match;
+  return {
+    slug,
+    url: imageFile,
+    output: `${slug}.png`
+  };
+});
 
 const trophyManifest: MediaRecord[] = [...trophySeedSource.matchAll(
   /^\s*\["([^"]+)"\s*,\s*"[^"]+"\s*,\s*"[^"]+"\s*,\s*"[^"]+"\s*,\s*"[^"]+"\]\s*,?$/gm
