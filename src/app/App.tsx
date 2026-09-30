@@ -508,8 +508,14 @@ export function App() {
         <SectionTitle eyebrow={locale === "ru" ? "ДОБЫЧА" : "DROPS FROM"} title={locale === "ru" ? "Выпадает из" : "Dropped by"} />
         <CreatureGrid locale={locale} items={resource.dropped_by ?? []} onOpen={(slug) => void openCreature(slug, "resource")} />
       </>}
-      <SectionTitle eyebrow={locale === "ru" ? "ПРИМЕНЕНИЕ" : "USES"} title={locale === "ru" ? "Используется в" : "Used in"} />
-      <ResultList locale={locale} items={resource.used_by} onOpen={openEntry} /><SourceLink locale={locale} entry={resource} />
+      <SectionTitle eyebrow={locale === "ru" ? "ПРИМЕНЕНИЕ" : "USES"} title={locale === "ru" ? "Как используется" : "How it is used"} />
+      {(resource.use_notes?.length ?? 0) > 0 && <div className="use-note-list">{(resource.use_notes ?? []).map((note,index) => <p key={index}><span>✦</span>{locale === "ru" ? note.ru : note.en}</p>)}</div>}
+      {resource.used_by.length > 0 && <>
+        {(resource.use_notes?.length ?? 0) > 0 && <p className="use-recipes-label">{locale === "ru" ? "РЕЦЕПТЫ И ПОСТРОЙКИ" : "RECIPES & BUILDINGS"}</p>}
+        <ResultList locale={locale} items={resource.used_by} onOpen={openEntry} />
+      </>}
+      {resource.used_by.length === 0 && (resource.use_notes?.length ?? 0) === 0 && <Empty message={locale === "ru" ? "Для этого ресурса пока не зафиксировано отдельного применения." : "No dedicated use has been recorded for this resource yet."} />}
+      <SourceLink locale={locale} entry={resource} />
     </section>}
 
     {section === "creature" && <section className="detail creature-detail">
