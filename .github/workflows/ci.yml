@@ -40,5 +40,18 @@ jobs:
       - name: Import media assets
         run: pnpm media:import
 
+      - name: Verify guide media coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Checking every build loadout icon..."
+          grep -oE 'asset\("[^"]+"' src/app/App.tsx | sed -E 's/^asset\("//' | sed 's/"$//' | sort -u | while IFS= read -r slug; do
+            test -s "public/media/wiki/$slug.png" || { echo "::error::Missing build icon: $slug"; exit 1; }
+          done
+          echo "Checking all progression boss drops..."
+          for slug in eikthyr-trophy hard-antler the-elder-trophy swamp-key bonemass-trophy wishbone moder-trophy dragon-tear yagluth-trophy torn-spirit the-queen-trophy majestic-carapace fader-trophy kindled-ribs sacrificial-blood crown-jewel; do
+            test -s "public/media/wiki/$slug.png" || { echo "::error::Missing boss drop icon: $slug"; exit 1; }
+          done
+
       - name: Production build
         run: pnpm build

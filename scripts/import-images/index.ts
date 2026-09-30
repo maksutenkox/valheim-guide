@@ -55,6 +55,11 @@ for (const entry of [...staticManifest, ...catalogManifest, ...trophyManifest]) 
   manifest.set(entry.output, entry);
 }
 
+const declaredCatalogImageCount = [...seedSource.matchAll(/imageFile:\s*"[^"]+"/g)].length;
+if (catalogManifest.length !== declaredCatalogImageCount) {
+  throw new Error(`Catalog media parser found ${catalogManifest.length} entries, but seed files declare ${declaredCatalogImageCount} literal imageFile values`);
+}
+console.info(`Declared catalog image count: ${declaredCatalogImageCount}`);
 console.info(`Media manifest: ${manifest.size} total entries, including ${trophyManifest.length} trophy entries`);
 
 const userAgent = "VALHEIM-Guide/0.1 (+https://github.com/maksutenkox/valheim-guide)";

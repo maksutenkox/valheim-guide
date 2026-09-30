@@ -431,7 +431,7 @@ h2{margin:24px 0 12px;font-size:18px;letter-spacing:-.01em}
 .more-menu-panel{position:fixed;z-index:31;top:0;right:0;width:min(88vw,380px);height:100dvh;max-height:100dvh;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding:max(20px,env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));border-left:1px solid #4a4538;background:
   radial-gradient(circle at 100% 0,rgba(216,169,87,.13),transparent 18rem),
   linear-gradient(180deg,#181b18,#0f1210 65%);box-shadow:-25px 0 70px rgba(0,0,0,.48);animation:menu-slide .22s cubic-bezier(.2,.75,.25,1);scrollbar-width:thin;scrollbar-color:#5d5039 transparent}
-.more-menu-head{position:sticky;z-index:2;top:calc(-1 * max(20px,env(safe-area-inset-top)));display:flex;align-items:center;justify-content:space-between;gap:12px;margin:1px -2px 18px;padding:max(20px,env(safe-area-inset-top)) 2px 14px;border-bottom:1px solid #30342c;background:linear-gradient(180deg,#181b18 72%,rgba(24,27,24,.94))}
+.more-menu-head{position:sticky;z-index:2;top:0;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:1px -2px 18px;padding:0 2px 14px;border-bottom:1px solid #30342c;background:linear-gradient(180deg,#181b18 72%,rgba(24,27,24,.94))}
 .more-menu-head>div{display:grid;gap:2px}
 .more-menu-head small{color:#8e7b5b;font-size:8px;font-weight:900;letter-spacing:.16em}
 .more-menu-head strong{font-family:var(--serif);font-size:25px;font-weight:600}
