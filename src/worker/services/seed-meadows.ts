@@ -5,7 +5,7 @@ const item = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
 
 const meadowsSeed: CatalogSeed = {
-  marker: "catalog_meadows_v1",
+  marker: "catalog_meadows_v2_food_stats",
   biome: "meadows",
   stations: [
     { slug: "inventory", en: "Inventory", ru: "Инвентарь" },
@@ -132,7 +132,10 @@ const meadowsSeed: CatalogSeed = {
     ["wood-tower-shield","block_armor","10"],["wood-tower-shield","durability","200"],
     ["wood-arrows-x20","pierce_damage","22"],["flinthead-arrows-x20","pierce_damage","27"],["fire-arrows-x20","pierce_damage","11"],["fire-arrows-x20","fire_damage","22"],
     ["rag-tunic","armor","1"],["rag-trousers","armor","1"],
-    ["leather-helmet","armor","2"],["leather-tunic","armor","2"],["leather-pants","armor","2"],["deer-hide-cape","armor","1"]
+    ["leather-helmet","armor","2"],["leather-tunic","armor","2"],["leather-pants","armor","2"],["deer-hide-cape","armor","1"],
+    ["cooked-boar-meat","health","30"],["cooked-boar-meat","stamina","10"],["cooked-boar-meat","duration","20","min"],["cooked-boar-meat","healing","2","hp/tick"],
+    ["cooked-deer-meat","health","35"],["cooked-deer-meat","stamina","12"],["cooked-deer-meat","duration","20","min"],["cooked-deer-meat","healing","2","hp/tick"],
+    ["grilled-neck-tail","health","25"],["grilled-neck-tail","stamina","8"],["grilled-neck-tail","duration","20","min"],["grilled-neck-tail","healing","2","hp/tick"]
   ],
   resourceSources: [
     ["wood","Pick branches from the ground or chop Meadows trees.","Собирайте ветви или рубите деревья в Лугах.",item("wood")],
