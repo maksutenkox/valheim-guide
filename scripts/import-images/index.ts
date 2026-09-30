@@ -66,8 +66,27 @@ const productionMediaOrigin = "https://valheim-guide.partiya-odobryaet-bot.worke
 const fetchWithTimeout = (
   input: string | URL,
   init: RequestInit = {},
-  timeoutMs = 12000
+  timeoutMs = 16000
 ): Promise<Response> => fetch(input, { ...init, signal: AbortSignal.timeout(timeoutMs) });
+
+const fetchImageWithRetry = async (
+  input: string | URL,
+  init: RequestInit = {},
+  attempts = 3
+): Promise<Response> => {
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const response = await fetchWithTimeout(input, init, 16000);
+      if (response.ok || response.status < 500 || attempt === attempts) return response;
+    } catch (error) {
+      lastError = error;
+      if (attempt === attempts) throw error;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 350 * attempt));
+  }
+  throw lastError instanceof Error ? lastError : new Error("Media fetch failed");
+};
 
 const resolveProductionMedia = async (output: string): Promise<string | null> => {
   const url = `${productionMediaOrigin}/media/wiki/${output}`;
@@ -501,7 +520,7 @@ const importMedia = async (media: MediaRecord): Promise<void> => {
     throw new Error(`No image source found for ${media.slug} (Fandom file: ${media.url})`);
   }
 
-  const response = await fetchWithTimeout(sourceUrl, {
+  const response = await fetchImageWithRetry(sourceUrl, {
     headers: {
       accept: media.output.endsWith(".png") ? "image/png,image/*;q=0.8" : "image/webp,image/*;q=0.8",
       "user-agent": userAgent
