@@ -41,6 +41,12 @@ export type Ingredient = {
   image_path: string | null;
 };
 
+export type AcquisitionSource = {
+  method_en: string;
+  method_ru: string;
+  source_url: string | null;
+};
+
 export type ItemDetail = GuideItem & {
   description_en: string;
   description_ru: string;
@@ -50,12 +56,13 @@ export type ItemDetail = GuideItem & {
   stats: { stat_key: string; stat_value: string; unit: string | null }[];
   ingredients: Ingredient[];
   upgrades: { level: number; station_level: number | null; ingredients: Ingredient[] }[];
+  sources: AcquisitionSource[];
 };
 
 export type ResourceDetail = GuideItem & {
   description_en: string;
   description_ru: string;
-  sources: { method_en: string; method_ru: string; source_url: string | null }[];
+  sources: AcquisitionSource[];
   used_by: GuideItem[];
   dropped_by: CreatureSummary[];
   use_notes: { en: string; ru: string }[];

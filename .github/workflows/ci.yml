@@ -81,5 +81,24 @@ jobs:
             test -s "public/media/wiki/$slug.png" || { echo "::error::Missing dungeon loot icon: $slug"; exit 1; }
           done
 
+      - name: Verify Deep North acquisition coverage
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+          const src = fs.readFileSync("src/worker/services/seed-deep-north.ts","utf8");
+          const resources = [...src.matchAll(/\{\s*slug:"([^"]+)",\s*type:"resource"/g)].map((m) => m[1]);
+          const start = src.indexOf("resourceSources: [");
+          const end = src.indexOf("\n  ]", start);
+          const block = src.slice(start, end);
+          const sourced = new Set([...block.matchAll(/\["([^"]+)"/g)].map((m) => m[1]));
+          const missing = resources.filter((slug) => !sourced.has(slug));
+          if (missing.length) {
+            console.error("Deep North resources without acquisition data:", missing);
+            process.exit(1);
+          }
+          console.log(`Deep North acquisition coverage: ${resources.length}/${resources.length}`);
+          NODE
+
       - name: Production build
         run: pnpm build

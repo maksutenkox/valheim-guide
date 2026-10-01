@@ -5,8 +5,9 @@ const item = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
 
 const deepNorthSeed: CatalogSeed = {
-  marker: "catalog_deep_north_v3",
+  marker: "catalog_deep_north_v4",
   biome: "deep-north",
+  replaceResourceSources: true,
   stations: [
     { slug: "frigid-kiln", en: "Frigid Kiln", ru: "Морозная печь" },
     { slug: "frost-foundry", en: "Frost Foundry", ru: "Морозная литейная" },
@@ -348,27 +349,76 @@ const deepNorthSeed: CatalogSeed = {
     ["northern-morning-fare","health","85"],["northern-morning-fare","stamina","85"],["northern-morning-fare","eitr","43"],["northern-morning-fare","duration","50","min"]
   ],
   resourceSources: [
-    ["embers","Gather beside an Eternal Pyre built after defeating Fader.","Собирается у Вечного костра после победы над Фейдером.",item("embers")],
-    ["petrified-tissue","Mine petrified Gammeltroll remains in the Deep North.","Добывается из окаменевших останков гаммельтроллей.",item("petrified-tissue")],
-    ["bloodgold","Smelt Petrified Tissue in a Blast Furnace.","Переплавьте окаменевшую ткань в доменной печи.",item("bloodgold")],
-    ["ice","Break Deep North ice shards and frozen remains.","Добывается из ледяных осколков и замёрзших останков.",item("ice")],
-    ["liquid-frost","Process five Ice in a Frigid Kiln.","Переработайте пять единиц льда в Морозной печи.",item("liquid-frost")],
-    ["timberwood","Harvest Deep North trees and fallen branches.","Рубите северные деревья и собирайте упавшие ветви.",item("timberwood")],
-    ["moose-hide","Dropped by Moose.","Выпадает с лосей.",item("moose-hide")],
-    ["moose-meat","Dropped by Moose.","Выпадает с лосей.",item("moose-meat")],
-    ["moose-sinew","Dropped by Moose.","Выпадает с лосей.",item("moose-sinew")],
-    ["seal-pelt","Dropped by Seals.","Выпадает с тюленей.",item("seal-pelt")],
-    ["seal-blubber","Dropped by Seals.","Выпадает с тюленей.",item("seal-blubber")],
-    ["frostfire-essence","Dropped only by Fallen Warriors at North Memorial Places.","Выпадает только из Павших воинов у Северных мемориалов.",item("frostfire-essence")],
-    ["thunderblood-essence","Dropped only by Fallen Warriors at North Memorial Places.","Выпадает только из Павших воинов у Северных мемориалов.",item("thunderblood-essence")],
-    ["bloodgold-battle-idol","Rare Deep North treasure used at the Forge of Potential.","Редкая добыча Глубокого Севера для Кузницы потенциала.",item("bloodgold-battle-idol")],
-    ["bloodgold-protection-idol","Rare Deep North treasure used at the Forge of Potential.","Редкая добыча Глубокого Севера для Кузницы потенциала.",item("bloodgold-protection-idol")],
-    ["crown-jewel","Dropped by Kall Fimbulbringer.","Выпадает из Калла Фимбулбрингера.",item("crown-jewel")],
-    ["corked-vial","Sold by the Bog Witch.","Продаётся у Болотной ведьмы.",item("corked-vial")],
-    ["dead-pulp","Dropped by pulp creatures in Mörkhalla.","Выпадает из существ-мякоти в Мёркхалле.",item("dead-pulp")],
-    ["pulp-trophy","Dropped by Shapeless Pulp.","Выпадает из Бесформенной мякоти.",item("pulp-trophy")],
-    ["ectoplasm-2","Unfinished Voidplasm: no survival-world source is currently recorded.","Незавершённый Voidplasm: источника в обычном мире пока нет.",item("ectoplasm-2")],
-    ["seasoning-of-the-gourd","Sold by the Bog Witch after Kall Fimbulbringer is defeated.","Продаётся у Болотной ведьмы после победы над Каллом Фимбулбрингером.",item("seasoning-of-the-gourd")]
+    ["kindled-ribs","Dropped by Fader in the Ashlands; used to build the Eternal Pyre that attracts Embers.","Выпадает из Фейдера в Пепельных землях; используется для Вечного костра, который привлекает Угли Фейдера.",item("kindled-ribs")],
+    ["embers","Gather beside an Eternal Pyre. The pyre is built from Stone and Kindled Ribs after Fader.","Собираются рядом с Вечным костром. Костёр строится из камня и Пылающих рёбер после Фейдера.",item("embers")],
+    ["petrified-tissue","Mine petrified Gammeltroll remains after breaking them open with Ember Charges; petrified remains in the Deep North can provide the same ore.","Добывайте киркой из окаменевших останков гаммельтролля после вскрытия Зарядами углей; такие останки встречаются по Глубокому Северу.",item("petrified-tissue")],
+    ["bloodgold","Smelt Petrified Tissue in a Blast Furnace with Coal. A normal Smelter does not accept it.","Переплавьте Окаменевшую ткань в доменной печи с углём. Обычная плавильня её не принимает.",item("bloodgold")],
+    ["ice","Break black-ice shards and frozen corpses/skeletons around the Deep North. Larger ice shards can yield several pieces.","Разбивайте осколки чёрного льда и замёрзшие трупы/скелеты в Глубоком Севере. Крупные ледяные осколки дают несколько единиц.",item("ice")],
+    ["liquid-frost","Process 5 Ice in a Frigid Kiln. Liquid Frost is the fuel used to harden Deep North casts in the Frost Foundry.","Переработайте 5 Льда в Морозной печи. Жидкий мороз служит топливом для закалки северных отливок в Морозной литейной.",item("liquid-frost")],
+    ["frostcore","Dropped by Frysling at 100% (1 each). Frost Cores are also the key material for the Frigid Kiln and Frost Foundry.","Гарантированно выпадает из Фрислинга по 1 шт. Морозные ядра нужны для Морозной печи и Морозной литейной.",item("frostcore")],
+    ["timberwood","Chop Deep North timber trees and collect snowy fallen branches. Also drops from roots in Winding Tunnels and several breakables in Mörkhalla.","Рубите северные деревья и собирайте заснеженные ветви. Также выпадает из корней в Извилистых туннелях и разрушаемых объектов Мёркхаллы.",item("timberwood")],
+    ["elaking-hair-bundle","Dropped by Elaking at 100%, 1–2 per kill. Elaking are common inside Winding Tunnels.","Выпадает из Элакинга с шансом 100%, по 1–2 шт. Элакинги часто встречаются в Извилистых туннелях.",item("elaking-hair-bundle")],
+    ["frozen-branch","Dropped by Barka at 100%, 1 per kill.","Гарантированно выпадает из Барки по 1 шт.",item("frozen-branch")],
+    ["leather-straps","Dropped by Krigen at 100%, 1–3 per kill. Krigen are a core Mörkhalla enemy.","Выпадает из Кригена с шансом 100%, по 1–3 шт. Кригены — основные противники в Мёркхалле.",item("leather-straps")],
+    ["memorial-coal","Krigen drop it at 20%. It can also be broken from memorial coal piles and firepits inside Mörkhalla. Spend 3 at a North Memorial Place to summon a Fallen Warrior.","Кригены роняют его с шансом 20%. Также добывается из угольных куч и очагов в Мёркхалле. 3 угля на Северном мемориале призывают Павшего воина.",item("memorial-coal")],
+    ["moose-hide","Moose drop 2–3 at 100%. Mörkhalla bedrolls can also yield Moose Hide.","Лоси гарантированно дают 2–3 шкуры. Также Лосиная шкура может выпасть из лежанок в Мёркхалле.",item("moose-hide")],
+    ["moose-meat","Moose drop 4–6 at 100%. Tamed Moose provide a renewable source through breeding.","Лоси гарантированно дают 4–6 мяса. Приручение и разведение лосей делает источник возобновляемым.",item("moose-meat")],
+    ["moose-sinew","Moose drop 2–3 at 100%.","Лоси гарантированно дают 2–3 сухожилия.",item("moose-sinew")],
+    ["nornathread","Dropped only by Hexen at 100%, 1–3 per kill. Hexen are found throughout Mörkhalla.","Выпадает только из Хексен: 100%, по 1–3 шт. Хексены встречаются по всей Мёркхалле.",item("nornathread")],
+    ["seal-blubber","Adult Seals drop 2–3 at 100%; Baby Seals have a 10% chance to drop 1.","Взрослые тюлени гарантированно дают 2–3 жира; детёныши имеют 10% шанс дать 1.",item("seal-blubber")],
+    ["seal-pelt","Adult Seals drop 2–3 at 100%.","Взрослые тюлени гарантированно дают 2–3 шкуры.",item("seal-pelt")],
+    ["frostfire-essence","Summon a Fallen Warrior at a North Memorial Place with 3 Memorial Coal. Each warrior has an independent 50% chance to drop 1 Frostfire Essence.","Призовите Павшего воина у Северного мемориала за 3 Поминальных угля. Каждый воин имеет независимый шанс 50% уронить 1 Эссенцию морозного огня.",item("frostfire-essence")],
+    ["thunderblood-essence","Summon a Fallen Warrior at a North Memorial Place with 3 Memorial Coal. Each warrior has an independent 50% chance to drop 1 Thunderblood Essence.","Призовите Павшего воина у Северного мемориала за 3 Поминальных угля. Каждый воин имеет независимый шанс 50% уронить 1 Эссенцию грозовой крови.",item("thunderblood-essence")],
+    ["long-claws","Dropped only by the Eyeless One at 100%, 1–2 per kill. Eyeless Ones inhabit Winding Tunnels.","Выпадает только из Безглазого: 100%, по 1–2 шт. Безглазые обитают в Извилистых туннелях.",item("long-claws")],
+    ["hexen-trophy","Hexen trophy drop: 10% chance per Hexen.","Трофей Хексен: шанс 10% с каждой Хексен.",item("hexen-trophy")],
+    ["moose-trophy","Moose trophy drop: 10% chance per Moose.","Трофей лося: шанс 10% с каждого лося.",item("moose-trophy")],
+    ["lingonberries","Gather from lingonberry bushes in the Black Forest. Captive Fulings in Mörkhalla can also drop 1–10 at 20%.","Собирайте с кустов брусники в Чёрном лесу. Пленные фулинги в Мёркхалле также могут уронить 1–10 ягод с шансом 20%.",item("lingonberries")],
+    ["raw-fish","Convert caught fish into Raw Fish. Fishing species and bait vary by biome.","Разделывайте пойманную рыбу в Сырую рыбу. Вид рыбы и наживка зависят от биома.",item("raw-fish")],
+    ["kale","Gather wild Kale or grow it from Kale Seeds. Kale cannot grow in the Deep North; plant it in Meadows, Black Forest or Plains.","Собирайте дикий кейл или выращивайте из семян. В самом Глубоком Севере кейл не растёт — сажайте в Лугах, Чёрном лесу или Равнинах.",item("kale")],
+    ["kale-seeds","Find wild seed-kale plants and loot North Village granary barrels; village barrels can roll 2–4 seeds.","Ищите дикие семенные растения кейла и бочки в амбарах Северных деревень; в бочках попадается по 2–4 семени.",item("kale-seeds")],
+    ["oats","Process Oat Seeds in a Windmill to make Oats. Oat Seeds are farmed for more seed before milling.","Переработайте Семена овса в ветряной мельнице, чтобы получить Овёс. Часть семян сначала лучше размножить посадкой.",item("oats")],
+    ["oat-seeds","Gather wild oats/seed plants or loot North Village granary barrels. Oat Seeds are one of the most common village seed rolls.","Собирайте дикий овёс/семенные растения или ищите семена в бочках амбаров Северных деревень. Это один из самых частых семенных лутов деревни.",item("oat-seeds")],
+    ["oat-flour","Process Oats in a Windmill.","Перемелите Овёс в ветряной мельнице.",item("oat-flour")],
+    ["poteitr","Gather wild Poteitr or grow it from Seed Poteitr. It grows in Meadows, Black Forest and Plains, not in the Deep North cold.","Собирайте дикий Потейтер или выращивайте из семян. Он растёт в Лугах, Чёрном лесу и Равнинах, но не в холоде Глубокого Севера.",item("poteitr")],
+    ["seed-poteitr","Gather from wild Poteitr (1–2 seeds) and loot North Village granary barrels, where it can appear in larger stacks.","Собирайте с дикого Потейтера (1–2 семени) и ищите в бочках амбаров Северных деревень, где семена попадаются пачками.",item("seed-poteitr")],
+    ["malicious-blood","Break a Black Ice Core during a live Jotun invasion. The core guarantees Malicious Blood; 3 are needed for Kall's ritual.","Разрушьте Ядро чёрного льда во время активного вторжения йотунов. Ядро гарантирует Зловещую кровь; для ритуала Калла нужно 3.",item("malicious-blood")],
+    ["bloodgold-battle-idol","Extremely rare Deep North chest loot: Mörkhalla Ancient/Jotun chests, northern ship settings and Deep North shipwrecks.","Крайне редкий северный лут из сундуков: Древние/йотунские сундуки Мёркхаллы, северные корабельные стоянки и кораблекрушения.",item("bloodgold-battle-idol")],
+    ["bloodgold-protection-idol","Extremely rare Deep North chest loot: Mörkhalla Ancient/Jotun chests, northern ship settings and Deep North shipwrecks.","Крайне редкий северный лут из сундуков: Древние/йотунские сундуки Мёркхаллы, северные корабельные стоянки и кораблекрушения.",item("bloodgold-protection-idol")],
+    ["crown-jewel","Dropped by Kall Fimbulbringer after the final boss fight.","Выпадает из Калла Фимбулбрингера после финального боя.",item("crown-jewel")],
+    ["corked-vial","Bought from the Bog Witch after The Elder has been defeated.","Покупается у Болотной ведьмы после победы над Древним.",item("corked-vial")],
+    ["dead-pulp","Shapeless Pulp drops it at 50%; Tiny Pulp at 25%. Breaking the large pulp spawner in Mörkhalla can also drop it.","Бесформенная мякоть роняет с шансом 50%, Маленькая мякоть — 25%. Большой спавнер мякоти в Мёркхалле тоже может дать материал.",item("dead-pulp")],
+    ["pulp-trophy","Dropped by Shapeless Pulp at 10%.","Выпадает из Бесформенной мякоти с шансом 10%.",item("pulp-trophy")],
+    ["ectoplasm-2","Voidplasm is unfinished content in the current survival progression; no normal survival-world source is recorded.","Voidplasm — незавершённый материал; в обычном выживании источника сейчас не зафиксировано.",item("ectoplasm-2")],
+    ["seasoning-of-the-gourd","Bought from the Bog Witch after Kall Fimbulbringer has been defeated.","Покупается у Болотной ведьмы после победы над Каллом Фимбулбрингером.",item("seasoning-of-the-gourd")],
+    ["mould-nord-sword","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-sword")],
+    ["mould-nord-axe","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-axe")],
+    ["mould-nord-mace","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-mace")],
+    ["mould-nord-spear","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-spear")],
+    ["mould-nord-atgeir","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-atgeir")],
+    ["mould-nord-greatsword","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-greatsword")],
+    ["mould-nord-greataxe","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-greataxe")],
+    ["mould-nord-dagger","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-dagger")],
+    ["mould-nord-knucklechains","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-knucklechains")],
+    ["mould-nord-bow","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-bow")],
+    ["mould-nord-crossbow","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-crossbow")],
+    ["mould-nord-sledge","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-sledge")],
+    ["mould-nord-shield","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-shield")],
+    ["mould-nord-greatshield","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-greatshield")],
+    ["mould-nord-buckler","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-nord-buckler")],
+    ["mould-lightning-strike","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-lightning-strike")],
+    ["mould-echo-spike","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-echo-spike")],
+    ["mould-northern-vengeance","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-northern-vengeance")],
+    ["mould-spirit-caller","One of the 19 Deep North combat moulds. North Memorial Place buried chests roll each mould at 5%; the same mould pool also appears in Winding Tunnels rubble/weapon debris and Mörkhalla weapon stands.","Одна из 19 боевых форм Глубокого Севера. В зарытом сундуке Северного мемориала каждая форма имеет шанс 5%; тот же набор встречается в обломках Извилистых туннелей и на оружейных стойках Мёркхаллы.",item("mould-spirit-caller")],
+    ["mould-helmet-of-the-protector","Dropped by Krigen at 3%. Armour moulds can also appear in Deep North dungeon furniture/wardrobes depending on the piece.","Выпадает из Кригена с шансом 3%. В зависимости от детали броневые формы также встречаются в мебели/шкафах северных подземелий.",item("mould-helmet-of-the-protector")],
+    ["mould-breastplate-of-the-protector","Dropped by Krigen at 3%. Armour moulds can also appear in Deep North dungeon furniture/wardrobes depending on the piece.","Выпадает из Кригена с шансом 3%. В зависимости от детали броневые формы также встречаются в мебели/шкафах северных подземелий.",item("mould-breastplate-of-the-protector")],
+    ["mould-trousers-of-the-protector","Dropped by Krigen at 3%. Armour moulds can also appear in Deep North dungeon furniture/wardrobes depending on the piece.","Выпадает из Кригена с шансом 3%. В зависимости от детали броневые формы также встречаются в мебели/шкафах северных подземелий.",item("mould-trousers-of-the-protector")],
+    ["mould-hood-of-the-vanguard","Dropped by Krigen at 3%. Armour moulds can also appear in Deep North dungeon furniture/wardrobes depending on the piece.","Выпадает из Кригена с шансом 3%. В зависимости от детали броневые формы также встречаются в мебели/шкафах северных подземелий.",item("mould-hood-of-the-vanguard")],
+    ["mould-chestpiece-of-the-vanguard","Dropped by Krigen at 3%. Armour moulds can also appear in Deep North dungeon furniture/wardrobes depending on the piece.","Выпадает из Кригена с шансом 3%. В зависимости от детали броневые формы также встречаются в мебели/шкафах северных подземелий.",item("mould-chestpiece-of-the-vanguard")],
+    ["mould-trousers-of-the-vanguard","Dropped by Krigen at 3%. Armour moulds can also appear in Deep North dungeon furniture/wardrobes depending on the piece.","Выпадает из Кригена с шансом 3%. В зависимости от детали броневые формы также встречаются в мебели/шкафах северных подземелий.",item("mould-trousers-of-the-vanguard")],
+    ["mould-headdress-of-the-caller","Dropped by Hexen at 5%.","Выпадает из Хексен с шансом 5%.",item("mould-headdress-of-the-caller")],
+    ["mould-robes-of-the-caller","Dropped by Hexen at 5%.","Выпадает из Хексен с шансом 5%.",item("mould-robes-of-the-caller")],
+    ["mould-trousers-of-the-caller","Dropped by Hexen at 5%.","Выпадает из Хексен с шансом 5%.",item("mould-trousers-of-the-caller")],
+    ["mould-intricate-key","Eyeless One drops it at 50% and Elaking at 20% inside Winding Tunnels; it also appears in tunnel rubble. Craft the mould with Bloodgold into an Intricate Key.","Безглазый роняет форму с шансом 50%, Элакинг — 20% в Извилистых туннелях; она также встречается в обломках туннелей. Затем форму с Кровавым золотом превращают в Замысловатый ключ.",item("mould-intricate-key")]
   ]
 };
 
@@ -376,7 +426,48 @@ const baseWeaponSlugs = [
   "sword","axe","mace","spear","atgeir","greatsword","greataxe","dagger","knucklechains","bow","crossbow","sledge"
 ] as const;
 
+const combatMouldSource = (name: string): string =>
+  `https://www.valheim.tools/items/mould-${name}`;
+
+deepNorthSeed.resourceSources!.push(
+  ["nord-shield","Find Mould: Nord Shield (North Memorial Place 5%, plus Winding Tunnels/Mörkhalla), pour the cast at a level 4 Black Forge, then harden it for 50 seconds in a Frost Foundry using Liquid Frost.","Найдите Форму: щит Nord (Северный мемориал 5%, также Извилистые туннели/Мёркхалла), отлейте на Чёрной кузнице 4 уровня и закалите 50 секунд в Морозной литейной на Жидком морозе.",combatMouldSource("nord-shield")],
+  ["nord-greatshield","Find Mould: Nord Greatshield, pour the cast at a level 4 Black Forge, then harden it in a Frost Foundry using Liquid Frost.","Найдите Форму: большой щит Nord, отлейте на Чёрной кузнице 4 уровня и закалите в Морозной литейной на Жидком морозе.",combatMouldSource("nord-greatshield")],
+  ["nord-buckler","Find Mould: Nord Buckler, pour the cast at a level 4 Black Forge, then harden it in a Frost Foundry using Liquid Frost.","Найдите Форму: баклер Nord, отлейте на Чёрной кузнице 4 уровня и закалите в Морозной литейной на Жидком морозе.",combatMouldSource("nord-buckler")],
+  ["lightning-strike","Find Mould: Lightning Strike, pour the cast at a level 3 Galdr Table with Bloodgold, Nornathread and Thunderblood Essence, then harden it in a Frost Foundry.","Найдите Форму: Удар молнии, создайте отливку на Столе гальдра 3 уровня с Кровавым золотом, Норна-нитью и Эссенцией грозовой крови, затем закалите в Морозной литейной.",item("mould-lightning-strike")],
+  ["echo-spike","Find Mould: Echo Spike, pour the cast at a level 3 Galdr Table with Bloodgold, Nornathread and Frostfire Essence, then harden it in a Frost Foundry.","Найдите Форму: Эхо-шип, создайте отливку на Столе гальдра 3 уровня с Кровавым золотом, Норна-нитью и Эссенцией морозного огня, затем закалите в Морозной литейной.",item("mould-echo-spike")],
+  ["northern-vengeance","Find its mould, make the cast at a level 3 Galdr Table with Ice, Nornathread and a Hexen Trophy, then harden it in a Frost Foundry.","Найдите форму, создайте отливку на Столе гальдра 3 уровня из Льда, Норна-нити и Трофея Хексен, затем закалите в Морозной литейной.",item("mould-northern-vengeance")],
+  ["spirit-caller","Find Mould: Spirit Caller, make the cast at a level 3 Galdr Table with Frozen Branch, Nornathread and a Moose Trophy, then harden it in a Frost Foundry.","Найдите Форму: Призыватель духов, создайте отливку на Столе гальдра 3 уровня из Замёрзшей ветви, Норна-нити и Трофея лося, затем закалите в Морозной литейной.",item("mould-spirit-caller")],
+  ["voidcaller","Craft directly at a level 3 Galdr Table from Voidplasm, Ectoplasm and Bloodgold. Voidplasm currently has no normal survival-world source.","Создаётся напрямую на Столе гальдра 3 уровня из Voidplasm, Эктоплазмы и Кровавого золота. У Voidplasm сейчас нет обычного источника в выживании.",item("voidcaller")]
+);
+
+const armourAcquisition: Array<[string,string,string,string]> = [
+  ["helmet-of-the-protector","mould-helmet-of-the-protector","Black Forge","Чёрной кузнице"],
+  ["breastplate-of-the-protector","mould-breastplate-of-the-protector","Black Forge","Чёрной кузнице"],
+  ["trousers-of-the-protector","mould-trousers-of-the-protector","Black Forge","Чёрной кузнице"],
+  ["hood-of-the-vanguard","mould-hood-of-the-vanguard","Black Forge","Чёрной кузнице"],
+  ["chestpiece-of-the-vanguard","mould-chestpiece-of-the-vanguard","Black Forge","Чёрной кузнице"],
+  ["trousers-of-the-vanguard","mould-trousers-of-the-vanguard","Black Forge","Чёрной кузнице"],
+  ["headdress-of-the-caller","mould-headdress-of-the-caller","Galdr Table","Столе гальдра"],
+  ["robes-of-the-caller","mould-robes-of-the-caller","Galdr Table","Столе гальдра"],
+  ["trousers-of-the-caller","mould-trousers-of-the-caller","Galdr Table","Столе гальдра"]
+];
+for (const [gear,mould,stationEn,stationRu] of armourAcquisition) {
+  deepNorthSeed.resourceSources!.push([
+    gear,
+    `Find the matching mould, pour the armour cast at the ${stationEn}, then harden the cast for 50 seconds in a Frost Foundry using Liquid Frost.`,
+    `Найдите соответствующую форму, создайте отливку на ${stationRu}, затем закалите её 50 секунд в Морозной литейной на Жидком морозе.`,
+    item(mould)
+  ]);
+}
+
 for (const name of baseWeaponSlugs) {
+  const display = name.replaceAll("-", " ");
+  deepNorthSeed.resourceSources!.push(
+    [`nord-${name}`,`Find Mould: Nord ${display}; North Memorial Place buried chests roll the combat moulds at 5%, with additional rolls in Winding Tunnels and Mörkhalla. Pour the cast at a level 4 Black Forge and harden it in a Frost Foundry using Liquid Frost.`,`Найдите форму Nord ${display}; боевые формы выпадают из зарытых сундуков Северных мемориалов с шансом 5% и также встречаются в Извилистых туннелях и Мёркхалле. Создайте отливку на Чёрной кузнице 4 уровня и закалите её в Морозной литейной на Жидком морозе.`,combatMouldSource(`nord-${name}`)],
+    [`frostfire-${name}`,`Craft from the finished Nord ${display} at the Black Forge using Bloodgold and Frostfire Essence from Fallen Warriors.`,`Создаётся из готового Nord ${display} на Чёрной кузнице с Кровавым золотом и Эссенцией морозного огня от Павших воинов.`,item("frostfire-essence")],
+    [`thunderblood-${name}`,`Craft from the finished Nord ${display} at the Black Forge using Bloodgold and Thunderblood Essence from Fallen Warriors.`,`Создаётся из готового Nord ${display} на Чёрной кузнице с Кровавым золотом и Эссенцией грозовой крови от Павших воинов.`,item("thunderblood-essence")]
+  );
+
   const baseMaterial: [string, number] =
     name === "greatsword"
       ? ["frozen-branch", 2]

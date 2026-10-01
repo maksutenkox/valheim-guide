@@ -259,6 +259,13 @@ jobs:
             echo "$CONTENT_TYPE" | grep -q '^image/'
           done
 
+          echo "Checking Deep North acquisition data..."
+          for endpoint in             resources/frostcore             resources/nornathread             resources/mould-intricate-key             resources/malicious-blood             resources/bloodgold-battle-idol             items/nord-sword             items/lightning-strike             items/helmet-of-the-protector; do
+            BODY="$(curl --fail --silent --show-error --retry 4 --retry-delay 1 "$BASE_URL/api/$endpoint")"
+            node -e 'const v=JSON.parse(process.argv[1]); if(!Array.isArray(v.data?.sources)||v.data.sources.length===0) process.exit(1)' "$BODY"
+            echo "$endpoint: acquisition ok"
+          done
+
           echo "Checking every trader item icon..."
           for asset in yule-hat dverger-circlet megingjord ymir-flesh fishing-rod fishing-bait thunder-stone egg barrel-hoops brown-dress-with-shawl brown-dress-with-beads blue-dress-with-shawl blue-dress-with-beads yellow-dress-with-shawl yellow-dress-with-beads simple-undyed-dress blue-tunic-with-cape blue-tunic-with-beads red-tunic-with-cape red-tunic-with-beads yellow-tunic-with-cape yellow-tunic-with-beads simple-undyed-tunic plain-brown-dress plain-blue-dress plain-yellow-dress plain-blue-tunic plain-red-tunic plain-yellow-tunic harvest-tunic harvest-dress blue-tied-headscarf green-twisted-headscarf brown-fur-cap extravagant-green-cap simple-red-cap yellow-tied-headscarf red-twisted-headscarf grey-fur-cap extravagant-orange-cap simple-purple-cap straw-hat headband basic-fireworks sparkler iron-pit barber-kit candle-wick scythe-handle love-potion toadstool fragrant-bundle fresh-seaweed cured-squirrel-hamstring powdered-dragon-eggshells pungent-pebbles ivy-seeds serving-tray woodland-herb-blend seafarers-herbs mountain-peak-pepper-powder grasslands-herbalist-harvest herbs-of-the-hidden-hills fiery-spice-powder seasoning-of-the-gourd corked-vial crown-of-roots; do
             CONTENT_TYPE="$(curl --fail --silent --show-error -o /dev/null -w '%{content_type}' --retry 4 --retry-delay 1 "$BASE_URL/media/wiki/$asset.png")"

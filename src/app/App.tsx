@@ -1967,14 +1967,13 @@ export function App() {
       <div className="detail-hero"><Visual entry={item} hero /><div className="detail-hero-copy"><p className="item-type">{categoryText(locale, item) ?? (locale === "ru" ? "Предмет" : "Item")}</p><h2>{text(locale,item)}</h2>{item.biome_name_ru && <span className="biome-badge">⌖ {locale === "ru" ? item.biome_name_ru : item.biome_name_en}</span>}</div></div>
       <p className="lede detail-description">{locale === "ru" ? item.description_ru : item.description_en}</p>
       <div className="detail-actions"><button className={saved ? "save primary" : "save"} onClick={() => void toggleFavorite()}>{saved ? "♥" : "♡"} {saved ? (locale === "ru" ? "В избранном" : "Saved") : (locale === "ru" ? "Сохранить" : "Save")}</button><button className="save primary" disabled={craftListBusy} onClick={() => void addToCraftList()}>⚒ {locale === "ru" ? "В мой крафт" : "Add to craft"}</button></div>
-      <DetailStats locale={locale} item={item} /><Recipe locale={locale} item={item} onResource={openResource} /><Upgrades locale={locale} item={item} onResource={openResource} /><SourceLink locale={locale} entry={item} />
+      <AcquisitionSources locale={locale} sources={item.sources} /><DetailStats locale={locale} item={item} /><Recipe locale={locale} item={item} onResource={openResource} /><Upgrades locale={locale} item={item} onResource={openResource} /><SourceLink locale={locale} entry={item} />
     </section>}
 
     {section === "resource" && resource && <section className="detail">
       <div className="detail-hero"><Visual entry={resource} hero /><div className="detail-hero-copy"><p className="item-type">{categoryText(locale, resource) ?? (locale === "ru" ? "Материал" : "Material")}</p><h2>{text(locale,resource)}</h2></div></div>
       <p className="lede detail-description">{locale === "ru" ? resource.description_ru : resource.description_en}</p>
-      <SectionTitle eyebrow={locale === "ru" ? "ИСТОЧНИК" : "SOURCE"} title={locale === "ru" ? "Где найти" : "Where to find"} />
-      {resource.sources.length ? <div className="source-list">{resource.sources.map((source, index) => <p key={index}><b>{String(index + 1).padStart(2,"0")}</b><span>{locale === "ru" ? source.method_ru : source.method_en}</span></p>)}</div> : <Empty message={locale === "ru" ? "Проверенный источник пока добавляется." : "A verified source is being added."} />}
+      <AcquisitionSources locale={locale} sources={resource.sources} empty />
       {(resource.dropped_by?.length ?? 0) > 0 && <>
         <SectionTitle eyebrow={locale === "ru" ? "ДОБЫЧА" : "DROPS FROM"} title={locale === "ru" ? "Выпадает из" : "Dropped by"} />
         <CreatureGrid locale={locale} items={resource.dropped_by ?? []} onOpen={(slug) => void openCreature(slug, "resource")} />
@@ -2053,6 +2052,14 @@ function LibraryTabs({ locale, active, onChange }: { locale: Locale; active: "cr
     <button className={active === "craft" ? "active" : ""} role="tab" aria-selected={active === "craft"} onClick={() => void onChange("craft")}><span>⚒</span>{locale === "ru" ? "Крафт" : "Craft"}</button>
     <button className={active === "favorites" ? "active" : ""} role="tab" aria-selected={active === "favorites"} onClick={() => void onChange("favorites")}><span>♡</span>{locale === "ru" ? "Избранное" : "Favorites"}</button>
   </div>;
+}
+
+function AcquisitionSources({ locale, sources, empty = false }: { locale: Locale; sources: ItemDetail["sources"]; empty?: boolean }) {
+  if (!sources.length && !empty) return null;
+  return <>
+    <SectionTitle eyebrow={locale === "ru" ? "ДОБЫЧА" : "ACQUISITION"} title={locale === "ru" ? "Где получить" : "Where to get it"} />
+    {sources.length ? <div className="source-list acquisition-list">{sources.map((source,index) => <p key={index}><b>{String(index + 1).padStart(2,"0")}</b><span>{locale === "ru" ? source.method_ru : source.method_en}</span></p>)}</div> : <Empty message={locale === "ru" ? "Проверенный источник пока добавляется." : "A verified source is being added."} />}
+  </>;
 }
 
 function DetailStats({ locale, item }: { locale: Locale; item: ItemDetail }) {

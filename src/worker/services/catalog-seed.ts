@@ -40,6 +40,7 @@ export type CatalogSeed = {
   upgrades?: SeedUpgrade[];
   stats?: SeedStat[];
   resourceSources?: SeedResourceSource[];
+  replaceResourceSources?: boolean;
   stations?: Array<{ slug: string; en: string; ru: string }>;
   categories?: Array<{ slug: string; en: string; ru: string; sortOrder: number }>;
 };
@@ -140,6 +141,13 @@ export const applyCatalogSeed = async (env: Env, seed: CatalogSeed): Promise<voi
   await runBatches(env, itemStatements);
 
   const resourceSources = seed.resourceSources ?? [];
+  if (resourceSources.length && seed.replaceResourceSources) {
+    const sourceSlugs = [...new Set(resourceSources.map(([slug]) => slug))];
+    await runBatches(env, sourceSlugs.map((slug) => env.DB.prepare(`
+      DELETE FROM resource_sources
+      WHERE resource_id = (SELECT id FROM items WHERE slug = ?)
+    `).bind(slug)));
+  }
   if (resourceSources.length) {
     await runBatches(env, resourceSources.map(([slug, en, ru, source], sort) => env.DB.prepare(`
       INSERT INTO resource_sources (resource_id,method_en,method_ru,biome_id,source_url,sort_order)

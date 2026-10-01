@@ -461,17 +461,28 @@ export default {
     if (request.method === "GET" && itemMatch) {
       const item = await env.DB.prepare(`${itemSelect} WHERE i.slug = ? AND i.entity_type = 'item'`).bind(itemMatch[1]).first<ItemRow>();
       if (!item) return notFound();
-      const [stats, ingredients, upgrades, recipe] = await Promise.all([
+      const [stats, ingredients, upgrades, recipe, sources] = await Promise.all([
         env.DB.prepare("SELECT stat_key, stat_value, unit FROM item_stats WHERE item_id = ? ORDER BY sort_order").bind(item.id).all(),
         env.DB.prepare(`SELECT ri.quantity, r.slug, r.name_en, r.name_ru, r.image_path FROM recipes re JOIN recipe_ingredients ri ON ri.recipe_id = re.id JOIN items r ON r.id = ri.resource_id WHERE re.item_id = ? ORDER BY r.name_en`).bind(item.id).all(),
         env.DB.prepare("SELECT id, level, station_level FROM item_upgrades WHERE item_id = ? ORDER BY level").bind(item.id).all<{ id: number; level: number; station_level: number | null }>(),
-        env.DB.prepare("SELECT s.slug, s.name_en, s.name_ru, re.station_level, re.output_quantity FROM recipes re LEFT JOIN crafting_stations s ON s.id = re.crafting_station_id WHERE re.item_id = ?").bind(item.id).first()
+        env.DB.prepare("SELECT s.slug, s.name_en, s.name_ru, re.station_level, re.output_quantity FROM recipes re LEFT JOIN crafting_stations s ON s.id = re.crafting_station_id WHERE re.item_id = ?").bind(item.id).first<{ slug: string | null; name_en: string | null; name_ru: string | null; station_level: number; output_quantity: number }>(),
+        env.DB.prepare("SELECT method_en, method_ru, source_url FROM resource_sources WHERE resource_id = ? ORDER BY sort_order").bind(item.id).all<{ method_en: string; method_ru: string; source_url: string | null }>()
       ]);
       const upgradeDetails = await Promise.all(upgrades.results.map(async (upgrade) => ({
         ...upgrade,
         ingredients: (await env.DB.prepare("SELECT ui.quantity, r.slug, r.name_en, r.name_ru, r.image_path FROM upgrade_ingredients ui JOIN items r ON r.id = ui.resource_id WHERE ui.upgrade_id = ? ORDER BY r.name_en").bind(upgrade.id).all()).results
       })));
-      return json({ data: { ...item, recipe, stats: stats.results, ingredients: ingredients.results, upgrades: upgradeDetails } });
+      const acquisitionSources = [...sources.results];
+      if (!acquisitionSources.length && recipe) {
+        const stationEn = recipe.name_en ?? "crafting station";
+        const stationRu = recipe.name_ru ?? "ремесленная станция";
+        acquisitionSources.push({
+          method_en: `Craft at ${stationEn} (level ${recipe.station_level}). The required materials are listed in the recipe below.`,
+          method_ru: `Создаётся на станции «${stationRu}» (уровень ${recipe.station_level}). Все необходимые материалы указаны в рецепте ниже.`,
+          source_url: item.source_url
+        });
+      }
+      return json({ data: { ...item, recipe, stats: stats.results, ingredients: ingredients.results, upgrades: upgradeDetails, sources: acquisitionSources } });
     }
 
     if (request.method === "GET" && url.pathname === "/api/resources") {
