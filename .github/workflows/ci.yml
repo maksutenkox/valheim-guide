@@ -107,6 +107,28 @@ jobs:
           console.log(`All biome resource acquisition coverage: ${total}/${total}`);
           NODE
 
+      - name: Verify Ashlands acquisition precision
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+          const src = fs.readFileSync("src/worker/services/seed-ashlands.ts","utf8");
+          const required = [
+            "Adult Asksvin always drop 2–3 Asksvin Hide",
+            "Morgen have an 80% chance to drop 1 Morgen Heart",
+            "Bonemaw always drops 8–10 Bonemaw Teeth",
+            "Fallen Valkyries always drop 2–4 Celestial Feathers",
+            "Lava Blobs always drop 1–2 Proustite Powder",
+            "Charred Fortress chests: 8% per roll",
+            "Magmafish can yield 1–2 Flametal Ore at 23%",
+            "Morgen Hole chests roll Ashwood at 19%"
+          ];
+          for (const line of required) if (!src.includes(line)) throw new Error("Missing Ashlands precision source: " + line);
+          const sourceRows = [...src.matchAll(/\["([^"]+)","[^"]+","[^"]+",item\("[^"]+"\)\]/g)];
+          console.log("Ashlands acquisition rows:", sourceRows.length);
+          if (sourceRows.length < 40) throw new Error("Ashlands precision source table is unexpectedly small");
+          NODE
+
       - name: Verify Deep North acquisition precision
         shell: bash
         run: |
