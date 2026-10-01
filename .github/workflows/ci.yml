@@ -107,6 +107,28 @@ jobs:
           console.log(`All biome resource acquisition coverage: ${total}/${total}`);
           NODE
 
+      - name: Verify Deep North acquisition precision
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+          const src = fs.readFileSync("src/worker/services/seed-deep-north.ts","utf8");
+          const count = (slug) => [...src.matchAll(new RegExp('\\["' + slug + '"', 'g'))].length;
+          const common = ["mould-nord-sword","mould-nord-axe","mould-nord-mace","mould-nord-spear","mould-nord-bow"];
+          const combat = [
+            "mould-nord-atgeir","mould-nord-greatsword","mould-nord-greataxe","mould-nord-dagger",
+            "mould-nord-knucklechains","mould-nord-crossbow","mould-nord-sledge","mould-nord-shield",
+            "mould-nord-greatshield","mould-nord-buckler","mould-lightning-strike","mould-echo-spike",
+            "mould-northern-vengeance","mould-spirit-caller"
+          ];
+          for (const slug of common) if (count(slug) < 4) throw new Error(slug + " should expose at least 4 acquisition routes");
+          for (const slug of combat) if (count(slug) < 3) throw new Error(slug + " should expose at least 3 acquisition routes");
+          if (count("mould-intricate-key") < 3) throw new Error("intricate key mould needs 3 acquisition routes");
+          if (!src.includes("Wardrobes in Winding Tunnels: 50%")) throw new Error("protector helmet wardrobe source missing");
+          if (!src.includes('["intricate-key","Hexen can drop a finished Intricate Key at 10%')) throw new Error("finished key Hexen drop missing");
+          console.log("Deep North acquisition precision: ok");
+          NODE
+
       - name: Verify trophy category integrity
         shell: bash
         run: |
