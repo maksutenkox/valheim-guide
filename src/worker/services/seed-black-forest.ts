@@ -337,42 +337,40 @@ const stats: Array<[string,string,string,string?]> = [
 ];
 
 const resourceSources: Array<[string,string,string,string]> = [
-  ["copper-ore","Mine copper deposits in the Black Forest.","Добывается из залежей меди в Чёрном лесу.",wiki("Copper_ore")],
-  ["tin-ore","Mine small tin deposits near Black Forest water.","Добывается из небольших залежей олова у воды в Чёрном лесу.",wiki("Tin_ore")],
-  ["copper","Smelt copper ore in a Smelter.","Переплавьте медную руду в плавильне.",wiki("Copper")],
-  ["tin","Smelt tin ore in a Smelter.","Переплавьте оловянную руду в плавильне.",wiki("Tin")],
-  ["bronze","Forge 2 Copper + 1 Tin.","Создаётся в кузнице из 2 меди и 1 олова.",wiki("Bronze")],
-  ["bronze-nails","Forge 1 Bronze into 20 Bronze nails.","В кузнице 1 бронза превращается в 20 бронзовых гвоздей.",wiki("Bronze_nails")],
-  ["greydwarf-eye","Dropped by Greydwarfs.","Выпадает с грейдворфов.",wiki("Greydwarf_eye")],
-  ["surtling-core","Found primarily inside Black Forest Burial Chambers.","В основном находится в Погребальных комнатах Чёрного леса.",wiki("Surtling_core")],
-  ["ancient-seed","Dropped by Greydwarf Brutes and Greydwarf nests; used to summon The Elder.","Выпадает с грейдворфов-брутов и гнёзд; используется для призыва Древнего.",wiki("Ancient_seed")],
-  ["troll-hide","Dropped by Trolls.","Выпадает с троллей.",wiki("Troll_hide")],
-  ["blueberries","Gather from blueberry bushes in the Black Forest.","Собирается с кустов черники в Чёрном лесу.",wiki("Blueberries")],
-  ["thistle","Gather glowing thistle plants in the Black Forest.","Собирается со светящихся растений в Чёрном лесу.",wiki("Thistle")],
-  ["yellow-mushroom","Found in Burial Chambers and other caves.","Находится в Погребальных комнатах и других пещерах.",wiki("Yellow_mushroom")],
-  ["carrot-seeds","Gather from seed-carrot flowers in the Black Forest.","Собирается с цветков семенной моркови в Чёрном лесу.",wiki("Carrot_seeds")],
-  ["carrot","Grow Carrot seeds using a Cultivator.","Выращивается из семян моркови при помощи культиватора.",wiki("Carrot")],
-  ["bear-hide","Dropped by Bears introduced with Valheim 1.0.","Выпадает с медведей, добавленных в Valheim 1.0.",wiki("Bear")],
-  ["bear-paw","Dropped by Bears.","Выпадает с медведей.",wiki("Bear_paw")],
-  ["bear-trophy","Rare drop from Bears.","Редкий трофей с медведей.",wiki("Bear")],
-  ["greydwarf-shaman-trophy","Rare drop from Greydwarf Shamans.","Редкий трофей с грейдворфов-шаманов.",wiki("Greydwarf_Shaman")],
-  ["ruby","Found as valuable loot in dungeons and chests.","Находится как ценная добыча в подземельях и сундуках.",wiki("Ruby")],
-  ["coal","Produce it in a Charcoal kiln.","Производится в углевыжигательной печи.",wiki("Coal")],
-  ["skeleton-trophy","Dropped by Skeletons, especially in Burial Chambers.","Выпадает со скелетов, особенно в Погребальных комнатах.",wiki("Skeleton")],
-  ["bronze-battle-idol","Rare chest loot in Black Forest ruins, Burial Chambers and Troll Caves; used only at the Forge of Potential.","Редкая добыча из сундуков руин, Погребальных комнат и Пещер троллей; используется только в Кузнице потенциала.","https://www.valheim.tools/items/bronze-battle-idol/"],
-  ["bronze-protection-idol","Rare chest loot in Black Forest ruins, Burial Chambers and Troll Caves; used only at the Forge of Potential.","Редкая добыча из сундуков руин, Погребальных комнат и Пещер троллей; используется только в Кузнице потенциала.","https://www.valheim.tools/items/bronze-protection-idol/"],
-  ["bear-meat","Dropped by Bears in the Black Forest.","Выпадает с медведей в Чёрном лесу.","https://www.valheim.tools/items/bear-meat"],
-  ["ectoplasm","Dropped by Ghosts encountered in Black Forest Burial Chambers.","Выпадает с призраков, встречающихся в Погребальных комнатах Чёрного леса.","https://www.valheim.tools/building/t-w-i-g"],
-  ["chitin","Mine Abyssal Barnacles on Leviathans in the Ocean.","Добывайте хитин из Абиссальных наростов на левиафанах в Океане.",wiki("Chitin")],
-  ["mushroom","Pick from the ground in Meadows and Black Forest.","Собирайте с земли в Лугах и Чёрном лесу.",wiki("Mushroom")],
-  ["raspberries","Pick from raspberry bushes in the Meadows.","Собирайте с кустов малины в Лугах.",wiki("Raspberries")],
-  ["honey","Harvest from Beehives; Queen Bees come from wild beehives in abandoned Meadows houses.","Собирайте из ульев; пчелиные матки добываются из диких ульев в заброшенных домах Лугов.",wiki("Honey")],
-  ["boar-meat","Dropped by Boars at 100%.","Гарантированно выпадает из кабанов.",wiki("Boar")],
-  ["neck-tail","Dropped by Necks at 70%.","Выпадает из никсов с шансом 70%.",wiki("Neck")],
-  ["cooked-deer-meat","Cook Deer Meat on a Cooking Station.","Приготовьте мясо оленя на кулинарной стойке.",wiki("Deer_meat")],
-  ["feathers","Dropped by hunted birds; also found in several chest types.","Выпадает из птиц при охоте; также встречается в разных сундуках.",wiki("Feathers")],
-  ["deer-trophy","Dropped by Deer at 50%.","Выпадает из оленей с шансом 50%.",wiki("Deer")],
-  ["dandelion","Pick in the Meadows; Greydwarf Brutes also drop one at 100%.","Собирайте в Лугах; грейдворфы-бруты также гарантированно роняют по одному.",wiki("Dandelion")]
+  ["copper-ore","Mine Copper Deposits in the Black Forest with any pickaxe: 33% per roll, normally 2–4 rolls for 1 Copper Ore each.","Добывайте залежи меди в Чёрном лесу любой киркой: 33% за бросок, обычно 2–4 броска по 1 Медной руде.","https://www.valheim.tools/items/copper-ore"],
+  ["copper-ore","Trollfish can yield 1 Copper Ore at 50%; Black Forest spawner loot can also roll 2–5 ore at 13%.","Тролль-рыба может дать 1 Медную руду с шансом 50%; добыча лесных спавнеров также может дать 2–5 руды с шансом 13%.","https://www.valheim.tools/items/copper-ore"],
+  ["tin-ore","Mine small shiny Tin deposits along Black Forest shorelines and riverbanks; each deposit gives 3–4 rolls of 1 Tin Ore.","Добывайте маленькие блестящие залежи олова вдоль берегов и рек Чёрного леса; каждая залежь даёт 3–4 выпадения по 1 Оловянной руде.","https://www.valheim.tools/items/tin-ore"],
+  ["tin-ore","Black Forest ruin barrels roll Tin Ore at 13% per roll across 2–3 rolls, yielding 2–3; Tuna can yield 1–2 at 83%.","Бочки в руинах Чёрного леса дают Оловянную руду с шансом 13% за бросок при 2–3 бросках, по 2–3; Тунец может дать 1–2 с шансом 83%.","https://www.valheim.tools/items/tin-ore"],
+  ["copper","Smelt Copper Ore in a Smelter using Coal.","Переплавляйте Медную руду в Плавильне с углём.","https://www.valheim.tools/items/copper"],
+  ["tin","Smelt Tin Ore in a Smelter using Coal.","Переплавляйте Оловянную руду в Плавильне с углём.","https://www.valheim.tools/items/tin"],
+  ["bronze","Craft Bronze at a Forge from 2 Copper + 1 Tin.","Создавайте Бронзу в кузнице из 2 Меди + 1 Олова.","https://www.valheim.tools/items/bronze"],
+  ["bronze-nails","Forge 1 Bronze into 20 Bronze Nails.","Выкуйте 20 Бронзовых гвоздей из 1 Бронзы.","https://www.valheim.tools/items/bronze-nails"],
+  ["greydwarf-eye","Greydwarfs drop 1 Greydwarf Eye at 50%; Brutes drop 2 at 50%; Shamans drop 1 at 50%.","Грейдворфы роняют 1 Глаз с шансом 50%; Бруты — 2 с шансом 50%; Шаманы — 1 с шансом 50%.","https://www.valheim.tools/items/greydwarf-eye"],
+  ["greydwarf-eye","Black Forest ruin barrels roll 2–4 Greydwarf Eyes at 13% per roll across 2–3 rolls.","Бочки в руинах Чёрного леса дают 2–4 Глаза грейдворфа с шансом 13% за бросок при 2–3 бросках.","https://www.valheim.tools/items/greydwarf-eye"],
+  ["surtling-core","Gather Surtling Cores from stone Core Stands inside Burial Chambers; many generated rooms can contain several stands.","Собирайте Ядра суртлингов с каменных стоек внутри Погребальных камер; в крупных сгенерированных комнатах может быть несколько стоек.","https://www.valheim.tools/items/surtling-core"],
+  ["surtling-core","Surtlings drop 1 Surtling Core at 50%; Magmafish can yield 1 at 38%, and broken Dvergr lanterns later provide another route.","Суртлинги роняют 1 Ядро с шансом 50%; Магмовая рыба может дать 1 с шансом 38%, а позднее ядра добываются из фонарей двегров.","https://www.valheim.tools/items/surtling-core"],
+  ["ancient-seed","Greydwarf Brutes drop 1 Ancient Seed at 33%.","Грейдворфы-бруты роняют 1 Древнее семя с шансом 33%.","https://www.valheim.tools/items/ancient-seed"],
+  ["ancient-seed","Destroy a Greydwarf Nest or the matching Evil Heart spawner: each guarantees 1 Ancient Seed.","Разрушьте Гнездо грейдворфов или соответствующее Злое сердце-спавнер: каждый гарантированно даёт 1 Древнее семя.","https://www.valheim.tools/items/ancient-seed"],
+  ["troll-hide","Trolls always drop 5 Troll Hide; Trollfish can also yield 1–2 at 50%.","Тролли гарантированно роняют 5 Шкур тролля; Тролль-рыба также может дать 1–2 с шансом 50%.","https://www.valheim.tools/items/troll-hide"],
+  ["blueberries","Pick Blueberries from bushes in the Black Forest; picked bushes regrow their berries.","Собирайте Чернику с кустов в Чёрном лесу; после сбора ягоды со временем отрастают снова.","https://www.valheim.tools/items/blueberries"],
+  ["thistle","Pick glowing Thistle plants in the Black Forest, especially visible at night.","Собирайте светящийся Чертополох в Чёрном лесу; ночью его особенно хорошо видно.","https://www.valheim.tools/items/thistle"],
+  ["yellow-mushroom","Pick Yellow Mushrooms inside Burial Chambers, Troll Caves and other dungeon interiors.","Собирайте Жёлтые грибы в Погребальных камерах, Пещерах троллей и других подземельях.","https://www.valheim.tools/items/yellow-mushroom"],
+  ["carrot-seeds","Pick wild Seed Carrot flowers in the Black Forest, then multiply seeds by planting mature Carrots as seed plants.","Собирайте дикие цветы Семенной моркови в Чёрном лесу, затем размножайте семена, высаживая зрелую Морковь на семена.","https://www.valheim.tools/items/carrot-seeds"],
+  ["carrot","Plant Carrot Seeds with the Cultivator and harvest mature Carrots.","Высаживайте Семена моркови культиватором и собирайте зрелую Морковь.","https://www.valheim.tools/items/carrot"],
+  ["bear-hide","Bears always drop 4–5 Bear Hide; Viles always drop 1–2.","Медведи гарантированно роняют 4–5 Медвежьих шкур; Vile — 1–2.","https://www.valheim.tools/items/bear-hide"],
+  ["bear-paw","Bears always drop 1 Bear Paw.","Медведи гарантированно роняют 1 Медвежью лапу.","https://www.valheim.tools/items/bear-paw"],
+  ["bear-trophy","Bears drop a Bear Trophy at 10%.","Медведи роняют Трофей медведя с шансом 10%.","https://www.valheim.tools/creatures/bear"],
+  ["bear-meat","Bears always drop 2–3 Bear Meat; Viles also always drop 2–3.","Медведи гарантированно роняют 2–3 Медвежьего мяса; Vile также гарантированно роняют 2–3.","https://www.valheim.tools/items/bear-meat"],
+  ["bear-meat","North Village / The Hole barrels later roll 1–3 Bear Meat at 22% per roll across 2–3 rolls.","Позднее бочки Северной деревни / The Hole дают 1–3 Медвежьего мяса с шансом 22% за бросок при 2–3 бросках.","https://www.valheim.tools/items/bear-meat"],
+  ["greydwarf-shaman-trophy","Greydwarf Shamans drop their trophy at 10%.","Грейдворфы-шаманы роняют свой трофей с шансом 10%.","https://www.valheim.tools/creatures/greydwarf-shaman"],
+  ["ruby","Loot Rubies from Burial Chamber and Troll Cave chests and other valuable-loot chest tables.","Ищите Рубины в сундуках Погребальных камер, Пещер троллей и других таблицах ценной добычи.","https://www.valheim.tools/items/ruby"],
+  ["coal","Burn Wood in a Charcoal Kiln; overcooking suitable food on a cooking station also produces Coal.","Сжигайте Древесину в Углевыжигательной печи; пережаривание подходящей еды на стойке также даёт Уголь.","https://www.valheim.tools/items/coal"],
+  ["skeleton-trophy","Skeletons drop a Skeleton Trophy at 10%; Burial Chambers contain many Skeleton spawners.","Скелеты роняют Трофей скелета с шансом 10%; в Погребальных камерах много спавнеров скелетов.","https://www.valheim.tools/creatures/skeleton"],
+  ["bronze-battle-idol","Black Forest ruin / stone-house chests roll Bronze Battle Idol at about 1% per roll across 2–3 rolls.","Сундуки руин и каменных домов Чёрного леса дают Бронзовый боевой идол примерно с шансом 1% за бросок при 2–3 бросках.","https://www.valheim.tools/items/bronze-battle-idol"],
+  ["bronze-battle-idol","Burial Chamber chests roll it at about 1% per roll across 2–4 rolls; Troll Cave chests about 1% across 3–5 rolls.","Сундуки Погребальных камер дают его примерно с шансом 1% за бросок при 2–4 бросках; Пещеры троллей — около 1% при 3–5 бросках.","https://www.valheim.tools/items/bronze-battle-idol"],
+  ["bronze-protection-idol","Black Forest ruin / stone-house chests roll Bronze Protection Idol at about 2% per roll across 2–3 rolls.","Сундуки руин и каменных домов Чёрного леса дают Бронзовый защитный идол примерно с шансом 2% за бросок при 2–3 бросках.","https://www.valheim.tools/items/bronze-protection-idol"],
+  ["bronze-protection-idol","Burial Chamber chests roll it at about 2% per roll across 2–4 rolls; Troll Cave chests about 2% across 3–5 rolls.","Сундуки Погребальных камер дают его примерно с шансом 2% за бросок при 2–4 бросках; Пещеры троллей — около 2% при 3–5 бросках.","https://www.valheim.tools/items/bronze-protection-idol"],
+  ["ectoplasm","Ghosts in Burial Chambers always drop 1–5 Ectoplasm; Ghost Trophy is a separate 10% drop.","Призраки в Погребальных камерах гарантированно роняют 1–5 Эктоплазмы; Трофей призрака — отдельный дроп с шансом 10%.","https://www.valheim.tools/creatures/ghost"]
 ];
 
 const runBatches = async (env: Env, statements: D1PreparedStatement[]): Promise<void> => {
@@ -383,7 +381,7 @@ const runBatches = async (env: Env, statements: D1PreparedStatement[]): Promise<
 
 export const ensureBlackForestCatalog = async (env: Env): Promise<void> => {
   const marker = await env.DB.prepare("SELECT value FROM schema_metadata WHERE key = ?")
-    .bind("catalog_black_forest_v6_acquisition").first<{ value: string }>();
+    .bind("catalog_black_forest_v7_acquisition_precision").first<{ value: string }>();
   if (marker?.value === "done") return;
 
   await env.DB.batch([
@@ -411,6 +409,11 @@ export const ensureBlackForestCatalog = async (env: Env): Promise<void> => {
     item.imageFile ? `/media/wiki/${item.slug}.png` : null,item.imageFile ? icon(item.imageFile) : item.source,"Game asset / source page retained for attribution",sourceLabel(item),item.source
   ));
   await runBatches(env, itemStatements);
+
+  const sourceSlugs = [...new Set(resourceSources.map(([slug]) => slug))];
+  await runBatches(env, sourceSlugs.map((slug) =>
+    env.DB.prepare("DELETE FROM resource_sources WHERE resource_id = (SELECT id FROM items WHERE slug = ?)").bind(slug)
+  ));
 
   await runBatches(env, resourceSources.map(([slug,en,ru,source], sort) => env.DB.prepare(`
     INSERT INTO resource_sources (resource_id,method_en,method_ru,biome_id,source_url,sort_order)

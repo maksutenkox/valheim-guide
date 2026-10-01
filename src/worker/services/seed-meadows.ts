@@ -5,8 +5,9 @@ const item = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
 
 const meadowsSeed: CatalogSeed = {
-  marker: "catalog_meadows_acquisition_v1",
+  marker: "catalog_meadows_acquisition_v2_precision",
   biome: "meadows",
+  replaceResourceSources: true,
   stations: [
     { slug: "inventory", en: "Inventory", ru: "Инвентарь" },
     { slug: "workbench", en: "Workbench", ru: "Верстак" },
@@ -138,24 +139,32 @@ const meadowsSeed: CatalogSeed = {
     ["grilled-neck-tail","health","25"],["grilled-neck-tail","stamina","8"],["grilled-neck-tail","duration","20","min"],["grilled-neck-tail","healing","2","hp/tick"]
   ],
   resourceSources: [
-    ["wood","Pick branches from the ground or chop Meadows trees.","Собирайте ветви или рубите деревья в Лугах.",item("wood")],
-    ["stone","Pick stones from the ground or mine rocks.","Собирайте камни или добывайте их из скал.",item("stone")],
-    ["flint","Gather along Meadows shorelines.","Собирается вдоль берегов Лугов.",item("flint")],
-    ["resin","Dropped by Greylings and Greydwarfs.","Выпадает из грейлингов и грейдворфов.",item("resin")],
-    ["leather-scraps","Dropped by Boars.","Выпадает с кабанов.",item("leather-scraps")],
-    ["deer-hide","Dropped by Deer.","Выпадает с оленей.",item("deer-hide")],
-    ["queen-bee","Destroy wild Beehives in abandoned Meadows buildings.","Разрушайте дикие ульи в заброшенных домах Лугов.",item("queen-bee")],
-    ["wooden-battle-idol","Rare Meadows chest loot for the Forge of Potential.","Редкая добыча из сундуков Лугов для Кузницы потенциала.",item("wooden-battle-idol")],
-    ["wooden-protection-idol","Rare Meadows chest loot for the Forge of Potential.","Редкая добыча из сундуков Лугов для Кузницы потенциала.",item("wooden-protection-idol")],
-    ["bone-fragments","Dropped by Skeletons at 100%, 1 each.","Гарантированно выпадает из скелетов, по 1.",item("bone-fragments")],
-    ["feathers","Dropped by hunted birds; also found in some chests.","Выпадает из птиц при охоте; также встречается в некоторых сундуках.",item("feathers")],
-    ["raspberries","Pick from raspberry bushes across the Meadows.","Собирайте с кустов малины в Лугах.",item("raspberries")],
-    ["mushroom","Pick from the ground in Meadows and Black Forest.","Собирайте с земли в Лугах и Чёрном лесу.",item("mushroom")],
-    ["dandelion","Pick in the Meadows; Greydwarf Brutes also drop one at 100%.","Собирайте в Лугах; грейдворфы-бруты также гарантированно роняют по одному.",item("dandelion")],
-    ["honey","Harvest from Beehives; Queen Bees for the first hives come from wild beehives in abandoned Meadows houses.","Собирайте из ульев; первые пчелиные матки добываются из диких ульев в заброшенных домах Лугов.",item("honey")],
-    ["boar-meat","Dropped by Boars at 100%.","Гарантированно выпадает из кабанов.",item("boar-meat")],
-    ["deer-meat","Dropped by Deer at 100%, 2 per normal Deer.","Гарантированно выпадает из оленей, по 2 с обычного оленя.",item("deer-meat")],
-    ["neck-tail","Dropped by Necks at 70%.","Выпадает из никсов с шансом 70%.",item("neck-tail")]
+    ["wood","Pick loose Branches or chop Beech trees, fallen logs and stumps in the Meadows.","Подбирайте ветви или рубите буки, упавшие брёвна и пни в Лугах.",item("wood")],
+    ["wood","Greydwarfs also always drop Wood: normal and Shaman ×1, Brute ×3–5.","Грейдворфы также гарантированно роняют Древесину: обычный и Шаман ×1, Брут ×3–5.",item("wood")],
+    ["stone","Pick loose Stone from the ground or break mineable rocks; Greydwarfs also always drop Stone.","Подбирайте Камень с земли или разбивайте добываемые скалы; грейдворфы также гарантированно роняют Камень.",item("stone")],
+    ["flint","Pick Flint nodes along Meadows shorelines; a picked node returns to the same spot after about 4 hours.","Собирайте Кремень вдоль берегов Лугов; собранный узел появляется на том же месте примерно через 4 часа.",item("flint")],
+    ["flint","Meadows house chests can yield 2–4 Flint; Pike can yield 1–2 at 83%.","Сундуки домов Лугов могут дать 2–4 Кремня; Щука может дать 1–2 с шансом 83%.",item("flint")],
+    ["resin","Greylings and Greydwarfs always drop Resin; Greydwarf Shaman gives 1–2.","Грейлинги и грейдворфы гарантированно роняют Смолу; Шаман грейдворфов даёт 1–2.",item("resin")],
+    ["resin","Beech and Birch trees can also drop Resin; ruin barrels roll 3–6 at 13% per roll across 2–3 rolls.","Буки и берёзы также могут дать Смолу; бочки руин дают 3–6 с шансом 13% за бросок при 2–3 бросках.",item("resin")],
+    ["leather-scraps","Boars always drop 1 Leather Scraps; this is the main early renewable source.","Кабаны гарантированно роняют 1 Кожаные обрывки — основной ранний возобновляемый источник.",item("leather-scraps")],
+    ["leather-scraps","Combat Ruin chests roll 2–3 Leather Scraps at 24% per roll across 2–3 rolls; Troll Cave chests roll 3–5 at 16% across 3–5.","Сундуки Боевых руин дают 2–3 Кожаных обрывка с шансом 24% за бросок при 2–3 бросках; Пещеры троллей — 3–5 с шансом 16% при 3–5.",item("leather-scraps")],
+    ["deer-hide","Deer always drop 1–3 Deer Hide.","Олени гарантированно роняют 1–3 Оленьи шкуры.",item("deer-hide")],
+    ["deer-hide","Troll Cave chests roll 2–4 Deer Hide at 16% per roll across 3–5 rolls; later Fuling roofs and banners are another source.","Сундуки Пещер троллей дают 2–4 Оленьих шкуры с шансом 16% за бросок при 3–5 бросках; позднее шкуры добываются и из крыш/знамён фулингов.",item("deer-hide")],
+    ["queen-bee","Destroy wild Beehives in abandoned houses, Bear Caves and certain Stone Tower ruins: 50% per roll, 2 rolls, 1 Queen Bee per success.","Разрушайте дикие ульи в заброшенных домах, Медвежьих пещерах и некоторых каменных башнях: 50% за бросок, 2 броска, по 1 Пчелиной матке.",item("queen-bee")],
+    ["wooden-battle-idol","Meadows abandoned-house chests roll Wooden Battle Idol at about 1% per roll across 2–3 rolls.","Сундуки заброшенных домов Лугов дают Деревянный боевой идол примерно с шансом 1% за бросок при 2–3 бросках.",item("wooden-battle-idol")],
+    ["wooden-battle-idol","Stone Ship Setting chests roll Wooden Battle Idol at about 2% per roll across 2–3 rolls.","Сундуки каменных корабельных захоронений дают Деревянный боевой идол примерно с шансом 2% за бросок при 2–3 бросках.",item("wooden-battle-idol")],
+    ["wooden-protection-idol","Meadows abandoned-house chests roll Wooden Protection Idol at about 2% per roll across 2–3 rolls.","Сундуки заброшенных домов Лугов дают Деревянный защитный идол примерно с шансом 2% за бросок при 2–3 бросках.",item("wooden-protection-idol")],
+    ["wooden-protection-idol","Stone Ship Setting chests roll Wooden Protection Idol at about 1% per roll across 2–3 rolls.","Сундуки каменных корабельных захоронений дают Деревянный защитный идол примерно с шансом 1% за бросок при 2–3 бросках.",item("wooden-protection-idol")],
+    ["bone-fragments","Skeletons always drop 1 Bone Fragments; starred Skeletons multiply normal drop amounts.","Скелеты гарантированно роняют 1 Обломок кости; звёздные скелеты увеличивают обычное количество дропа.",item("bone-fragments")],
+    ["feathers","Crows, Seagulls and Ash Crows always drop 3 Feathers; Hens drop 1–3 and Chickens have a 50% chance for 1–2.","Вороны, чайки и пепельные вороны гарантированно роняют 3 Пера; куры дают 1–3, а цыплята имеют 50% шанс дать 1–2.",item("feathers")],
+    ["feathers","Meadows ruin/house chests commonly roll Feathers: one main ruin table is 23% per roll across 2–3 rolls for 2–4.","Сундуки руин/домов Лугов часто дают Перья: одна из основных таблиц руин — 23% за бросок при 2–3 бросках, по 2–4.",item("feathers")],
+    ["raspberries","Pick Raspberries from bushes across the Meadows; harvested bushes regrow berries.","Собирайте Малину с кустов в Лугах; после сбора ягоды отрастают снова.",item("raspberries")],
+    ["mushroom","Pick red Mushrooms from the ground in Meadows and Black Forest; they regrow at their spawn points.","Собирайте красные Грибы с земли в Лугах и Чёрном лесу; они снова появляются в своих точках.",item("mushroom")],
+    ["dandelion","Pick Dandelions in the Meadows; Greydwarf Brutes also always drop 1.","Собирайте Одуванчики в Лугах; Грейдворфы-бруты также гарантированно роняют 1.",item("dandelion")],
+    ["honey","Build Beehives from Queen Bees for renewable Honey; wild beehives also roll 1–3 Honey at 50% per roll across 2 rolls.","Стройте Ульи из Пчелиных маток для возобновляемого Мёда; дикие ульи также дают 1–3 Мёда с шансом 50% за бросок при 2 бросках.",item("honey")],
+    ["boar-meat","Boars always drop 1 Boar Meat.","Кабаны гарантированно роняют 1 Мясо кабана.",item("boar-meat")],
+    ["deer-meat","Normal Deer always drop 2 Deer Meat.","Обычные олени гарантированно роняют 2 Оленьего мяса.",item("deer-meat")],
+    ["neck-tail","Necks drop 1 Neck Tail at 70%; starred Necks raise the effective amount/chance.","Никсы роняют 1 Хвост никса с шансом 70%; звёздные Никсы увеличивают эффективное количество/шанс.",item("neck-tail")]
   ]
 };
 

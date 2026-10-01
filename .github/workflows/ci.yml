@@ -107,6 +107,39 @@ jobs:
           console.log(`All biome resource acquisition coverage: ${total}/${total}`);
           NODE
 
+      - name: Verify early biomes acquisition precision
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+          const bf = fs.readFileSync("src/worker/services/seed-black-forest.ts","utf8");
+          const meadows = fs.readFileSync("src/worker/services/seed-meadows.ts","utf8");
+          const ocean = fs.readFileSync("src/worker/services/seed-ocean.ts","utf8");
+          for (const line of [
+            "Greydwarfs drop 1 Greydwarf Eye at 50%",
+            "Greydwarf Brutes drop 1 Ancient Seed at 33%",
+            "Trolls always drop 5 Troll Hide",
+            "Bears always drop 4–5 Bear Hide",
+            "Ghosts in Burial Chambers always drop 1–5 Ectoplasm",
+            "Burial Chamber chests roll it at about 2% per roll"
+          ]) if (!bf.includes(line)) throw new Error("Missing Black Forest precision source: " + line);
+          if (!bf.includes("DELETE FROM resource_sources")) throw new Error("Black Forest must replace stale source rows");
+          for (const line of [
+            "Deer always drop 1–3 Deer Hide",
+            "Boars always drop 1 Boar Meat",
+            "Necks drop 1 Neck Tail at 70%",
+            "wild Beehives in abandoned houses, Bear Caves",
+            "Stone Ship Setting chests roll Wooden Battle Idol at about 2%"
+          ]) if (!meadows.includes(line)) throw new Error("Missing Meadows precision source: " + line);
+          for (const line of [
+            "each mined barnacle yields 3–4 Chitin",
+            "Sea Serpents always drop 8–10 Serpent Scales",
+            "Sea Serpents always drop 6–8 Serpent Meat",
+            "12 catchable fish can be filleted 1:1"
+          ]) if (!ocean.includes(line)) throw new Error("Missing Ocean precision source: " + line);
+          console.log("Early biomes acquisition precision: ok");
+          NODE
+
       - name: Verify Mountains and Swamp acquisition precision
         shell: bash
         run: |
