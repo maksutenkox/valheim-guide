@@ -107,6 +107,31 @@ jobs:
           console.log(`All biome resource acquisition coverage: ${total}/${total}`);
           NODE
 
+      - name: Verify Mistlands and Plains acquisition precision
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+          const mist = fs.readFileSync("src/worker/services/seed-mistlands.ts","utf8");
+          const plains = fs.readFileSync("src/worker/services/seed-plains.ts","utf8");
+          for (const line of [
+            "Seekers always drop 1–2 Carapace",
+            "Seeker Soldiers always drop 2–4 Carapace",
+            "Dvergr Mages and Rogues have a 25% chance to drop 1–2 Soft Tissue",
+            "Ruined Mistlands guard-tower Dvergr Treasure Chests roll Hook at about 28%",
+            "Mörkhalla Ancient Chests in the Deep North roll Black Core at about 7.1%"
+          ]) if (!mist.includes(line)) throw new Error("Missing Mistlands precision source: " + line);
+          for (const line of [
+            "Fulings always drop 1–2 Black Metal Scrap",
+            "Fuling Berserkers always drop 3–5 Black Metal Scrap",
+            "Lox always drop 4–6 Lox Meat",
+            "Deathsquitos always drop 1 Needle",
+            "Growths always drop 1 Tar",
+            "Fuling Tower trash piles roll it at 1% per roll across 2–3 rolls"
+          ]) if (!plains.includes(line)) throw new Error("Missing Plains precision source: " + line);
+          console.log("Mistlands + Plains acquisition precision: ok");
+          NODE
+
       - name: Verify Ashlands acquisition precision
         shell: bash
         run: |

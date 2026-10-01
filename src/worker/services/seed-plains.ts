@@ -5,8 +5,9 @@ const item = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
 
 const plainsSeed: CatalogSeed = {
-  marker: "catalog_plains_acquisition_v1",
+  marker: "catalog_plains_acquisition_v2_precision",
   biome: "plains",
+  replaceResourceSources: true,
   stations: [
     { slug: "blast-furnace", en: "Blast Furnace", ru: "Доменная печь" },
     { slug: "spinning-wheel", en: "Spinning Wheel", ru: "Прялка" },
@@ -190,24 +191,33 @@ const plainsSeed: CatalogSeed = {
     ["fish-wraps","health","70"],["fish-wraps","stamina","23"],["fish-wraps","duration","25","min"],["fish-wraps","healing","4","hp/tick"]
   ],
   resourceSources: [
-    ["black-metal-scrap","Dropped by Fulings and Fuling Berserkers.","Выпадает из фулингов и фулингов-берсерков.",item("black-metal-scrap")],
-    ["black-metal","Smelt Black Metal Scrap in a Blast Furnace.","Переплавьте обломки чёрного металла в доменной печи.",item("black-metal")],
-    ["flax","Found in Fuling villages and grown only in the Plains.","Находится в деревнях фулингов и выращивается только на Равнинах.",item("flax")],
-    ["linen-thread","Spin Flax in a Spinning Wheel.","Прядите лён на прялке.",item("linen-thread")],
-    ["barley","Found in Fuling villages and grown only in the Plains.","Находится в деревнях фулингов и выращивается только на Равнинах.",item("barley")],
-    ["barley-flour","Process Barley in a Windmill.","Перерабатывайте ячмень в мельнице.",item("barley-flour")],
-    ["needle","Dropped by Deathsquitos.","Выпадает из комаров смерти.",item("needle")],
-    ["lox-pelt","Dropped by Lox.","Выпадает из локсов.",item("lox-pelt")],
-    ["lox-meat","Dropped by Lox.","Выпадает из локсов.",item("lox-meat")],
-    ["cloudberries","Gathered from cloudberry plants across the Plains.","Собирается с кустов морошки на Равнинах.",item("cloudberries")],
-    ["tar","Gathered from Tar Pits and dropped by Growths.","Добывается в смоляных ямах и выпадает из наростов.",item("tar")],
-    ["goblin-totem","Dropped by Fuling Berserkers and found in Fuling villages; five summon Yagluth.","Выпадает из фулингов-берсерков и находится в деревнях; пять тотемов призывают Яглута.",item("fuiling-totem")],
-    ["black-metal-battle-idol","Rare Plains-tier loot used at the Forge of Potential.","Редкая добыча Равнин для Кузницы потенциала.",item("black-metal-battle-idol")],
-    ["black-metal-protection-idol","Rare Plains-tier loot used at the Forge of Potential.","Редкая добыча Равнин для Кузницы потенциала.",item("black-metal-protection-idol")],
-    ["dragon-tear","Dropped by Moder after defeating the Mountain boss; it unlocks Artisan Table progression.","Выпадает после победы над Моудер, боссом Гор; открывает прогресс Стола ремесленника.",item("dragon-tear")],
-    ["lox-trophy","Dropped by Lox at 10%.","Выпадает из локсов с шансом 10%.",item("lox-trophy")],
-    ["fuling-berserker-trophy","Dropped by Fuling Berserkers at 5%.","Выпадает из фулингов-берсерков с шансом 5%.",item("fuling-berserker-trophy")],
-    ["cooked-fish","Cook Raw Fish on a Cooking Station.","Приготовьте сырую рыбу на кулинарной стойке.",item("cooked-fish")]
+    ["black-metal-scrap","Fulings always drop 1–2 Black Metal Scrap.","Обычные фулинги гарантированно роняют 1–2 Обломка чёрного металла.",item("black-metal-scrap")],
+    ["black-metal-scrap","Fuling Shamans always drop 1–2 Black Metal Scrap.","Шаманы фулингов гарантированно роняют 1–2 Обломка чёрного металла.",item("black-metal-scrap")],
+    ["black-metal-scrap","Fuling Berserkers always drop 3–5 Black Metal Scrap.","Фулинги-берсерки гарантированно роняют 3–5 Обломков чёрного металла.",item("black-metal-scrap")],
+    ["black-metal","Smelt Black Metal Scrap in a Blast Furnace.","Переплавьте Обломки чёрного металла в доменной печи.",item("black-metal")],
+    ["flax","Harvest Flax from Fuling Village fields; each wild crop gives 2 Flax. Replant it only in the Plains.","Собирайте Лён на полях деревень фулингов; каждое растение даёт 2 Льна. Выращивать его можно только на Равнинах.",item("flax")],
+    ["linen-thread","Process Flax in a Spinning Wheel to make Linen Thread.","Перерабатывайте Лён на прялке, чтобы получить Льняную нить.",item("linen-thread")],
+    ["barley","Harvest Barley from Fuling Village fields; each wild crop gives 2 Barley. Replant it only in the Plains.","Собирайте Ячмень на полях деревень фулингов; каждое растение даёт 2 Ячменя. Выращивать его можно только на Равнинах.",item("barley")],
+    ["barley","Plains Rooms/Tower/Ruin chests roll Barley at 13% per roll across 3–4 rolls, yielding 2–4.","Сундуки построек/башен/руин Равнин дают Ячмень с шансом 13% за бросок при 3–4 бросках, по 2–4.",item("barley")],
+    ["barley-flour","Process Barley in a Windmill.","Перерабатывайте Ячмень в ветряной мельнице.",item("barley-flour")],
+    ["needle","Deathsquitos always drop 1 Needle.","Комары смерти гарантированно роняют 1 Иглу.",item("needle")],
+    ["lox-pelt","Lox always drop 2–3 Lox Pelt.","Локсы гарантированно роняют 2–3 шкуры.",item("lox-pelt")],
+    ["lox-meat","Lox always drop 4–6 Lox Meat.","Локсы гарантированно роняют 4–6 мяса.",item("lox-meat")],
+    ["cloudberries","Gather Cloudberries from bushes across the Plains; the plants regrow after harvesting.","Собирайте Морошку с кустов по Равнинам; растения восстанавливают ягоды после сбора.",item("cloudberries")],
+    ["tar","Growths always drop 1 Tar.","Наросты гарантированно роняют 1 Смолу.",item("tar")],
+    ["tar","Drain Tar Pits to reach gathered tar clumps: large clumps give 15 Tar and smaller clumps give 4.","Осушайте Смоляные ямы, чтобы добраться до комков смолы: большие дают 15 Смолы, маленькие — 4.",item("tar")],
+    ["goblin-totem","Fuling Berserkers have a 10% chance to drop 1 Fuling Totem.","Фулинги-берсерки имеют 10% шанс уронить 1 Тотем фулингов.",item("goblin-totem")],
+    ["goblin-totem","Fuling Totems are also displayed and collected inside Fuling Villages; five are needed to summon Yagluth.","Тотемы также стоят внутри деревень фулингов; для призыва Яглута требуется пять.",item("goblin-totem")],
+    ["black-metal-battle-idol","Plains Rooms/Tower/Ruin chests roll Black Metal Battle Idol at 1% per roll across 3–4 rolls.","Сундуки построек/башен/руин Равнин дают Боевой идол чёрного металла с шансом 1% за бросок при 3–4 бросках.",item("black-metal-battle-idol")],
+    ["black-metal-battle-idol","Fuling Tower chests roll it at 1% per roll across 5–6 rolls.","Сундуки башен фулингов дают его с шансом 1% за бросок при 5–6 бросках.",item("black-metal-battle-idol")],
+    ["black-metal-battle-idol","Fuling Tower trash piles roll it at 1% per roll across 2–3 rolls.","Мусорные кучи в башнях фулингов дают его с шансом 1% за бросок при 2–3 бросках.",item("black-metal-battle-idol")],
+    ["black-metal-protection-idol","Plains Rooms/Tower/Ruin chests roll Black Metal Protection Idol at 3% per roll across 3–4 rolls.","Сундуки построек/башен/руин Равнин дают Защитный идол чёрного металла с шансом 3% за бросок при 3–4 бросках.",item("black-metal-protection-idol")],
+    ["black-metal-protection-idol","Fuling Tower chests roll it at 3% per roll across 5–6 rolls.","Сундуки башен фулингов дают его с шансом 3% за бросок при 5–6 бросках.",item("black-metal-protection-idol")],
+    ["black-metal-protection-idol","Fuling Tower trash piles roll it at 1% per roll across 2–3 rolls.","Мусорные кучи в башнях фулингов дают его с шансом 1% за бросок при 2–3 бросках.",item("black-metal-protection-idol")],
+    ["dragon-tear","Moder always drops 10 Dragon Tears when defeated.","Моудер гарантированно роняет 10 Драконьих слёз после победы.",item("dragon-tear")],
+    ["lox-trophy","Lox trophy drop: 10% chance, 1 trophy.","Трофей локса: шанс 10%, 1 трофей.",item("lox-trophy")],
+    ["fuling-berserker-trophy","Fuling Berserker trophy drop: 5% chance, 1 trophy.","Трофей фулинга-берсерка: шанс 5%, 1 трофей.",item("fuling-berserker-trophy")],
+    ["cooked-fish","Cook Raw Fish on a Cooking Station.","Приготовьте Сырую рыбу на Кулинарной стойке.",item("cooked-fish")]
   ]
 };
 
