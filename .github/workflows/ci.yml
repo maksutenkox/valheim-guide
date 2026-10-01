@@ -107,5 +107,25 @@ jobs:
           console.log(`All biome resource acquisition coverage: ${total}/${total}`);
           NODE
 
+      - name: Verify trophy category integrity
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+          const biomes = ["meadows","black-forest","swamp","mountains","plains","mistlands","ashlands","deep-north","ocean"];
+          const bad = [];
+          for (const biome of biomes) {
+            const src = fs.readFileSync(`src/worker/services/seed-${biome}.ts`,"utf8");
+            for (const m of src.matchAll(/\{\s*slug:\s*"([^"]*trophy[^"]*)",\s*type:\s*"resource",\s*category:\s*"([^"]+)"/g)) {
+              if (m[2] !== "trophy") bad.push(`${biome}:${m[1]}=${m[2]}`);
+            }
+          }
+          if (bad.length) {
+            console.error("Trophy resources miscategorized:", bad);
+            process.exit(1);
+          }
+          console.log("Trophy resource categories: ok");
+          NODE
+
       - name: Production build
         run: pnpm build

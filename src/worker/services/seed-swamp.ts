@@ -5,7 +5,7 @@ const source = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
 
 const swampSeed: CatalogSeed = {
-  marker: "catalog_swamp_acquisition_v1",
+  marker: "catalog_swamp_acquisition_v2_trophy_fix",
   biome: "swamp",
   stations: [
     { slug: "smelter", en: "Smelter", ru: "Плавильня" },
@@ -27,8 +27,8 @@ const swampSeed: CatalogSeed = {
     { slug: "turnip", type: "resource", category: "material", en: "Turnip", ru: "Репа", descriptionEn: "A farm crop grown from turnip seeds.", descriptionRu: "Фермерская культура, выращиваемая из семян репы.", imageFile: "Turnip.png", source: source("turnip") },
     { slug: "chain", type: "resource", category: "material", en: "Chain", ru: "Цепь", descriptionEn: "A heavy chain found in crypts and dropped by Wraiths.", descriptionRu: "Тяжёлая цепь из крипт и с призраков.", imageFile: "Chain.png", source: source("chain") },
     { slug: "withered-bone", type: "resource", category: "material", en: "Withered Bone", ru: "Иссохшая кость", descriptionEn: "An ancient bone used to summon Bonemass.", descriptionRu: "Древняя кость для призыва Массы Костей.", imageFile: "Withered_bone.png", source: source("withered-bone") },
-    { slug: "draugr-elite-trophy", type: "resource", category: "material", en: "Draugr Elite Trophy", ru: "Трофей: элитный драугр", descriptionEn: "A rare trophy from Draugr Elites.", descriptionRu: "Редкий трофей с элитных драугров.", imageFile: "Draugr_Elite_trophy.png", source: source("draugr-elite-trophy") },
-    { slug: "abomination-trophy", type: "resource", category: "material", en: "Abomination Trophy", ru: "Трофей: Мерзость", descriptionEn: "A rare trophy from Abominations.", descriptionRu: "Редкий трофей с Мерзостей.", imageFile: "Abomination_trophy.png", source: source("abomination-trophy") },
+    { slug: "draugr-elite-trophy", type: "resource", category: "trophy", en: "Draugr Elite Trophy", ru: "Трофей: элитный драугр", descriptionEn: "A rare trophy from Draugr Elites.", descriptionRu: "Редкий трофей с элитных драугров.", imageFile: "Draugr_Elite_trophy.png", source: source("draugr-elite-trophy") },
+    { slug: "abomination-trophy", type: "resource", category: "trophy", en: "Abomination Trophy", ru: "Трофей: Мерзость", descriptionEn: "A rare trophy from Abominations.", descriptionRu: "Редкий трофей с Мерзостей.", imageFile: "Abomination_trophy.png", source: source("abomination-trophy") },
     { slug: "iron-battle-idol", type: "resource", category: "material", en: "Iron Battle Idol", ru: "Железный боевой идол", descriptionEn: "A rare tier idol used by the Forge of Potential for weapons.", descriptionRu: "Редкий идол для улучшения оружия в Кузнице потенциала.", imageFile: "Iron_Battle_Idol.png", source: source("iron-battle-idol") },
     { slug: "iron-protection-idol", type: "resource", category: "material", en: "Iron Protection Idol", ru: "Железный защитный идол", descriptionEn: "A rare tier idol used by the Forge of Potential for armour.", descriptionRu: "Редкий идол для улучшения брони в Кузнице потенциала.", imageFile: "Iron_Protection_Idol.png", source: source("iron-protection-idol") },
     { slug: "ymir-flesh", type: "resource", category: "material", en: "Ymir Flesh", ru: "Плоть Имира", descriptionEn: "A rare crafting material sold by Haldor.", descriptionRu: "Редкий материал, продаваемый Хальдором.", imageFile: "Ymir_flesh.png", source: source("ymir-flesh") },
