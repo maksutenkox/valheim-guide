@@ -370,6 +370,8 @@ const resourceSources: Array<[string,string,string,string]> = [
   ["bronze-battle-idol","Burial Chamber chests roll it at about 1% per roll across 2–4 rolls; Troll Cave chests about 1% across 3–5 rolls.","Сундуки Погребальных камер дают его примерно с шансом 1% за бросок при 2–4 бросках; Пещеры троллей — около 1% при 3–5 бросках.","https://www.valheim.tools/items/bronze-battle-idol"],
   ["bronze-protection-idol","Black Forest ruin / stone-house chests roll Bronze Protection Idol at about 2% per roll across 2–3 rolls.","Сундуки руин и каменных домов Чёрного леса дают Бронзовый защитный идол примерно с шансом 2% за бросок при 2–3 бросках.","https://www.valheim.tools/items/bronze-protection-idol"],
   ["bronze-protection-idol","Burial Chamber chests roll it at about 2% per roll across 2–4 rolls; Troll Cave chests about 2% across 3–5 rolls.","Сундуки Погребальных камер дают его примерно с шансом 2% за бросок при 2–4 бросках; Пещеры троллей — около 2% при 3–5 бросках.","https://www.valheim.tools/items/bronze-protection-idol"],
+  ["cooked-deer-meat","Cook Deer Meat on a Cooking Station for 25 seconds; leaving it too long burns it into Coal.","Готовьте Оленье мясо на Кулинарной стойке 25 секунд; если передержать, оно превратится в Уголь.","https://www.valheim.tools/items/cooked-deer-meat"],
+  ["deer-trophy","Deer drop 1 Deer Trophy at 50%.","Олени роняют 1 Трофей оленя с шансом 50%.","https://www.valheim.tools/creatures/deer"],
   ["ectoplasm","Ghosts in Burial Chambers always drop 1–5 Ectoplasm; Ghost Trophy is a separate 10% drop.","Призраки в Погребальных камерах гарантированно роняют 1–5 Эктоплазмы; Трофей призрака — отдельный дроп с шансом 10%.","https://www.valheim.tools/creatures/ghost"]
 ];
 
