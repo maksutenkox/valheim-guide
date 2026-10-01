@@ -4,8 +4,9 @@ import { applyCatalogSeed, type CatalogSeed } from "./catalog-seed";
 const item = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 
 const mountainSeed: CatalogSeed = {
-  marker: "catalog_mountains_acquisition_v1",
+  marker: "catalog_mountains_acquisition_v2_precision",
   biome: "mountains",
+  replaceResourceSources: true,
   items: [
     { slug:"silver-ore", type:"resource", category:"material", en:"Silver Ore", ru:"Серебряная руда", descriptionEn:"Heavy ore mined from hidden silver veins in the Mountains.", descriptionRu:"Тяжёлая руда из скрытых серебряных жил в Горах.", imageFile:"Silver_ore.png", source:item("silver-ore") },
     { slug:"silver", type:"resource", category:"material", en:"Silver", ru:"Серебро", descriptionEn:"Silver ingot smelted from silver ore.", descriptionRu:"Серебряный слиток, выплавляемый из серебряной руды.", imageFile:"Silver.png", source:item("silver") },
@@ -162,27 +163,32 @@ const mountainSeed: CatalogSeed = {
     ["onion-soup","health","20"],["onion-soup","stamina","60"],["onion-soup","duration","20","min"],["onion-soup","healing","1","hp/tick"]
   ],
   resourceSources: [
-    ["silver-ore","Mine hidden Silver veins in the Mountains, normally located with the Wishbone.","Добывайте скрытые серебряные жилы в Горах, обычно находя их с помощью Дужки.",item("silver-ore")],
-    ["silver","Smelt Silver Ore in a Smelter.","Переплавьте серебряную руду в плавильне.",item("silver")],
-    ["obsidian","Mine Obsidian deposits on Mountain slopes.","Добывайте залежи обсидиана на горных склонах.",item("obsidian")],
-    ["crystal","Dropped by Stone Golems.","Выпадает из каменных големов.",item("crystal")],
-    ["freeze-gland","Dropped by Drakes.","Выпадает из драконов.",item("freeze-gland")],
-    ["wolf-fang","Dropped by Wolves.","Выпадает из волков.",item("wolf-fang")],
-    ["wolf-pelt","Dropped by Wolves.","Выпадает из волков.",item("wolf-pelt")],
-    ["wolf-meat","Dropped by Wolves.","Выпадает из волков.",item("wolf-meat")],
-    ["onion-seeds","Found in Mountain chests.","Находится в сундуках в Горах.",item("onion-seeds")],
-    ["onion","Grow Onion Seeds with the Cultivator.","Выращивается из семян лука культиватором.",item("onion")],
-    ["dragon-egg","Found at Dragon Egg nests in the Mountains; three summon Moder.","Находится в драконьих гнёздах; три яйца призывают Моудер.",item("dragon-egg")],
-    ["fenris-hair","Gathered from hanging hair and hides inside Frost Caves.","Собирается с волос и шкур внутри Ледяных пещер.",item("fenris-hair")],
-    ["fenris-claw","Found in Frost Caves.","Находится в Ледяных пещерах.",item("fenris-claw")],
-    ["silver-battle-idol","Rare loot in Mountain cave and cabin chests; used at the Forge of Potential.","Редкая добыча в сундуках горных пещер и хижин; используется в Кузнице потенциала.",item("silver-battle-idol")],
-    ["silver-protection-idol","Rare loot in Mountain cave and cabin chests; used at the Forge of Potential.","Редкая добыча в сундуках горных пещер и хижин; используется в Кузнице потенциала.",item("silver-protection-idol")],
-    ["scythe-handle","Sold by the Bog Witch for 200 coins after Moder is defeated.","Продаётся Болотной ведьмой за 200 монет после победы над Моудер.",item("scythe-handle")],
-    ["drake-trophy","Dropped by Drakes at 10%.","Выпадает из драконов с шансом 10%.",item("drake-trophy")],
-    ["wolf-trophy","Dropped by Wolves at 10%.","Выпадает из волков с шансом 10%.",item("wolf-trophy")],
-    ["fenring-trophy","Dropped by Fenrings at 10%; Fenrings roam the Mountains at night.","Выпадает из фенрингов с шансом 10%; фенринги появляются в Горах ночью.",item("fenring-trophy")],
-    ["stone-golem-trophy","Dropped by Stone Golems at 5%.","Выпадает из каменных големов с шансом 5%.",item("stone-golem-trophy")],
-    ["cultist-trophy","Dropped by Cultists at 10% inside Frost Caves.","Выпадает из культистов с шансом 10% в Морозных пещерах.",item("cultist-trophy")]
+    ["silver-ore","Mine hidden Silver Veins or Silver Deposits above roughly 120 m in the Mountains. Each break rolls 33% across 2–3 rolls for 1 ore; use the Wishbone to locate buried veins.","Добывайте скрытые серебряные жилы и залежи выше примерно 120 м в Горах. При разрушении идёт 2–3 броска с шансом 33% по 1 руде; для поиска под землёй используйте Дужку.",item("silver-ore")],
+    ["silver","Smelt Silver Ore in a Smelter using Coal.","Переплавляйте Серебряную руду в Плавильне с углём.",item("silver")],
+    ["obsidian","Mine black Obsidian deposits on high Mountain slopes with an Iron Pickaxe or better.","Добывайте чёрные залежи Обсидиана на высоких горных склонах Железной киркой или лучше.",item("obsidian")],
+    ["crystal","Stone Golems always drop 8–12 Crystal.","Каменные големы гарантированно роняют 8–12 Кристаллов.",item("crystal")],
+    ["crystal","Crystal formations also appear throughout Frost Caves and can be broken for additional Crystal.","Кристаллические образования также встречаются по всей Морозной пещере и дают дополнительный Кристалл при разрушении.",item("crystal")],
+    ["freeze-gland","Drakes always drop 1–2 Freeze Glands.","Драконы гарантированно роняют 1–2 Морозные железы.",item("freeze-gland")],
+    ["wolf-fang","Wolves have a 40% chance to drop 1 Wolf Fang; starred wolves multiply drop amounts.","Волки имеют 40% шанс уронить 1 Волчий клык; звёздные волки увеличивают количество добычи.",item("wolf-fang")],
+    ["wolf-pelt","Wolves always drop 1–2 Wolf Pelts.","Волки гарантированно роняют 1–2 Волчьи шкуры.",item("wolf-pelt")],
+    ["wolf-meat","Wolves always drop 1 Wolf Meat.","Волки гарантированно роняют 1 Волчье мясо.",item("wolf-meat")],
+    ["onion-seeds","Abandoned Mountain log-cabin chests roll Onion Seeds at 14% per roll across 3–5 rolls, yielding 3–9 seeds.","Сундуки заброшенных горных хижин дают Семена лука с шансом 14% за бросок при 3–5 бросках, по 3–9 семян.",item("onion-seeds")],
+    ["onion-seeds","Seed Onion plants give 3 Onion Seeds; Coral Cod can also yield 1–2 at 33%.","Семенные растения лука дают 3 Семени лука; Коралловая треска также может дать 1–2 семени с шансом 33%.",item("onion-seeds")],
+    ["onion","Plant Onion Seeds with the Cultivator in suitable soil, then harvest mature Onions.","Посадите Семена лука культиватором в подходящей почве и соберите созревший Лук.",item("onion")],
+    ["dragon-egg","Pick up Dragon Eggs from Drake nests on Mountain peaks. Three eggs are required to summon Moder; they weigh 200 each and cannot be teleported.","Подбирайте Драконьи яйца в гнёздах драконов на горных вершинах. Для призыва Моудер нужно три яйца; каждое весит 200 и не проходит через портал.",item("dragon-egg")],
+    ["fenris-hair","Break hanging Fenris hides in Frost Caves for 1–2 Fenris Hair.","Разбивайте подвешенные шкуры Фенриса в Морозных пещерах — они дают 1–2 Шерсти Фенриса.",item("fenris-hair")],
+    ["fenris-hair","Break hanging hair strands in Frost Caves for 1 Fenris Hair each.","Разбивайте свисающие пряди шерсти в Морозных пещерах — каждая даёт 1 Шерсть Фенриса.",item("fenris-hair")],
+    ["fenris-claw","Loot Fenris Claws from shrine/loot areas inside Frost Caves; they are cave-specific crafting loot for Flesh Rippers and braziers.","Ищите Когти Фенриса в святилищах и лут-зонах Морозных пещер; это специальная пещерная добыча для Разрывателей плоти и жаровен.",item("fenris-claw")],
+    ["silver-battle-idol","Frost Cave chests roll Silver Battle Idol at about 1% per roll across 3–5 rolls.","Сундуки Морозных пещер дают Серебряный боевой идол примерно с шансом 1% за бросок при 3–5 бросках.",item("silver-battle-idol")],
+    ["silver-battle-idol","Abandoned Mountain log-cabin chests also roll it at about 1% per roll across 3–5 rolls; rarer Swamp chest routes exist too.","Сундуки заброшенных горных хижин также дают его примерно с шансом 1% за бросок при 3–5 бросках; есть и более редкие болотные источники.",item("silver-battle-idol")],
+    ["silver-protection-idol","Frost Cave chests roll Silver Protection Idol at about 2% per roll across 3–5 rolls.","Сундуки Морозных пещер дают Серебряный защитный идол примерно с шансом 2% за бросок при 3–5 бросках.",item("silver-protection-idol")],
+    ["silver-protection-idol","Abandoned Mountain log-cabin chests roll it at about 1% per roll across 3–5 rolls; rarer Swamp chest routes exist too.","Сундуки заброшенных горных хижин дают его примерно с шансом 1% за бросок при 3–5 бросках; есть и более редкие болотные источники.",item("silver-protection-idol")],
+    ["scythe-handle","Buy from the Bog Witch for 200 coins after Moder is defeated.","Покупается у Болотной ведьмы за 200 монет после победы над Моудер.",item("scythe-handle")],
+    ["drake-trophy","Drakes drop a trophy at 10%.","Драконы роняют трофей с шансом 10%.",item("drake-trophy")],
+    ["wolf-trophy","Wolves drop a trophy at 10%.","Волки роняют трофей с шансом 10%.",item("wolf-trophy")],
+    ["fenring-trophy","Fenrings roaming the Mountains at night drop a trophy at 10%.","Фенринги, появляющиеся в Горах ночью, роняют трофей с шансом 10%.",item("fenring-trophy")],
+    ["stone-golem-trophy","Stone Golems drop a trophy at 5%.","Каменные големы роняют трофей с шансом 5%.",item("stone-golem-trophy")],
+    ["cultist-trophy","Cultists inside Frost Caves drop a trophy at 10%.","Культисты в Морозных пещерах роняют трофей с шансом 10%.",item("cultist-trophy")]
   ]
 };
 

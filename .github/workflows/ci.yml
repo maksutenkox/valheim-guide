@@ -107,6 +107,31 @@ jobs:
           console.log(`All biome resource acquisition coverage: ${total}/${total}`);
           NODE
 
+      - name: Verify Mountains and Swamp acquisition precision
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+          const mountains = fs.readFileSync("src/worker/services/seed-mountains.ts","utf8");
+          const swamp = fs.readFileSync("src/worker/services/seed-swamp.ts","utf8");
+          for (const line of [
+            "Stone Golems always drop 8–12 Crystal",
+            "Drakes always drop 1–2 Freeze Glands",
+            "Wolves have a 40% chance to drop 1 Wolf Fang",
+            "Abandoned Mountain log-cabin chests roll Onion Seeds at 14%",
+            "Frost Cave chests roll Silver Protection Idol at about 2%"
+          ]) if (!mountains.includes(line)) throw new Error("Missing Mountains precision source: " + line);
+          for (const line of [
+            "Oozers have a 33% chance to drop 1 Scrap Iron",
+            "Abominations always drop 5 Root",
+            "Wraiths always drop 1 Chain",
+            "Sunken Crypt chests roll Scrap Iron at 19%",
+            "Abominations always drop 3–5 Guck",
+            "Sea Serpents always drop 8–10 Serpent Scales"
+          ]) if (!swamp.includes(line)) throw new Error("Missing Swamp precision source: " + line);
+          console.log("Mountains + Swamp acquisition precision: ok");
+          NODE
+
       - name: Verify Mistlands and Plains acquisition precision
         shell: bash
         run: |

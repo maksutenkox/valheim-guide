@@ -5,8 +5,9 @@ const source = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
 
 const swampSeed: CatalogSeed = {
-  marker: "catalog_swamp_acquisition_v2_trophy_fix",
+  marker: "catalog_swamp_acquisition_v3_precision",
   biome: "swamp",
+  replaceResourceSources: true,
   stations: [
     { slug: "smelter", en: "Smelter", ru: "Плавильня" },
     { slug: "stonecutter", en: "Stonecutter", ru: "Камнерез" },
@@ -214,27 +215,36 @@ const swampSeed: CatalogSeed = {
     ["serpent-stew","health","80"],["serpent-stew","stamina","26"],["serpent-stew","duration","30","min"],["serpent-stew","healing","4","hp/tick"]
   ],
   resourceSources: [
-    ["scrap-iron","Mine muddy scrap piles and loot Sunken Crypt chests.","Добывайте грязные кучи металлолома и сундуки в Затонувших криптах.",source("scrap-iron")],
-    ["iron","Smelt Scrap Iron in a Smelter.","Переплавьте железный лом в плавильне.",source("iron")],
-    ["ancient-bark","Chop Ancient Trees in the Swamp.","Рубите древние деревья на Болоте.",source("ancient-bark")],
-    ["guck","Mine gucksacks attached high on Swamp trees.","Сбивайте зелёные наросты на высоких болотных деревьях.",source("guck")],
-    ["entrails","Dropped by Draugr.","Выпадает из драугров.",source("entrails")],
-    ["bloodbag","Dropped by Leeches.","Выпадает из пиявок.",source("bloodbag")],
-    ["ooze","Dropped by Blobs and Oozers.","Выпадает из сгустков и слизней.",source("ooze")],
-    ["root","Dropped by Abominations.","Выпадает из Мерзостей.",source("root")],
-    ["writhan-roots","Dropped 1–2 at a time by Writhan in distant Swamps.","Выпадает по 1–2 из Вританов в удалённых Болотах.",source("writhan-roots")],
-    ["turnip-seeds","Gather from yellow seed-turnip flowers in the Swamp.","Собирается с жёлтых цветков семенной репы на Болоте.",source("turnip-seeds")],
-    ["turnip","Grow Turnip Seeds using the Cultivator.","Выращивается из семян репы культиватором.",source("turnip")],
-    ["chain","Found in crypts and dropped by Wraiths.","Находится в криптах и выпадает из призраков.",source("chain")],
-    ["withered-bone","Found in Sunken Crypts; used to summon Bonemass.","Находится в Затонувших криптах; используется для призыва Массы Костей.",source("withered-bone")],
-    ["iron-battle-idol","Rare Swamp-tier chest loot used at the Forge of Potential.","Редкая болотная добыча для Кузницы потенциала.",source("iron-battle-idol")],
-    ["iron-protection-idol","Rare Swamp-tier chest loot used at the Forge of Potential.","Редкая болотная добыча для Кузницы потенциала.",source("iron-protection-idol")],
-    ["iron-nails","Forge 1 Iron into 10 Iron Nails at a Forge.","Выкуйте 10 железных гвоздей из 1 железа в кузнице.",source("iron-nails")],
-    ["draugr-elite-trophy","Dropped by Draugr Elites at 10%.","Выпадает из элитных драугров с шансом 10%.",source("draugr-elite-trophy")],
-    ["abomination-trophy","Dropped by Abominations at 50%.","Выпадает из Мерзостей с шансом 50%.",source("abomination-trophy")],
+    ["scrap-iron","Mine Muddy Scrap Piles inside Sunken Crypts. Different pile pieces use several loot rolls, making this the main repeatable source of Scrap Iron.","Добывайте Грязные кучи металлолома внутри Затонувших склепов. Разные секции используют несколько таблиц выпадения — это основной повторяемый источник Железного лома.",source("scrap-iron")],
+    ["scrap-iron","Sunken Crypt chests roll Scrap Iron at 19% per roll across 4–5 rolls, yielding 10–20 at a time.","Сундуки Затонувших склепов дают Железный лом с шансом 19% за бросок при 4–5 бросках, по 10–20.",source("scrap-iron")],
+    ["scrap-iron","Oozers have a 33% chance to drop 1 Scrap Iron.","Гнильцы имеют 33% шанс уронить 1 Железный лом.",source("scrap-iron")],
+    ["scrap-iron","Later sources include mineable Ancient Armour/Swords in the Mistlands and several Deep North dungeon breakables.","Поздние источники включают добываемые Древние доспехи/мечи в Туманных землях и разрушаемые объекты северных подземелий.",source("scrap-iron")],
+    ["iron","Smelt Scrap Iron in a Smelter using Coal.","Переплавляйте Железный лом в Плавильне с углём.",source("iron")],
+    ["ancient-bark","Fell Ancient Trees in the Swamp. A felled Swamp Tree log makes 10 rolls at 50% for 1 Ancient Bark.","Рубите Древние деревья на Болоте. Бревно болотного дерева делает 10 бросков с шансом 50% на 1 Древнюю кору.",source("ancient-bark")],
+    ["ancient-bark","Sunken Crypt chests roll Ancient Bark at 9% per roll across 4–5 rolls, yielding 20–30; Swamp grave/ruin chests roll it at 11% across 3–5 rolls.","Сундуки Затонувших склепов дают Древнюю кору с шансом 9% за бросок при 4–5 бросках, по 20–30; сундуки болотных могил/руин — 11% при 3–5 бросках.",source("ancient-bark")],
+    ["guck","Break Gucksacks high on infested Swamp trees: large sacks yield 4–7 rolls of 1 Guck and smaller sacks 1–2 rolls.","Разбивайте зелёные наросты высоко на заражённых болотных деревьях: крупные дают 4–7 выпадений по 1 Гуку, небольшие — 1–2.",source("guck")],
+    ["guck","Abominations always drop 3–5 Guck.","Мерзости гарантированно роняют 3–5 Гука.",source("guck")],
+    ["entrails","Draugr always drop 1 Entrails.","Драугры гарантированно роняют 1 Внутренности.",source("entrails")],
+    ["bloodbag","Leeches always drop 1 Bloodbag.","Пиявки гарантированно роняют 1 Кровяной мешок.",source("bloodbag")],
+    ["ooze","Blobs always drop 1–2 Ooze.","Слизни гарантированно роняют 1–2 Слизи.",source("ooze")],
+    ["ooze","Oozers always drop 2–3 Ooze and spawn two Blobs when killed.","Гнильцы гарантированно роняют 2–3 Слизи и после смерти порождают двух Слизней.",source("ooze")],
+    ["root","Abominations always drop 5 Root.","Мерзости гарантированно роняют 5 Корней.",source("root")],
+    ["writhan-roots","Writhan always drops 1–2 Writhan Roots. Writhan only spawns in Swamps roughly 2–8 km from the world centre.","Врайтан гарантированно роняет 1–2 Корня Врайтана. Он появляется только в Болотах примерно в 2–8 км от центра мира.",source("writhan-roots")],
+    ["turnip-seeds","Gather yellow Seed Turnip flowers in the Swamp; each seed plant provides seeds for starting a farm.","Собирайте жёлтые цветки семенной репы на Болоте — они дают Семена репы для начала фермы.",source("turnip-seeds")],
+    ["turnip","Plant Turnip Seeds with the Cultivator and harvest mature Turnips.","Посадите Семена репы культиватором и собирайте созревшую Репу.",source("turnip")],
+    ["chain","Wraiths always drop 1 Chain and are the renewable source; they spawn in the Swamp at night.","Призраки гарантированно роняют 1 Цепь и являются возобновляемым источником; появляются на Болоте ночью.",source("chain")],
+    ["chain","Sunken Crypt chests roll Chain at 9% per roll across 4–5 rolls, yielding 1–3.","Сундуки Затонувших склепов дают Цепь с шансом 9% за бросок при 4–5 бросках, по 1–3.",source("chain")],
+    ["chain","Swamp grave/ruin chests roll Chain at 11% per roll across 3–5 rolls; Giant Herring can also yield 1–2 at 17% later.","Сундуки болотных могил/руин дают Цепь с шансом 11% за бросок при 3–5 бросках; позднее Гигантская сельдь также может дать 1–2 с шансом 17%.",source("chain")],
+    ["withered-bone","Mine Muddy Scrap Piles in Sunken Crypts; pile pieces include Withered Bone rolls, including a common 14% table.","Добывайте Грязные кучи металлолома в Затонувших склепах; в их таблицах есть Иссохшие кости, включая распространённую таблицу с шансом 14%.",source("withered-bone")],
+    ["withered-bone","Sunken Crypt chests roll Withered Bone at 5% per roll across 4–5 rolls; Swamp grave/ruin chests also roll 5% across 3–5 rolls.","Сундуки Затонувших склепов дают Иссохшую кость с шансом 5% за бросок при 4–5 бросках; сундуки болотных могил/руин — также 5% при 3–5 бросках.",source("withered-bone")],
+    ["iron-battle-idol","Swamp grave/ruin chests roll Iron Battle Idol at about 1% per roll across 3–5 rolls. It is even rarer in Sunken Crypt and earlier-tier chests.","Сундуки болотных могил/руин дают Железный боевой идол примерно с шансом 1% за бросок при 3–5 бросках. В Затонувших склепах и более ранних сундуках он ещё реже.",source("iron-battle-idol")],
+    ["iron-protection-idol","Sunken Crypt chests and Swamp grave/ruin chests roll Iron Protection Idol at about 1% per roll; crypts use 4–5 rolls and ruins 3–5.","Сундуки Затонувших склепов и болотных могил/руин дают Железный защитный идол примерно с шансом 1% за бросок; в склепах 4–5 бросков, в руинах 3–5.",source("iron-protection-idol")],
+    ["iron-nails","Forge 1 Iron into 10 Iron Nails at a Forge.","Выкуйте 10 Железных гвоздей из 1 Железа в кузнице.",source("iron-nails")],
+    ["draugr-elite-trophy","Draugr Elites drop a trophy at 10%.","Элитные драугры роняют трофей с шансом 10%.",source("draugr-elite-trophy")],
+    ["abomination-trophy","Abominations drop a trophy at 50%.","Мерзости роняют трофей с шансом 50%.",source("abomination-trophy")],
     ["ymir-flesh","Buy from Haldor for 120 coins after The Elder is defeated.","Покупается у Хальдора за 120 монет после победы над Древним.",source("ymir-flesh")],
-    ["serpent-scale","Dropped by Sea Serpents at 100%, 8–10. Scales sink, so shallow water or an Abyssal Harpoon helps recover them.","Выпадает из морских змеев с шансом 100%, по 8–10. Чешуя тонет, поэтому удобнее убивать на мелководье или использовать Гарпун бездны.",source("serpent-scale")],
-    ["serpent-meat","Dropped by Sea Serpents at 100%, 6–8.","Выпадает из морских змеев с шансом 100%, по 6–8.",source("serpent-meat")]
+    ["serpent-scale","Sea Serpents always drop 8–10 Serpent Scales. Scales sink, so harpoon the serpent to shallow water if you want to recover them reliably.","Морские змеи гарантированно роняют 8–10 Змеиных чешуек. Чешуя тонет, поэтому для надёжного сбора притяните змея гарпуном к мелководью.",source("serpent-scale")],
+    ["serpent-meat","Sea Serpents always drop 6–8 Serpent Meat.","Морские змеи гарантированно роняют 6–8 Змеиного мяса.",source("serpent-meat")]
   ]
 };
 
