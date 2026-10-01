@@ -5,7 +5,7 @@ const item = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
 
 const deepNorthSeed: CatalogSeed = {
-  marker: "catalog_deep_north_v4",
+  marker: "catalog_deep_north_v5_trophy_fix",
   biome: "deep-north",
   replaceResourceSources: true,
   stations: [
@@ -36,8 +36,8 @@ const deepNorthSeed: CatalogSeed = {
     { slug:"frostfire-essence", type:"resource", category:"material", en:"Frostfire Essence", ru:"Эссенция морозного огня", descriptionEn:"An essence that converts Nord weapons into Frostfire variants.", descriptionRu:"Эссенция для превращения оружия Nord в морозно-огненные варианты.", imageFile:"Frostfire_Essence.png", source:item("frostfire-essence") },
     { slug:"thunderblood-essence", type:"resource", category:"material", en:"Thunderblood Essence", ru:"Эссенция грозовой крови", descriptionEn:"An essence that converts Nord weapons into Thunderblood variants.", descriptionRu:"Эссенция для превращения оружия Nord в грозовые варианты.", imageFile:"Thunderblood_Essence.png", source:item("thunderblood-essence") },
     { slug:"long-claws", type:"resource", category:"material", en:"Long Claws", ru:"Длинные когти", descriptionEn:"Long claws from the Eyeless One.", descriptionRu:"Длинные когти Безглазого.", imageFile:"Long_Claws.png", source:item("long-claws") },
-    { slug:"hexen-trophy", type:"resource", category:"material", en:"Hexen Trophy", ru:"Трофей: Хексен", descriptionEn:"A trophy from Hexen.", descriptionRu:"Трофей с Хексен.", imageFile:"Hexen_Trophy.png", source:item("hexen-trophy") },
-    { slug:"moose-trophy", type:"resource", category:"material", en:"Moose Trophy", ru:"Трофей: лось", descriptionEn:"A rare trophy from Moose.", descriptionRu:"Редкий трофей с лося.", imageFile:"Moose_Trophy.png", source:item("moose-trophy") },
+    { slug:"hexen-trophy", type:"resource", category:"trophy", en:"Hexen Trophy", ru:"Трофей: Хексен", descriptionEn:"A trophy from Hexen.", descriptionRu:"Трофей с Хексен.", imageFile:"Hexen_Trophy.png", source:item("hexen-trophy") },
+    { slug:"moose-trophy", type:"resource", category:"trophy", en:"Moose Trophy", ru:"Трофей: лось", descriptionEn:"A rare trophy from Moose.", descriptionRu:"Редкий трофей с лося.", imageFile:"Moose_Trophy.png", source:item("moose-trophy") },
     { slug:"lingonberries", type:"resource", category:"material", en:"Lingonberries", ru:"Брусника", descriptionEn:"Northern berries used in food and Moose taming.", descriptionRu:"Северные ягоды для еды и приручения лосей.", imageFile:"Lingonberries.png", source:item("lingonberries") },
     { slug:"raw-fish", type:"resource", category:"material", en:"Raw Fish", ru:"Сырая рыба", descriptionEn:"Fish meat prepared from caught fish.", descriptionRu:"Сырое рыбное филе из пойманной рыбы.", imageFile:"Raw_Fish.png", source:item("raw-fish"), biome:"ocean" },
     { slug:"kale", type:"resource", category:"material", en:"Kale", ru:"Кейл", descriptionEn:"A farmable Deep North leafy crop.", descriptionRu:"Выращиваемая листовая культура Глубокого Севера.", imageFile:"Kale.png", source:item("kale") },
@@ -83,7 +83,7 @@ const deepNorthSeed: CatalogSeed = {
     { slug:"crown-jewel", type:"resource", category:"material", en:"Crown Jewel", ru:"Коронная драгоценность", descriptionEn:"Kall Fimbulbringer's jewel, used to forge the Crown of Valheim.", descriptionRu:"Драгоценность Калла Фимбулбрингера для Короны Вальхейма.", imageFile:"Crown_Jewel.png", source:item("crown-jewel") },
     { slug:"corked-vial", type:"resource", category:"material", en:"Corked Vial", ru:"Флакон с пробкой", descriptionEn:"A sealed vial used to craft pulp bombs.", descriptionRu:"Закрытый флакон для бомб из мякоти.", imageFile:"Corked_Vial.png", source:item("corked-vial"), biome:"swamp" },
     { slug:"dead-pulp", type:"resource", category:"material", en:"Dead Pulp", ru:"Мёртвая мякоть", descriptionEn:"Remains of Mörkhalla pulp creatures.", descriptionRu:"Останки существ-мякоти из Мёркхаллы.", imageFile:"Dead_Pulp.png", source:item("dead-pulp") },
-    { slug:"pulp-trophy", type:"resource", category:"material", en:"Pulp Trophy", ru:"Трофей: мякоть", descriptionEn:"A trophy from Shapeless Pulp used in the Pulp Bomb.", descriptionRu:"Трофей Бесформенной мякоти для бомбы.", imageFile:"Pulp_Trophy.png", source:item("pulp-trophy") },
+    { slug:"pulp-trophy", type:"resource", category:"trophy", en:"Pulp Trophy", ru:"Трофей: мякоть", descriptionEn:"A trophy from Shapeless Pulp used in the Pulp Bomb.", descriptionRu:"Трофей Бесформенной мякоти для бомбы.", imageFile:"Pulp_Trophy.png", source:item("pulp-trophy") },
     { slug:"ectoplasm-2", type:"resource", category:"material", en:"Ectoplasm (Voidplasm)", ru:"Эктоплазма (Voidplasm)", descriptionEn:"An unfinished console-only ingredient that the game data still lists in the Voidcaller recipe.", descriptionRu:"Незавершённый ингредиент Voidplasm, который пока доступен только через консоль, но числится в рецепте Зова Пустоты.", imageFile:"Ectoplasm.png", source:item("ectoplasm-2") },
     { slug:"seasoning-of-the-gourd", type:"resource", category:"material", en:"Seasoning of the Gourd", ru:"Приправа Тыквы", descriptionEn:"A Bog Witch seasoning sold after Kall is defeated.", descriptionRu:"Приправа Болотной ведьмы, доступная после победы над Каллом.", imageFile:"Seasoning_of_the_Gourd.png", source:item("seasoning-of-the-gourd"), biome:"swamp" },
 
