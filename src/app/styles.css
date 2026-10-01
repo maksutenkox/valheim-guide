@@ -774,3 +774,5 @@ h2{margin:24px 0 12px;font-size:18px;letter-spacing:-.01em}
 .mead-recipe p{margin:3px 0 0;color:#90908a;font-size:7.5px;line-height:1.4}
 .mead-note{margin:0;padding:10px 12px;border:1px solid #38313c;border-radius:12px;background:#181519;color:#98909c;font-size:8px;line-height:1.45}
 @media (min-width:600px){.merchant-list,.dungeon-list{grid-template-columns:repeat(2,minmax(0,1fr))}.mead-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.merchant-unlock{color:#b99159!important}.merchant-now{color:#718a6a!important}.merchant-card .merchant-stock{max-height:none}

@@ -1,1 +1,1 @@
-export const APP_BUILD = "2026-10-01-world-guides-v3" as const;
+export const APP_BUILD = "2026-10-01-traders-complete-v1" as const;

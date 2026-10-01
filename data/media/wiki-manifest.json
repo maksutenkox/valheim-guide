@@ -363,5 +363,275 @@
     "slug": "bell-fragment",
     "url": "https://www.valheim.tools/items/bell-fragment",
     "output": "bell-fragment.png"
+  },
+  {
+    "slug": "brown-dress-with-shawl",
+    "url": "https://www.valheim.tools/items/brown-dress-with-shawl",
+    "output": "brown-dress-with-shawl.png"
+  },
+  {
+    "slug": "brown-dress-with-beads",
+    "url": "https://www.valheim.tools/items/brown-dress-with-beads",
+    "output": "brown-dress-with-beads.png"
+  },
+  {
+    "slug": "blue-dress-with-shawl",
+    "url": "https://www.valheim.tools/items/blue-dress-with-shawl",
+    "output": "blue-dress-with-shawl.png"
+  },
+  {
+    "slug": "blue-dress-with-beads",
+    "url": "https://www.valheim.tools/items/blue-dress-with-beads",
+    "output": "blue-dress-with-beads.png"
+  },
+  {
+    "slug": "yellow-dress-with-shawl",
+    "url": "https://www.valheim.tools/items/yellow-dress-with-shawl",
+    "output": "yellow-dress-with-shawl.png"
+  },
+  {
+    "slug": "yellow-dress-with-beads",
+    "url": "https://www.valheim.tools/items/yellow-dress-with-beads",
+    "output": "yellow-dress-with-beads.png"
+  },
+  {
+    "slug": "simple-undyed-dress",
+    "url": "https://www.valheim.tools/items/simple-undyed-dress",
+    "output": "simple-undyed-dress.png"
+  },
+  {
+    "slug": "blue-tunic-with-cape",
+    "url": "https://www.valheim.tools/items/blue-tunic-with-cape",
+    "output": "blue-tunic-with-cape.png"
+  },
+  {
+    "slug": "blue-tunic-with-beads",
+    "url": "https://www.valheim.tools/items/blue-tunic-with-beads",
+    "output": "blue-tunic-with-beads.png"
+  },
+  {
+    "slug": "red-tunic-with-cape",
+    "url": "https://www.valheim.tools/items/red-tunic-with-cape",
+    "output": "red-tunic-with-cape.png"
+  },
+  {
+    "slug": "red-tunic-with-beads",
+    "url": "https://www.valheim.tools/items/red-tunic-with-beads",
+    "output": "red-tunic-with-beads.png"
+  },
+  {
+    "slug": "yellow-tunic-with-cape",
+    "url": "https://www.valheim.tools/items/yellow-tunic-with-cape",
+    "output": "yellow-tunic-with-cape.png"
+  },
+  {
+    "slug": "yellow-tunic-with-beads",
+    "url": "https://www.valheim.tools/items/yellow-tunic-with-beads",
+    "output": "yellow-tunic-with-beads.png"
+  },
+  {
+    "slug": "simple-undyed-tunic",
+    "url": "https://www.valheim.tools/items/simple-undyed-tunic",
+    "output": "simple-undyed-tunic.png"
+  },
+  {
+    "slug": "plain-brown-dress",
+    "url": "https://www.valheim.tools/items/plain-brown-dress",
+    "output": "plain-brown-dress.png"
+  },
+  {
+    "slug": "plain-blue-dress",
+    "url": "https://www.valheim.tools/items/plain-blue-dress",
+    "output": "plain-blue-dress.png"
+  },
+  {
+    "slug": "plain-yellow-dress",
+    "url": "https://www.valheim.tools/items/plain-yellow-dress",
+    "output": "plain-yellow-dress.png"
+  },
+  {
+    "slug": "plain-blue-tunic",
+    "url": "https://www.valheim.tools/items/plain-blue-tunic",
+    "output": "plain-blue-tunic.png"
+  },
+  {
+    "slug": "plain-red-tunic",
+    "url": "https://www.valheim.tools/items/plain-red-tunic",
+    "output": "plain-red-tunic.png"
+  },
+  {
+    "slug": "plain-yellow-tunic",
+    "url": "https://www.valheim.tools/items/plain-yellow-tunic",
+    "output": "plain-yellow-tunic.png"
+  },
+  {
+    "slug": "harvest-tunic",
+    "url": "https://www.valheim.tools/items/harvest-tunic",
+    "output": "harvest-tunic.png"
+  },
+  {
+    "slug": "harvest-dress",
+    "url": "https://www.valheim.tools/items/harvest-dress",
+    "output": "harvest-dress.png"
+  },
+  {
+    "slug": "blue-tied-headscarf",
+    "url": "https://www.valheim.tools/items/blue-tied-headscarf",
+    "output": "blue-tied-headscarf.png"
+  },
+  {
+    "slug": "green-twisted-headscarf",
+    "url": "https://www.valheim.tools/items/green-twisted-headscarf",
+    "output": "green-twisted-headscarf.png"
+  },
+  {
+    "slug": "brown-fur-cap",
+    "url": "https://www.valheim.tools/items/brown-fur-cap",
+    "output": "brown-fur-cap.png"
+  },
+  {
+    "slug": "extravagant-green-cap",
+    "url": "https://www.valheim.tools/items/extravagant-green-cap",
+    "output": "extravagant-green-cap.png"
+  },
+  {
+    "slug": "simple-red-cap",
+    "url": "https://www.valheim.tools/items/simple-red-cap",
+    "output": "simple-red-cap.png"
+  },
+  {
+    "slug": "yellow-tied-headscarf",
+    "url": "https://www.valheim.tools/items/yellow-tied-headscarf",
+    "output": "yellow-tied-headscarf.png"
+  },
+  {
+    "slug": "red-twisted-headscarf",
+    "url": "https://www.valheim.tools/items/red-twisted-headscarf",
+    "output": "red-twisted-headscarf.png"
+  },
+  {
+    "slug": "grey-fur-cap",
+    "url": "https://www.valheim.tools/items/grey-fur-cap",
+    "output": "grey-fur-cap.png"
+  },
+  {
+    "slug": "extravagant-orange-cap",
+    "url": "https://www.valheim.tools/items/extravagant-orange-cap",
+    "output": "extravagant-orange-cap.png"
+  },
+  {
+    "slug": "simple-purple-cap",
+    "url": "https://www.valheim.tools/items/simple-purple-cap",
+    "output": "simple-purple-cap.png"
+  },
+  {
+    "slug": "straw-hat",
+    "url": "https://www.valheim.tools/items/straw-hat",
+    "output": "straw-hat.png"
+  },
+  {
+    "slug": "headband",
+    "url": "https://www.valheim.tools/items/headband",
+    "output": "headband.png"
+  },
+  {
+    "slug": "basic-fireworks",
+    "url": "https://www.valheim.tools/items/basic-fireworks",
+    "output": "basic-fireworks.png"
+  },
+  {
+    "slug": "sparkler",
+    "url": "https://www.valheim.tools/items/sparkler",
+    "output": "sparkler.png"
+  },
+  {
+    "slug": "iron-pit",
+    "url": "https://www.valheim.tools/items/iron-pit",
+    "output": "iron-pit.png"
+  },
+  {
+    "slug": "barber-kit",
+    "url": "https://www.valheim.tools/items/barber-kit",
+    "output": "barber-kit.png"
+  },
+  {
+    "slug": "candle-wick",
+    "url": "https://www.valheim.tools/items/candle-wick",
+    "output": "candle-wick.png"
+  },
+  {
+    "slug": "toadstool",
+    "url": "https://www.valheim.tools/items/toadstool",
+    "output": "toadstool.png"
+  },
+  {
+    "slug": "fragrant-bundle",
+    "url": "https://www.valheim.tools/items/fragrant-bundle",
+    "output": "fragrant-bundle.png"
+  },
+  {
+    "slug": "fresh-seaweed",
+    "url": "https://www.valheim.tools/items/fresh-seaweed",
+    "output": "fresh-seaweed.png"
+  },
+  {
+    "slug": "cured-squirrel-hamstring",
+    "url": "https://www.valheim.tools/items/cured-squirrel-hamstring",
+    "output": "cured-squirrel-hamstring.png"
+  },
+  {
+    "slug": "powdered-dragon-eggshells",
+    "url": "https://www.valheim.tools/items/powdered-dragon-eggshells",
+    "output": "powdered-dragon-eggshells.png"
+  },
+  {
+    "slug": "pungent-pebbles",
+    "url": "https://www.valheim.tools/items/pungent-pebbles",
+    "output": "pungent-pebbles.png"
+  },
+  {
+    "slug": "ivy-seeds",
+    "url": "https://www.valheim.tools/items/ivy-seeds",
+    "output": "ivy-seeds.png"
+  },
+  {
+    "slug": "woodland-herb-blend",
+    "url": "https://www.valheim.tools/items/woodland-herb-blend",
+    "output": "woodland-herb-blend.png"
+  },
+  {
+    "slug": "seafarers-herbs",
+    "url": "https://www.valheim.tools/items/seafarers-herbs",
+    "output": "seafarers-herbs.png"
+  },
+  {
+    "slug": "mountain-peak-pepper-powder",
+    "url": "https://www.valheim.tools/items/mountain-peak-pepper-powder",
+    "output": "mountain-peak-pepper-powder.png"
+  },
+  {
+    "slug": "grasslands-herbalist-harvest",
+    "url": "https://www.valheim.tools/items/grasslands-herbalist-harvest",
+    "output": "grasslands-herbalist-harvest.png"
+  },
+  {
+    "slug": "herbs-of-the-hidden-hills",
+    "url": "https://www.valheim.tools/items/herbs-of-the-hidden-hills",
+    "output": "herbs-of-the-hidden-hills.png"
+  },
+  {
+    "slug": "fiery-spice-powder",
+    "url": "https://www.valheim.tools/items/fiery-spice-powder",
+    "output": "fiery-spice-powder.png"
+  },
+  {
+    "slug": "seasoning-of-the-gourd",
+    "url": "https://www.valheim.tools/items/seasoning-of-the-gourd",
+    "output": "seasoning-of-the-gourd.png"
+  },
+  {
+    "slug": "corked-vial",
+    "url": "https://www.valheim.tools/items/corked-vial",
+    "output": "corked-vial.png"
   }
 ]

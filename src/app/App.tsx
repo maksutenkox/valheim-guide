@@ -322,59 +322,628 @@ const characterBuilds: CharacterBuild[] = [
 
 const merchantGuides: MerchantGuide[] = [
   {
-    id:"haldor",icon:"🧙",name:"Haldor",biome_en:"Black Forest",biome_ru:"Чёрный лес",distance:"~1.9 km",stock_count:11,
-    description_en:"The classic dvergr trader. His shop carries unique utility gear, fishing supplies and two permanent inventory-row upgrades added in 1.0.",
-    description_ru:"Классический двегр-торговец. У него продаются уникальные полезные вещи, снасти для рыбалки и два постоянных улучшения инвентаря из 1.0.",
-    highlights:[
-      {slug:"yule-hat",name_en:"Yule Hat",name_ru:"Йольская шапка",price:"100"},
-      {slug:"dverger-circlet",name_en:"Dverger Circlet",name_ru:"Обруч двегров",price:"620"},
-      {slug:"megingjord",name_en:"Megingjord",name_ru:"Мегингъёрд",price:"950"},
-      {slug:"ymir-flesh",name_en:"Ymir Flesh",name_ru:"Плоть Имира",price:"120",unlock_en:"The Elder defeated",unlock_ru:"Побеждён Древний"},
-      {slug:"fishing-rod",name_en:"Fishing Rod",name_ru:"Удочка",price:"350"},
-      {slug:"fishing-bait",name_en:"Fishing Bait ×20",name_ru:"Наживка ×20",price:"10"},
-      {slug:"thunder-stone",name_en:"Thunder Stone",name_ru:"Громовой камень",price:"50",unlock_en:"The Elder defeated",unlock_ru:"Побеждён Древний"},
-      {slug:"egg",name_en:"Egg",name_ru:"Яйцо",price:"1500",unlock_en:"Yagluth defeated",unlock_ru:"Побеждён Яглут"},
-      {slug:"barrel-hoops",name_en:"Barrel Hoops ×3",name_ru:"Обручи для бочки ×3",price:"100"},
-      {icon:"▤",name_en:"Wider Pockets",name_ru:"Широкие карманы",price:"1000",unlock_en:"+1 inventory row · Moder defeated",unlock_ru:"+1 ряд инвентаря · побеждена Моудер"},
-      {icon:"▥",name_en:"Deeper Pockets",name_ru:"Глубокие карманы",price:"2000",unlock_en:"+1 inventory row · The Queen defeated",unlock_ru:"+1 ряд инвентаря · побеждена Королева"}
+    "id": "haldor",
+    "icon": "🧙",
+    "name": "Haldor",
+    "biome_en": "Black Forest",
+    "biome_ru": "Чёрный лес",
+    "distance": "~1.9 km",
+    "stock_count": 11,
+    "description_en": "The classic dvergr trader. All 11 offers are shown below, including the two permanent pocket upgrades added in 1.0.",
+    "description_ru": "Классический двегр-торговец. Ниже показаны все 11 предложений, включая два постоянных улучшения карманов из 1.0.",
+    "highlights": [
+      {
+        "slug": "yule-hat",
+        "name_en": "Yule Hat",
+        "name_ru": "Йольская шапка",
+        "price": "100"
+      },
+      {
+        "slug": "dverger-circlet",
+        "name_en": "Dverger Circlet",
+        "name_ru": "Обруч двегров",
+        "price": "620"
+      },
+      {
+        "slug": "megingjord",
+        "name_en": "Megingjord",
+        "name_ru": "Мегингъёрд",
+        "price": "950"
+      },
+      {
+        "slug": "ymir-flesh",
+        "name_en": "Ymir Flesh",
+        "name_ru": "Плоть Имира",
+        "price": "120",
+        "unlock_en": "The Elder defeated",
+        "unlock_ru": "После победы над Древним"
+      },
+      {
+        "slug": "fishing-rod",
+        "name_en": "Fishing Rod",
+        "name_ru": "Удочка",
+        "price": "350"
+      },
+      {
+        "slug": "fishing-bait",
+        "name_en": "Fishing Bait ×20",
+        "name_ru": "Наживка ×20",
+        "price": "10"
+      },
+      {
+        "slug": "thunder-stone",
+        "name_en": "Thunder Stone",
+        "name_ru": "Громовой камень",
+        "price": "50",
+        "unlock_en": "The Elder defeated",
+        "unlock_ru": "После победы над Древним"
+      },
+      {
+        "slug": "egg",
+        "name_en": "Egg",
+        "name_ru": "Яйцо",
+        "price": "1500",
+        "unlock_en": "Yagluth defeated",
+        "unlock_ru": "После победы над Яглутом"
+      },
+      {
+        "slug": "barrel-hoops",
+        "name_en": "Barrel Hoops ×3",
+        "name_ru": "Обручи для бочки ×3",
+        "price": "100"
+      },
+      {
+        "icon": "▤",
+        "name_en": "Wider Pockets",
+        "name_ru": "Широкие карманы",
+        "price": "1000",
+        "unlock_en": "+1 inventory row · Moder defeated",
+        "unlock_ru": "+1 ряд инвентаря · после Моудер"
+      },
+      {
+        "icon": "▥",
+        "name_en": "Deeper Pockets",
+        "name_ru": "Глубокие карманы",
+        "price": "2000",
+        "unlock_en": "+1 inventory row · The Queen defeated",
+        "unlock_ru": "+1 ряд инвентаря · после Королевы"
+      }
     ],
-    tiers:[
-      {icon:"⌖",title_en:"Where to look",title_ru:"Где искать",count:1,note_en:"Black Forest, beyond roughly 1,500 m from the world centre.",note_ru:"Чёрный лес, обычно дальше примерно 1500 м от центра мира."},
-      {icon:"🎒",title_en:"1.0 upgrade",title_ru:"Новое в 1.0",count:2,note_en:"Wider and Deeper Pockets permanently add one inventory row each.",note_ru:"Широкие и Глубокие карманы навсегда добавляют по одному ряду инвентаря."}
+    "tiers": [
+      {
+        "icon": "⌖",
+        "title_en": "Where to look",
+        "title_ru": "Где искать",
+        "count": 1,
+        "note_en": "Black Forest; the first Haldor site you discover becomes the permanent trader.",
+        "note_ru": "Чёрный лес; первая найденная точка Хальдора становится постоянной."
+      },
+      {
+        "icon": "🎒",
+        "title_en": "Late unlocks",
+        "title_ru": "Поздние товары",
+        "count": 5,
+        "note_en": "Ymir Flesh and Thunder Stone need The Elder; Egg needs Yagluth; pocket rows need Moder and The Queen.",
+        "note_ru": "Плоть Имира и Громовой камень — после Древнего; яйцо — после Яглута; ряды инвентаря — после Моудер и Королевы."
+      }
     ]
   },
   {
-    id:"hildir",icon:"🧵",name:"Hildir",biome_en:"Meadows",biome_ru:"Луга",distance:"~3.1 km",stock_count:38,
-    description_en:"A cosmetic-focused trader whose stock expands when you return her three stolen chests from special dungeons.",
-    description_ru:"Торговка с упором на одежду и косметику. Ассортимент расширяется, когда вы возвращаете три украденных сундука из особых подземелий.",
-    highlights:[
-      {icon:"◇",name_en:"Base stock",name_ru:"Базовый ассортимент",price:"8 items",unlock_en:"Available immediately",unlock_ru:"Доступен сразу"},
-      {icon:"♨",name_en:"Brass tier",name_ru:"Латунный уровень",price:"11 items",unlock_en:"Smouldering Tomb · Brenna",unlock_ru:"Тлеющая гробница · Бренна"},
-      {icon:"❄",name_en:"Silver tier",name_ru:"Серебряный уровень",price:"9 items",unlock_en:"Howling Cavern · Geirrhafa",unlock_ru:"Воющая пещера · Гейрхафа"},
-      {icon:"♜",name_en:"Bronze tier",name_ru:"Бронзовый уровень",price:"10 items",unlock_en:"Sealed Tower · Zil & Thungr",unlock_ru:"Запечатанная башня · Зил и Тунгр"}
+    "id": "hildir",
+    "icon": "🧵",
+    "name": "Hildir",
+    "biome_en": "Meadows",
+    "biome_ru": "Луга",
+    "distance": "~3.1 km",
+    "stock_count": 38,
+    "description_en": "All 38 Hildir goods are listed below. Eight are available immediately; the rest unlock after returning her Brass, Silver and Bronze chests.",
+    "description_ru": "Ниже все 38 товаров Хильдир. Восемь доступны сразу, остальные открываются после возврата Латунного, Серебряного и Бронзового сундуков.",
+    "highlights": [
+      {
+        "slug": "brown-dress-with-shawl",
+        "name_en": "Brown Dress with Shawl",
+        "name_ru": "Коричневое платье с шалью",
+        "price": "450",
+        "unlock_en": "Silver Chest returned from the Smouldering Tombs",
+        "unlock_ru": "После возврата Серебряного сундука из Тлеющей гробницы"
+      },
+      {
+        "slug": "brown-dress-with-beads",
+        "name_en": "Brown Dress with Beads",
+        "name_ru": "Коричневое платье с бусинами",
+        "price": "550",
+        "unlock_en": "Bronze Chest returned from the Sealed Tower",
+        "unlock_ru": "После возврата Бронзового сундука из Запечатанной башни"
+      },
+      {
+        "slug": "blue-dress-with-shawl",
+        "name_en": "Blue Dress with Shawl",
+        "name_ru": "Синее платье с шалью",
+        "price": "450",
+        "unlock_en": "Silver Chest returned from the Smouldering Tombs",
+        "unlock_ru": "После возврата Серебряного сундука из Тлеющей гробницы"
+      },
+      {
+        "slug": "blue-dress-with-beads",
+        "name_en": "Blue Dress with Beads",
+        "name_ru": "Синее платье с бусинами",
+        "price": "550",
+        "unlock_en": "Bronze Chest returned from the Sealed Tower",
+        "unlock_ru": "После возврата Бронзового сундука из Запечатанной башни"
+      },
+      {
+        "slug": "yellow-dress-with-shawl",
+        "name_en": "Yellow Dress with Shawl",
+        "name_ru": "Жёлтое платье с шалью",
+        "price": "450",
+        "unlock_en": "Silver Chest returned from the Smouldering Tombs",
+        "unlock_ru": "После возврата Серебряного сундука из Тлеющей гробницы"
+      },
+      {
+        "slug": "yellow-dress-with-beads",
+        "name_en": "Yellow Dress with Beads",
+        "name_ru": "Жёлтое платье с бусинами",
+        "price": "550",
+        "unlock_en": "Bronze Chest returned from the Sealed Tower",
+        "unlock_ru": "После возврата Бронзового сундука из Запечатанной башни"
+      },
+      {
+        "slug": "simple-undyed-dress",
+        "name_en": "Simple Undyed Dress",
+        "name_ru": "Простое неокрашенное платье",
+        "price": "250"
+      },
+      {
+        "slug": "blue-tunic-with-cape",
+        "name_en": "Blue Tunic with Cape",
+        "name_ru": "Синяя туника с плащом",
+        "price": "450",
+        "unlock_en": "Silver Chest returned from the Smouldering Tombs",
+        "unlock_ru": "После возврата Серебряного сундука из Тлеющей гробницы"
+      },
+      {
+        "slug": "blue-tunic-with-beads",
+        "name_en": "Blue Tunic with Beads",
+        "name_ru": "Синяя туника с бусинами",
+        "price": "550",
+        "unlock_en": "Bronze Chest returned from the Sealed Tower",
+        "unlock_ru": "После возврата Бронзового сундука из Запечатанной башни"
+      },
+      {
+        "slug": "red-tunic-with-cape",
+        "name_en": "Red Tunic with Cape",
+        "name_ru": "Красная туника с плащом",
+        "price": "450",
+        "unlock_en": "Silver Chest returned from the Smouldering Tombs",
+        "unlock_ru": "После возврата Серебряного сундука из Тлеющей гробницы"
+      },
+      {
+        "slug": "red-tunic-with-beads",
+        "name_en": "Red Tunic with Beads",
+        "name_ru": "Красная туника с бусинами",
+        "price": "550",
+        "unlock_en": "Bronze Chest returned from the Sealed Tower",
+        "unlock_ru": "После возврата Бронзового сундука из Запечатанной башни"
+      },
+      {
+        "slug": "yellow-tunic-with-cape",
+        "name_en": "Yellow Tunic with Cape",
+        "name_ru": "Жёлтая туника с плащом",
+        "price": "450",
+        "unlock_en": "Silver Chest returned from the Smouldering Tombs",
+        "unlock_ru": "После возврата Серебряного сундука из Тлеющей гробницы"
+      },
+      {
+        "slug": "yellow-tunic-with-beads",
+        "name_en": "Yellow Tunic with Beads",
+        "name_ru": "Жёлтая туника с бусинами",
+        "price": "550",
+        "unlock_en": "Bronze Chest returned from the Sealed Tower",
+        "unlock_ru": "После возврата Бронзового сундука из Запечатанной башни"
+      },
+      {
+        "slug": "simple-undyed-tunic",
+        "name_en": "Simple Undyed Tunic",
+        "name_ru": "Простая неокрашенная туника",
+        "price": "250"
+      },
+      {
+        "slug": "plain-brown-dress",
+        "name_en": "Plain Brown Dress",
+        "name_ru": "Простое коричневое платье",
+        "price": "350",
+        "unlock_en": "Brass Chest returned from the Howling Caverns",
+        "unlock_ru": "После возврата Латунного сундука из Воющей пещеры"
+      },
+      {
+        "slug": "plain-blue-dress",
+        "name_en": "Plain Blue Dress",
+        "name_ru": "Простое синее платье",
+        "price": "350",
+        "unlock_en": "Brass Chest returned from the Howling Caverns",
+        "unlock_ru": "После возврата Латунного сундука из Воющей пещеры"
+      },
+      {
+        "slug": "plain-yellow-dress",
+        "name_en": "Plain Yellow Dress",
+        "name_ru": "Простое жёлтое платье",
+        "price": "350",
+        "unlock_en": "Brass Chest returned from the Howling Caverns",
+        "unlock_ru": "После возврата Латунного сундука из Воющей пещеры"
+      },
+      {
+        "slug": "plain-blue-tunic",
+        "name_en": "Plain Blue Tunic",
+        "name_ru": "Простая синяя туника",
+        "price": "350",
+        "unlock_en": "Brass Chest returned from the Howling Caverns",
+        "unlock_ru": "После возврата Латунного сундука из Воющей пещеры"
+      },
+      {
+        "slug": "plain-red-tunic",
+        "name_en": "Plain Red Tunic",
+        "name_ru": "Простая красная туника",
+        "price": "350",
+        "unlock_en": "Brass Chest returned from the Howling Caverns",
+        "unlock_ru": "После возврата Латунного сундука из Воющей пещеры"
+      },
+      {
+        "slug": "plain-yellow-tunic",
+        "name_en": "Plain Yellow Tunic",
+        "name_ru": "Простая жёлтая туника",
+        "price": "350",
+        "unlock_en": "Brass Chest returned from the Howling Caverns",
+        "unlock_ru": "После возврата Латунного сундука из Воющей пещеры"
+      },
+      {
+        "slug": "harvest-tunic",
+        "name_en": "Harvest Tunic",
+        "name_ru": "Фермерская туника",
+        "price": "550",
+        "unlock_en": "Brass Chest returned from the Howling Caverns",
+        "unlock_ru": "После возврата Латунного сундука из Воющей пещеры"
+      },
+      {
+        "slug": "harvest-dress",
+        "name_en": "Harvest Dress",
+        "name_ru": "Фермерское платье",
+        "price": "550",
+        "unlock_en": "Brass Chest returned from the Howling Caverns",
+        "unlock_ru": "После возврата Латунного сундука из Воющей пещеры"
+      },
+      {
+        "slug": "blue-tied-headscarf",
+        "name_en": "Blue Tied Headscarf",
+        "name_ru": "Синий завязанный платок",
+        "price": "200",
+        "unlock_en": "Brass Chest returned from the Howling Caverns",
+        "unlock_ru": "После возврата Латунного сундука из Воющей пещеры"
+      },
+      {
+        "slug": "green-twisted-headscarf",
+        "name_en": "Green Twisted Headscarf",
+        "name_ru": "Зелёный скрученный платок",
+        "price": "250",
+        "unlock_en": "Silver Chest returned from the Smouldering Tombs",
+        "unlock_ru": "После возврата Серебряного сундука из Тлеющей гробницы"
+      },
+      {
+        "slug": "brown-fur-cap",
+        "name_en": "Brown Fur Cap",
+        "name_ru": "Коричневая меховая шапка",
+        "price": "200",
+        "unlock_en": "Brass Chest returned from the Howling Caverns",
+        "unlock_ru": "После возврата Латунного сундука из Воющей пещеры"
+      },
+      {
+        "slug": "extravagant-green-cap",
+        "name_en": "Extravagant Green Cap",
+        "name_ru": "Нарядная зелёная шапка",
+        "price": "250",
+        "unlock_en": "Silver Chest returned from the Smouldering Tombs",
+        "unlock_ru": "После возврата Серебряного сундука из Тлеющей гробницы"
+      },
+      {
+        "slug": "simple-red-cap",
+        "name_en": "Simple Red Cap",
+        "name_ru": "Простая красная шапка",
+        "price": "150"
+      },
+      {
+        "slug": "yellow-tied-headscarf",
+        "name_en": "Yellow Tied Headscarf",
+        "name_ru": "Жёлтый завязанный платок",
+        "price": "250",
+        "unlock_en": "Silver Chest returned from the Smouldering Tombs",
+        "unlock_ru": "После возврата Серебряного сундука из Тлеющей гробницы"
+      },
+      {
+        "slug": "red-twisted-headscarf",
+        "name_en": "Red Twisted Headscarf",
+        "name_ru": "Красный скрученный платок",
+        "price": "300",
+        "unlock_en": "Bronze Chest returned from the Sealed Tower",
+        "unlock_ru": "После возврата Бронзового сундука из Запечатанной башни"
+      },
+      {
+        "slug": "grey-fur-cap",
+        "name_en": "Grey Fur Cap",
+        "name_ru": "Серая меховая шапка",
+        "price": "300",
+        "unlock_en": "Bronze Chest returned from the Sealed Tower",
+        "unlock_ru": "После возврата Бронзового сундука из Запечатанной башни"
+      },
+      {
+        "slug": "extravagant-orange-cap",
+        "name_en": "Extravagant Orange Cap",
+        "name_ru": "Нарядная оранжевая шапка",
+        "price": "300",
+        "unlock_en": "Bronze Chest returned from the Sealed Tower",
+        "unlock_ru": "После возврата Бронзового сундука из Запечатанной башни"
+      },
+      {
+        "slug": "simple-purple-cap",
+        "name_en": "Simple Purple Cap",
+        "name_ru": "Простая фиолетовая шапка",
+        "price": "150"
+      },
+      {
+        "slug": "straw-hat",
+        "name_en": "Straw Hat",
+        "name_ru": "Соломенная шляпа",
+        "price": "300",
+        "unlock_en": "Brass Chest returned from the Howling Caverns",
+        "unlock_ru": "После возврата Латунного сундука из Воющей пещеры"
+      },
+      {
+        "slug": "headband",
+        "name_en": "Headband",
+        "name_ru": "Повязка на голову",
+        "price": "175"
+      },
+      {
+        "slug": "basic-fireworks",
+        "name_en": "Basic Fireworks",
+        "name_ru": "Простые фейерверки",
+        "price": "50",
+        "unlock_en": "Bronze Chest returned from the Sealed Tower",
+        "unlock_ru": "После возврата Бронзового сундука из Запечатанной башни"
+      },
+      {
+        "slug": "sparkler",
+        "name_en": "Sparkler",
+        "name_ru": "Бенгальский огонь",
+        "price": "150"
+      },
+      {
+        "slug": "iron-pit",
+        "name_en": "Iron Pit",
+        "name_ru": "Железная чаша",
+        "price": "75"
+      },
+      {
+        "slug": "barber-kit",
+        "name_en": "Barber Kit",
+        "name_ru": "Набор парикмахера",
+        "price": "600"
+      }
     ],
-    tiers:[
-      {icon:"♨",title_en:"Brass Chest",title_ru:"Латунный сундук",count:11,note_en:"Return Brenna's chest from a Smouldering Tomb in the Black Forest.",note_ru:"Верните сундук Бренны из Тлеющей гробницы в Чёрном лесу."},
-      {icon:"❄",title_en:"Silver Chest",title_ru:"Серебряный сундук",count:9,note_en:"Return Geirrhafa's chest from a Howling Cavern in the Mountains.",note_ru:"Верните сундук Гейрхафы из Воющей пещеры в Горах."},
-      {icon:"♜",title_en:"Bronze Chest",title_ru:"Бронзовый сундук",count:10,note_en:"Return Zil & Thungr's chest from a Sealed Tower in the Plains.",note_ru:"Верните сундук Зила и Тунгра из Запечатанной башни на Равнинах."}
+    "tiers": [
+      {
+        "icon": "◇",
+        "title_en": "Base stock",
+        "title_ru": "Базовый ассортимент",
+        "count": 8,
+        "note_en": "Available as soon as you find Hildir.",
+        "note_ru": "Доступен сразу после того, как вы нашли Хильдир."
+      },
+      {
+        "icon": "🐺",
+        "title_en": "Brass Chest",
+        "title_ru": "Латунный сундук",
+        "count": 11,
+        "note_en": "Return the Brass Chest from the Howling Caverns.",
+        "note_ru": "Верните Латунный сундук из Воющей пещеры."
+      },
+      {
+        "icon": "♨",
+        "title_en": "Silver Chest",
+        "title_ru": "Серебряный сундук",
+        "count": 9,
+        "note_en": "Return the Silver Chest from the Smouldering Tombs.",
+        "note_ru": "Верните Серебряный сундук из Тлеющей гробницы."
+      },
+      {
+        "icon": "♜",
+        "title_en": "Bronze Chest",
+        "title_ru": "Бронзовый сундук",
+        "count": 10,
+        "note_en": "Return the Bronze Chest from the Sealed Tower.",
+        "note_ru": "Верните Бронзовый сундук из Запечатанной башни."
+      }
     ]
   },
   {
-    id:"bog-witch",icon:"🧪",name:"The Bog Witch",biome_en:"Swamp",biome_ru:"Болота",distance:"~3.2 km",stock_count:20,
-    description_en:"The Swamp trader for brewing and feasts. Her ingredients unlock with world progression, and 1.0 extends that chain all the way through Kall.",
-    description_ru:"Болотная торговка для зелий и пиров. Ингредиенты открываются по мере прогресса мира, а в 1.0 цепочка продолжается вплоть до Калла.",
-    highlights:[
-      {slug:"love-potion",name_en:"Love Potion ×5",name_ru:"Любовное зелье ×5",price:"110"},
-      {slug:"scythe-handle",name_en:"Scythe Handle",name_ru:"Рукоять косы",price:"200",unlock_en:"Moder defeated",unlock_ru:"Побеждена Моудер"},
-      {slug:"serving-tray",name_en:"Serving Tray",name_ru:"Поднос",price:"140"},
-      {icon:"✿",name_en:"Fragrant Bundle ×5",name_ru:"Ароматный набор ×5",price:"140",unlock_en:"Moder defeated",unlock_ru:"Побеждена Моудер"},
-      {slug:"corked-vial",name_en:"Corked Vial ×5",name_ru:"Флакон с пробкой ×5",price:"150",unlock_en:"The Elder defeated",unlock_ru:"Побеждён Древний"},
-      {slug:"crown-of-roots",name_en:"Crown of Roots",name_ru:"Корона корней",price:"3000",unlock_en:"Writhan killed",unlock_ru:"Убит Врайтан"}
+    "id": "bog-witch",
+    "icon": "🧪",
+    "name": "The Bog Witch",
+    "biome_en": "Swamp",
+    "biome_ru": "Болота",
+    "distance": "~3.2 km",
+    "stock_count": 20,
+    "description_en": "All 20 Bog Witch offers are shown below. Her late ingredients unlock as your world's boss and creature keys progress.",
+    "description_ru": "Ниже все 20 товаров Болотной ведьмы. Поздние ингредиенты появляются по мере убийства боссов и нужных существ в мире.",
+    "highlights": [
+      {
+        "slug": "candle-wick",
+        "name_en": "Candle Wick ×50",
+        "name_ru": "Фитиль свечи ×50",
+        "price": "100"
+      },
+      {
+        "slug": "scythe-handle",
+        "name_en": "Scythe Handle",
+        "name_ru": "Рукоять косы",
+        "price": "200",
+        "unlock_en": "Moder defeated",
+        "unlock_ru": "После победы над Моудер"
+      },
+      {
+        "slug": "love-potion",
+        "name_en": "Love Potion ×5",
+        "name_ru": "Любовное зелье ×5",
+        "price": "110"
+      },
+      {
+        "slug": "toadstool",
+        "name_en": "Toadstool",
+        "name_ru": "Поганка",
+        "price": "85",
+        "unlock_en": "Moder defeated",
+        "unlock_ru": "После победы над Моудер"
+      },
+      {
+        "slug": "fragrant-bundle",
+        "name_en": "Fragrant Bundle ×5",
+        "name_ru": "Ароматный набор ×5",
+        "price": "140",
+        "unlock_en": "Moder defeated",
+        "unlock_ru": "После победы над Моудер"
+      },
+      {
+        "slug": "fresh-seaweed",
+        "name_en": "Fresh Seaweed ×5",
+        "name_ru": "Свежие водоросли ×5",
+        "price": "75"
+      },
+      {
+        "slug": "cured-squirrel-hamstring",
+        "name_en": "Cured Squirrel Hamstring ×5",
+        "name_ru": "Вяленое сухожилие белки ×5",
+        "price": "80"
+      },
+      {
+        "slug": "powdered-dragon-eggshells",
+        "name_en": "Powdered Dragon Eggshells ×5",
+        "name_ru": "Порошок скорлупы драконьего яйца ×5",
+        "price": "120"
+      },
+      {
+        "slug": "pungent-pebbles",
+        "name_en": "Pungent Pebbles ×5",
+        "name_ru": "Резкие камешки ×5",
+        "price": "125"
+      },
+      {
+        "slug": "ivy-seeds",
+        "name_en": "Ivy Seeds ×3",
+        "name_ru": "Семена плюща ×3",
+        "price": "65"
+      },
+      {
+        "slug": "serving-tray",
+        "name_en": "Serving Tray",
+        "name_ru": "Поднос",
+        "price": "140"
+      },
+      {
+        "slug": "woodland-herb-blend",
+        "name_en": "Woodland Herb Blend ×5",
+        "name_ru": "Лесная смесь трав ×5",
+        "price": "120",
+        "unlock_en": "The Elder defeated",
+        "unlock_ru": "После победы над Древним"
+      },
+      {
+        "slug": "seafarers-herbs",
+        "name_en": "Seafarer's Herbs ×5",
+        "name_ru": "Травы морехода ×5",
+        "price": "130",
+        "unlock_en": "A Serpent killed",
+        "unlock_ru": "После убийства Морского змея"
+      },
+      {
+        "slug": "mountain-peak-pepper-powder",
+        "name_en": "Mountain Peak Pepper Powder ×5",
+        "name_ru": "Горный перечный порошок ×5",
+        "price": "140",
+        "unlock_en": "Moder defeated",
+        "unlock_ru": "После победы над Моудер"
+      },
+      {
+        "slug": "grasslands-herbalist-harvest",
+        "name_en": "Grasslands Herbalist Harvest ×5",
+        "name_ru": "Травяной сбор Равнин ×5",
+        "price": "160",
+        "unlock_en": "Yagluth defeated",
+        "unlock_ru": "После победы над Яглутом"
+      },
+      {
+        "slug": "herbs-of-the-hidden-hills",
+        "name_en": "Herbs of the Hidden Hills ×5",
+        "name_ru": "Травы скрытых холмов ×5",
+        "price": "180",
+        "unlock_en": "The Queen defeated",
+        "unlock_ru": "После победы над Королевой"
+      },
+      {
+        "slug": "fiery-spice-powder",
+        "name_en": "Fiery Spice Powder ×5",
+        "name_ru": "Огненный порошок специй ×5",
+        "price": "200",
+        "unlock_en": "Fader defeated",
+        "unlock_ru": "После победы над Фейдером"
+      },
+      {
+        "slug": "seasoning-of-the-gourd",
+        "name_en": "Seasoning of the Gourd ×5",
+        "name_ru": "Тыквенная приправа ×5",
+        "price": "220",
+        "unlock_en": "Kall Fimbulbringer defeated",
+        "unlock_ru": "После победы над Каллом Фимбулбрингером"
+      },
+      {
+        "slug": "corked-vial",
+        "name_en": "Corked Vial ×5",
+        "name_ru": "Флакон с пробкой ×5",
+        "price": "150",
+        "unlock_en": "The Elder defeated",
+        "unlock_ru": "После победы над Древним"
+      },
+      {
+        "slug": "crown-of-roots",
+        "name_en": "Crown of Roots",
+        "name_ru": "Корона корней",
+        "price": "3000",
+        "unlock_en": "A Writhan killed",
+        "unlock_ru": "После убийства Врайтана"
+      }
     ],
-    tiers:[
-      {icon:"🌲",title_en:"Early progression",title_ru:"Ранний прогресс",count:2,note_en:"Woodland Herb Blend and Corked Vials unlock after The Elder.",note_ru:"Лесная смесь трав и флаконы открываются после Древнего."},
-      {icon:"⚓",title_en:"Sea & Mountains",title_ru:"Море и Горы",count:4,note_en:"Serpent and Moder progression unlock more feast and potion ingredients.",note_ru:"Убийство морского змея и Моудер открывает новые ингредиенты для пиров и зелий."},
-      {icon:"🔥",title_en:"Late game",title_ru:"Поздняя игра",count:4,note_en:"Yagluth, The Queen, Fader and Kall each unlock later spice tiers.",note_ru:"Яглут, Королева, Фейдер и Калл последовательно открывают поздние специи."}
+    "tiers": [
+      {
+        "icon": "🌲",
+        "title_en": "The Elder",
+        "title_ru": "После Древнего",
+        "count": 2,
+        "note_en": "Woodland Herb Blend and Corked Vials.",
+        "note_ru": "Лесная смесь трав и Флаконы с пробкой."
+      },
+      {
+        "icon": "⚓",
+        "title_en": "Serpent / Moder",
+        "title_ru": "Змей / Моудер",
+        "count": 4,
+        "note_en": "Seafarer's Herbs plus Scythe Handle, Toadstool, Fragrant Bundle and Mountain Peak Pepper Powder as progression advances.",
+        "note_ru": "Травы морехода, а после Моудер — Рукоять косы, Поганка, Ароматный набор и Горный перечный порошок."
+      },
+      {
+        "icon": "🔥",
+        "title_en": "Late bosses",
+        "title_ru": "Поздние боссы",
+        "count": 4,
+        "note_en": "Yagluth, The Queen, Fader and Kall unlock one later spice tier each.",
+        "note_ru": "Яглут, Королева, Фейдер и Калл открывают по одному следующему уровню специй."
+      }
     ]
   }
 ];
@@ -1335,7 +1904,7 @@ export function App() {
         <div className="merchant-meta"><span>⌖ {merchant.distance}</span><span>¤ {merchant.stock_count} {locale === "ru" ? "товаров" : "goods"}</span></div>
         <div className="merchant-stock">{merchant.highlights.map((entry) => <div className="merchant-stock-row" key={entry.name_en}>
           {entry.slug ? <GuideArt slug={entry.slug} /> : <span className="guide-symbol-art">{entry.icon ?? "◆"}</span>}
-          <span className="merchant-stock-copy"><strong>{locale === "ru" ? entry.name_ru : entry.name_en}</strong>{(entry.unlock_en || entry.unlock_ru) && <small>{locale === "ru" ? entry.unlock_ru : entry.unlock_en}</small>}</span><b>{entry.price}</b>
+          <span className="merchant-stock-copy"><strong>{locale === "ru" ? entry.name_ru : entry.name_en}</strong>{(entry.unlock_en || entry.unlock_ru) ? <small className="merchant-unlock">🔒 {locale === "ru" ? entry.unlock_ru : entry.unlock_en}</small> : <small className="merchant-now">✓ {locale === "ru" ? "Доступно сразу" : "Available immediately"}</small>}</span><b>{entry.price}</b>
         </div>)}</div>
         <div className="merchant-tier-list">{merchant.tiers.map((tier) => <div className="merchant-tier" key={tier.title_en}><span>{tier.icon}</span><div><small>{locale === "ru" ? tier.title_ru : tier.title_en} · {tier.count}</small><p>{locale === "ru" ? tier.note_ru : tier.note_en}</p></div></div>)}</div>
       </article>)}</div>

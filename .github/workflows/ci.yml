@@ -61,6 +61,18 @@ jobs:
             test -s "public/media/wiki/$slug.png" || { echo "::error::Missing world guide icon: $slug"; exit 1; }
           done
 
+      - name: Verify all trader media
+        shell: bash
+        run: |
+          set -euo pipefail
+          sed -n '/const merchantGuides:/,/const dungeonGuides:/p' src/app/App.tsx \
+            | grep -oE '"slug": "[^"]+"' \
+            | sed -E 's/.*"slug": "([^"]+)".*/\1/' \
+            | sort -u \
+            | while IFS= read -r slug; do
+                test -s "public/media/wiki/$slug.png" || { echo "::error::Missing trader icon: $slug"; exit 1; }
+              done
+
       - name: Verify dungeon loot media
         shell: bash
         run: |
