@@ -5,7 +5,7 @@ const item = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
 
 const plainsSeed: CatalogSeed = {
-  marker: "catalog_plains_v1",
+  marker: "catalog_plains_acquisition_v1",
   biome: "plains",
   stations: [
     { slug: "blast-furnace", en: "Blast Furnace", ru: "Доменная печь" },
@@ -25,11 +25,11 @@ const plainsSeed: CatalogSeed = {
     { slug:"needle", type:"resource", category:"material", en:"Needle", ru:"Игла", descriptionEn:"A razor-sharp needle dropped by Deathsquitos.", descriptionRu:"Острая игла, выпадающая из комаров смерти.", imageFile:"Needle.png", source:item("needle") },
     { slug:"lox-pelt", type:"resource", category:"material", en:"Lox Pelt", ru:"Шкура локса", descriptionEn:"A thick hide dropped by Lox.", descriptionRu:"Толстая шкура, выпадающая из локсов.", imageFile:"Lox_pelt.png", source:item("lox-pelt") },
     { slug:"lox-meat", type:"resource", category:"material", en:"Lox Meat", ru:"Мясо локса", descriptionEn:"Raw meat dropped by Lox.", descriptionRu:"Сырое мясо, выпадающее из локсов.", imageFile:"Lox_meat.png", source:item("lox-meat") },
-    { slug:"lox-trophy", type:"resource", category:"material", en:"Lox Trophy", ru:"Трофей: локс", descriptionEn:"A rare trophy from Lox.", descriptionRu:"Редкий трофей с локса.", imageFile:"Lox_trophy.png", source:item("lox-trophy") },
+    { slug:"lox-trophy", type:"resource", category:"trophy", en:"Lox Trophy", ru:"Трофей: локс", descriptionEn:"A rare trophy from Lox.", descriptionRu:"Редкий трофей с локса.", imageFile:"Lox_trophy.png", source:item("lox-trophy") },
     { slug:"cloudberries", type:"resource", category:"material", en:"Cloudberries", ru:"Морошка", descriptionEn:"Golden berries gathered across the Plains.", descriptionRu:"Золотистые ягоды, собираемые на Равнинах.", imageFile:"Cloudberries.png", source:item("cloudberries") },
     { slug:"tar", type:"resource", category:"material", en:"Tar", ru:"Смола", descriptionEn:"Dark tar gathered from Growths and tar pits.", descriptionRu:"Тёмная смола из наростов и смоляных ям.", imageFile:"Tar.png", source:item("tar") },
     { slug:"goblin-totem", type:"resource", category:"material", en:"Fuling Totem", ru:"Тотем фулинга", descriptionEn:"A ritual totem used to summon Yagluth.", descriptionRu:"Ритуальный тотем для призыва Яглута.", imageFile:"Goblin_totem.png", source:item("fuiling-totem") },
-    { slug:"fuling-berserker-trophy", type:"resource", category:"material", en:"Fuling Berserker Trophy", ru:"Трофей: фулинг-берсерк", descriptionEn:"A rare trophy from Fuling Berserkers.", descriptionRu:"Редкий трофей с фулингов-берсерков.", imageFile:"Fuling_Berserker_trophy.png", source:item("fuling-berserker-trophy") },
+    { slug:"fuling-berserker-trophy", type:"resource", category:"trophy", en:"Fuling Berserker Trophy", ru:"Трофей: фулинг-берсерк", descriptionEn:"A rare trophy from Fuling Berserkers.", descriptionRu:"Редкий трофей с фулингов-берсерков.", imageFile:"Fuling_Berserker_trophy.png", source:item("fuling-berserker-trophy") },
     { slug:"black-metal-battle-idol", type:"resource", category:"material", en:"Black Metal Battle Idol", ru:"Боевой идол чёрного металла", descriptionEn:"Plains-tier Forge of Potential material for weapons.", descriptionRu:"Материал Равнин для усиления оружия в Кузнице потенциала.", imageFile:"Black_Metal_Battle_Idol.png", source:item("black-metal-battle-idol") },
     { slug:"black-metal-protection-idol", type:"resource", category:"material", en:"Black Metal Protection Idol", ru:"Защитный идол чёрного металла", descriptionEn:"Plains-tier Forge of Potential material for armour.", descriptionRu:"Материал Равнин для усиления брони в Кузнице потенциала.", imageFile:"Black_Metal_Protection_Idol.png", source:item("black-metal-protection-idol") },
     { slug:"cooked-fish", type:"resource", category:"material", en:"Cooked Fish", ru:"Жареная рыба", descriptionEn:"Cooked fish used in advanced meals.", descriptionRu:"Приготовленная рыба для сложных блюд.", imageFile:"Cooked_fish.png", source:item("cooked-fish"), biome:"ocean" },
@@ -203,7 +203,11 @@ const plainsSeed: CatalogSeed = {
     ["tar","Gathered from Tar Pits and dropped by Growths.","Добывается в смоляных ямах и выпадает из наростов.",item("tar")],
     ["goblin-totem","Dropped by Fuling Berserkers and found in Fuling villages; five summon Yagluth.","Выпадает из фулингов-берсерков и находится в деревнях; пять тотемов призывают Яглута.",item("fuiling-totem")],
     ["black-metal-battle-idol","Rare Plains-tier loot used at the Forge of Potential.","Редкая добыча Равнин для Кузницы потенциала.",item("black-metal-battle-idol")],
-    ["black-metal-protection-idol","Rare Plains-tier loot used at the Forge of Potential.","Редкая добыча Равнин для Кузницы потенциала.",item("black-metal-protection-idol")]
+    ["black-metal-protection-idol","Rare Plains-tier loot used at the Forge of Potential.","Редкая добыча Равнин для Кузницы потенциала.",item("black-metal-protection-idol")],
+    ["dragon-tear","Dropped by Moder after defeating the Mountain boss; it unlocks Artisan Table progression.","Выпадает после победы над Моудер, боссом Гор; открывает прогресс Стола ремесленника.",item("dragon-tear")],
+    ["lox-trophy","Dropped by Lox at 10%.","Выпадает из локсов с шансом 10%.",item("lox-trophy")],
+    ["fuling-berserker-trophy","Dropped by Fuling Berserkers at 5%.","Выпадает из фулингов-берсерков с шансом 5%.",item("fuling-berserker-trophy")],
+    ["cooked-fish","Cook Raw Fish on a Cooking Station.","Приготовьте сырую рыбу на кулинарной стойке.",item("cooked-fish")]
   ]
 };
 

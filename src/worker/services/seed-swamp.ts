@@ -5,7 +5,7 @@ const source = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
 
 const swampSeed: CatalogSeed = {
-  marker: "catalog_swamp_v1",
+  marker: "catalog_swamp_acquisition_v1",
   biome: "swamp",
   stations: [
     { slug: "smelter", en: "Smelter", ru: "Плавильня" },
@@ -228,7 +228,13 @@ const swampSeed: CatalogSeed = {
     ["chain","Found in crypts and dropped by Wraiths.","Находится в криптах и выпадает из призраков.",source("chain")],
     ["withered-bone","Found in Sunken Crypts; used to summon Bonemass.","Находится в Затонувших криптах; используется для призыва Массы Костей.",source("withered-bone")],
     ["iron-battle-idol","Rare Swamp-tier chest loot used at the Forge of Potential.","Редкая болотная добыча для Кузницы потенциала.",source("iron-battle-idol")],
-    ["iron-protection-idol","Rare Swamp-tier chest loot used at the Forge of Potential.","Редкая болотная добыча для Кузницы потенциала.",source("iron-protection-idol")]
+    ["iron-protection-idol","Rare Swamp-tier chest loot used at the Forge of Potential.","Редкая болотная добыча для Кузницы потенциала.",source("iron-protection-idol")],
+    ["iron-nails","Forge 1 Iron into 10 Iron Nails at a Forge.","Выкуйте 10 железных гвоздей из 1 железа в кузнице.",source("iron-nails")],
+    ["draugr-elite-trophy","Dropped by Draugr Elites at 10%.","Выпадает из элитных драугров с шансом 10%.",source("draugr-elite-trophy")],
+    ["abomination-trophy","Dropped by Abominations at 50%.","Выпадает из Мерзостей с шансом 50%.",source("abomination-trophy")],
+    ["ymir-flesh","Buy from Haldor for 120 coins after The Elder is defeated.","Покупается у Хальдора за 120 монет после победы над Древним.",source("ymir-flesh")],
+    ["serpent-scale","Dropped by Sea Serpents at 100%, 8–10. Scales sink, so shallow water or an Abyssal Harpoon helps recover them.","Выпадает из морских змеев с шансом 100%, по 8–10. Чешуя тонет, поэтому удобнее убивать на мелководье или использовать Гарпун бездны.",source("serpent-scale")],
+    ["serpent-meat","Dropped by Sea Serpents at 100%, 6–8.","Выпадает из морских змеев с шансом 100%, по 6–8.",source("serpent-meat")]
   ]
 };
 

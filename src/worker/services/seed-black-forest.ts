@@ -51,11 +51,11 @@ const items: CatalogItem[] = [
   { slug: "carrot", type: "resource", category: "material", en: "Carrot", ru: "Морковь", descriptionEn: "A farm crop grown from carrot seeds.", descriptionRu: "Культура, выращиваемая из семян моркови.", imageFile: "Carrot.png", source: wiki("Carrot") },
   { slug: "bear-hide", type: "resource", category: "material", en: "Bear hide", ru: "Шкура медведя", descriptionEn: "A sturdy hide dropped by Bears in the Black Forest.", descriptionRu: "Прочная шкура, выпадающая с медведей в Чёрном лесу.", imageFile: "Bear_hide.png", source: wiki("Bear_hide") },
   { slug: "bear-paw", type: "resource", category: "material", en: "Bear paw", ru: "Медвежья лапа", descriptionEn: "A clawed paw dropped by Bears.", descriptionRu: "Когтистая лапа, выпадающая с медведей.", imageFile: "Bear_paw.png", source: wiki("Bear_paw") },
-  { slug: "bear-trophy", type: "resource", category: "material", en: "Bear trophy", ru: "Трофей: медведь", descriptionEn: "A rare trophy from a Bear.", descriptionRu: "Редкий трофей с медведя.", imageFile: "Bear_trophy.png", source: wiki("Bear") },
-  { slug: "greydwarf-shaman-trophy", type: "resource", category: "material", en: "Greydwarf Shaman trophy", ru: "Трофей: грейдворф-шаман", descriptionEn: "A trophy taken from a Greydwarf Shaman.", descriptionRu: "Трофей, добываемый с грейдворфа-шамана.", imageFile: "Greydwarf_Shaman_trophy.png", source: wiki("Greydwarf_Shaman") },
+  { slug: "bear-trophy", type: "resource", category: "trophy", en: "Bear trophy", ru: "Трофей: медведь", descriptionEn: "A rare trophy from a Bear.", descriptionRu: "Редкий трофей с медведя.", imageFile: "Bear_trophy.png", source: wiki("Bear") },
+  { slug: "greydwarf-shaman-trophy", type: "resource", category: "trophy", en: "Greydwarf Shaman trophy", ru: "Трофей: грейдворф-шаман", descriptionEn: "A trophy taken from a Greydwarf Shaman.", descriptionRu: "Трофей, добываемый с грейдворфа-шамана.", imageFile: "Greydwarf_Shaman_trophy.png", source: wiki("Greydwarf_Shaman") },
   { slug: "ruby", type: "resource", category: "material", en: "Ruby", ru: "Рубин", descriptionEn: "A valuable gem found as dungeon treasure.", descriptionRu: "Ценный камень, встречающийся среди сокровищ подземелий.", imageFile: "Ruby.png", source: wiki("Ruby") },
   { slug: "coal", type: "resource", category: "material", en: "Coal", ru: "Уголь", descriptionEn: "Fuel produced in a charcoal kiln or by overcooking food.", descriptionRu: "Топливо из углевыжигательной печи или пережаренной еды.", imageFile: "Coal.png", source: wiki("Coal") },
-  { slug: "skeleton-trophy", type: "resource", category: "material", en: "Skeleton trophy", ru: "Трофей: скелет", descriptionEn: "A trophy dropped by Skeletons in Burial Chambers.", descriptionRu: "Трофей, выпадающий со скелетов в Погребальных комнатах.", imageFile: "Skeleton_trophy.png", source: wiki("Skeleton") },
+  { slug: "skeleton-trophy", type: "resource", category: "trophy", en: "Skeleton trophy", ru: "Трофей: скелет", descriptionEn: "A trophy dropped by Skeletons in Burial Chambers.", descriptionRu: "Трофей, выпадающий со скелетов в Погребальных комнатах.", imageFile: "Skeleton_trophy.png", source: wiki("Skeleton") },
   { slug: "bronze-battle-idol", type: "resource", category: "material", en: "Bronze Battle Idol", ru: "Бронзовый боевой идол", descriptionEn: "A rare Black Forest chest item used at the Forge of Potential to push weapons beyond their normal quality cap.", descriptionRu: "Редкая добыча из сундуков Чёрного леса для улучшения оружия сверх обычного предела в Кузнице потенциала.", imageFile: "Bronze_Battle_Idol.png", source: "https://www.valheim.tools/items/bronze-battle-idol/" },
   { slug: "bronze-protection-idol", type: "resource", category: "material", en: "Bronze Protection Idol", ru: "Бронзовый защитный идол", descriptionEn: "A rare Black Forest chest item used at the Forge of Potential to push armour beyond their normal quality cap.", descriptionRu: "Редкая добыча из сундуков Чёрного леса для улучшения брони сверх обычного предела в Кузнице потенциала.", imageFile: "Bronze_Protection_Idol.png", source: "https://www.valheim.tools/items/bronze-protection-idol/" },
   { slug: "bear-meat", type: "resource", category: "material", en: "Bear meat", ru: "Медвежье мясо", descriptionEn: "Raw meat dropped by Bears in the Black Forest.", descriptionRu: "Сырое мясо, выпадающее с медведей в Чёрном лесу.", imageFile: "Bear_meat.png", source: "https://www.valheim.tools/items/bear-meat" },
@@ -69,7 +69,7 @@ const items: CatalogItem[] = [
   { slug: "neck-tail", type: "resource", category: "material", en: "Neck tail", ru: "Хвост никса", descriptionEn: "A tail taken from a Neck.", descriptionRu: "Хвост, добываемый с никса.", imageFile: "Neck_tail.png", source: wiki("Neck_tail"), biome: "meadows" },
   { slug: "cooked-deer-meat", type: "resource", category: "material", en: "Cooked deer meat", ru: "Жареное мясо оленя", descriptionEn: "Deer meat cooked over a fire.", descriptionRu: "Мясо оленя, приготовленное на огне.", imageFile: "Cooked_deer_meat.png", source: wiki("Deer_meat"), biome: "meadows" },
   { slug: "feathers", type: "resource", category: "material", en: "Feathers", ru: "Перья", descriptionEn: "Light feathers used for arrows.", descriptionRu: "Лёгкие перья для изготовления стрел.", imageFile: "Feathers.png", source: wiki("Feathers"), biome: "meadows" },
-  { slug: "deer-trophy", type: "resource", category: "material", en: "Deer trophy", ru: "Трофей: олень", descriptionEn: "A trophy dropped by Deer.", descriptionRu: "Трофей, выпадающий с оленей.", imageFile: "Deer_trophy.png", source: wiki("Deer"), biome: "meadows" },
+  { slug: "deer-trophy", type: "resource", category: "trophy", en: "Deer trophy", ru: "Трофей: олень", descriptionEn: "A trophy dropped by Deer.", descriptionRu: "Трофей, выпадающий с оленей.", imageFile: "Deer_trophy.png", source: wiki("Deer"), biome: "meadows" },
   { slug: "dandelion", type: "resource", category: "material", en: "Dandelion", ru: "Одуванчик", descriptionEn: "A common yellow flower.", descriptionRu: "Обычный жёлтый цветок.", imageFile: "Dandelion.png", source: wiki("Dandelion"), biome: "meadows" },
 
   { slug: "bronze-sword", type: "item", category: "weapon", en: "Bronze sword", ru: "Бронзовый меч", descriptionEn: "Blood-drinker. A thirsty friend.", descriptionRu: "Кровожадный друг. Ненасытный союзник в ваших руках.", imageFile: "Bronze_sword.png", source: wiki("Bronze_sword") },
@@ -362,7 +362,17 @@ const resourceSources: Array<[string,string,string,string]> = [
   ["bronze-battle-idol","Rare chest loot in Black Forest ruins, Burial Chambers and Troll Caves; used only at the Forge of Potential.","Редкая добыча из сундуков руин, Погребальных комнат и Пещер троллей; используется только в Кузнице потенциала.","https://www.valheim.tools/items/bronze-battle-idol/"],
   ["bronze-protection-idol","Rare chest loot in Black Forest ruins, Burial Chambers and Troll Caves; used only at the Forge of Potential.","Редкая добыча из сундуков руин, Погребальных комнат и Пещер троллей; используется только в Кузнице потенциала.","https://www.valheim.tools/items/bronze-protection-idol/"],
   ["bear-meat","Dropped by Bears in the Black Forest.","Выпадает с медведей в Чёрном лесу.","https://www.valheim.tools/items/bear-meat"],
-  ["ectoplasm","Dropped by Ghosts encountered in Black Forest Burial Chambers.","Выпадает с призраков, встречающихся в Погребальных комнатах Чёрного леса.","https://www.valheim.tools/building/t-w-i-g"]
+  ["ectoplasm","Dropped by Ghosts encountered in Black Forest Burial Chambers.","Выпадает с призраков, встречающихся в Погребальных комнатах Чёрного леса.","https://www.valheim.tools/building/t-w-i-g"],
+  ["chitin","Mine Abyssal Barnacles on Leviathans in the Ocean.","Добывайте хитин из Абиссальных наростов на левиафанах в Океане.",wiki("Chitin")],
+  ["mushroom","Pick from the ground in Meadows and Black Forest.","Собирайте с земли в Лугах и Чёрном лесу.",wiki("Mushroom")],
+  ["raspberries","Pick from raspberry bushes in the Meadows.","Собирайте с кустов малины в Лугах.",wiki("Raspberries")],
+  ["honey","Harvest from Beehives; Queen Bees come from wild beehives in abandoned Meadows houses.","Собирайте из ульев; пчелиные матки добываются из диких ульев в заброшенных домах Лугов.",wiki("Honey")],
+  ["boar-meat","Dropped by Boars at 100%.","Гарантированно выпадает из кабанов.",wiki("Boar")],
+  ["neck-tail","Dropped by Necks at 70%.","Выпадает из никсов с шансом 70%.",wiki("Neck")],
+  ["cooked-deer-meat","Cook Deer Meat on a Cooking Station.","Приготовьте мясо оленя на кулинарной стойке.",wiki("Deer_meat")],
+  ["feathers","Dropped by hunted birds; also found in several chest types.","Выпадает из птиц при охоте; также встречается в разных сундуках.",wiki("Feathers")],
+  ["deer-trophy","Dropped by Deer at 50%.","Выпадает из оленей с шансом 50%.",wiki("Deer")],
+  ["dandelion","Pick in the Meadows; Greydwarf Brutes also drop one at 100%.","Собирайте в Лугах; грейдворфы-бруты также гарантированно роняют по одному.",wiki("Dandelion")]
 ];
 
 const runBatches = async (env: Env, statements: D1PreparedStatement[]): Promise<void> => {
@@ -373,7 +383,7 @@ const runBatches = async (env: Env, statements: D1PreparedStatement[]): Promise<
 
 export const ensureBlackForestCatalog = async (env: Env): Promise<void> => {
   const marker = await env.DB.prepare("SELECT value FROM schema_metadata WHERE key = ?")
-    .bind("catalog_black_forest_v5").first<{ value: string }>();
+    .bind("catalog_black_forest_v6_acquisition").first<{ value: string }>();
   if (marker?.value === "done") return;
 
   await env.DB.batch([
@@ -449,7 +459,7 @@ export const ensureBlackForestCatalog = async (env: Env): Promise<void> => {
   `).bind(key,value,unit ?? null,sort + 10,slug)));
 
   await env.DB.prepare(`
-    INSERT INTO schema_metadata (key,value,updated_at) VALUES ('catalog_black_forest_v5','done',CURRENT_TIMESTAMP)
+    INSERT INTO schema_metadata (key,value,updated_at) VALUES ('catalog_black_forest_v6_acquisition','done',CURRENT_TIMESTAMP)
     ON CONFLICT(key) DO UPDATE SET value='done',updated_at=CURRENT_TIMESTAMP
   `).run();
 };

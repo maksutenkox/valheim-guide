@@ -5,7 +5,7 @@ const item = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
 
 const mistlandsSeed: CatalogSeed = {
-  marker: "catalog_mistlands_v1",
+  marker: "catalog_mistlands_acquisition_v1",
   biome: "mistlands",
   stations: [
     { slug: "black-forge", en: "Black Forge", ru: "Чёрная кузница" },
@@ -38,8 +38,8 @@ const mistlandsSeed: CatalogSeed = {
     { slug:"mechanical-spring", type:"resource", category:"material", en:"Mechanical Spring", ru:"Механическая пружина", descriptionEn:"An artisan component used in advanced machinery.", descriptionRu:"Ремесленный компонент для продвинутых механизмов.", imageFile:"Mechanical_spring.png", source:item("mechanical-spring") },
     { slug:"sealbreaker-fragment", type:"resource", category:"material", en:"Sealbreaker Fragment", ru:"Фрагмент разрушителя печатей", descriptionEn:"One of nine fragments needed to craft the Queen's key.", descriptionRu:"Один из девяти фрагментов ключа к Королеве.", imageFile:"Sealbreaker_fragment.png", source:item("sealbreaker-fragment") },
     { slug:"hook", type:"resource", category:"material", en:"Hook", ru:"Крюк", descriptionEn:"A heavy hook found in ruined Dvergr guard towers.", descriptionRu:"Тяжёлый крюк из разрушенных сторожевых башен двергов.", imageFile:"Hook.png", source:item("hook") },
-    { slug:"gjall-trophy", type:"resource", category:"material", en:"Gjall Trophy", ru:"Трофей: гьялл", descriptionEn:"A rare trophy from Gjalls.", descriptionRu:"Редкий трофей с гьяллов.", imageFile:"Gjall_trophy.png", source:item("gjall-trophy") },
-    { slug:"seeker-trophy", type:"resource", category:"material", en:"Seeker Trophy", ru:"Трофей: Искатель", descriptionEn:"A trophy from Seekers.", descriptionRu:"Трофей с Искателей.", imageFile:"Seeker_trophy.png", source:item("seeker-trophy") },
+    { slug:"gjall-trophy", type:"resource", category:"trophy", en:"Gjall Trophy", ru:"Трофей: гьялл", descriptionEn:"A rare trophy from Gjalls.", descriptionRu:"Редкий трофей с гьяллов.", imageFile:"Gjall_trophy.png", source:item("gjall-trophy") },
+    { slug:"seeker-trophy", type:"resource", category:"trophy", en:"Seeker Trophy", ru:"Трофей: Искатель", descriptionEn:"A trophy from Seekers.", descriptionRu:"Трофей с Искателей.", imageFile:"Seeker_trophy.png", source:item("seeker-trophy") },
     { slug:"black-marble-battle-idol", type:"resource", category:"material", en:"Black Marble Battle Idol", ru:"Боевой идол чёрного мрамора", descriptionEn:"Mistlands-tier weapon refinement idol.", descriptionRu:"Идол Туманных земель для усиления оружия.", imageFile:"Black_Marble_Battle_Idol.png", source:item("black-marble-battle-idol") },
     { slug:"black-marble-protection-idol", type:"resource", category:"material", en:"Black Marble Protection Idol", ru:"Защитный идол чёрного мрамора", descriptionEn:"Mistlands-tier armour refinement idol.", descriptionRu:"Идол Туманных земель для усиления брони.", imageFile:"Black_Marble_Protection_Idol.png", source:item("black-marble-protection-idol") },
 
@@ -315,7 +315,18 @@ const mistlandsSeed: CatalogSeed = {
     ["sealbreaker-fragment","Found by destroying crystal altars in Infested Mines.","Находится при разрушении кристальных алтарей в Заражённых шахтах.",item("sealbreaker-fragment")],
     ["hook","Found in Dvergr treasure chests in ruined guard towers.","Находится в сокровищницах разрушенных сторожевых башен двергов.",item("hook")],
     ["black-marble-battle-idol","Rare Mistlands treasure used at the Forge of Potential.","Редкая добыча Туманных земель для Кузницы потенциала.",item("black-marble-battle-idol")],
-    ["black-marble-protection-idol","Rare Mistlands treasure used at the Forge of Potential.","Редкая добыча Туманных земель для Кузницы потенциала.",item("black-marble-protection-idol")]
+    ["black-marble-protection-idol","Rare Mistlands treasure used at the Forge of Potential.","Редкая добыча Туманных земель для Кузницы потенциала.",item("black-marble-protection-idol")],
+    ["torn-spirit","Dropped by Yagluth after defeating the Plains boss; used to build a Wisp Fountain.","Выпадает после победы над Яглутом; используется для Фонтана огоньков.",item("torn-spirit")],
+    ["scale-hide","Dropped by Hares at 100%, 1–3 per normal Hare.","Гарантированно выпадает из зайцев, по 1–3.",item("scale-hide")],
+    ["seeker-meat","Dropped by Seekers and Seeker Soldiers at 100%, normally 1–2.","Гарантированно выпадает из Искателей и Искателей-солдат, обычно по 1–2.",item("seeker-meat")],
+    ["hare-meat","Dropped by Hares at 100%, 1 per normal Hare.","Гарантированно выпадает из зайцев, по 1.",item("hare-meat")],
+    ["chicken-meat","Obtained by slaughtering adult poultry raised from Eggs.","Получается при забое взрослой домашней птицы, выращенной из яиц.",item("chicken-meat")],
+    ["egg","Buy the first Eggs from Haldor after Yagluth; fed adult hens can lay more Eggs.","Первые яйца покупаются у Хальдора после Яглута; накормленные взрослые куры несут новые яйца.",item("egg")],
+    ["magecap","Pick wild Magecaps in the Mistlands and cultivate them there with a Cultivator.","Собирайте дикие Магические грибы в Туманных землях и выращивайте там культиватором.",item("magecap")],
+    ["jotun-puffs","Pick wild Jotun Puffs in the Mistlands and cultivate them there with a Cultivator.","Собирайте дикие Йотунские пуховики в Туманных землях и выращивайте там культиватором.",item("jotun-puffs")],
+    ["mechanical-spring","Craft at the Artisan Table from 3 Iron + 1 Refined Eitr.","Создаётся на Столе ремесленника из 3 железа и 1 очищенного эйтра.",item("mechanical-spring")],
+    ["gjall-trophy","Dropped by Gjall at 30%.","Выпадает из Гьялла с шансом 30%.",item("gjall-trophy")],
+    ["seeker-trophy","Dropped by Seekers at 5%.","Выпадает из Искателей с шансом 5%.",item("seeker-trophy")]
   ]
 };
 

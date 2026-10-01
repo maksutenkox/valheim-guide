@@ -259,8 +259,8 @@ jobs:
             echo "$CONTENT_TYPE" | grep -q '^image/'
           done
 
-          echo "Checking Deep North acquisition data..."
-          for endpoint in             resources/frostcore             resources/nornathread             resources/mould-intricate-key             resources/malicious-blood             resources/bloodgold-battle-idol             items/nord-sword             items/lightning-strike             items/helmet-of-the-protector; do
+          echo "Checking acquisition data across every biome..."
+          for endpoint in             resources/bone-fragments             resources/chitin             resources/ymir-flesh             resources/cultist-trophy             resources/cooked-fish             resources/mechanical-spring             resources/dyrnwyn-tip-fragment             resources/frostcore             resources/serpent-scale             items/nord-sword             items/lightning-strike             items/helmet-of-the-protector; do
             BODY="$(curl --fail --silent --show-error --retry 4 --retry-delay 1 "$BASE_URL/api/$endpoint")"
             node -e 'const v=JSON.parse(process.argv[1]); if(!Array.isArray(v.data?.sources)||v.data.sources.length===0) process.exit(1)' "$BODY"
             echo "$endpoint: acquisition ok"

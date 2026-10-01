@@ -4,7 +4,7 @@ import { applyCatalogSeed, type CatalogSeed } from "./catalog-seed";
 const item = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 
 const mountainSeed: CatalogSeed = {
-  marker: "catalog_mountains_v1",
+  marker: "catalog_mountains_acquisition_v1",
   biome: "mountains",
   items: [
     { slug:"silver-ore", type:"resource", category:"material", en:"Silver Ore", ru:"Серебряная руда", descriptionEn:"Heavy ore mined from hidden silver veins in the Mountains.", descriptionRu:"Тяжёлая руда из скрытых серебряных жил в Горах.", imageFile:"Silver_ore.png", source:item("silver-ore") },
@@ -18,13 +18,13 @@ const mountainSeed: CatalogSeed = {
     { slug:"onion-seeds", type:"resource", category:"material", en:"Onion Seeds", ru:"Семена лука", descriptionEn:"Seeds found in Mountain chests and grown into onions.", descriptionRu:"Семена из горных сундуков, из которых выращивается лук.", imageFile:"Onion_seeds.png", source:item("onion-seeds") },
     { slug:"onion", type:"resource", category:"material", en:"Onion", ru:"Лук", descriptionEn:"A farm crop grown from onion seeds.", descriptionRu:"Фермерская культура, выращиваемая из семян лука.", imageFile:"Onion.png", source:item("onion") },
     { slug:"dragon-egg", type:"resource", category:"material", en:"Dragon Egg", ru:"Драконье яйцо", descriptionEn:"A massive egg used to summon Moder.", descriptionRu:"Огромное яйцо для призыва Моудер.", imageFile:"Dragon_egg.png", source:item("dragon-egg") },
-    { slug:"drake-trophy", type:"resource", category:"material", en:"Drake Trophy", ru:"Трофей: дракон", descriptionEn:"A rare trophy from Drakes.", descriptionRu:"Редкий трофей с драконов.", imageFile:"Drake_trophy.png", source:item("drake-trophy") },
-    { slug:"wolf-trophy", type:"resource", category:"material", en:"Wolf Trophy", ru:"Трофей: волк", descriptionEn:"A trophy from Wolves.", descriptionRu:"Трофей с волков.", imageFile:"Wolf_trophy.png", source:item("wolf-trophy") },
-    { slug:"fenring-trophy", type:"resource", category:"material", en:"Fenring Trophy", ru:"Трофей: фенринг", descriptionEn:"A trophy from Fenrings.", descriptionRu:"Трофей с фенрингов.", imageFile:"Fenring_trophy.png", source:item("fenring-trophy") },
-    { slug:"stone-golem-trophy", type:"resource", category:"material", en:"Stone Golem Trophy", ru:"Трофей: каменный голем", descriptionEn:"A heavy trophy from Stone Golems.", descriptionRu:"Тяжёлый трофей с каменных големов.", imageFile:"Stone_Golem_trophy.png", source:item("stone-golem-trophy") },
+    { slug:"drake-trophy", type:"resource", category:"trophy", en:"Drake Trophy", ru:"Трофей: дракон", descriptionEn:"A rare trophy from Drakes.", descriptionRu:"Редкий трофей с драконов.", imageFile:"Drake_trophy.png", source:item("drake-trophy") },
+    { slug:"wolf-trophy", type:"resource", category:"trophy", en:"Wolf Trophy", ru:"Трофей: волк", descriptionEn:"A trophy from Wolves.", descriptionRu:"Трофей с волков.", imageFile:"Wolf_trophy.png", source:item("wolf-trophy") },
+    { slug:"fenring-trophy", type:"resource", category:"trophy", en:"Fenring Trophy", ru:"Трофей: фенринг", descriptionEn:"A trophy from Fenrings.", descriptionRu:"Трофей с фенрингов.", imageFile:"Fenring_trophy.png", source:item("fenring-trophy") },
+    { slug:"stone-golem-trophy", type:"resource", category:"trophy", en:"Stone Golem Trophy", ru:"Трофей: каменный голем", descriptionEn:"A heavy trophy from Stone Golems.", descriptionRu:"Тяжёлый трофей с каменных големов.", imageFile:"Stone_Golem_trophy.png", source:item("stone-golem-trophy") },
     { slug:"fenris-hair", type:"resource", category:"material", en:"Fenris Hair", ru:"Волосы Фенриса", descriptionEn:"Thick hair gathered inside Frost Caves.", descriptionRu:"Густая шерсть, добываемая в Ледяных пещерах.", imageFile:"Fenris_hair.png", source:item("fenris-hair") },
     { slug:"fenris-claw", type:"resource", category:"material", en:"Fenris Claw", ru:"Коготь Фенриса", descriptionEn:"A hard claw found in Frost Caves.", descriptionRu:"Твёрдый коготь из Ледяных пещер.", imageFile:"Fenris_claw.png", source:item("fenris-claw") },
-    { slug:"cultist-trophy", type:"resource", category:"material", en:"Cultist Trophy", ru:"Трофей: культист", descriptionEn:"A trophy dropped by Cultists in Frost Caves.", descriptionRu:"Трофей с культистов в Ледяных пещерах.", imageFile:"Cultist_trophy.png", source:item("cultist-trophy") },
+    { slug:"cultist-trophy", type:"resource", category:"trophy", en:"Cultist Trophy", ru:"Трофей: культист", descriptionEn:"A trophy dropped by Cultists in Frost Caves.", descriptionRu:"Трофей с культистов в Ледяных пещерах.", imageFile:"Cultist_trophy.png", source:item("cultist-trophy") },
     { slug:"silver-battle-idol", type:"resource", category:"material", en:"Silver Battle Idol", ru:"Серебряный боевой идол", descriptionEn:"Mountain-tier Forge of Potential material for weapons.", descriptionRu:"Горный материал для улучшения оружия в Кузнице потенциала.", imageFile:"Silver_Battle_Idol.png", source:item("silver-battle-idol") },
     { slug:"silver-protection-idol", type:"resource", category:"material", en:"Silver Protection Idol", ru:"Серебряный защитный идол", descriptionEn:"Mountain-tier Forge of Potential material for armour.", descriptionRu:"Горный материал для улучшения брони в Кузнице потенциала.", imageFile:"Silver_Protection_Idol.png", source:item("silver-protection-idol") },
     { slug:"scythe-handle", type:"resource", category:"material", en:"Scythe Handle", ru:"Рукоять косы", descriptionEn:"A sturdy handle sold by the Bog Witch after Moder is defeated.", descriptionRu:"Прочная рукоять, которую продаёт Болотная ведьма после победы над Моудер.", imageFile:"Scythe_handle.png", source:item("scythe-handle") },
@@ -177,7 +177,12 @@ const mountainSeed: CatalogSeed = {
     ["fenris-claw","Found in Frost Caves.","Находится в Ледяных пещерах.",item("fenris-claw")],
     ["silver-battle-idol","Rare loot in Mountain cave and cabin chests; used at the Forge of Potential.","Редкая добыча в сундуках горных пещер и хижин; используется в Кузнице потенциала.",item("silver-battle-idol")],
     ["silver-protection-idol","Rare loot in Mountain cave and cabin chests; used at the Forge of Potential.","Редкая добыча в сундуках горных пещер и хижин; используется в Кузнице потенциала.",item("silver-protection-idol")],
-    ["scythe-handle","Sold by the Bog Witch for 200 coins after Moder is defeated.","Продаётся Болотной ведьмой за 200 монет после победы над Моудер.",item("scythe-handle")]
+    ["scythe-handle","Sold by the Bog Witch for 200 coins after Moder is defeated.","Продаётся Болотной ведьмой за 200 монет после победы над Моудер.",item("scythe-handle")],
+    ["drake-trophy","Dropped by Drakes at 10%.","Выпадает из драконов с шансом 10%.",item("drake-trophy")],
+    ["wolf-trophy","Dropped by Wolves at 10%.","Выпадает из волков с шансом 10%.",item("wolf-trophy")],
+    ["fenring-trophy","Dropped by Fenrings at 10%; Fenrings roam the Mountains at night.","Выпадает из фенрингов с шансом 10%; фенринги появляются в Горах ночью.",item("fenring-trophy")],
+    ["stone-golem-trophy","Dropped by Stone Golems at 5%.","Выпадает из каменных големов с шансом 5%.",item("stone-golem-trophy")],
+    ["cultist-trophy","Dropped by Cultists at 10% inside Frost Caves.","Выпадает из культистов с шансом 10% в Морозных пещерах.",item("cultist-trophy")]
   ]
 };
 

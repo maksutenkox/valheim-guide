@@ -5,7 +5,7 @@ const item = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
 
 const meadowsSeed: CatalogSeed = {
-  marker: "catalog_meadows_v2_food_stats",
+  marker: "catalog_meadows_acquisition_v1",
   biome: "meadows",
   stations: [
     { slug: "inventory", en: "Inventory", ru: "Инвентарь" },
@@ -146,7 +146,16 @@ const meadowsSeed: CatalogSeed = {
     ["deer-hide","Dropped by Deer.","Выпадает с оленей.",item("deer-hide")],
     ["queen-bee","Destroy wild Beehives in abandoned Meadows buildings.","Разрушайте дикие ульи в заброшенных домах Лугов.",item("queen-bee")],
     ["wooden-battle-idol","Rare Meadows chest loot for the Forge of Potential.","Редкая добыча из сундуков Лугов для Кузницы потенциала.",item("wooden-battle-idol")],
-    ["wooden-protection-idol","Rare Meadows chest loot for the Forge of Potential.","Редкая добыча из сундуков Лугов для Кузницы потенциала.",item("wooden-protection-idol")]
+    ["wooden-protection-idol","Rare Meadows chest loot for the Forge of Potential.","Редкая добыча из сундуков Лугов для Кузницы потенциала.",item("wooden-protection-idol")],
+    ["bone-fragments","Dropped by Skeletons at 100%, 1 each.","Гарантированно выпадает из скелетов, по 1.",item("bone-fragments")],
+    ["feathers","Dropped by hunted birds; also found in some chests.","Выпадает из птиц при охоте; также встречается в некоторых сундуках.",item("feathers")],
+    ["raspberries","Pick from raspberry bushes across the Meadows.","Собирайте с кустов малины в Лугах.",item("raspberries")],
+    ["mushroom","Pick from the ground in Meadows and Black Forest.","Собирайте с земли в Лугах и Чёрном лесу.",item("mushroom")],
+    ["dandelion","Pick in the Meadows; Greydwarf Brutes also drop one at 100%.","Собирайте в Лугах; грейдворфы-бруты также гарантированно роняют по одному.",item("dandelion")],
+    ["honey","Harvest from Beehives; Queen Bees for the first hives come from wild beehives in abandoned Meadows houses.","Собирайте из ульев; первые пчелиные матки добываются из диких ульев в заброшенных домах Лугов.",item("honey")],
+    ["boar-meat","Dropped by Boars at 100%.","Гарантированно выпадает из кабанов.",item("boar-meat")],
+    ["deer-meat","Dropped by Deer at 100%, 2 per normal Deer.","Гарантированно выпадает из оленей, по 2 с обычного оленя.",item("deer-meat")],
+    ["neck-tail","Dropped by Necks at 70%.","Выпадает из никсов с шансом 70%.",item("neck-tail")]
   ]
 };
 

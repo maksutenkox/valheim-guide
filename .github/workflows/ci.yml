@@ -81,23 +81,30 @@ jobs:
             test -s "public/media/wiki/$slug.png" || { echo "::error::Missing dungeon loot icon: $slug"; exit 1; }
           done
 
-      - name: Verify Deep North acquisition coverage
+      - name: Verify biome acquisition coverage
         shell: bash
         run: |
           node <<'NODE'
           const fs = require("fs");
-          const src = fs.readFileSync("src/worker/services/seed-deep-north.ts","utf8");
-          const resources = [...src.matchAll(/\{\s*slug:"([^"]+)",\s*type:"resource"/g)].map((m) => m[1]);
-          const start = src.indexOf("resourceSources: [");
-          const end = src.indexOf("\n  ]", start);
-          const block = src.slice(start, end);
-          const sourced = new Set([...block.matchAll(/\["([^"]+)"/g)].map((m) => m[1]));
-          const missing = resources.filter((slug) => !sourced.has(slug));
-          if (missing.length) {
-            console.error("Deep North resources without acquisition data:", missing);
-            process.exit(1);
+          const biomes = ["meadows","black-forest","swamp","mountains","plains","mistlands","ashlands","deep-north","ocean"];
+          let total = 0;
+          for (const biome of biomes) {
+            const src = fs.readFileSync(`src/worker/services/seed-${biome}.ts`,"utf8");
+            const resources = [...src.matchAll(/\{\s*slug:\s*"([^"]+)",\s*type:\s*"resource"/g)].map((m) => m[1]);
+            const start = src.indexOf("resourceSources");
+            const ends = [src.indexOf("\n  ]", start), src.indexOf("\n];", start)].filter((x) => x >= 0);
+            const end = ends.length ? Math.min(...ends) : src.length;
+            const block = start >= 0 ? src.slice(start, end) : "";
+            const sourced = new Set([...block.matchAll(/\["([^"]+)"/g)].map((m) => m[1]));
+            const missing = resources.filter((slug) => !sourced.has(slug));
+            if (missing.length) {
+              console.error(`${biome}: missing acquisition:`, missing);
+              process.exit(1);
+            }
+            total += resources.length;
+            console.log(`${biome}: ${resources.length}/${resources.length}`);
           }
-          console.log(`Deep North acquisition coverage: ${resources.length}/${resources.length}`);
+          console.log(`All biome resource acquisition coverage: ${total}/${total}`);
           NODE
 
       - name: Production build

@@ -4,7 +4,7 @@ import { applyCatalogSeed, type CatalogSeed } from "./catalog-seed";
 const item = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 
 const ashlandsSeed: CatalogSeed = {
-  marker: "catalog_ashlands_v1",
+  marker: "catalog_ashlands_acquisition_v1",
   biome: "ashlands",
   items: [
     { slug:"ashwood", type:"resource", category:"material", en:"Ashwood", ru:"Ясеневая древесина", descriptionEn:"Fire-hardened wood harvested from Ashlands trees.", descriptionRu:"Закалённая огнём древесина деревьев Пепельных земель.", imageFile:"Ashwood.png", source:item("ashwood") },
@@ -31,7 +31,7 @@ const ashlandsSeed: CatalogSeed = {
     { slug:"jade", type:"resource", category:"material", en:"Jade", ru:"Нефрит", descriptionEn:"A green gemstone used for primal weapon infusions.", descriptionRu:"Зелёный самоцвет для первобытных вариантов оружия.", imageFile:"Jade.png", source:item("jade") },
     { slug:"flametal-battle-idol", type:"resource", category:"material", en:"Flametal Battle Idol", ru:"Фламеталловый боевой идол", descriptionEn:"Ashlands-tier Forge of Potential material for weapons.", descriptionRu:"Материал Пепельных земель для усиления оружия в Кузнице потенциала.", imageFile:"Flametal_Battle_Idol.png", source:item("flametal-battle-idol") },
     { slug:"flametal-protection-idol", type:"resource", category:"material", en:"Flametal Protection Idol", ru:"Фламеталловый защитный идол", descriptionEn:"Ashlands-tier Forge of Potential material for armour.", descriptionRu:"Материал Пепельных земель для усиления брони в Кузнице потенциала.", imageFile:"Flametal_Protection_Idol.png", source:item("flametal-protection-idol") },
-    { slug:"troll-trophy", type:"resource", category:"material", en:"Troll Trophy", ru:"Трофей: тролль", descriptionEn:"A rare trophy from Trolls.", descriptionRu:"Редкий трофей с троллей.", imageFile:"Troll_trophy.png", source:item("troll-trophy"), biome:"black-forest" },
+    { slug:"troll-trophy", type:"resource", category:"trophy", en:"Troll Trophy", ru:"Трофей: тролль", descriptionEn:"A rare trophy from Trolls.", descriptionRu:"Редкий трофей с троллей.", imageFile:"Troll_trophy.png", source:item("troll-trophy"), biome:"black-forest" },
     { slug:"dyrnwyn-hilt-fragment", type:"resource", category:"material", en:"Dyrnwyn Hilt Fragment", ru:"Фрагмент рукояти Дюрнвина", descriptionEn:"One of the unique fragments needed to restore Dyrnwyn.", descriptionRu:"Один из уникальных фрагментов для восстановления Дюрнвина.", imageFile:"Dyrnwyn_hilt_fragment.png", source:item("dyrnwyn-hilt-fragment") },
     { slug:"dyrnwyn-blade-fragment", type:"resource", category:"material", en:"Dyrnwyn Blade Fragment", ru:"Фрагмент клинка Дюрнвина", descriptionEn:"One of the unique fragments needed to restore Dyrnwyn.", descriptionRu:"Один из уникальных фрагментов для восстановления Дюрнвина.", imageFile:"Dyrnwyn_blade_fragment.png", source:item("dyrnwyn-blade-fragment") },
     { slug:"dyrnwyn-tip-fragment", type:"resource", category:"material", en:"Dyrnwyn Tip Fragment", ru:"Фрагмент острия Дюрнвина", descriptionEn:"One of the unique fragments needed to restore Dyrnwyn.", descriptionRu:"Один из уникальных фрагментов для восстановления Дюрнвина.", imageFile:"Dyrnwyn_tip_fragment.png", source:item("dyrnwyn-tip-fragment") },
@@ -280,7 +280,18 @@ const ashlandsSeed: CatalogSeed = {
     ["iolite","Found in Charred Fortresses and Ashlands treasure.","Находится в крепостях Обугленных и сокровищах Пепельных земель.",item("iolite")],
     ["jade","Found in Charred Fortresses and Ashlands treasure.","Находится в крепостях Обугленных и сокровищах Пепельных земель.",item("jade")],
     ["flametal-battle-idol","Rare Ashlands-tier loot used at the Forge of Potential.","Редкая добыча Пепельных земель для Кузницы потенциала.",item("flametal-battle-idol")],
-    ["flametal-protection-idol","Rare Ashlands-tier loot used at the Forge of Potential.","Редкая добыча Пепельных земель для Кузницы потенциала.",item("flametal-protection-idol")]
+    ["flametal-protection-idol","Rare Ashlands-tier loot used at the Forge of Potential.","Редкая добыча Пепельных земель для Кузницы потенциала.",item("flametal-protection-idol")],
+    ["ashwood","Chop Ashlands trees; also found in breakable Dvergr crates and ruined structures.","Рубите деревья Пепельных земель; также встречается в разрушаемых ящиках двергов и руинах.",item("ashwood")],
+    ["bonemaw-meat","Dropped by Bonemaws at 100%, 6–8 per kill.","Гарантированно выпадает из костепастей, по 6–8.",item("bonemaw-meat")],
+    ["vineberry-cluster","Harvest Vineberry vines in the Ashlands; Vineberry Seeds are found on Ashland vines and ruins.","Собирайте гроздья с лоз Пепельных земель; семена находятся на лозах и в руинах.",item("vineberry-cluster")],
+    ["smoke-puff","Pick Smoke Puffs in the Ashlands, especially around ruined structures.","Собирайте Дымчатые грибы в Пепельных землях, особенно возле руин.",item("smoke-puff")],
+    ["fiddlehead","Pick Fiddleheads around Ashlands ruins and Dvergr/Charred structures.","Собирайте папоротник у руин Пепельных земель и построек двергов/Обугленных.",item("fiddlehead")],
+    ["volture-egg","Voltures drop 1–2 Eggs at 50%; hunt them around coastal nests.","Вольтюры роняют 1–2 яйца с шансом 50%; ищите птиц у прибрежных гнёзд.",item("volture-egg")],
+    ["volture-meat","Dropped by Voltures at 100%, 1 per kill.","Гарантированно выпадает из вольтюров, по 1.",item("volture-meat")],
+    ["troll-trophy","Dropped by Trolls in the Black Forest at 50%.","Выпадает из троллей Чёрного леса с шансом 50%.",item("troll-trophy")],
+    ["dyrnwyn-hilt-fragment","Defeat Lord Reto in the Tomb of Lord Reto at the third Mysterious Location; he always drops the Hilt Fragment.","Победите Лорда Рето в его гробнице у третьего Таинственного места; он гарантированно роняет фрагмент рукояти.",item("dyrnwyn-hilt-fragment")],
+    ["dyrnwyn-blade-fragment","Unique pickup at the second Mysterious Location; the first location's Vegvisir reveals it.","Уникальная находка на втором Таинственном месте; его показывает вегвизир первой точки.",item("dyrnwyn-blade-fragment")],
+    ["dyrnwyn-tip-fragment","Unique pickup at the first Mysterious Location. Its Vegvisir is found in some Putrid Holes; break into the sealed Grausten ruin and take it from the altar.","Уникальная находка на первом Таинственном месте. Вегвизир встречается в некоторых Гнилостных норах; разрушьте стену запечатанной граустеновой руины и заберите фрагмент с алтаря.",item("dyrnwyn-tip-fragment")]
   ]
 };
 
