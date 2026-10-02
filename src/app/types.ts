@@ -39,6 +39,8 @@ export type Ingredient = {
   name_en: string;
   name_ru: string;
   image_path: string | null;
+  source_preview_en: string | null;
+  source_preview_ru: string | null;
 };
 
 export type AcquisitionSource = {
