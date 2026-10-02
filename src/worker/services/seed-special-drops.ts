@@ -178,8 +178,9 @@ const seeds: CatalogSeed[] = [
     ]
   },
   {
-    marker: "catalog_special_drops_deep_north_v1",
+    marker: "catalog_special_drops_deep_north_v2_acquisition_detail",
     biome: "deep-north",
+    replaceResourceSources: true,
     items: [
       {
         slug: "sacrificial-blood", type: "resource", category: "material",
@@ -225,12 +226,20 @@ const seeds: CatalogSeed[] = [
       }
     ],
     resourceSources: [
-      ["sacrificial-blood", "Guaranteed drop from Kall Fimbulbringer.", "Гарантированно выпадает из Калла Фимбулбрингера.", item("sacrificial-blood")],
-      ["ancient-coin", "Dropped by Captive Fulings and found throughout Morkhalla.", "Выпадает из пленных фулингов и встречается по всей Мёркхалле.", item("ancient-coin")],
-      ["draumyx", "Dropped by Imprisoned Dvergr and found in Morkhalla and Deep North shipwreck chests.", "Выпадает из заключённых двергов и встречается в Мёркхалле и сундуках кораблекрушений Глубокого Севера.", item("draumyx")],
-      ["grimvarn", "Dropped by Imprisoned Dvergr and found in Morkhalla and Deep North shipwreck chests.", "Выпадает из заключённых двергов и встречается в Мёркхалле и сундуках кораблекрушений Глубокого Севера.", item("grimvarn")],
-      ["solryth", "Dropped by Imprisoned Dvergr and found in Morkhalla and Deep North shipwreck chests.", "Выпадает из заключённых двергов и встречается в Мёркхалле и сундуках кораблекрушений Глубокого Севера.", item("solryth")],
-      ["veydris", "Dropped by Imprisoned Dvergr and found in Morkhalla and Deep North shipwreck chests.", "Выпадает из заключённых двергов и встречается в Мёркхалле и сундуках кораблекрушений Глубокого Севера.", item("veydris")]
+      ["sacrificial-blood", "Kall Fimbulbringer guarantees Sacrificial Blood when defeated; offer it at the Chiselled Platform on the Sacrificial Stones to trigger the ending.", "Калл Фимбулбрингер гарантированно роняет Жертвенную кровь; поднесите её на Высеченной платформе у Жертвенных камней, чтобы запустить концовку.", item("sacrificial-blood")],
+      ["ancient-coin", "Captive Fulings inside Mörkhalla always drop 1–2 Ancient Coins.", "Пленные фулинги внутри Мёркхаллы гарантированно роняют 1–2 Древние монеты.", item("ancient-coin")],
+      ["ancient-coin", "Mörkhalla Ancient Chests: 28.5% per roll across 5–7 rolls, yielding 11–55 Ancient Coins.", "Древние сундуки Мёркхаллы: 28,5% за бросок при 5–7 бросках, по 11–55 Древних монет.", item("ancient-coin")],
+      ["ancient-coin", "Mörkhalla Jotun's Chests: 19.6% per roll across 2–4 rolls, yielding 4–10 Ancient Coins.", "Сундуки йотунов в Мёркхалле: 19,6% за бросок при 2–4 бросках, по 4–10 Древних монет.", item("ancient-coin")],
+      ["ancient-coin", "Break Mörkhalla rubble piles: 50% per roll across 1–5 rolls, 1 Ancient Coin at a time.", "Разбивайте завалы в Мёркхалле: 50% за бросок при 1–5 бросках, по 1 Древней монете.", item("ancient-coin")],
+      ["grimvarn", "Imprisoned Dvergr inside Mörkhalla have a 10% chance to drop 1 Grimvarn; carved gemstone eyes there can also be gathered directly.", "Пленные двегры внутри Мёркхаллы имеют 10% шанс уронить 1 Гримварн; самоцвет также можно снять с резных глаз внутри крепости.", item("grimvarn")],
+      ["grimvarn", "Mörkhalla Ancient Chests roll Grimvarn at about 7.1% per roll across 5–7 rolls; Deep North shipwreck chests also roll it at 2% per roll.", "Древние сундуки Мёркхаллы дают Гримварн примерно с шансом 7,1% за бросок при 5–7 бросках; сундуки кораблекрушений Глубокого Севера — 2% за бросок.", item("grimvarn")],
+      ["solryth", "Imprisoned Dvergr inside Mörkhalla have a 10% chance to drop 1 Solryth; carved gemstone eyes there can also be gathered directly.", "Пленные двегры внутри Мёркхаллы имеют 10% шанс уронить 1 Солрит; самоцвет также можно снять с резных глаз внутри крепости.", item("solryth")],
+      ["solryth", "Mörkhalla Ancient Chests roll Solryth at about 5.7% per roll across 5–7 rolls; Deep North shipwreck chests also roll it at 2% per roll.", "Древние сундуки Мёркхаллы дают Солрит примерно с шансом 5,7% за бросок при 5–7 бросках; сундуки кораблекрушений Глубокого Севера — 2% за бросок.", item("solryth")],
+      ["veydris", "Imprisoned Dvergr inside Mörkhalla have a 10% chance to drop 1 Veydris; carved gemstone eyes there can also be gathered directly.", "Пленные двегры внутри Мёркхаллы имеют 10% шанс уронить 1 Вейдрис; самоцвет также можно снять с резных глаз внутри крепости.", item("veydris")],
+      ["veydris", "Mörkhalla Ancient Chests roll Veydris at about 4.3% per roll across 5–7 rolls; Deep North shipwreck chests also roll it at 2% per roll.", "Древние сундуки Мёркхаллы дают Вейдрис примерно с шансом 4,3% за бросок при 5–7 бросках; сундуки кораблекрушений Глубокого Севера — 2% за бросок.", item("veydris")],
+      ["draumyx", "Imprisoned Dvergr inside Mörkhalla have a 10% chance to drop 1 Draumyx; carved gemstone eyes there can also be gathered directly.", "Пленные двегры внутри Мёркхаллы имеют 10% шанс уронить 1 Драумикс; самоцвет также можно снять с резных глаз внутри крепости.", item("draumyx")],
+      ["draumyx", "Mörkhalla Ancient Chests roll Draumyx at about 2.9% per roll across 5–7 rolls; Deep North shipwreck chests also roll it at 2% per roll.", "Древние сундуки Мёркхаллы дают Драумикс примерно с шансом 2,9% за бросок при 5–7 бросках; сундуки кораблекрушений Глубокого Севера — 2% за бросок.", item("draumyx")]
+
     ]
   }
 ];

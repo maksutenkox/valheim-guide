@@ -234,8 +234,41 @@ jobs:
           for (const slug of combat) if (count(slug) < 3) throw new Error(slug + " should expose at least 3 acquisition routes");
           if (count("mould-intricate-key") < 3) throw new Error("intricate key mould needs 3 acquisition routes");
           if (!src.includes("Wardrobes in Winding Tunnels: 50%")) throw new Error("protector helmet wardrobe source missing");
-          if (!src.includes('["intricate-key","Hexen can drop a finished Intricate Key at 10%')) throw new Error("finished key Hexen drop missing");
+          const required = [
+            "North Memorial Place in the Deep North, place 3 Memorial Coal",
+            "a memorial can raise up to three warriors",
+            "open Mörkhalla with an Intricate Key",
+            "start The Jotun Advance",
+            "Inside Winding Tunnels, Eyeless Ones drop Mould: Intricate Key at 50%",
+            "Inside Winding Tunnels, Elaking drop Mould: Intricate Key at 20%",
+            "Kill Krigen inside Mörkhalla: each has a 3% chance",
+            "Kill Hexen inside Mörkhalla: each has a 5% chance",
+            "Search the Deep North coastline",
+            "Hunt wild Moose on the Deep North surface"
+          ];
+          for (const line of required) if (!src.includes(line)) throw new Error("Missing Deep North acquisition detail: " + line);
+          if (!src.includes('["intricate-key","Hexen inside Mörkhalla have a 10% chance')) throw new Error("finished key Hexen drop missing");
           console.log("Deep North acquisition precision: ok");
+          NODE
+
+      - name: Verify Deep North valuables precision
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+          const src = fs.readFileSync("src/worker/services/seed-special-drops.ts","utf8");
+          for (const line of [
+            "Captive Fulings inside Mörkhalla always drop 1–2 Ancient Coins",
+            "Mörkhalla Ancient Chests: 28.5% per roll",
+            "Mörkhalla Jotun's Chests: 19.6% per roll",
+            "Mörkhalla Ancient Chests roll Grimvarn at about 7.1%",
+            "Mörkhalla Ancient Chests roll Solryth at about 5.7%",
+            "Mörkhalla Ancient Chests roll Veydris at about 4.3%",
+            "Mörkhalla Ancient Chests roll Draumyx at about 2.9%"
+          ]) if (!src.includes(line)) throw new Error("Missing Deep North valuables detail: " + line);
+          const dn = src.slice(src.indexOf('catalog_special_drops_deep_north_v2_acquisition_detail'));
+          if (!dn.includes("replaceResourceSources: true")) throw new Error("Deep North special sources must replace stale rows");
+          console.log("Deep North valuables precision: ok");
           NODE
 
       - name: Verify trophy category integrity
