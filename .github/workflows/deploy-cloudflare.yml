@@ -277,6 +277,18 @@ jobs:
           node -e 'const d=JSON.parse(process.argv[1]).data; const s=(d.sources||[]).map(x=>x.method_en).join(" "); if((d.sources||[]).length<4||!s.includes("Captive Fulings")||!s.includes("Ancient Chests")||!s.includes("Jotun")) process.exit(1)' "$COIN"
           echo "Deep North detailed acquisition: ok"
 
+          echo "Checking Deep North farming and rare loot routes..."
+          for endpoint in resources/kale resources/oat-seeds resources/seed-poteitr resources/hexen-trophy resources/moose-trophy resources/bloodgold-battle-idol resources/bloodgold-protection-idol; do
+            BODY="$(curl --fail --silent --show-error --retry 4 --retry-delay 1 "$BASE_URL/api/$endpoint")"
+            node -e 'const d=JSON.parse(process.argv[1]).data; if(!Array.isArray(d.sources)||d.sources.length===0) process.exit(1)' "$BODY"
+            echo "$endpoint: detailed source ok"
+          done
+          BATTLE="$(curl --fail --silent --show-error --retry 4 --retry-delay 1 "$BASE_URL/api/resources/bloodgold-battle-idol")"
+          node -e 'const s=JSON.parse(process.argv[1]).data.sources.map(x=>x.method_en).join(" "); if(!s.includes("0.20%")||!s.includes("Mörkhalla")||!s.includes("shipwreck")) process.exit(1)' "$BATTLE"
+          PROTECT="$(curl --fail --silent --show-error --retry 4 --retry-delay 1 "$BASE_URL/api/resources/bloodgold-protection-idol")"
+          node -e 'const s=JSON.parse(process.argv[1]).data.sources.map(x=>x.method_en).join(" "); if(!s.includes("0.36%")||!s.includes("0.20%")||!s.includes("shipwreck")) process.exit(1)' "$PROTECT"
+          echo "Deep North farming and rare loot: ok"
+
           echo "Checking every trader item icon..."
           for asset in yule-hat dverger-circlet megingjord ymir-flesh fishing-rod fishing-bait thunder-stone egg barrel-hoops brown-dress-with-shawl brown-dress-with-beads blue-dress-with-shawl blue-dress-with-beads yellow-dress-with-shawl yellow-dress-with-beads simple-undyed-dress blue-tunic-with-cape blue-tunic-with-beads red-tunic-with-cape red-tunic-with-beads yellow-tunic-with-cape yellow-tunic-with-beads simple-undyed-tunic plain-brown-dress plain-blue-dress plain-yellow-dress plain-blue-tunic plain-red-tunic plain-yellow-tunic harvest-tunic harvest-dress blue-tied-headscarf green-twisted-headscarf brown-fur-cap extravagant-green-cap simple-red-cap yellow-tied-headscarf red-twisted-headscarf grey-fur-cap extravagant-orange-cap simple-purple-cap straw-hat headband basic-fireworks sparkler iron-pit barber-kit candle-wick scythe-handle love-potion toadstool fragrant-bundle fresh-seaweed cured-squirrel-hamstring powdered-dragon-eggshells pungent-pebbles ivy-seeds serving-tray woodland-herb-blend seafarers-herbs mountain-peak-pepper-powder grasslands-herbalist-harvest herbs-of-the-hidden-hills fiery-spice-powder seasoning-of-the-gourd corked-vial crown-of-roots; do
             CONTENT_TYPE="$(curl --fail --silent --show-error -o /dev/null -w '%{content_type}' --retry 4 --retry-delay 1 "$BASE_URL/media/wiki/$asset.png")"

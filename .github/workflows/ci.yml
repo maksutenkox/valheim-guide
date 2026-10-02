@@ -244,7 +244,14 @@ jobs:
             "Kill Krigen inside Mörkhalla: each has a 3% chance",
             "Kill Hexen inside Mörkhalla: each has a 5% chance",
             "Search the Deep North coastline",
-            "Hunt wild Moose on the Deep North surface"
+            "Hunt wild Moose on the Deep North surface",
+            "Explore Winding Tunnels and hunt Elaking inside",
+            "Hunt Hexen inside Mörkhalla. Each Hexen has a 10% chance",
+            "Pick wild Kale plants in the Deep North",
+            "Pick wild Oat plants in the Deep North",
+            "Pick wild Poteitr plants in the Deep North",
+            "Mörkhalla Ancient Chests and Jotun's Chests each roll a Bloodgold Battle Idol",
+            "Mörkhalla Ancient Chests roll a Bloodgold Protection Idol at roughly 0.36%"
           ];
           for (const line of required) if (!src.includes(line)) throw new Error("Missing Deep North acquisition detail: " + line);
           if (!src.includes('["intricate-key","Hexen inside Mörkhalla have a 10% chance')) throw new Error("finished key Hexen drop missing");
