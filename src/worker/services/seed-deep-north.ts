@@ -5,7 +5,7 @@ const item = (slug: string) => `https://www.valheim.tools/items/${slug}`;
 const building = (slug: string) => `https://www.valheim.tools/building/${slug}`;
 
 const deepNorthSeed: CatalogSeed = {
-  marker: "catalog_deep_north_v6_source_precision",
+  marker: "catalog_deep_north_v7_acquisition_paths",
   biome: "deep-north",
   replaceResourceSources: true,
   stations: [
@@ -365,8 +365,8 @@ const deepNorthSeed: CatalogSeed = {
     ["nornathread","Dropped only by Hexen at 100%, 1–3 per kill. Hexen are found throughout Mörkhalla.","Выпадает только из Хексен: 100%, по 1–3 шт. Хексены встречаются по всей Мёркхалле.",item("nornathread")],
     ["seal-blubber","Adult Seals drop 2–3 at 100%; Baby Seals have a 10% chance to drop 1.","Взрослые тюлени гарантированно дают 2–3 жира; детёныши имеют 10% шанс дать 1.",item("seal-blubber")],
     ["seal-pelt","Adult Seals drop 2–3 at 100%.","Взрослые тюлени гарантированно дают 2–3 шкуры.",item("seal-pelt")],
-    ["frostfire-essence","Summon a Fallen Warrior at a North Memorial Place with 3 Memorial Coal. Each warrior has an independent 50% chance to drop 1 Frostfire Essence.","Призовите Павшего воина у Северного мемориала за 3 Поминальных угля. Каждый воин имеет независимый шанс 50% уронить 1 Эссенцию морозного огня.",item("frostfire-essence")],
-    ["thunderblood-essence","Summon a Fallen Warrior at a North Memorial Place with 3 Memorial Coal. Each warrior has an independent 50% chance to drop 1 Thunderblood Essence.","Призовите Павшего воина у Северного мемориала за 3 Поминальных угля. Каждый воин имеет независимый шанс 50% уронить 1 Эссенцию грозовой крови.",item("thunderblood-essence")],
+    ["frostfire-essence","Find an Ancient Altar at a Deep North Memorial Site, offer 3 Memorial Coal, defeat the summoned Fallen Warrior, and loot it. Each warrior has an independent 50% chance to drop 1 Frostfire Essence.","Найдите Древний алтарь у мемориала в Глубоком Севере, принесите 3 Поминальных угля, победите призванного Павшего воина и заберите добычу. Каждый воин имеет независимый шанс 50% уронить 1 Эссенцию морозного огня.",item("frostfire-essence")],
+    ["thunderblood-essence","Find an Ancient Altar at a Deep North Memorial Site, offer 3 Memorial Coal, defeat the summoned Fallen Warrior, and loot it. Each warrior has an independent 50% chance to drop 1 Thunderblood Essence.","Найдите Древний алтарь у мемориала в Глубоком Севере, принесите 3 Поминальных угля, победите призванного Павшего воина и заберите добычу. Каждый воин имеет независимый шанс 50% уронить 1 Эссенцию грозовой крови.",item("thunderblood-essence")],
     ["long-claws","Dropped only by the Eyeless One at 100%, 1–2 per kill. Eyeless Ones inhabit Winding Tunnels.","Выпадает только из Безглазого: 100%, по 1–2 шт. Безглазые обитают в Извилистых туннелях.",item("long-claws")],
     ["hexen-trophy","Hexen trophy drop: 10% chance per Hexen.","Трофей Хексен: шанс 10% с каждой Хексен.",item("hexen-trophy")],
     ["moose-trophy","Moose trophy drop: 10% chance per Moose.","Трофей лося: шанс 10% с каждого лося.",item("moose-trophy")],
